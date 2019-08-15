@@ -70,12 +70,20 @@ classdef (Abstract) Problem < handle
     methods (Sealed)
         function fig = plot(obj, sol, varargin)
             % Plots all trajectories y versus time
-            [t, y, args] = obj.parseSolution(sol, varargin{:});
-            fig = obj.internalPlot(t, y, args{:});
+            [t, y, params] = obj.parseSolution(sol, varargin{:});
+            fig = obj.internalPlot(t, y, params{:});
         end
         
-        function fig = plotState(obj, t, y, varargin)
+        function fig = plotState(obj, arg1, arg2, varargin)
             % Plots the state at a single time
+            if isstruct(arg1)
+                t = arg1.x(arg2);
+                y = arg1.y(:, arg2);
+            else
+                t = arg1;
+                y = arg2;
+            end
+            
             if ~(isscalar(t) && isnumeric(t))
                 error('The time must be a number');
             end
@@ -85,20 +93,21 @@ classdef (Abstract) Problem < handle
             if length(y) ~= obj.NumVars
                 error('Expected solution to have %d variables but has %d', obj.NumVars, length(y));
             end
-            fig = obj.internalPlotState(t, y, varargin{:});
+            
+            fig = obj.internalPlotState(t, reshape(y, 1, obj.NumVars), varargin{:});
         end
         
         function fig = plotPhaseSpace(obj, sol, varargin)
             % Plots a selection of trajectories with respect to each other
-            [t, y, args] = obj.parseSolution(sol, varargin{:});
-            fig = obj.internalPlotPhaseSpace(t, y, args{:});
+            [t, y, params] = obj.parseSolution(sol, varargin{:});
+            fig = obj.internalPlotPhaseSpace(t, y, params{:});
         end
         
         function varargout = movie(obj, sol, varargin)
             % Plots an animation of the trajectories
-            [t, y, args] = obj.parseSolution(sol, varargin{:});
+            [t, y, params] = obj.parseSolution(sol, varargin{:});
             [varargout{1:nargout}] = otp.utils.movie.moviemaker(t, y, @obj.internalMovieInit, ...
-                @obj.internalMovieFrame, args{:});
+                @obj.internalMovieFrame, params{:});
         end
         
         function label = index2label(obj, index)
@@ -239,15 +248,15 @@ classdef (Abstract) Problem < handle
     end
     
     methods (Access = private)
-        function [t, y, args] = parseSolution(obj, sol, varargin)
+        function [t, y, params] = parseSolution(obj, sol, varargin)
             if isstruct(sol)
                 t = sol.x;
                 y = sol.y.';
-                args = varargin;
+                params = varargin;
             else
                 t = sol;
                 y = varargin{1};
-                args = varargin(2:end);
+                params = varargin(2:end);
             end
             
             if ~(isvector(t) && isnumeric(t))
