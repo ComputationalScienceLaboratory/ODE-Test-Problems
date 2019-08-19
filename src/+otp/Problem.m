@@ -103,11 +103,10 @@ classdef (Abstract) Problem < handle
             fig = obj.internalPlotPhaseSpace(t, y, params{:});
         end
         
-        function varargout = movie(obj, sol, varargin)
+        function mov = movie(obj, sol, varargin)
             % Plots an animation of the trajectories
             [t, y, params] = obj.parseSolution(sol, varargin{:});
-            [varargout{1:nargout}] = otp.utils.movie.moviemaker(t, y, @obj.internalMovieInit, ...
-                @obj.internalMovieFrame, params{:});
+            mov = obj.internalMovie(t, y, params{:});
         end
         
         function label = index2label(obj, index)
@@ -148,6 +147,7 @@ classdef (Abstract) Problem < handle
             otp.utils.FancyPlot.plot(ax, t, y, ...
                 'title', obj.Name, ...
                 'xlabel', 't', ...
+                'ylabel', 'y', ...
                 'legend', @obj.internalIndex2label, ...
                 varargin{:});
         end
@@ -217,28 +217,9 @@ classdef (Abstract) Problem < handle
             end
         end
         
-        function initData = internalMovieInit(obj, fig, state, ~)
-            ax = axes(fig);
-            [t0, tEnd] = bounds(state.t);
-            tRange = tEnd - t0;
-            [yMin, yMax] = bounds(state.y, 'all');
-            yRange = yMax - yMin;
-            axis(ax, [t0 - 0.1 * tRange, tEnd + 0.1 * tRange, yMin - 0.1 * yRange, yMax + 0.1 * yRange]);
-            
-            initData = gobjects(state.numVars, 1);
-            for i = 1:state.numVars
-                initData(i) = animatedline(ax, 'Color', otp.utils.FancyPlot.color(state.numVars, i));
-            end
-            
-            xlabel(ax, 't');
-            otp.utils.FancyPlot.legend(ax, 'Legend', @obj.internalIndex2label);
-        end
-        
-        function internalMovieFrame(obj, fig, initData, state, ~)
-            title(fig.CurrentAxes, sprintf('%s at t=%g', obj.Name, state.tCur));
-            for i = 1:state.numVars
-                initData(i).addpoints(state.t(state.stepRange), state.y(state.stepRange, i));
-            end
+        function mov = internalMovie(obj, t, y, varargin)
+            mov = otp.utils.movie.TrajectoryMovie(obj, varargin{:});
+            mov.record(t, y);
         end
         
         function label = internalIndex2label(~, index)

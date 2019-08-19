@@ -22,8 +22,7 @@ classdef BrusselatorProblem < otp.Problem
     methods
         function obj = BrusselatorProblem(timeSpan, y0, parameters)
             % Constructs a problem
-            obj@otp.Problem('Brusselator', timeSpan, y0, ...
-                parameters);
+            obj@otp.Problem('Brusselator', timeSpan, y0, parameters);
         end
     end
     
@@ -32,20 +31,7 @@ classdef BrusselatorProblem < otp.Problem
         RhsNonlinear
     end
     
-    methods (Access = protected)
-        function fig = internalPlot(obj, t, y, varargin)
-            fig = internalPlot@otp.Problem(obj, t, y, 'ylabel', 'Concentration', varargin{:});
-        end
-        
-        function fig = internalPlotState(obj, t, y, varargin)
-            fig = internalPlotState@otp.Problem(obj, t, y, 'ylabel', 'Concentration', varargin{:});
-        end
-        
-        function initData = internalMovieInit(obj, fig, state, frameData)
-            initData = internalMovieInit@otp.Problem(obj, fig, state, frameData);
-            ylabel(fig.CurrentAxes, 'Concentration');
-        end
-        
+    methods (Access = protected)        
         function onSettingsChanged(obj)
             a = obj.Parameters.a;
             b = obj.Parameters.b;
@@ -63,8 +49,7 @@ classdef BrusselatorProblem < otp.Problem
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, ...
-                newTimeSpan, newY0, newParameters)
+            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
             
             if length(newY0) ~= 2
                 error('Y0 must have two components');

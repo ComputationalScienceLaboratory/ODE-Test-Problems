@@ -5,20 +5,12 @@ classdef HiresProblem < otp.Problem
             obj@otp.Problem('HIRES', timeSpan, y0, parameters);
         end
         
-        function fig = loglog(obj, t, y, varargin)
-            fig = obj.plot(t, y, ...
-                'xscale', 'log', 'yscale', 'log', ...
-                varargin{:});
+        function fig = loglog(obj, varargin)
+            fig = obj.plot(varargin{:}, 'xscale', 'log', 'yscale', 'log');
         end
     end
     
     methods (Access = protected)
-        function fig = internalPlot(obj, t, y, varargin)
-            fig = internalPlot@otp.Problem(obj, t, y, ...
-                'ylabel', 'Concentration', ...
-                varargin{:});
-        end
-        
         function onSettingsChanged(obj)
             obj.Rhs = otp.Rhs(@otp.hires.f, ...
                 otp.Rhs.FieldNames.Jacobian, @otp.hires.jacobian, ...

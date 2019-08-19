@@ -16,7 +16,7 @@ classdef Rhs < dynamicprops
     methods
         function obj = Rhs(F, varargin)
             if ~isa(F, 'function_handle')
-                error('The first argument must be a function of two arguments');
+                error('The first argument must be a function');
             end
             
             obj.F = F;
