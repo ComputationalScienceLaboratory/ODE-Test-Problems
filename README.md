@@ -2,13 +2,17 @@
 
 A MATLAB suite of initial value problems
 
+## Installation
+
+ODE Test Problems can be installed by running the MATLAB script `install` from the root directory of the project.
+
 ## Example
 
 ```matlab
 % Create a problem
 problem = otp.brusselator.presets.Canonical;
 
-% Use a MATLAB ode solver to solve the problem
+% Use a MATLAB ODE solver to solve the problem
 options = odeset('Jacobian', problem.Rhs.Jacobian);
 sol = ode15s(problem.Rhs.F, problem.TimeSpan, problem.Y0, options);
 
@@ -18,7 +22,7 @@ problem.plot(sol);
 % Adjust a parameter
 problem.Parameters.a = 2;
 
-% Solve the problem again but using a built-in utility
+% Solve the problem again but this time using a built-in utility
 sol = otp.utils.solveOde(problem);
 
 % Plot the phase space with a custom title
