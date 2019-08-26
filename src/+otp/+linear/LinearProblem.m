@@ -18,7 +18,14 @@ classdef LinearProblem < otp.Problem
     end
     
     methods (Access = private)
-        function [rhs] = createRhs(~, A)
+        function Asum = computeASum(obj)
+            Asum = obj.Parameters.A{1};
+            for i = 2:obj.NumPartitions
+                Asum = Asum + obj.Parameters.A{i};
+            end
+        end
+        
+        function rhs = createRhs(~, A)
             rhs = otp.Rhs(@(~, y) A * y, ...
                 otp.Rhs.FieldNames.Jacobian, @(~, ~) A, ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @(~, ~, v) A * v, ...
@@ -28,15 +35,8 @@ classdef LinearProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            A = obj.Parameters.A;
-            
-            Asum = A{1};
-            for i = 2:obj.NumPartitions
-                Asum = Asum + A{i};
-            end            
-            obj.Rhs = obj.createRhs(Asum);
-            
-            obj.RhsPartitions = cellfun(@obj.createRhs, A);
+            obj.Rhs = obj.createRhs(obj.computeASum());
+            obj.RhsPartitions = cellfun(@obj.createRhs, obj.Parameters.A);
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)

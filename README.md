@@ -12,9 +12,8 @@ ODE Test Problems can be installed by running the MATLAB script `install` from t
 % Create a problem
 problem = otp.brusselator.presets.Canonical;
 
-% Use a MATLAB ODE solver to solve the problem
-options = odeset('Jacobian', problem.Rhs.Jacobian);
-sol = ode15s(problem.Rhs.F, problem.TimeSpan, problem.Y0, options);
+% Solve the problem
+sol = problem.solve('RelTol', 1e-10);
 
 % Plot the solution
 problem.plot(sol);
@@ -22,12 +21,13 @@ problem.plot(sol);
 % Adjust a parameter
 problem.Parameters.a = 2;
 
-% Solve the problem again but this time using a built-in utility
-sol = otp.utils.solveOde(problem);
+% Manually use a MATLAB ODE solver to solve the problem
+options = odeset('Jacobian', problem.Rhs.Jacobian);
+[t, y] = ode15s(problem.Rhs.F, problem.TimeSpan, problem.Y0, options);
 
 % Plot the phase space with a custom title
-problem.plotPhaseSpace(sol, 'title', 'Reactant X versus Reactant Y');
+problem.plotPhaseSpace(t, y, 'Title', 'Reactant X versus Reactant Y');
 
 % Create a movie and write to file
-mov = problem.movie(sol, 'Save', 'brusselator.avi');
+mov = problem.movie(t, y, 'Save', 'brusselator.avi');
 ```

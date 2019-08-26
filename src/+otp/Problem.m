@@ -9,7 +9,7 @@ classdef (Abstract) Problem < handle
     end
     
     properties (Access = private)
-        Settings % A struct that groups the TimeSpan, Y0, and Parameter properties
+        Settings
     end
     
     properties (Dependent)
@@ -115,6 +115,10 @@ classdef (Abstract) Problem < handle
                 error('The index %d is not an integer between 1 and %d', index, obj.NumVars);
             end
             label = obj.internalIndex2label(index);
+        end
+        
+        function sol = solve(obj, varargin)
+            sol = obj.internalSolve(varargin{:});
         end
     end
     
@@ -225,6 +229,22 @@ classdef (Abstract) Problem < handle
         function label = internalIndex2label(~, index)
             % Gets a human-readable label for a particular component of the ODE assuming index is a valid integer
             label = sprintf('y_{%d}', index);
+        end
+        
+        function sol = internalSolve(obj, varargin)
+            p = inputParser;
+            p.KeepUnmatched = true;
+            p.addParameter('Method', @ode45);
+            p.parse(varargin{:});
+            
+            options = odeset(p.Unmatched);
+            if isprop(obj.Rhs, 'Jacobian')
+                options.Jacobian = obj.Rhs.Jacobian;
+            end
+            
+            % TODO: add event problem support with odextend
+            
+            sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
         end
     end
     
