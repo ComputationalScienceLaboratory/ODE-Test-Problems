@@ -17,11 +17,8 @@ classdef TrajectoryMovie < otp.utils.movie.Movie
     methods (Access = protected)
         function init(obj, fig, state)
             ax = axes(fig);
-            [t0, tEnd] = bounds(state.t);
-            tRange = tEnd - t0;
-            [yMin, yMax] = bounds(state.y, 'all');
-            yRange = yMax - yMin;
-            axis(ax, [t0 - 0.1 * tRange, tEnd + 0.1 * tRange, yMin - 0.1 * yRange, yMax + 0.1 * yRange]);
+            xlim(otp.utils.FancyPlot.axisLimits(state.t, 0));
+            ylim(otp.utils.FancyPlot.axisLimits(state.y));
             
             obj.animatedLines = gobjects(state.numVars, 1);
             for i = 1:state.numVars

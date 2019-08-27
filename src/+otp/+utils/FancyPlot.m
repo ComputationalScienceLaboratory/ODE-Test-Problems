@@ -68,6 +68,16 @@ classdef (Sealed) FancyPlot
             h.FaceColor = 'flat';
             h.CData = otp.utils.FancyPlot.color(size(y, 2));
         end
+        
+        function limits = axisLimits(y, padding)
+            if nargin < 2
+                padding = 0.08;
+            end
+            
+            [yMin, yMax] = bounds(y, 'all');
+            p = padding * (yMax - yMin);
+            limits = [yMin - p, yMax + p];
+        end
     end
     
     methods (Access = private, Static)
