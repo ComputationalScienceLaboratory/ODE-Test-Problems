@@ -128,8 +128,8 @@ classdef (Abstract) Problem < handle
             if length(newTimeSpan) ~= 2
                 error('TimeSpan must be a vector of two times');
             end
-            if ~(isnumeric(newTimeSpan) && all(isfinite(newTimeSpan)))
-                error('TimeSpan must be numeric and finite');
+            if ~isnumeric(newTimeSpan)
+                error('TimeSpan must be numeric');
             end
             
             if ~iscolumn(newY0)
@@ -212,7 +212,7 @@ classdef (Abstract) Problem < handle
                         varargin{:});
                 case 3
                     otp.utils.FancyPlot.plot(ax, y(:, indices(1)), y(:, indices(2)), y(:, indices(3)), ...
-                        'title', 'Phase Plane', ...
+                        'title', 'Phase Space', ...
                         'xlabel', obj.index2label(indices(1)), ...
                         'ylabel', obj.index2label(indices(2)), ...
                         'zlabel', obj.index2label(indices(3)), ...
@@ -237,14 +237,20 @@ classdef (Abstract) Problem < handle
             p.addParameter('Method', @ode45);
             p.parse(varargin{:});
             
-            options = odeset(p.Unmatched);
-            if isprop(obj.Rhs, 'Jacobian')
-                options.Jacobian = obj.Rhs.Jacobian;
-            end
-            
-            % TODO: add event problem support with odextend
-            
+            options = otp.Problem.odeset(obj, p.Unmatched);            
             sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
+            
+            problem = obj;
+            while sol.x(end) ~= problem.TimeSpan(end)
+                [isterminal, problem] = problem.Rhs.OnEvent(sol, problem);
+                
+                if isterminal
+                    break;
+                end
+                
+                options = otp.Problem.odeset(problem, options);
+                sol = odextend(sol, problem.Rhs.F, problem.TimeSpan(end), problem.Y0, options);
+            end
         end
     end
     
@@ -275,6 +281,19 @@ classdef (Abstract) Problem < handle
             end
             if obj.NumVars ~= n
                 error('Expected solution to have %d variables but has %d', obj.NumVars, n);
+            end
+        end
+    end
+    
+    methods (Static, Access = private)
+        function newOptions = odeset(problem, options)
+            newOptions = odeset(options);
+            
+            if isprop(problem.Rhs, 'Jacobian')
+                newOptions.Jacobian = problem.Rhs.Jacobian;
+            end
+            if isprop(problem.Rhs, 'Events')
+                newOptions.Events = problem.Rhs.Events;
             end
         end
     end
