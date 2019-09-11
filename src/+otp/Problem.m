@@ -230,7 +230,7 @@ classdef (Abstract) Problem < handle
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.TrajectoryMovie(obj, varargin{:});
+            mov = otp.utils.movie.TrajectoryMovie(obj.Name, @obj.index2label, varargin{:});
             mov.record(t, y);
         end
         

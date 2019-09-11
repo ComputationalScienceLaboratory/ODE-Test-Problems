@@ -1,16 +1,18 @@
 classdef TrajectoryMovie < otp.utils.movie.Movie
     properties (SetAccess = immutable, GetAccess = protected)
-        problem
+        MovieTitle
+        MovieLegend
     end
     
     properties (Access = private)
-        animatedLines
+        AnimatedLines
     end
     
     methods
-        function obj = TrajectoryMovie(problem, varargin)
+        function obj = TrajectoryMovie(title, legend, varargin)
             obj@otp.utils.movie.Movie(varargin{:});
-            obj.problem = problem;
+            obj.MovieTitle = title;
+            obj.MovieLegend = legend;
         end
     end
        
@@ -20,21 +22,20 @@ classdef TrajectoryMovie < otp.utils.movie.Movie
             xlim(otp.utils.FancyPlot.axisLimits(state.t, 0));
             ylim(otp.utils.FancyPlot.axisLimits(state.y));
             
-            obj.animatedLines = gobjects(state.numVars, 1);
+            obj.AnimatedLines = gobjects(state.numVars, 1);
             for i = 1:state.numVars
-                obj.animatedLines(i) = animatedline(ax, 'Color', otp.utils.FancyPlot.color(state.numVars, i));
+                obj.AnimatedLines(i) = animatedline(ax, 'Color', otp.utils.FancyPlot.color(state.numVars, i));
             end
             
             xlabel(ax, 't');
             ylabel(ax, 'y');
-            p = obj.problem;
-            otp.utils.FancyPlot.legend(ax, 'Legend', @p.index2label);
+            otp.utils.FancyPlot.legend(ax, 'Legend', obj.MovieLegend);
         end
         
         function drawFrame(obj, fig, state)
-            title(fig.CurrentAxes, sprintf('%s at t=%g', obj.problem.Name, state.tCur));
+            title(fig.CurrentAxes, sprintf('%s at t=%g', obj.MovieTitle, state.tCur));
             for i = 1:state.numVars
-                obj.animatedLines(i).addpoints(state.t(state.stepRange), state.y(state.stepRange, i));
+                obj.AnimatedLines(i).addpoints(state.t(state.stepRange), state.y(state.stepRange, i));
             end
         end
     end
