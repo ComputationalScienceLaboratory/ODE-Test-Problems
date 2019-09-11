@@ -2,7 +2,7 @@ classdef HiresProblem < otp.Problem
     
     methods
         function obj = HiresProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('HIRES', timeSpan, y0, parameters);
+            obj@otp.Problem('HIRES', 8, timeSpan, y0, parameters);
         end
         
         function fig = loglog(obj, varargin)
@@ -16,14 +16,6 @@ classdef HiresProblem < otp.Problem
                 otp.Rhs.FieldNames.Jacobian, @otp.hires.jacobian, ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @otp.hires.jvp, ...
                 otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @otp.hires.javp);
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            if length(newY0) ~= 8
-                error('Y0 must have 8 components');
-            end
         end
         
         function sol = internalSolve(obj, varargin)

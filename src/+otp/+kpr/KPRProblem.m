@@ -6,7 +6,7 @@ classdef KPRProblem < otp.Problem
     
     methods
         function obj = KPRProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('KPR', timeSpan, y0, parameters);
+            obj@otp.Problem('KPR', 2, timeSpan, y0, parameters);
         end
     end
     

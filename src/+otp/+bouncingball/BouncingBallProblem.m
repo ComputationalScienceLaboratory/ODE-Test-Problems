@@ -1,7 +1,7 @@
 classdef BouncingBallProblem < otp.Problem
     methods
         function obj = BouncingBallProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Bouncing Ball', timeSpan, y0, parameters);
+            obj@otp.Problem('Bouncing Ball', 4, timeSpan, y0, parameters);
         end
     end
     
@@ -18,12 +18,7 @@ classdef BouncingBallProblem < otp.Problem
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, ...
-                newTimeSpan, newY0, newParameters)
-            
-            if length(newY0) ~= 4
-                error('Y0 must have four components');
-            end
+            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters);
             
             otp.utils.StructParser(newParameters) ...
                 .checkField('g', 'scalar', 'finite') ...
