@@ -38,6 +38,11 @@ classdef BouncingBallProblem < otp.Problem
                     label = 'y velocity';
             end
         end
+        
+        function mov = internalMovie(obj, t, y, varargin)
+            mov = otp.bouncingball.BouncingBallMovie(obj.Name, obj.Parameters.groundFunction, varargin{:});
+            mov.record(t, y);
+        end
     end
 end
 
