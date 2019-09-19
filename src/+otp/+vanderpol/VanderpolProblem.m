@@ -1,7 +1,7 @@
 classdef VanderpolProblem < otp.Problem
     methods
         function obj = VanderpolProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('van der Pol', timeSpan, y0, parameters);
+            obj@otp.Problem('van der Pol', 2, timeSpan, y0, parameters);
         end
     end
     

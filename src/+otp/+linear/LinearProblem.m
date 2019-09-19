@@ -9,7 +9,7 @@ classdef LinearProblem < otp.Problem
     
     methods
         function obj = LinearProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Linear Problem', timeSpan, y0, parameters);
+            obj@otp.Problem('Linear Problem', [], timeSpan, y0, parameters);
         end
         
         function [p] = get.NumPartitions(obj)

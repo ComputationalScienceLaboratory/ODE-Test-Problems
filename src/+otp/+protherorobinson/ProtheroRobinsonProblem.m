@@ -1,7 +1,7 @@
 classdef ProtheroRobinsonProblem < otp.Problem
     methods
         function obj = ProtheroRobinsonProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Prothero-Robinson', timeSpan, y0, parameters);
+            obj@otp.Problem('Prothero-Robinson', [], timeSpan, y0, parameters);
         end
     end
     

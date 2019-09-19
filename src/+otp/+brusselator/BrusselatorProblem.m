@@ -22,7 +22,7 @@ classdef BrusselatorProblem < otp.Problem
     methods
         function obj = BrusselatorProblem(timeSpan, y0, parameters)
             % Constructs a problem
-            obj@otp.Problem('Brusselator', timeSpan, y0, parameters);
+            obj@otp.Problem('Brusselator', 2, timeSpan, y0, parameters);
         end
     end
     
@@ -50,10 +50,6 @@ classdef BrusselatorProblem < otp.Problem
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
             validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            if length(newY0) ~= 2
-                error('Y0 must have two components');
-            end
             
             otp.utils.StructParser(newParameters) ...
                 .checkField('a', 'scalar', 'real', 'finite', 'positive') ...

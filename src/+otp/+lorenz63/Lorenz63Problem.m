@@ -12,7 +12,7 @@ classdef Lorenz63Problem < otp.Problem
     
     methods
         function obj = Lorenz63Problem(timeSpan, y0, parameters)
-            obj@otp.Problem('Lorenz Equations', timeSpan, y0, parameters);
+            obj@otp.Problem('Lorenz Equations', 3, timeSpan, y0, parameters);
         end
     end
     
@@ -34,10 +34,6 @@ classdef Lorenz63Problem < otp.Problem
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
             validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
             
-            if length(newY0) ~= 3
-                error('Y0 must have three components');
-            end
-            
             % We assume that the parameters are real and positive.
             otp.utils.StructParser(newParameters) ...
                 .checkField('sigma', 'finite', 'scalar', 'real', 'nonnegative') ...
@@ -57,7 +53,7 @@ classdef Lorenz63Problem < otp.Problem
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.PhasePlaneMovie(obj, 1:3, varargin{:});
+            mov = otp.utils.movie.PhasePlaneMovie(obj.Name, @obj.index2label, 1:3, varargin{:});
             mov.record(t, y);
         end
     end

@@ -4,6 +4,10 @@ classdef (Abstract) Problem < handle
         Name % A human-readable representation of the problem
     end
     
+    properties (SetAccess = immutable, GetAccess = private)
+        ExpectedNumVars
+    end
+    
     properties (SetAccess = protected)
         Rhs
     end
@@ -20,7 +24,7 @@ classdef (Abstract) Problem < handle
     end
     
     methods
-        function obj = Problem(name, timeSpan, y0, parameters)
+        function obj = Problem(name, expectedNumVars, timeSpan, y0, parameters)
             % Constructs a problem
             
             % Switch to class parameter validation when better supported
@@ -28,7 +32,7 @@ classdef (Abstract) Problem < handle
                 error('The problem name must be a nonempty character array');
             end
             obj.Name = name;
-            
+            obj.ExpectedNumVars = expectedNumVars;
             obj.Settings = struct('timeSpan', timeSpan(:), 'y0', y0, 'parameters', parameters);
         end
         
@@ -123,7 +127,7 @@ classdef (Abstract) Problem < handle
     end
     
     methods (Access = protected)
-        function validateNewState(~, newTimeSpan, newY0, newParameters)
+        function validateNewState(obj, newTimeSpan, newY0, newParameters)
             % Ensures the TimeSpan, Y0, and Parameters are valid
             if length(newTimeSpan) ~= 2
                 error('TimeSpan must be a vector of two times');
@@ -137,6 +141,10 @@ classdef (Abstract) Problem < handle
             end
             if ~(isnumeric(newY0) && all(isfinite(newY0)))
                 error('Y0 must be numeric and finite');
+            end
+            if ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
+                error('Expected Y0 to have %d components but has %d', ...
+                    obj.ExpectedNumVars, length(newY0));
             end
             
             if ~isstruct(newParameters)
@@ -222,7 +230,7 @@ classdef (Abstract) Problem < handle
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.TrajectoryMovie(obj, varargin{:});
+            mov = otp.utils.movie.TrajectoryMovie(obj.Name, @obj.index2label, varargin{:});
             mov.record(t, y);
         end
         

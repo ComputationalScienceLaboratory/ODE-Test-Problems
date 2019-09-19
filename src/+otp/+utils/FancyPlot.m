@@ -13,6 +13,14 @@ classdef (Sealed) FancyPlot
             c = hsv2rgb([h, s, s]);
         end
         
+        function c = brighten(c, beta)
+            if beta >= 0
+                c = c .^ (1 - beta);
+            else
+                c = c .^ (1 / (1 + beta));
+            end
+        end
+        
         function legend(ax, varargin)
             n = length(ax.Children);
             p = inputParser;
