@@ -3,7 +3,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
     methods
         function obj = QuasiGeostrophicProblem(timeSpan, y0, parameters)
             
-            obj@otp.Problem('Quasi-geostrophic Model', ...
+            obj@otp.Problem('Quasi-geostrophic Model', [], ...
                 timeSpan, y0, parameters);
             
         end
