@@ -77,14 +77,25 @@ classdef (Sealed) FancyPlot
             h.CData = otp.utils.FancyPlot.color(size(y, 2));
         end
         
-        function limits = axisLimits(y, padding)
-            if nargin < 2
+        function limits = axisLimits(dir, data, padding)
+            if nargin < 3
                 padding = 0.08;
             end
             
-            [yMin, yMax] = bounds(y, 'all');
+            [yMin, yMax] = bounds(data, 'all');
             p = padding * (yMax - yMin);
             limits = [yMin - p, yMax + p];
+            
+            switch dir
+                case 'x'
+                    xlim(limits);
+                case 'y'
+                    ylim(limits);
+                case 'z'
+                    zlim(limits);
+                otherwise
+                    error('Invalid direction %s', dir);
+            end
         end
     end
     

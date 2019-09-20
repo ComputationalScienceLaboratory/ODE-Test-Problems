@@ -4,7 +4,7 @@ classdef TrajectoryMovie < otp.utils.movie.Movie
         MovieLegend
     end
     
-    properties (Access = private)
+    properties (Access = protected)
         AnimatedLines
     end
     
@@ -19,8 +19,8 @@ classdef TrajectoryMovie < otp.utils.movie.Movie
     methods (Access = protected)
         function init(obj, fig, state)
             ax = axes(fig);
-            xlim(otp.utils.FancyPlot.axisLimits(state.t, 0));
-            ylim(otp.utils.FancyPlot.axisLimits(state.y));
+            otp.utils.FancyPlot.axisLimits('x', state.t, 0);
+            otp.utils.FancyPlot.axisLimits('y', state.y);
             
             obj.AnimatedLines = gobjects(state.numVars, 1);
             for i = 1:state.numVars

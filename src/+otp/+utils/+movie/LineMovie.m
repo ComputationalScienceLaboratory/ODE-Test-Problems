@@ -1,4 +1,8 @@
 classdef LineMovie < otp.utils.movie.Movie
+    properties (Constant, GetAccess = private)
+        Color = otp.utils.FancyPlot.color(1, 1);
+    end
+    
     properties (SetAccess = immutable, GetAccess = protected)
         MovieTitle
         MovieXLabel
@@ -13,20 +17,21 @@ classdef LineMovie < otp.utils.movie.Movie
             obj.MovieYLabel = ylabel;
         end
     end
-       
+    
     methods (Access = protected)
         function init(obj, fig, state)
             ax = axes(fig);
             ax.NextPlot = 'replaceChildren';
             xlabel(ax, obj.MovieXLabel);
             ylabel(ax, obj.MovieYLabel);
-            ylim(otp.utils.FancyPlot.axisLimits(state.y));
+            otp.utils.FancyPlot.axisLimits('x', [1, state.numVars]);
+            otp.utils.FancyPlot.axisLimits('y', state.y);
         end
         
         function drawFrame(obj, fig, state)
             ax = fig.CurrentAxes;
             title(ax, sprintf('%s at t=%g', obj.MovieTitle, state.tCur));
-            plot(ax, state.yCur, 'o-');
+            plot(ax, state.yCur, 'o-', 'Color', obj.Color);
         end
     end
 end

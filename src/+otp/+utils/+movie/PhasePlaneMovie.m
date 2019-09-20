@@ -2,42 +2,36 @@ classdef PhasePlaneMovie < otp.utils.movie.Movie
     properties (SetAccess = immutable, GetAccess = protected)
         MovieTitle
         MovieLabel
-        Dim
-        Indices
     end
     
-    properties (Access = private)
+    properties (Access = protected)
         AnimatedLine
     end
     
     methods
-        function obj = PhasePlaneMovie(title, label, indices, varargin)
+        function obj = PhasePlaneMovie(title, label, varargin)
             obj@otp.utils.movie.Movie(varargin{:});
             obj.MovieTitle = title;
             obj.MovieLabel = label;
-            obj.Dim = length(indices);
-            if obj.Dim < 2 || obj.Dim > 3
-                error('Phase plane movie must be 2D or 3D');
-            end
-            obj.Indices = indices;
         end
     end
     
     methods (Access = protected)
         function init(obj, fig, state)
+            if state.numVars < 2 || state.numVars > 3
+                error('Phase plane movie must be 2D or 3D');
+            end
+            
             ax = axes(fig);
             
-            i = obj.Indices(1);
-            xlim(otp.utils.FancyPlot.axisLimits(state.y(:, i)));
+            otp.utils.FancyPlot.axisLimits('x', state.y(:, 1));
             xlabel(ax, obj.MovieLabel(1));
             
-            i = obj.Indices(2);
-            ylim(otp.utils.FancyPlot.axisLimits(state.y(:, i)));
+            otp.utils.FancyPlot.axisLimits('y', state.y(:, 2));
             ylabel(ax, obj.MovieLabel(2));
             
-            if obj.Dim == 3
-                i = obj.Indices(3);
-                zlim(otp.utils.FancyPlot.axisLimits(state.y(:, i)));
+            if state.numVars == 3
+                otp.utils.FancyPlot.axisLimits('z', state.y(:, 3));
                 zlabel(ax, obj.MovieLabel(3));
                 view(ax, [45, 45]);
             end
@@ -47,14 +41,12 @@ classdef PhasePlaneMovie < otp.utils.movie.Movie
         
         function drawFrame(obj, fig, state)
             title(fig.CurrentAxes, sprintf('%s at t=%g', obj.MovieTitle, state.tCur));
-            x = state.y(state.stepRange, obj.Indices(1));
-            y = state.y(state.stepRange, obj.Indices(2));
-            if obj.Dim == 2
-                obj.AnimatedLine.addpoints(x, y);
+            if state.numVars == 2
+                obj.AnimatedLine.addpoints(state.y(state.stepRange, 1), state.y(state.stepRange, 2));
             else
-                obj.AnimatedLine.addpoints(x, y, state.y(state.stepRange, obj.Indices(3)));
+                obj.AnimatedLine.addpoints(state.y(state.stepRange, 1), state.y(state.stepRange, 2), ...
+                    state.y(state.stepRange, 3));
             end
         end
     end
 end
-    

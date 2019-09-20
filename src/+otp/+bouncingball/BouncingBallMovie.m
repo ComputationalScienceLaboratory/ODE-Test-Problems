@@ -4,7 +4,7 @@ classdef BouncingBallMovie < otp.utils.movie.Movie
         GroundFunction
     end
     
-    properties (Access = private)
+    properties (Access = protected)
         AnimatedLine
         Head
     end
@@ -16,26 +16,27 @@ classdef BouncingBallMovie < otp.utils.movie.Movie
             obj.GroundFunction = groundFunction;
         end
     end
-       
+    
     methods (Access = protected)
         function init(obj, fig, state)
             ax = axes(fig);
             xlabel(ax, 'x');
             ylabel(ax, 'y');
             
-            xLim = otp.utils.FancyPlot.axisLimits(state.y(:, 1));
+            xLim = otp.utils.FancyPlot.axisLimits('x', state.y(:, 1));
+            hold(ax, 'on');
             
             groundX = linspace(xLim(1), xLim(2), 1024).';
             groundY = arrayfun(@(x) obj.GroundFunction(x), groundX);
             plot(ax, groundX, groundY, 'k');
             
-            xlim(xLim);
-            ylim(otp.utils.FancyPlot.axisLimits([state.y(:, 2); groundY]));
+            otp.utils.FancyPlot.axisLimits('y', [state.y(:, 2); groundY]);
             
             color = otp.utils.FancyPlot.color(1);
             obj.AnimatedLine = animatedline(ax, 'Color', otp.utils.FancyPlot.brighten(color, 0.9));
             obj.Head = line(ax, 'Color', 'k', 'MarkerFaceColor', color, 'MarkerSize', 7, 'Marker', 'o', ...
                 'LineStyle', 'none', 'XData', 0, 'YData', 0);
+            hold(ax, 'off');
         end
         
         function drawFrame(obj, fig, state)

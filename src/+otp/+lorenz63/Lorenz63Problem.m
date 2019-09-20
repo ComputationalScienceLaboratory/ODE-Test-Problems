@@ -53,7 +53,7 @@ classdef Lorenz63Problem < otp.Problem
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.PhasePlaneMovie(obj.Name, @obj.index2label, 1:3, varargin{:});
+            mov = otp.utils.movie.PhasePlaneMovie(obj.Name, @obj.index2label, varargin{:});
             mov.record(t, y);
         end
     end
