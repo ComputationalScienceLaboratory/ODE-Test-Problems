@@ -248,12 +248,16 @@ classdef (Abstract) Problem < handle
             options = otp.Problem.odeset(obj, p.Unmatched);            
             sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
             
+            if ~isfield(sol, 'ie')
+                return;
+            end
+            
             problem = obj;
             while sol.x(end) ~= problem.TimeSpan(end)
                 [isterminal, problem] = problem.Rhs.OnEvent(sol, problem);
                 
                 if isterminal
-                    break;
+                    return;
                 end
                 
                 options = otp.Problem.odeset(problem, options);
