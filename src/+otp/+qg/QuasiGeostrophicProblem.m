@@ -12,7 +12,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
     properties
         DistanceFunction
         FlowVelocityMagnitude
-        JacobianFlowVelocityMagnitude
+        JacobianFlowVelocityMagnitudeVectorProduct
     end
     
     methods (Access = protected)
@@ -65,7 +65,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             obj.FlowVelocityMagnitude = @(psi) otp.qg.flowvelmag(psi, Ddx, Ddy);
             
-            obj.JacobianFlowVelocityMagnitude = @(psi) otp.qg.jacflowvelmag(psi, Ddx, Ddy);
+            obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacflowvelmagvp(psi, u, Ddx, Ddy);
             
         end
         
