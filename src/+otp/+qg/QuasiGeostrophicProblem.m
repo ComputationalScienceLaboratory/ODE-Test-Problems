@@ -40,7 +40,6 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Ddy = otp.utils.pde.Dd(n, ydomain, 2, 2, bc(2));
                         
             % do a Cholesky decomposition on the negative laplacian
-            %dnL = decomposition(-L, 'chol');
             [RdnL, ~, PdnL] = chol(-L);
             
             
@@ -60,7 +59,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
                 otp.qg.javp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro) ...
                 );
             
-            %% Distance function
+            %% Distance function, and flow velocity
             obj.DistanceFunction = @(t, y, i, j) otp.qg.distfn(t, y, i, j, nx, ny);
             
             obj.FlowVelocityMagnitude = @(psi) otp.qg.flowvelmag(psi, Ddx, Ddy);
@@ -74,17 +73,19 @@ classdef QuasiGeostrophicProblem < otp.Problem
             validateNewState@otp.Problem(obj, ...
                 newTimeSpan, newY0, newParameters)
  
-            % TODO
-%             csl.odeutils.StructParser(newParameters) ...
-%                 .checkField('sigma', 'finite', 'scalar', 'real', 'positive') ...
-%                 .checkField('rho',   'finite', 'scalar', 'real', 'positive') ...
-%                 .checkField('beta',  'finite', 'scalar', 'real', 'positive');
+            otp.utils.StructParser(newParameters) ...
+                .checkField('nx', 'finite', 'scalar', 'integer', 'positive') ...
+                .checkField('ny', 'finite', 'scalar', 'integer', 'positive') ...
+                .checkField('Re', 'finite', 'scalar', 'real', 'positive') ...
+                .checkField('Ro', 'finite', 'scalar', 'real');
             
         end
         
-        function label = internalIndex2label(~, index)
+        function label = internalIndex2label(obj, index)
             
-            label = 'TODO';
+            [i, j] = ind2sub([obj.Parameters.nx, obj.Parameters.ny], index);
+            
+            label = sprintf('(%d, %d)', i, j);
             
         end
         
