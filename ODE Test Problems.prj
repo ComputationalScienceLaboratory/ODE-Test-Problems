@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration build-checksum="285549583" file="/home/steven/Documents/Programming/MATLAB/ODE-Test-Problems/ODE Test Problems.prj" location="/home/steven/Documents/Programming/MATLAB/ODE-Test-Problems" name="ODE Test Problems" target="target.toolbox" target-name="Package Toolbox">
+  <configuration build-checksum="285549583" file="/home/apopov/git/github/ODE-Test-Problems/ODE Test Problems.prj" location="/home/apopov/git/github/ODE-Test-Problems" name="ODE Test Problems" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>ODE Test Problems</param.appname>
     <param.authnamewatermark>Steven Roberts, Andrey Popov, Ardian Sandu</param.authnamewatermark>
     <param.email />
@@ -105,12 +105,43 @@
     <fileset.depfun.excluded />
     <fileset.package />
     <build-deliverables>
-      <file location="${PROJECT_ROOT}" name="ODE Test Problems.mltbx" optional="false">/home/steven/Documents/Programming/MATLAB/ODE-Test-Problems/ODE Test Problems.mltbx</file>
+      <file location="${PROJECT_ROOT}" name="ODE Test Problems.mltbx" optional="false">/home/apopov/git/github/ODE-Test-Problems/ODE Test Problems.mltbx</file>
     </build-deliverables>
     <workflow />
     <matlab>
-      <root>/usr/local/MATLAB/R2019a</root>
-      <toolboxes />
+      <root>/home/apopov/MATLAB/R2019a</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+        <toolbox name="embeddedcoder" />
+        <toolbox name="fixedpoint" />
+        <toolbox name="matlabhdlcoder" />
+        <toolbox name="neuralnetwork" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+      <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <matlabhdlcoder>
+          <enabled>true</enabled>
+        </matlabhdlcoder>
+      </toolbox>
+      <toolbox>
+        <neuralnetwork>
+          <enabled>true</enabled>
+        </neuralnetwork>
+      </toolbox>
     </matlab>
     <platform>
       <unix>true</unix>
@@ -121,7 +152,7 @@
       <vista>false</vista>
       <linux>true</linux>
       <solaris>false</solaris>
-      <osver>4.15.0-58-generic</osver>
+      <osver>3.10.0-693.17.1.el7.x86_64</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>glnxa64</arch>
