@@ -2,23 +2,23 @@ classdef Canonical < otp.cusp.CUSPProblem
     % The classic problem with the classic coefficients
     
     methods
-        function obj = Canonical(n, epsilon, sigma)
-            if nargin < 1
-                n = 64;
-            end
+        function obj = Canonical(varargin)
             
-            if nargin < 2
-                epsilon = 1e-4;
-            end
+            p = inputParser;
+            addParameter(p, 'Size', 64, @isscalar);
+            addParameter(p, 'epsilon', 1e-4, @isnumeric);
+            addParameter(p, 'sigma', 1/144, @isnumeric);
+                        
+
+            parse(p, varargin{:});
             
-            if nargin < 3
-                sigma = 1/144;
-            end
+            s = p.Results;
+            
+            n = s.Size;
             
             params.N = n;
-            
-            params.epsilon = epsilon;
-            params.sigma   = sigma;
+            params.epsilon = s.epsilon;
+            params.sigma   = s.sigma;
             
             xs = linspace(0, 1, n + 1)';
             
