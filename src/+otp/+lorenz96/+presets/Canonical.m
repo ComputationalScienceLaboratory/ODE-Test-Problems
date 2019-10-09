@@ -29,7 +29,7 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             N = s.Size;
             F = s.Forcing;
             
-            settings.forcingFunction = F;
+            params.forcingFunction = F;
             
             % We initialise the Lorenz96 model as in (Lorenz & Emanuel 1998)
             
@@ -39,7 +39,7 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             
             tspan = [0, 0.05]; % 6 hours
             
-            obj = obj@otp.lorenz96.Lorenz96Problem(tspan,y0,settings);
+            obj = obj@otp.lorenz96.Lorenz96Problem(tspan, y0, params);
             
         end
     end

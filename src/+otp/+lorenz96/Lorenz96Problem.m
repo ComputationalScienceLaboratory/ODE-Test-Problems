@@ -22,7 +22,6 @@ classdef Lorenz96Problem <  otp.Problem
         end
         
         function obj = onSettingsChanged(obj)
-            N = obj.NumVars;
             ff = obj.Parameters.forcingFunction;
             
             if isa(ff, 'function_handle')
@@ -43,12 +42,11 @@ classdef Lorenz96Problem <  otp.Problem
                 otp.Rhs.FieldNames.HessianAdjointVectorProduct, ...
                 @(t, y, u, v) otp.lorenz96.havp(t, y, u, v));
             
-            
             % We also provide a canonical distance function as is standard for
             % localisation in Data Assimilation. This is heavily tied to this
             % problem.
             
-            obj.DistanceFunction = @(t, y, i, j) otp.lorenz96.distfn(t, y, i, j, N);
+            obj.DistanceFunction = @(t, y, i, j) otp.lorenz96.distfn(t, y, i, j);
         end
         
         function mov = internalMovie(obj, t, y, varargin)

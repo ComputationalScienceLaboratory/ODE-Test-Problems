@@ -42,7 +42,7 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
             
             F = @(t) 8 + 4*cos(omega*(t + mod((1:40) - 1, q)/q)).';
             
-            settings.forcingFunction = F;            
+            params.forcingFunction = F;            
             
             % We initialise the Lorenz96 model as in (Lorenz & Emanuel 1998)
             
@@ -52,7 +52,7 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
             
             tspan = [0, sixHours]; % 6 hours
             
-            obj = obj@otp.lorenz96.Lorenz96Problem(tspan,y0,settings);
+            obj = obj@otp.lorenz96.Lorenz96Problem(tspan, y0, params);
             
         end
     end
