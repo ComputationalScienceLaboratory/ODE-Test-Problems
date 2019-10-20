@@ -1,6 +1,8 @@
 function Jacobianavp = javp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro)
 
-n = size(psi, 1);
+% supporting multiple mat-vecs at the same time
+N = size(u, 2);
+psi = repmat(psi, 1, N);
 
 dpsix = Ddx*psi;
 dpsiy = Ddy*psi;
