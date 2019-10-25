@@ -4,7 +4,17 @@ function dpsit = f(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro)
 q = -L*psi;
 
 % calculate Arakawa
-J = otp.qg.arakawa(psi, L, Ddx, Ddy);
+dpsix = Ddx*psi;
+dpsiy = Ddy*psi;
+
+dqx = Ddx*q;
+dqy = Ddy*q;
+
+J1 = dpsix.*dqy     - dpsiy.*dqx;
+J2 = Ddx*(psi.*dqy) - Ddy*(psi.*dqx);
+J3 = Ddy*(q.*dpsix) - Ddx*(q.*dpsiy);
+
+J = -(J1 + J2 + J3)/3;
 
 % forcing term
 F = sin(pi*(ymat - 1));
