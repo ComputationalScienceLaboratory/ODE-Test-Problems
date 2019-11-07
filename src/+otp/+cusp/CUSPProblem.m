@@ -1,6 +1,10 @@
 classdef CUSPProblem < otp.Problem
     % See Hairer and Wanner, Solving ODEs II, p. 147
     
+    properties (SetAccess = private)
+        RhsLNLSplit
+    end
+    
     methods
         function obj = CUSPProblem(timeSpan, y0, parameters)
             obj@otp.Problem('CUSP Problem', [], ...
@@ -21,6 +25,14 @@ classdef CUSPProblem < otp.Problem
             
             obj.Rhs = otp.Rhs(@(t, y) otp.cusp.f(t, y, epsilon, L), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jac(t, y, epsilon, L));
+            
+            RhsLinear = otp.Rhs(@(t, y) otp.cusp.flinear(t, y, epsilon, L), ...
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jaclinear(t, y, epsilon, L));
+            
+            RhsNonLinear = otp.Rhs(@(t, y) otp.cusp.fnonlinear(t, y, epsilon, L), ...
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacnonlinear(t, y, epsilon, L));
+            
+            obj.RhsLNLSplit = struct('Linear', RhsLinear, 'NonLinear', RhsNonLinear);
 
         end
         
