@@ -9,7 +9,8 @@ classdef Canonical < otp.qg.QuasiGeostrophicProblem
             addParameter(p, 'ReynoldsNumber', Re);
             addParameter(p, 'RossbyNumber', Ro);
             addParameter(p, 'Size', 'huge');
-            addParameter(p, 'Lambda', 0.4);
+            addParameter(p, 'ADLambda', 0.4);
+            addParameter(p, 'ADPasses', 4);
 
             parse(p, varargin{:});
             
@@ -17,7 +18,7 @@ classdef Canonical < otp.qg.QuasiGeostrophicProblem
             
             [nx, ny] = otp.qg.QuasiGeostrophicProblem.name2size(s.Size);
             
-            les = struct('lambda', s.Lambda);
+            les = struct('lambda', s.ADLambda, 'passes', s.ADPasses);
 
             params.nx = nx;
             params.ny = ny;

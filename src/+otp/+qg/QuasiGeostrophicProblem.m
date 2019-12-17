@@ -111,9 +111,12 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Ro = obj.Parameters.Ro;
             
             lambda = obj.Parameters.les.lambda;
+            passes = obj.Parameters.les.passes;
             %dfiltertype = obj.Parameters.les.filtertype;
             
             n = [nx, ny];
+            
+            h = 1/(nx + 1);
             
             xdomain = [0, 1];
             ydomain = [0, 2];
@@ -152,14 +155,12 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
 
             % AD LES
-            %lambda = 0.4;
-            fmat = speye(prod(n)) - (lambda^2)*L;
+            fmat = speye(prod(n)) - ((lambda*h)^2)*L;
             
             [Rfmat, ~, Pfmat] = chol(fmat);
             
             filter = @(u) Pfmat*(Rfmat\(Rfmat'\(Pfmat'*u)));
             
-            passes = 4;
             obj.RhsAD = otp.Rhs(@(t, psi) ...
                 otp.qg.fAD(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro, filter, passes));
             
