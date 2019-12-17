@@ -1,10 +1,13 @@
-function J = arakawa(psi, L, Ddx, Ddy)
+function J = arakawa(psi, L, Ddx, Ddy, q)
 % Computes the Arakawa approximation of order 2
 
 dpsix = Ddx*psi;
 dpsiy = Ddy*psi;
 
-q   = -L*psi;
+if nargin < 5 || isempty(q)
+    q   = -L*psi;
+end
+
 dqx = Ddx*q;
 dqy = Ddy*q;
 

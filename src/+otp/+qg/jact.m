@@ -1,4 +1,4 @@
-function ddpsitt = jact(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro)
+function [ddpsitt, dpsit] = jact(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro)
 
 % Calculate the vorticity
 q = -L*psi;

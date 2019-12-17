@@ -13,6 +13,91 @@ classdef QuasiGeostrophicProblem < otp.Problem
         DistanceFunction
         FlowVelocityMagnitude
         JacobianFlowVelocityMagnitudeVectorProduct
+        RhsAD
+    end
+    
+    methods (Static)
+        
+        function [nx, ny] = name2size(name)
+            
+            switch name
+                case 'atomic'
+                    nx = 3;
+                case 'miniscule'
+                    nx = 7;
+                case 'tiny'
+                    nx = 15;
+                case 'small'
+                    nx = 31;
+                case 'medium'
+                    nx = 63;
+                case 'large'
+                    nx = 127;
+                case 'huge'
+                    nx = 255;
+                case 'monsterous'
+                    nx = 511;
+                case 'bigly'
+                    nx = 1023;
+                otherwise
+                    error('Cannot convert string to grid sizes');
+            end
+            
+            ny = 2*nx + 1;
+            
+        end
+        
+        function u = relaxprolong(u, newsizename)
+            
+            s1 = size(u, 1);
+            
+            [s2x, s2y] = otp.qg.QuasiGeostrophicProblem.name2size(newsizename);
+            
+            size2n = @(s) round(log2((round(sqrt(1 + 8*s)) + 3)/4));
+            
+            n1 = size2n(s1);
+            n2 = size2n(s2x*s2y);
+            
+            if n1 > n2
+                
+                for i = 1:(n1 - n2)
+                    
+                    ni = n1 - i + 1;
+                    
+                    six = 2^ni - 1;
+                    siy = 2^(ni + 1) - 1;
+                    
+                    sjx = 2^(ni - 1) - 1;
+                    sjy = 2^ni - 1;
+                    
+                    [If2c, ~] = otp.utils.pde.relaxprolong2D(six, sjx, siy, sjy);
+                    
+                    u = If2c*u;
+                    
+                end
+                
+            elseif n1 < n2
+                
+                for i = 1:(n2 - n1)
+                    
+                    ni = n1 + i - 1;
+                    
+                    six = 2^ni - 1;
+                    siy = 2^(ni + 1) - 1;
+                    
+                    sjx = 2^(ni + 1) - 1;
+                    sjy = 2^(ni + 2) - 1;
+                    
+                    [~, Ic2f] = otp.utils.pde.relaxprolong2D(sjx, six, sjy, siy);
+                    
+                    u = Ic2f*u;
+                    
+                end
+                
+            end
+            
+        end
+        
     end
     
     methods (Access = protected)
@@ -21,12 +106,15 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             nx = obj.Parameters.nx;
             ny = obj.Parameters.ny;
-
-            Re = obj.Parameters.Re;        
+            
+            Re = obj.Parameters.Re;
             Ro = obj.Parameters.Ro;
             
+            lambda = obj.Parameters.les.lambda;
+            %dfiltertype = obj.Parameters.les.filtertype;
+            
             n = [nx, ny];
-
+            
             xdomain = [0, 1];
             ydomain = [0, 2];
             
@@ -38,7 +126,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             L = otp.utils.pde.laplacian(n, domain, diffc, bc);
             Ddx = otp.utils.pde.Dd(n, xdomain, 1, 2, bc(1));
             Ddy = otp.utils.pde.Dd(n, ydomain, 2, 2, bc(2));
-                        
+            
             % do a Cholesky decomposition on the negative laplacian
             [RdnL, ~, PdnL] = chol(-L);
             
@@ -48,7 +136,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             ymat = repmat(ys.', 1, nx);
             ymat = reshape(ymat.', prod(n), 1);
-
+            
             obj.Rhs = otp.Rhs(@(t, psi) ...
                 otp.qg.f(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro), ...
                 ...
@@ -61,6 +149,20 @@ classdef QuasiGeostrophicProblem < otp.Problem
                 otp.Rhs.FieldNames.JacobianTime, @(t, psi) ...
                 otp.qg.jact(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro) ...
                 );
+            
+
+            % AD LES
+            %lambda = 0.4;
+            fmat = speye(prod(n)) - (lambda^2)*L;
+            
+            [Rfmat, ~, Pfmat] = chol(fmat);
+            
+            filter = @(u) Pfmat*(Rfmat\(Rfmat'\(Pfmat'*u)));
+            
+            passes = 4;
+            obj.RhsAD = otp.Rhs(@(t, psi) ...
+                otp.qg.fAD(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro, filter, passes));
+            
             
             %% Distance function, and flow velocity
             obj.DistanceFunction = @(t, y, i, j) otp.qg.distfn(t, y, i, j, nx, ny);
@@ -75,7 +177,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             validateNewState@otp.Problem(obj, ...
                 newTimeSpan, newY0, newParameters)
- 
+            
             otp.utils.StructParser(newParameters) ...
                 .checkField('nx', 'finite', 'scalar', 'integer', 'positive') ...
                 .checkField('ny', 'finite', 'scalar', 'integer', 'positive') ...
