@@ -43,9 +43,9 @@ classdef (Sealed) StructParser
                 case 'real'
                     isValid = isreal(x);
                 case 'finite'
-                    isValid = all(isfinite(x), 'all');
+                    isValid = all(isfinite(x));
                 case 'integer'
-                    isValid = isreal(x) && all(floor(x) == x, 'all');
+                    isValid = isreal(x) && all(floor(x) == x);
                 case 'matrix'
                     isValid = ismatrix(x);
                 case 'cell'
@@ -53,13 +53,13 @@ classdef (Sealed) StructParser
                 case 'scalar'
                     isValid = isscalar(x);
                 case 'positive'
-                    isValid = all(x > 0, 'all');
+                    isValid = all(x > 0);
                 case 'nonnegative'
-                    isValid = all(x >= 0, 'all');
+                    isValid = all(x >= 0);
                 case 'negative'
-                    isValid = all(x < 0, 'all');
+                    isValid = all(x < 0);
                 case 'nonpositive'
-                    isValid = all(x <= 0, 'all');
+                    isValid = all(x <= 0);
                 case 'row'
                     isValid = isrow(x);
                 case 'column'
