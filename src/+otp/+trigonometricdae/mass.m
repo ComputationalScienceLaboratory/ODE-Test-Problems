@@ -1,6 +1,5 @@
-function M = mass(~, y, epsilon)
+function M = mass(~, ~, epsilon)
 
-M = [1,0;
-    0, epsilon];
+M = [1, 0; 0, epsilon];
 
 end
