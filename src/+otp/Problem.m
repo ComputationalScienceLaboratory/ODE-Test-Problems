@@ -245,7 +245,8 @@ classdef (Abstract) Problem < handle
             p.addParameter('Method', @ode45);
             p.parse(varargin{:});
             
-            options = otp.Problem.odeset(obj, p.Unmatched);            
+            options = otp.Problem.odeset(obj, p.Unmatched);  
+            
             sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
             
             if ~isfield(sol, 'ie')
@@ -304,6 +305,11 @@ classdef (Abstract) Problem < handle
             if isprop(problem.Rhs, 'Jacobian')
                 newOptions.Jacobian = problem.Rhs.Jacobian;
             end
+            
+            if isprop(problem.Rhs, 'MassMatrix')
+                newOptions.Mass = problem.Rhs.MassMatrix;
+            end
+            
             if isprop(problem.Rhs, 'Events')
                 newOptions.Events = problem.Rhs.Events;
             end
