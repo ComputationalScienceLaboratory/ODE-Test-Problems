@@ -32,8 +32,7 @@ classdef Canonical < otp.cusp.CUSPProblem
             u0 = [y0; a0; b0];
             tspan = [0 1.1];
             
-            obj = obj@otp.cusp.CUSPProblem(tspan, ...
-                u0, params);
+            obj = obj@otp.cusp.CUSPProblem(tspan, u0, params);
         end
     end
 end
