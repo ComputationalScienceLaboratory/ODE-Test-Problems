@@ -37,7 +37,7 @@ classdef Rhs < dynamicprops
                 
                 prop = obj.addprop(name);
                 obj.(name) = varargin{i + 1};
-                prop.SetAccess = 'immutable';
+                prop.SetAccess = 'private';
             end
         end
     end
