@@ -51,6 +51,17 @@ for dim = 1:dims
             diagonals = c*repmat(FD, nd, 1);
             
             ds = (-pa):pa;
+        case 'N'
+            h = diff(domain(dim, :))/(nd - 1);
+            c = diffc(dim)/(h^2);
+            
+            diagonals = c*repmat(FD, nd, 1);
+            
+            % specific to second order
+            diagonals(2, 3) = diagonals(1, 3)*2;
+            diagonals(end-1, 1) = diagonals(end-1, 1)*2;
+            
+            ds = (-pa):pa;
         otherwise
             error('Other Boundary condition types are not supported');
     end
