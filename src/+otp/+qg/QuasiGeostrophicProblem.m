@@ -159,7 +159,11 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             [Rfmat, ~, Pfmat] = chol(fmat);
             
-            filter = @(u) Pfmat*(Rfmat\(Rfmat'\(Pfmat'*u)));
+            if ~isfield(obj.Parameters, 'filter') || isempty(obj.Parameters.filter)
+                filter = @(u) Pfmat*(Rfmat\(Rfmat'\(Pfmat'*u)));
+            else
+                filter = obj.Parameters.filter;
+            end
             
             obj.RhsAD = otp.Rhs(@(t, psi) ...
                 otp.qg.fAD(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro, filter, passes));
