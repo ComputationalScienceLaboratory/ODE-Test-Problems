@@ -1,4 +1,4 @@
-function dat = f(x, a, B, C)
+function dat = f(~, x, a, B, C)
 
 r = size(x, 1);
 s = size(x, 2);

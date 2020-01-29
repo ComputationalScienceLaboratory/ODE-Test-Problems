@@ -1,4 +1,4 @@
-function J = jac(x, B, C)
+function J = jac(~, x, B, C)
 
 r = size(x, 1);
 
