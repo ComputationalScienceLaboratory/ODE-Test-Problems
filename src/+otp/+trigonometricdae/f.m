@@ -1,4 +1,4 @@
-function dy = f(~, y, ~)
+function dy = f(~, y)
 
 y1 = y(1);
 y2 = y(2);

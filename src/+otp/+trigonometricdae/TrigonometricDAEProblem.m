@@ -6,19 +6,10 @@ classdef TrigonometricDAEProblem < otp.Problem
     end
     
     methods (Access = protected)
-        function onSettingsChanged(obj)
-            epsilon = obj.Parameters.epsilon;
-            
-            obj.Rhs = otp.Rhs(@(t, y) otp.trigonometricdae.f(t, y, epsilon), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.trigonometricdae.jac(t, y, epsilon), ...
-                otp.Rhs.FieldNames.MassMatrix, otp.trigonometricdae.mass([], [], epsilon));     
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('epsilon', 'scalar', 'real', 'finite', 'nonnegative');
+        function onSettingsChanged(obj)            
+            obj.Rhs = otp.Rhs(@(t, y) otp.trigonometricdae.f(t, y), ...
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.trigonometricdae.jac(t, y), ...
+                otp.Rhs.FieldNames.MassMatrix, otp.trigonometricdae.mass([], []));     
         end
         
         function sol = internalSolve(obj, varargin)
