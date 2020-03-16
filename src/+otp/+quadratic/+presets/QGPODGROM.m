@@ -9,7 +9,7 @@ classdef QGPODGROM < otp.quadratic.QuadraticProblem
             params.a = double(s.b);
             params.B = double(s.A);
             params.C = double(s.B);
-            y0 = s.a0;
+            y0 = double(s.a0);
             
             obj = obj@otp.quadratic.QuadraticProblem(tspan, y0, params);
         end

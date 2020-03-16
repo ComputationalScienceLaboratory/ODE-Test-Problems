@@ -1,19 +1,11 @@
 function dat = f(~, x, a, B, C)
 
-r = size(x, 1);
-s = size(x, 2);
+r = length(a);
 
-% nonlinear term
-N = zeros(r, s);
+Cmat = reshape(C, r, []);
+Cx = reshape(x.' * Cmat, r, r);
+Cxx = x.' * Cx;
 
-for si = 1:s
-    for i = 1:r
-        N(i, si) = x(:, si).'*C(:, :, i)*x(:, si);
-    end
-end
-
-dMat = N + B*x + repmat(a, 1, s);
-
-dat = dMat;
+dat = Cxx(:) + B*x + a;
 
 end

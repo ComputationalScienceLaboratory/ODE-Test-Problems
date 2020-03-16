@@ -1,5 +1,5 @@
 function ja = jacpara(~, ~, a, ~, ~)
 
-ja = speye(numel(a));
+ja = speye(length(a));
 
 end

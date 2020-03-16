@@ -5,14 +5,14 @@ classdef QuadraticProblem < otp.Problem
             obj@otp.Problem('Quadratic Problem', [], timeSpan, y0, parameters);
         end
     end
-
+    
     methods (Access = protected)
         function onSettingsChanged(obj)
             a = obj.Parameters.a;
             B = obj.Parameters.B;
             C = obj.Parameters.C;
             
-            obj.Rhs = otp.Rhs(@(~, x) otp.quadratic.f(t, x, a, B, C), ...
+            obj.Rhs = otp.Rhs(@(t, x) otp.quadratic.f(t, x, a, B, C), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, x) otp.quadratic.jac(t, x, a, B, C), ...
                 'JacobianParametera',  @(t, x) otp.quadratic.jacpara(t, x, a, B, C), ...
                 'JacobianParameterB',  @(t, x) otp.quadratic.jacparaB(t, x, a, B, C), ...
@@ -20,10 +20,12 @@ classdef QuadraticProblem < otp.Problem
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            % TODO
-            %otp.utils.StructParser(newParameters).checkField('A', 'cell', ...
-            %    @(A) all(cellfun(@(m) ismatrix(m) && isnumeric(m), A)));
+            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters);
+            
+            otp.utils.StructParser(newParameters) ...
+                .checkField('a', 'column', 'numeric', 'finite') ...
+                .checkField('B', 'matrix', 'numeric', 'finite') ...
+                .checkField('C', @(C) isscalar(C) || ndims(C) == 3, 'numeric', 'finite');
         end
     end
 end
