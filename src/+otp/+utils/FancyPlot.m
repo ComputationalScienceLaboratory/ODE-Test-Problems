@@ -144,7 +144,7 @@ classdef (Sealed) FancyPlot
         function addLegendParams(p, numVars)
             p.addParameter('Legend', {}, @(x) iscell(x) || isa(x, 'function_handle'));
             p.addParameter('LegendIndices', 1:numVars);
-            p.addParameter('MaxLegendLabels', 16);
+            p.addParameter('MaxLegendLabels', 10);
         end
         
         function useLegendParams(ax, n, config)
