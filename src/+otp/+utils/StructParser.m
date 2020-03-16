@@ -22,7 +22,7 @@ classdef (Sealed) StructParser
                 
                 if ischar(validator)
                     if ~obj.validateFromString(fieldVal, validator)
-                        error('The field %s is not %s', fieldName, validator);
+                        error('The field %s is not a %s', fieldName, validator);
                     end
                 elseif isa(validator, 'function_handle')
                     if ~validator(fieldVal)
@@ -48,6 +48,8 @@ classdef (Sealed) StructParser
                     isValid = isreal(x) && all(floor(x) == x);
                 case 'matrix'
                     isValid = ismatrix(x);
+                case '3-tensor'
+                    isValid = ndims(x) == 3 || isscalar(x);
                 case 'cell'
                     isValid = iscell(x);
                 case 'scalar'
