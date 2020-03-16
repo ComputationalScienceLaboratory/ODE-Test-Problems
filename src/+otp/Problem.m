@@ -72,13 +72,17 @@ classdef (Abstract) Problem < handle
     end
     
     methods (Sealed)
-        function fig = plot(obj, sol, varargin)
+        function varargout = plot(obj, sol, varargin)
             % Plots all trajectories y versus time
             [t, y, params] = obj.parseSolution(sol, varargin{:});
             fig = obj.internalPlot(t, y, params{:});
+            
+            if nargout > 0
+                varargout{1} = fig;
+            end
         end
         
-        function fig = plotState(obj, arg1, arg2, varargin)
+        function varargout = plotState(obj, arg1, arg2, varargin)
             % Plots the state at a single time
             if isstruct(arg1)
                 t = arg1.x(arg2);
@@ -99,12 +103,20 @@ classdef (Abstract) Problem < handle
             end
             
             fig = obj.internalPlotState(t, reshape(y, 1, obj.NumVars), varargin{:});
+            
+            if nargout > 0
+                varargout{1} = fig;
+            end
         end
         
-        function fig = plotPhaseSpace(obj, sol, varargin)
+        function varargout = plotPhaseSpace(obj, sol, varargin)
             % Plots a selection of trajectories with respect to each other
             [t, y, params] = obj.parseSolution(sol, varargin{:});
             fig = obj.internalPlotPhaseSpace(t, y, params{:});
+            
+            if nargout > 0
+                varargout{1} = fig;
+            end
         end
         
         function mov = movie(obj, sol, varargin)
