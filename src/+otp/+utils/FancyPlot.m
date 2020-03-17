@@ -126,18 +126,14 @@ classdef (Sealed) FancyPlot
             p.addParameter('ylabel', []);
             p.addParameter('zlabel', []);
             p.addParameter('view', []);
-            p.addParameter('axislimits', []);
-            p.addParameter('axisstyle', []);
-            p.addParameter('axisdirection', []);
-            p.addParameter('axisvisibility', []);
+            p.addParameter('grid', []);
             p.addParameter('xscale', []);
             p.addParameter('yscale', []);
             p.addParameter('zscale', []);
         end
         
         function useStyleParams(ax, config)
-            otp.utils.FancyPlot.setPlotFunctions(ax, config, @title, @xlabel, @ylabel, @zlabel, ...
-                @view, @axislimits, @axisstyle, @axisdirection, @axisvisibility);
+            otp.utils.FancyPlot.setPlotFunctions(ax, config, @title, @xlabel, @ylabel, @zlabel, @view, @grid);
             otp.utils.FancyPlot.setPlotProps(ax, config, 'xscale', 'yscale', 'zscale');            
         end
         
