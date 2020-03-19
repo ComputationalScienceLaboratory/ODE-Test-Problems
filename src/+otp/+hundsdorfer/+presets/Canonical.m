@@ -24,7 +24,7 @@ classdef Canonical < otp.hundsdorfer.HundsdorferProblem
             x(1)=[];
             
             params.x = x;
-            params.bfun  = @(t)  (1-(sin(10*t))^4);
+            params.bfun  = @(t)  (1-(sin(12*t))^4);
             
             u0 = 1 + params.s(2).*x;
             v0 = params.k(1)/params.k(2)*u0 + 1/params.k(2)*params.s(2);

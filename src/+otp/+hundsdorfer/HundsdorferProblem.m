@@ -42,12 +42,16 @@ classdef HundsdorferProblem < otp.Problem
     end
     
     function validateNewState(obj, newTimeSpan, newY0, newParameters)
-     %%%%
+                 otp.utils.StructParser(newParameters) ...
+                .checkField('k', 'numeric', 'real', 'finite') ...
+                .checkField('s', 'numeric', 'real', 'finite') ...
+                .checkField('bfun', 'function') ...
+                .checkField('alpha', 'numeric', 'real', 'finite');
     end
     
     function sol = internalSolve(obj, varargin)
       sol = internalSolve@otp.Problem(obj, 'Method', @ode15s, ...
-        'AbsTol', 1e-10, varargin{:});
+        'AbsTol', 1e-10, 'RelTol', 1e-9, 'Jacobian', obj.Rhs.Jacobian ,varargin{:});
     end
   end
 end
