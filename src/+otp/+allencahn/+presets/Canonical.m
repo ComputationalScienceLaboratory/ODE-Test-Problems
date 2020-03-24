@@ -1,5 +1,4 @@
 classdef Canonical < otp.allencahn.AllenCahnProblem
-    % The classic problem with the classic coefficients
     
     methods
         function obj = Canonical(varargin)
@@ -7,7 +6,7 @@ classdef Canonical < otp.allencahn.AllenCahnProblem
             p = inputParser;
             addParameter(p, 'Size', 150, @isscalar);
             addParameter(p, 'alpha', 0.1, @isnumeric);
-                        
+            addParameter(p, 'beta', 1, @isnumeric);                        
 
             parse(p, varargin{:});
             
@@ -17,9 +16,11 @@ classdef Canonical < otp.allencahn.AllenCahnProblem
             
             params.n = n;
             params.alpha = s.alpha;
+            params.beta = s.beta;
+            params.forcing = [];
             
-            xs = repmat(linspace(0, 1, n)  , n, 1);
-            ys = repmat(linspace(0, 1, n).', 1, n);
+            x = linspace(0, 1, n);
+            [xs, ys] = meshgrid(x, x);
 
             u0 = reshape(0.4 + 0.1*(xs + ys) + 0.1*sin(10*xs)*sin(20*ys), n^2, 1);
 

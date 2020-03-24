@@ -1,5 +1,5 @@
-function du = f(~, u, L, alpha)
+function du = f(t, u, L, alpha, beta, forcing)
 
-du = alpha*L*u + u - u.^3;
+du = alpha*L*u + beta * (u - u.^3) + forcing(t);
 
 end
