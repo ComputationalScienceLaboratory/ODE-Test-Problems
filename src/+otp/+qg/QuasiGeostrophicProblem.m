@@ -132,16 +132,18 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             % do a Cholesky decomposition on the negative laplacian
             [RdnL, ~, PdnL] = chol(-L);
-            
+            RdnLT = RdnL.';
+            PdnLT = PdnL.';
             
             ys = linspace(ydomain(1), ydomain(end), ny + 2);
             ys = ys(2:end-1);
             
             ymat = repmat(ys.', 1, nx);
             ymat = reshape(ymat.', prod(n), 1);
+            F = sin(pi*(ymat - 1));
             
             obj.Rhs = otp.Rhs(@(t, psi) ...
-                otp.qg.f(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro), ...
+                otp.qg.f(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, F, Re, Ro), ...
                 ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @(t, psi, u) ...
                 otp.qg.jvp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro), ...
@@ -158,15 +160,18 @@ classdef QuasiGeostrophicProblem < otp.Problem
             fmat = speye(prod(n)) - ((lambda*h)^2)*L;
             
             [Rfmat, ~, Pfmat] = chol(fmat);
+            RfmatT = Rfmat.';
+            PfmatT = Pfmat.';
             
             if ~isfield(obj.Parameters, 'filter') || isempty(obj.Parameters.filter)
-                filter = @(u) Pfmat*(Rfmat\(Rfmat'\(Pfmat'*u)));
+                filter = @(u) Pfmat*(Rfmat\(RfmatT\(PfmatT*u)));
             else
                 filter = obj.Parameters.filter;
             end
             
+            Fbar = filter(F);
             obj.RhsAD = otp.Rhs(@(t, psi) ...
-                otp.qg.fAD(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro, filter, passes));
+                    otp.qg.fAD(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, Fbar, Re, Ro, filter, passes));
             
             
             %% Distance function, and flow velocity

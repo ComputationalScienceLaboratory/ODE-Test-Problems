@@ -1,7 +1,7 @@
-function dpsit = f(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro)
+function dpsit = f(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, F, Re, Ro)
 
 % Calculate the vorticity
-q = -L*psi;
+q = -(L*psi);
 
 % calculate Arakawa
 dpsix = Ddx*psi;
@@ -14,15 +14,12 @@ J1 = dpsix.*dqy     - dpsiy.*dqx;
 J2 = Ddx*(psi.*dqy) - Ddy*(psi.*dqx);
 J3 = Ddy*(q.*dpsix) - Ddx*(q.*dpsiy);
 
-J = -(J1 + J2 + J3)/3;
+mJ = (J1 + J2 + J3)/3;
 
-% forcing term
-F = sin(pi*(ymat - 1));
-
-% vorticity form of the rhs
-dqt = -J + (1/Ro)*(Ddx*psi) + (1/Re)*(L*q) + (1/Ro)*F;
+% almost vorticity form of the rhs
+dqtmq = mJ + (1/Ro)*(dpsix) + (1/Ro)*F;
 
 % solve into stream form of the rhs
-dpsit = PdnL*(RdnL\(RdnL'\(PdnL'*dqt)));
+dpsit = PdnL*(RdnL\(RdnLT\(PdnLT*dqtmq))) - (1/Re)*(q);
 
 end

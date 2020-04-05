@@ -1,7 +1,7 @@
-function dpsibart = fAD(psi, L, RdnL, PdnL, Ddx, Ddy, ymat, Re, Ro, filter, passes)
+function dpsibart = fAD(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, Fbar, Re, Ro, filter, passes)
 
 % Calculate the vorticity
-q = -L*psi;
+q = -(L*psi);
 
 coeffs = arrayfun(@(k) (-1)^(k + 1) * nchoosek(passes + 1, k), ...
     1:(passes + 1));
@@ -27,16 +27,10 @@ Jstar = otp.qg.arakawa(psistar, L, Ddx, Ddy, qstar);
 
 Jbar = filter(Jstar);
 
-% forcing term
-Fbar = filter(sin(pi*(ymat - 1)));
-
 % vorticity form of the rhs
-dqbart = -Jbar + (1/Ro)*(Ddx*psibar) + (1/Re)*(L*qbar) + (1/Ro)*Fbar;
-
-%dqbart = -Jbar + filter((1/Ro)*(Ddx*psi)) + filter((1/Re)*(L*q)) + (1/Ro)*Fbar;
-
+dqbartmq = -Jbar + (1/Ro)*(Ddx*psibar) + (1/Ro)*Fbar;
 
 % solve into stream form of the rhs
-dpsibart = PdnL*(RdnL\(RdnL'\(PdnL'*dqbart)));
+dpsibart = PdnL*(RdnL\(RdnLT\(PdnLT*dqbartmq))) - (1/Re)*(qbar);
 
 end
