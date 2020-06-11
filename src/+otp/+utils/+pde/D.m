@@ -17,7 +17,7 @@ switch BC
         
     case 'C'
         
-        h = diff(domain)/(n + 1);
+        h = diff(domain)/n;
         c = 1/(h);
         
         cfdln1 = ((numel(FD)-1)/2);
