@@ -26,7 +26,7 @@ for dim = 1:dims
     switch BC(dim)
         case 'C'
             
-            h = diff(domain(dim, :))/(nd + 1);
+            h = diff(domain(dim, :))/nd;
             c = diffc(dim)/(h^2);
             % cyclic
             
