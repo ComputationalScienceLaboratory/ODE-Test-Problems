@@ -4,6 +4,8 @@ classdef CUSPProblem < otp.Problem
     properties (SetAccess = private)
         RhsStiff
         RhsNonstiff
+        RhsDiffusion
+        RhsReaction
     end
     
     methods
@@ -30,6 +32,12 @@ classdef CUSPProblem < otp.Problem
             
             obj.RhsNonstiff = otp.Rhs(@(t, y) otp.cusp.fnonstiff(t, y, epsilon, L), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacnonstiff(t, y, epsilon, L));
+              
+            obj.RhsDiffusion = otp.Rhs(@(t, y) otp.cusp.fdiffusion(t, y, epsilon, L), ...
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacdiffusion(t, y, epsilon, L));
+              
+            obj.RhsReaction = otp.Rhs(@(t, y) otp.cusp.freaction(t, y, epsilon, L), ...
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacreaction(t, y, epsilon, L));
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
