@@ -5,7 +5,7 @@ name = 'ODE Test Problems';
 toolboxes = matlab.addons.toolbox.installedToolboxes;
 otp = toolboxes(arrayfun(@(t) strcmp(t.Name, name), toolboxes));
 
-if nargin > 0 && uninstall == false
+if nargin > 0 && (isequal(uninstall, false) || strcmpi(uninstall, 'false'))
     if isempty(otp)
         warning('Cannot uninstall %s when it is not installed', name);
     else
