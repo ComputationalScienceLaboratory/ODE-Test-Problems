@@ -6,10 +6,11 @@ classdef TrigonometricDAEProblem < otp.Problem
     end
     
     methods (Access = protected)
-        function onSettingsChanged(obj)            
+        function onSettingsChanged(obj)
             obj.Rhs = otp.Rhs(@(t, y) otp.trigonometricdae.f(t, y), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.trigonometricdae.jac(t, y), ...
-                otp.Rhs.FieldNames.MassMatrix, otp.trigonometricdae.mass([], []));     
+                otp.Rhs.FieldNames.Mass, otp.trigonometricdae.mass([], []), ...
+                otp.Rhs.FieldNames.MassSingular, 'yes');
         end
         
         function sol = internalSolve(obj, varargin)

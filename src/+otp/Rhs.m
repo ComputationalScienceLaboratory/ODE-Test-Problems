@@ -12,7 +12,9 @@ classdef Rhs < dynamicprops
             'JacobianTime',                 'JacobianTime', ...
             'HessianVectorProduct',         'HessianVectorProduct', ...
             'HessianAdjointVectorProduct',  'HessianAdjointVectorProduct', ...
-            'MassMatrix',                   'MassMatrix',...
+            'Mass',                         'Mass',...
+            'MStateDependence',             'MStateDependence', ...
+            'MassSingular',                 'MassSingular', ...
             'JPattern',                     'JPattern', ...
             'Events',                       'Events', ...
             'OnEvent',                      'OnEvent');
@@ -40,6 +42,18 @@ classdef Rhs < dynamicprops
                 obj.(name) = varargin{i + 1};
                 prop.SetAccess = 'private';
             end
+        end
+        
+        function s = struct(obj)
+            props = properties(obj);
+            s = struct();
+            for i = 1:length(props)
+                s.(props{i}) = obj.(props{i});
+            end
+        end
+        
+        function opts = odeset(obj, varargin)
+            opts = odeset(struct(obj), varargin{:});
         end
     end
 end
