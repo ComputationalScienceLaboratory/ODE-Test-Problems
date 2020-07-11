@@ -1,7 +1,7 @@
-classdef AkzoNobelProblem < otp.Problem
+classdef ZLAKineticsProblem < otp.Problem
     methods
-        function obj = AkzoNobelProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Akzo Nobel', 6, timeSpan, y0, parameters);
+        function obj = ZLAKineticsProblem(timeSpan, y0, parameters)
+            obj@otp.Problem('ZLA Kinetics', 6, timeSpan, y0, parameters);
         end
         
         function fig = loglog(obj, varargin)
@@ -18,9 +18,9 @@ classdef AkzoNobelProblem < otp.Problem
             pCO2 = obj.Parameters.pCO2;
             H = obj.Parameters.H;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.akzonobel.f(t, y, k, K, klA, Ks, pCO2, H), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.akzonobel.jac(t, y, k, K, klA, Ks, pCO2, H), ...
-                otp.Rhs.FieldNames.MassMatrix, otp.akzonobel.mass([], [], k, K, klA, Ks, pCO2, H));
+            obj.Rhs = otp.Rhs(@(t, y) otp.zlakinetics.f(t, y, k, K, klA, Ks, pCO2, H), ...
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.zlakinetics.jac(t, y, k, K, klA, Ks, pCO2, H), ...
+                otp.Rhs.FieldNames.MassMatrix, otp.zlakinetics.mass([], [], k, K, klA, Ks, pCO2, H));
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
