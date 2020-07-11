@@ -257,7 +257,7 @@ classdef (Abstract) Problem < handle
             p.addParameter('Method', @ode45);
             p.parse(varargin{:});
             
-            options = otp.Problem.odeset(obj, p.Unmatched);  
+            options = obj.Rhs.odeset(p.Unmatched);  
             
             sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
             
@@ -273,7 +273,7 @@ classdef (Abstract) Problem < handle
                     return;
                 end
                 
-                options = otp.Problem.odeset(problem, options);
+                options = problem.Rhs.odeset(options);
                 sol = odextend(sol, problem.Rhs.F, problem.TimeSpan(end), problem.Y0, options);
             end
         end
@@ -306,24 +306,6 @@ classdef (Abstract) Problem < handle
             end
             if obj.NumVars ~= n
                 error('Expected solution to have %d variables but has %d', obj.NumVars, n);
-            end
-        end
-    end
-    
-    methods (Static, Access = private)
-        function newOptions = odeset(problem, options)
-            newOptions = odeset(options);
-            
-            if isprop(problem.Rhs, 'Jacobian')
-                newOptions.Jacobian = problem.Rhs.Jacobian;
-            end
-            
-            if isprop(problem.Rhs, 'MassMatrix')
-                newOptions.Mass = problem.Rhs.MassMatrix;
-            end
-            
-            if isprop(problem.Rhs, 'Events')
-                newOptions.Events = problem.Rhs.Events;
             end
         end
     end

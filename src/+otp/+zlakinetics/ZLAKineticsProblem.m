@@ -20,7 +20,8 @@ classdef ZLAKineticsProblem < otp.Problem
             
             obj.Rhs = otp.Rhs(@(t, y) otp.zlakinetics.f(t, y, k, K, klA, Ks, pCO2, H), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.zlakinetics.jac(t, y, k, K, klA, Ks, pCO2, H), ...
-                otp.Rhs.FieldNames.MassMatrix, otp.zlakinetics.mass([], [], k, K, klA, Ks, pCO2, H));
+                otp.Rhs.FieldNames.Mass, otp.zlakinetics.mass([], [], k, K, klA, Ks, pCO2, H), ...
+                otp.Rhs.FieldNames.MassSingular, 'yes');
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
