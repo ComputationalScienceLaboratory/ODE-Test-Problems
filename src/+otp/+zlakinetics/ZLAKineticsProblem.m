@@ -3,10 +3,6 @@ classdef ZLAKineticsProblem < otp.Problem
         function obj = ZLAKineticsProblem(timeSpan, y0, parameters)
             obj@otp.Problem('ZLA Kinetics', 6, timeSpan, y0, parameters);
         end
-        
-        function fig = loglog(obj, varargin)
-            fig = obj.plot(varargin{:}, 'xscale', 'log', 'yscale', 'log');
-        end
     end
     
     methods (Access = protected)

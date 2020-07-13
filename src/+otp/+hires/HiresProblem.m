@@ -4,10 +4,6 @@ classdef HiresProblem < otp.Problem
         function obj = HiresProblem(timeSpan, y0, parameters)
             obj@otp.Problem('HIRES', 8, timeSpan, y0, parameters);
         end
-        
-        function fig = loglog(obj, varargin)
-            fig = obj.plot(varargin{:}, 'xscale', 'log', 'yscale', 'log');
-        end
     end
     
     methods (Access = protected)
@@ -16,6 +12,10 @@ classdef HiresProblem < otp.Problem
                 otp.Rhs.FieldNames.Jacobian, @otp.hires.jacobian, ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @otp.hires.jvp, ...
                 otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @otp.hires.javp);
+        end
+        
+        function fig = internalPlot(obj, t, y, varargin)
+            fig = internalPlot@otp.Problem(obj, t, y, 'xscale', 'log', 'yscale', 'log', varargin{:});
         end
     end
 end
