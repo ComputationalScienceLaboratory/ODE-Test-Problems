@@ -21,15 +21,12 @@ classdef RobertsonProblem < otp.Problem
             k3 = obj.Parameters.k3;
             
             obj.Rhs = otp.Rhs(@(t, y) otp.robertson.f(t, y, k1, k2, k3), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.robertson.jac(t, y, k1, k2, k3));
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.robertson.jac(t, y, k1, k2, k3), ...
+                otp.Rhs.FieldNames.NonNegative, 1:obj.NumVars);
         end
         
         function fig = internalPlot(obj, t, y, varargin)
             fig = internalPlot@otp.Problem(obj, t, y, 'xscale', 'log', varargin{:});
-        end
-        
-        function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode15s, varargin{:});
         end
     end
 end

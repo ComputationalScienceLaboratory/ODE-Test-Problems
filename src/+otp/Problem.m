@@ -254,10 +254,10 @@ classdef (Abstract) Problem < handle
         function sol = internalSolve(obj, varargin)
             p = inputParser;
             p.KeepUnmatched = true;
-            p.addParameter('Method', @ode45);
+            p.addParameter('Method', @ode15s);
             p.parse(varargin{:});
             
-            options = obj.Rhs.odeset(p.Unmatched);  
+            options = obj.Rhs.odeset(p.Unmatched);
             
             sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
             

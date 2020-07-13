@@ -24,9 +24,5 @@ classdef KPRProblem < otp.Problem
             obj.RhsSlow = otp.Rhs(@(t,y) otp.kpr.fslow(t, y, Omega, omega), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.kpr.jacslow(t, y, Omega, omega));
         end
-        
-        function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode15s, varargin{:});
-        end
     end
 end

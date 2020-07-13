@@ -23,7 +23,8 @@ classdef E5Problem < otp.Problem
             M = obj.Parameters.M;
             
             obj.Rhs = otp.Rhs(@(t, y) otp.e5.f(t, y, A, B, C, M), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.e5.jac(t, y, A, B, C, M));
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.e5.jac(t, y, A, B, C, M), ...
+                otp.Rhs.FieldNames.NonNegative, 1:obj.NumVars);
         end
         
         function fig = internalPlot(obj, t, y, varargin)
@@ -32,7 +33,8 @@ classdef E5Problem < otp.Problem
         end
         
         function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode15s, varargin{:});
+            % Set tolerances due to the very small scales
+            sol = internalSolve@otp.Problem(obj, 'AbsTol', 1e-50, 'RelTol', 1e-10, varargin{:});
         end
     end
 end

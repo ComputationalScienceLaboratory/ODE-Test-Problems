@@ -2,12 +2,12 @@ classdef Lorenz63Problem < otp.Problem
     
     % For a full problem description take a look at the original formulation in
     %
-    %  Lorenz, Edward N. "Deterministic nonperiodic flow." 
+    %  Lorenz, Edward N. "Deterministic nonperiodic flow."
     %  Journal of the atmospheric sciences 20, no. 2 (1963): 130-141.
     %
     % For a more detailed description also take a look at
     %
-    %  Strogatz, Steven H. Nonlinear dynamics and chaos: with applications to 
+    %  Strogatz, Steven H. Nonlinear dynamics and chaos: with applications to
     %  physics, biology, chemistry, and engineering. Westview press, 2014.
     
     methods
@@ -16,7 +16,7 @@ classdef Lorenz63Problem < otp.Problem
         end
     end
     
-    methods (Access = protected)        
+    methods (Access = protected)
         function onSettingsChanged(obj)
             sigma = obj.Parameters.sigma;
             rho   = obj.Parameters.rho;
@@ -50,6 +50,10 @@ classdef Lorenz63Problem < otp.Problem
                 case 3
                     label = 'z';
             end
+        end
+        
+        function sol = internalSolve(obj, varargin)
+            sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
         end
         
         function mov = internalMovie(obj, t, y, varargin)

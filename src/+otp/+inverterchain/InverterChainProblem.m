@@ -1,4 +1,4 @@
-classdef InverterChainProblem < otp.Problem    
+classdef InverterChainProblem < otp.Problem
     methods
         function obj = InverterChainProblem(timeSpan, y0, parameters)
             obj@otp.Problem('Inverter Chain', [], timeSpan, y0, parameters);
@@ -6,7 +6,7 @@ classdef InverterChainProblem < otp.Problem
     end
     
     methods (Access = protected)
-        function fig = internalPlot(obj, t, y, varargin)            
+        function fig = internalPlot(obj, t, y, varargin)
             fig = internalPlot@otp.Problem(obj, t, y, ...
                 'ylabel', 'Voltage', varargin{:});
         end

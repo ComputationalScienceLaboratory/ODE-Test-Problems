@@ -31,7 +31,7 @@ classdef BrusselatorProblem < otp.Problem
         RhsNonlinear
     end
     
-    methods (Access = protected)        
+    methods (Access = protected)
         function onSettingsChanged(obj)
             a = obj.Parameters.a;
             b = obj.Parameters.b;
@@ -62,6 +62,10 @@ classdef BrusselatorProblem < otp.Problem
             else
                 label = 'Reactant Y';
             end
+        end
+        
+        function sol = internalSolve(obj, varargin)
+            sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
         end
     end
 end

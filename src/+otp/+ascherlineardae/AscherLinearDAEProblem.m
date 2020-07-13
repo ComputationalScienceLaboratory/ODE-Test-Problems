@@ -27,10 +27,6 @@ classdef AscherLinearDAEProblem < otp.Problem
             otp.utils.StructParser(newParameters) ...
                 .checkField('beta', 'scalar', 'real', 'finite');
         end
-        
-        function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode15s, varargin{:});
-        end
     end
 end
 

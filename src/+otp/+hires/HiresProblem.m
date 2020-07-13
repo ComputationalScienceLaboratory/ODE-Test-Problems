@@ -17,9 +17,5 @@ classdef HiresProblem < otp.Problem
                 otp.Rhs.FieldNames.JacobianVectorProduct, @otp.hires.jvp, ...
                 otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @otp.hires.javp);
         end
-        
-        function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode15s, varargin{:});
-        end
     end
 end

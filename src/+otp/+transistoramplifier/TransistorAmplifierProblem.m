@@ -31,10 +31,6 @@ classdef TransistorAmplifierProblem < otp.Problem
                 .checkField('alpha', 'scalar', 'real', 'finite', 'nonnegative') ...
                 .checkField('beta', 'scalar', 'real', 'finite', 'nonnegative');
         end
-        
-        function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode15s, varargin{:});
-        end
     end
 end
 

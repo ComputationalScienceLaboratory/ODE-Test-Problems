@@ -204,5 +204,9 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
         end
         
+        function sol = internalSolve(obj, varargin)
+            sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
+        end
+        
     end
 end

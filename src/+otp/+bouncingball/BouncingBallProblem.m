@@ -5,7 +5,7 @@ classdef BouncingBallProblem < otp.Problem
         end
     end
     
-    methods (Access = protected)        
+    methods (Access = protected)
         function onSettingsChanged(obj)
             g   = obj.Parameters.g;
             gF  = obj.Parameters.groundFunction;
@@ -42,6 +42,10 @@ classdef BouncingBallProblem < otp.Problem
         function mov = internalMovie(obj, t, y, varargin)
             mov = otp.bouncingball.BouncingBallMovie(obj.Name, obj.Parameters.groundFunction, varargin{:});
             mov.record(t, y);
+        end
+        
+        function sol = internalSolve(obj, varargin)
+            sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
         end
     end
 end
