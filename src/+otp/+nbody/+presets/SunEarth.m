@@ -1,7 +1,7 @@
 classdef SunEarth < otp.nbody.NBodyProblem
     methods
         function obj = SunEarth()
-            import otp.nbody.presets.PhysicalConstants
+            import otp.utils.PhysicalConstants
             
             params.spacialDim = 2;
             params.masses = [PhysicalConstants.SunMass; PhysicalConstants.EarthMass] / 1e24;

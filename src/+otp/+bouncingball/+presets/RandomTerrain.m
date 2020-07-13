@@ -11,14 +11,14 @@ classdef RandomTerrain < otp.bouncingball.BouncingBallProblem
     %
     methods
         function obj = RandomTerrain
-            params.g = 9.80665;
+            params.g = otp.utils.PhysicalConstants.EarthGravity;
             
             n = 1000;
             
             rng(6);
             
-            genf  = @(x) cos(x);
-            dgenf = @(x) sin(x);
+            genf  = @cos;
+            dgenf = @sin;
             
             magnitudes = 1/32*randn(n, 1);
             periods    = 0.9*randn(n, 1);

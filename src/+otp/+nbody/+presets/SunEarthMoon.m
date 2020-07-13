@@ -1,7 +1,7 @@
 classdef SunEarthMoon < otp.nbody.NBodyProblem
     methods
         function obj = SunEarthMoon()
-            import otp.nbody.presets.PhysicalConstants
+            import otp.utils.PhysicalConstants
             
             params.spacialDim = 2;
             params.masses = [PhysicalConstants.SunMass; PhysicalConstants.EarthMass; PhysicalConstants.MoonMass] / 1e24;

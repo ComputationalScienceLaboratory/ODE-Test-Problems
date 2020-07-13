@@ -1,4 +1,4 @@
-classdef Canonical < csl.odetestproblems.bouncingball.presets.Simple
+classdef Canonical < otp.bouncingball.presets.Simple
     % [Name]
     %  Canonical
     %

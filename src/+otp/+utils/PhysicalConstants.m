@@ -15,6 +15,8 @@ classdef PhysicalConstants
         
         SecondsPerDay = 86400; % s
         DaysPerYear = 365.25; % d
+        
+        EarthGravity = 9.80665;
     end
     
 end

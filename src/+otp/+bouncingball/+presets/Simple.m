@@ -14,7 +14,7 @@ classdef Simple < otp.bouncingball.BouncingBallProblem
     %
     methods
         function obj = Simple
-            params.g = 9.80665;
+            params.g = otp.utils.PhysicalConstants.EarthGravity;
             params.groundFunction  = @(x) 0;
             params.dgroundFunction = @(x) 0;
             

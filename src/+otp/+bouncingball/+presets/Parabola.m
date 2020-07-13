@@ -15,7 +15,7 @@ classdef Parabola < otp.bouncingball.BouncingBallProblem
     %
     methods
         function obj = Parabola
-            params.g = 9.80665;
+            params.g = otp.utils.PhysicalConstants.EarthGravity;
             params.groundFunction  = @(x) x^2;
             params.dgroundFunction = @(x) 2*x;
             

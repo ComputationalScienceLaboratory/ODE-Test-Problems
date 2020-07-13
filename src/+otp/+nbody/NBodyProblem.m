@@ -26,7 +26,7 @@ classdef NBodyProblem < otp.Problem
         end
         
         function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode23t, varargin{:});
+            sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
         end
         
         function mov = internalMovie(obj, t, y, varargin)
