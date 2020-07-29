@@ -26,13 +26,12 @@ classdef ArenstorfProblem < otp.Problem
       otp.utils.StructParser(newParameters) ...
         .checkField('m1', 'scalar', 'real', 'finite', 'positive') ...
         .checkField('m2', 'scalar', 'real', 'finite', 'positive');
-      
     end
     
-    
-%     function fig = internalPlotPhaseSpace(obj, sol, varargin)
-%       fig = internalPlotPhaseSpace@otp.Problem(obj, sol, 1:2, varargin{:});
-%     end
+    function mov = internalMovie(obj, t, y, varargin)
+      mov = otp.utils.movie.PhasePlaneMovie(obj.Name, @obj.index2label, varargin{:});
+      mov.record(t, y(:,1:2));
+    end
     
   end
 end

@@ -242,8 +242,8 @@ classdef (Abstract) Problem < handle
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.TrajectoryMovie(obj.Name, @obj.index2label, varargin{:});
-            mov.record(t, y);
+            mov = otp.utils.movie.PhasePlaneMovie(obj.Name, @obj.index2label, varargin{:});
+            mov.record(t, y(1:2,:));
         end
         
         function label = internalIndex2label(~, index)
