@@ -1,5 +1,7 @@
 classdef Stationary < otp.hundsdorfer.HundsdorferProblem
-    % TODO: add citation to paper
+    % 1D PDE with time depenedant boundary conditions and 4th order 
+    % spatial discretization. 
+    % Reference papaer https://doi.org/10.1016/j.jcp.2007.03.003
     
     methods
         function obj = Stationary(varargin)
