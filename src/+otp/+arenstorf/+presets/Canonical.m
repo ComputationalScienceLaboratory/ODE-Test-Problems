@@ -1,10 +1,10 @@
-classdef Canonical < otp.arenstorf.Arenstorf
+classdef Canonical < otp.arenstorf.ArenstorfProblem
     methods
         function obj = Canonical(varargin)
                  
             p = inputParser;
-            addParameter(p, 'm1', 0.012277471, @isscalar);
-            parse(p, varargin{:});
+            p.addParameter('m1', 0.012277471);
+            p.parse(varargin{:});
             s = p.Results;
             
             params.m1 = s.m1;
@@ -13,7 +13,7 @@ classdef Canonical < otp.arenstorf.Arenstorf
             y0 = [0.994; 0; 0; -2.00158510637908252240537862224];
             tspan = [0,17.0652165601579625588917206249];
             
-            obj = obj@otp.arenstorf.Arenstorf(tspan, y0, params);
+            obj = obj@otp.arenstorf.ArenstorfProblem(tspan, y0, params);
         end
 
     end

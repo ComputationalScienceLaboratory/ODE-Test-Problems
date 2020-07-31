@@ -1,11 +1,11 @@
-classdef Arenstorf < otp.Problem
+classdef ArenstorfProblem < otp.Problem
   % The classic  3-body  problem with parameters from
   % Reference:  Hairer, Ernst, Syvert Paul Nørsett, and Gerhard Wanner.
   % Solving Ordinary Differential Equations I: Nonstiff Problems Springer-Verlag, 1987.
   % CH II, p. 129.
   methods
-    function obj = Arenstorf(timeSpan, y0, parameters)
-      obj@otp.Problem('Arenstorf Orbit Problem', 4, timeSpan, y0, parameters);
+    function obj = ArenstorfProblem(timeSpan, y0, parameters)
+      obj@otp.Problem('Arenstorf Orbit', 4, timeSpan, y0, parameters);
     end
   end
   
@@ -13,7 +13,7 @@ classdef Arenstorf < otp.Problem
     
     function onSettingsChanged(obj)
       m1 = obj.Parameters.m1;
-      m2 = 1- obj.Parameters.m1;
+      m2 = obj.Parameters.m2;
       
       obj.Rhs = otp.Rhs( @(t, y) otp.arenstorf.f(t, y, m1, m2), ...
         otp.Rhs.FieldNames.Jacobian, @(t, y) otp.arenstorf.jac(t, y, m1, m2));
@@ -24,8 +24,8 @@ classdef Arenstorf < otp.Problem
       validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters);
       
       otp.utils.StructParser(newParameters) ...
-        .checkField('m1', 'scalar', 'real', 'finite', 'positive', @(x) x<1) ...
-        .checkField('m2', 'scalar', 'real', 'finite', 'positive', @(x) x<1);
+        .checkField('m1', 'scalar', 'real', 'finite', 'positive') ...
+        .checkField('m2', 'scalar', 'real', 'finite', 'positive');
     end
     
     function mov = internalMovie(obj, t, y, varargin)
