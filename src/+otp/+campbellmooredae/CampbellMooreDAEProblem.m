@@ -1,6 +1,6 @@
 classdef CampbellMooreDAEProblem < otp.Problem
     % Originally Index-3 DAE problem reduced to index 1
-    % Reference: Campbell, Stephen L., and Edward Moore. 
+    % Reference: Campbell, Stephen L., and Edward Moore.
     % "Constraint preserving integrators for general nonlinear higher index DAEs."
     % Numerische Mathematik 69.4 (1995): 383-399.
     
@@ -30,6 +30,12 @@ classdef CampbellMooreDAEProblem < otp.Problem
             otp.utils.StructParser(newParameters) ...
                 .checkField('r', 'scalar', 'real', 'finite', 'positive');
         end
+        
+        function mov = internalMovie(obj, t, y, varargin)
+            mov = otp.utils.movie.PhasePlaneMovie(obj.Name, @obj.index2label, varargin{:});
+            mov.record(t, y(:,1:3));
+        end
+    
     end
 end
 
