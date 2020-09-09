@@ -24,20 +24,17 @@ classdef KuramotoSivashinskyProblem < otp.Problem
             
             L = obj.Parameters.L;
             
-            N = numel(obj.Y0);
+            N = obj.NumVars;
             
             div = L/(2*pi);
             
             k = (1i*[0:(N/2 - 1), 0, (-N/2 + 1):-1].'/div);
             k2 = k.^2;
             k4 = k.^4;
-            
-            Dfft = dftmtx(N);
-            Difft = conj(Dfft)/N;
 
             obj.Rhs = otp.Rhs(@(t, u) otp.kuramotosivashinsky.f(t, u, k, k2, k4), ...
                 otp.Rhs.FieldNames.Jacobian, ...
-                @(t, u) otp.kuramotosivashinsky.jac(t,u, k, k2, k4, Dfft, Difft), ...
+                @(t, u) otp.kuramotosivashinsky.jac(t,u, k, k2, k4), ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, ...
                 @(t, u, v) otp.kuramotosivashinsky.jvp(t,u, k, k2, k4, v));
             
