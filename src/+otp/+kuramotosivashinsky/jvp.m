@@ -1,4 +1,4 @@
-function jv = jvp(~, u, k, k2, k4, v)
+function jv = jvp(~, u, v, k, k2, k4)
 
 jv = -k2.*v - k4.*v - k.*fft(real(ifft(u)).*ifft(v));
 

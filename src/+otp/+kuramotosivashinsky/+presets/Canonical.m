@@ -32,7 +32,9 @@ classdef Canonical < otp.kuramotosivashinsky.KuramotoSivashinskyProblem
             
             h = L/N;
             
-            x = h*(1:N).';
+            % exclude the left boundary point as it is identical to the
+            % right boundary point
+            x = linspace(h, L, N).';
             
             u0 = cos(x/16).*(1+sin(x/16));
             
