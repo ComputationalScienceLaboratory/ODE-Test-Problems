@@ -1,3 +1,17 @@
+% The Kuramoto-Sivashinky equation is a chaotic problem.
+%
+% In this particular discretization, we are applying a spectral
+% method, therefore the boundary conditions will be chosen to be as cyclic
+% on the domain [0, L]. Note that this is different from another typical
+% domain of [-L, L]. The larger the L, the more interesting the problem is
+% but the more points are required to do a good discretization. The current
+% canonical implementation with the size, L, and  is used in
+%
+% Kassam, Aly-Khan, and Lloyd N. Trefethen. 
+% "Fourth-order time-stepping for stiff PDEs." 
+% SIAM Journal on Scientific Computing 26, no. 4 (2005): 1214-1233.
+%
+
 classdef Canonical < otp.kuramotosivashinsky.KuramotoSivashinskyProblem
     
     methods
@@ -16,15 +30,15 @@ classdef Canonical < otp.kuramotosivashinsky.KuramotoSivashinskyProblem
             
             params.L = L;
             
-            h=L/N;
+            h = L/N;
             
-            x=h*(1:N).';
+            x = h*(1:N).';
             
             u0 = cos(x/16).*(1+sin(x/16));
             
             u0hat = fft(u0);
 
-            tspan = [0, 100];
+            tspan = [0, 150];
             
             obj = obj@otp.kuramotosivashinsky.KuramotoSivashinskyProblem(tspan, u0hat, params);
             
