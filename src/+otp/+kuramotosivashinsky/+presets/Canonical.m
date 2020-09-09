@@ -4,26 +4,30 @@ classdef Canonical < otp.kuramotosivashinsky.KuramotoSivashinskyProblem
         function obj = Canonical(varargin)
             
             p = inputParser;
-            addParameter(p, 'Size', 64, @isscalar);
-            addParameter(p, 'L', 25, @isscalar);
+            addParameter(p, 'Size', 128);
+            addParameter(p, 'L', 32*pi);
 
             parse(p, varargin{:});
             
             s = p.Results;
             
-            n = s.Size;
+            N = s.Size;
+            L = s.L;
             
+            params.L = L;
             
-            params.n = n;
-            params.l = s.L;
+            h=L/N;
             
-            x = linspace(0, 10*pi, n + 1);
+            x=h*(1:N).';
             
-            u0 = 4*cos(x(1:end-1)).';
+            u0 = cos(x/16).*(1+sin(x/16));
+            
+            u0hat = fft(u0);
 
             tspan = [0, 100];
             
-            obj = obj@otp.kuramotosivashinsky.KuramotoSivashinskyProblem(tspan, u0, params);
+            obj = obj@otp.kuramotosivashinsky.KuramotoSivashinskyProblem(tspan, u0hat, params);
+            
         end
     end
 end

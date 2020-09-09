@@ -2,31 +2,57 @@ classdef KuramotoSivashinskyProblem < otp.Problem
     
     methods
         function obj = KuramotoSivashinskyProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Kuramoto Sivashinsky Problem', [], timeSpan, y0, parameters);
+            obj@otp.Problem('Kuramoto-Sivashinsky', [], timeSpan, y0, parameters);
         end
+    end
+    
+    methods
+        function soly = solution2real(soly)
+            
+            if isstruct(soly)
+                soly.y = real(ifft(soly.y));
+            else
+                soly = real(ifft(soly.')).';
+            end
+            
+        end
+        
     end
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            n = obj.Parameters.n;
-            l = obj.Parameters.l;
             
-            domain = [-l, l];
-            D = otp.utils.pde.D(n, domain, 'C');
-            L = otp.utils.pde.laplacian(n, domain, 1, 'C');
+            L = obj.Parameters.L;
             
-            obj.Rhs = otp.Rhs(@(t, u) otp.kuramotosivashinsky.f(t, u, D, L), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, u) otp.kuramotosivashinsky.jac(t, u, D, L));
+            N = numel(obj.Y0);
+            
+            div = L/(2*pi);
+            
+            k = (1i*[0:(N/2 - 1), 0, (-N/2 + 1):-1].'/div);
+            k2 = k.^2;
+            k4 = k.^4;
+            
+            Dfft = dftmtx(N);
+            Difft = conj(Dfft)/N;
+
+            obj.Rhs = otp.Rhs(@(t, u) otp.kuramotosivashinsky.f(t, u, k, k2, k4), ...
+                otp.Rhs.FieldNames.Jacobian, ...
+                @(t, u) otp.kuramotosivashinsky.jac(t,u, k, k2, k4, Dfft, Difft), ...
+                otp.Rhs.FieldNames.JacobianVectorProduct, ...
+                @(t, u, v) otp.kuramotosivashinsky.jvp(t,u, k, k2, k4, v));
             
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
+            
             validateNewState@otp.Problem(obj, ...
                 newTimeSpan, newY0, newParameters)
             
+            assert(mod(numel(newY0), 2) == 0);
+            
             otp.utils.StructParser(newParameters) ...
-                .checkField('n', 'scalar', 'integer', 'finite', 'positive') ...
-                .checkField('l', 'scalar', 'integer', 'finite', 'positive');
+                .checkField('L', 'scalar', 'finite', 'positive');
+            
         end
     end
 end

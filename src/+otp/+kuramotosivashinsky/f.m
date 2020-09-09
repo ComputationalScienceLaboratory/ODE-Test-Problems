@@ -1,5 +1,7 @@
-function du = f(~, u, D, L)
+function ut = f(~, u, k, k2, k4)
 
-du = - L*(L*u + u) - u.*(D*u);
+u2 = fft(real(ifft(u)).^2);
+
+ut = - k2.*u - k4.*u -(k/2).*u2;
 
 end
