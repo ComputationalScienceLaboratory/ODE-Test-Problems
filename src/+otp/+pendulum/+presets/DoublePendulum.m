@@ -1,11 +1,11 @@
-classdef Canonical < otp.pendulum.PendulumProblem
+classdef DoublePendulum < otp.pendulum.PendulumProblem
     methods
-        function obj = Canonical
+        function obj = DoublePendulum
             params.g = otp.utils.PhysicalConstants.EarthGravity;
-            params.lengths = 1;
-            params.masses = 1;
+            params.lengths = [1,1];
+            params.masses = [1,1];
             
-            y0 = [pi/3; 0];
+            y0 = [pi/3; 0; 0; 0];
             tspan = [0 10];
             
             obj = obj@otp.pendulum.PendulumProblem(tspan, y0, params);

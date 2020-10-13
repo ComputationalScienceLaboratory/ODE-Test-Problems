@@ -14,25 +14,28 @@ classdef PendulumProblem < otp.Problem
     methods
         function obj = PendulumProblem(timeSpan, y0, parameters)
             % Constructs a problem
-            obj@otp.Problem('Pendulum', 2, timeSpan, y0, parameters);
+            obj@otp.Problem('Pendulum',[], timeSpan, y0, parameters);
         end
     end
     
     methods (Access = protected)
         function onSettingsChanged(obj)
             g = obj.Parameters.g;
-            l = obj.Parameters.l;
+            lengths = obj.Parameters.lengths(:);
+            masses = obj.Parameters.masses(:);
+            cumulativeMasses = cumsum(masses, 'reverse');
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.pendulum.f(t, y, g, l), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.pendulum.jac(t, y, g, l));
+            obj.Rhs = otp.Rhs(@(t, y) otp.pendulum.f(t, y, lengths, cumulativeMasses, g),...
+                otp.Rhs.FieldNames.Mass, @(t,y) otp.pendulum.mass(t, y, lengths, cumulativeMasses, g),...
+                otp.Rhs.FieldNames.MStateDependence, 'strong');
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
             validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
             
-            otp.utils.StructParser(newParameters) ...
-                .checkField('g', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('l', 'scalar', 'real', 'finite', 'positive');
+%            otp.utils.StructParser(newParameters) ...
+%                 .checkField('g', 'scalar', 'real', 'finite', 'positive') ...
+%                 .checkField('lengths', 'vector', 'real', 'finite', 'positive');
         end
         
         function label = internalIndex2label(~, index)
