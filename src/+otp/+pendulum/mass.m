@@ -1,10 +1,10 @@
 function M = mass(~, y, lengths, cumulativeMasses, ~)
 
 n = numel(lengths);
+angles = y(1:n);
+js = 1:n;
 
-js = repmat(1:n, n, 1);
-is = js.';
-M22 = cumulativeMasses(max(is, js)) .* lengths(is) .* lengths(js) .* cos(y(is) - y(js));
+M22 = lengths .* cumulativeMasses(max(js, js.')) .* lengths .* cos(angles - angles.');
 
 M = blkdiag(eye(n), M22);
 
