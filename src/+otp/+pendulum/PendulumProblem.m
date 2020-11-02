@@ -10,7 +10,7 @@ classdef PendulumProblem < otp.Problem
     %   where g is the gravitational constant, l is the length of
     %   the pendulum, and theta is the angle between the pendulum and
     %   y-axis.
-     
+    
     methods
         function obj = PendulumProblem(timeSpan, y0, parameters)
             % Constructs a problem
@@ -33,9 +33,9 @@ classdef PendulumProblem < otp.Problem
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
             validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
             
-%            otp.utils.StructParser(newParameters) ...
-%                 .checkField('g', 'scalar', 'real', 'finite', 'positive') ...
-%                 .checkField('lengths', 'vector', 'real', 'finite', 'positive');
+            %            otp.utils.StructParser(newParameters) ...
+            %                 .checkField('g', 'scalar', 'real', 'finite', 'positive') ...
+            %                 .checkField('lengths', 'vector', 'real', 'finite', 'positive');
         end
         
         function label = internalIndex2label(~, index)
@@ -48,6 +48,15 @@ classdef PendulumProblem < otp.Problem
         
         function sol = internalSolve(obj, varargin)
             sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
+        end
+        
+        function mov = internalMovie(obj, t, y, varargin)
+            angles = y(:, 1:obj.NumVars/2);
+            coords = [cumsum(sin(angles) * diag(obj.Parameters.lengths), 2), ...
+                cumsum(-cos(angles) * diag(obj.Parameters.lengths), 2)];
+            
+            mov = otp.pendulum.PendulumMovie(obj.Name, varargin{:});
+            mov.record(t, coords);
         end
     end
 end
