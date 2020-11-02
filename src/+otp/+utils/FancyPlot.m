@@ -77,8 +77,8 @@ classdef (Sealed) FancyPlot
             h.CData = otp.utils.FancyPlot.color(size(y, 2));
         end
         
-        function limits = axisLimits(dir, data, padding)
-            if nargin < 3
+        function limits = axisLimits(ax, dir, data, padding)
+            if nargin < 4
                 padding = 0.08;
             end
             
@@ -86,15 +86,17 @@ classdef (Sealed) FancyPlot
             p = padding * (yMax - yMin);
             limits = [yMin - p, yMax + p];
             
-            switch dir
-                case 'x'
-                    xlim(limits);
-                case 'y'
-                    ylim(limits);
-                case 'z'
-                    zlim(limits);
-                otherwise
-                    error('Invalid direction %s', dir);
+            for i = 1:length(dir)
+                switch dir(i)
+                    case 'x'
+                        xlim(ax, limits);
+                    case 'y'
+                        ylim(ax, limits);
+                    case 'z'
+                        zlim(ax, limits);
+                    otherwise
+                        error('Invalid direction %s', dir);
+                end
             end
         end
     end
@@ -134,7 +136,7 @@ classdef (Sealed) FancyPlot
         
         function useStyleParams(ax, config)
             otp.utils.FancyPlot.setPlotFunctions(ax, config, @title, @xlabel, @ylabel, @zlabel, @view, @grid);
-            otp.utils.FancyPlot.setPlotProps(ax, config, 'xscale', 'yscale', 'zscale');            
+            otp.utils.FancyPlot.setPlotProps(ax, config, 'xscale', 'yscale', 'zscale');
         end
         
         function addLegendParams(p, numVars)
