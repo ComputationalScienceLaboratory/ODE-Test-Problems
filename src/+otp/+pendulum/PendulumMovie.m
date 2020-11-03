@@ -11,14 +11,14 @@ classdef PendulumMovie < otp.utils.movie.Movie
     end
     
     methods (Access = protected)
-        function init(obj, fig, state)
+        function init(~, fig, state)
             ax = axes(fig);
             ax.NextPlot = 'replaceChildren';
             xlabel(ax, 'x');
             ylabel(ax, 'y');
             
             b = max(abs(state.y), [], 'all');
-            obj.Bounds = otp.utils.FancyPlot.axisLimits(ax, 'xy', [-b, b]);
+            otp.utils.FancyPlot.axisLimits(ax, 'xy', [-b, b]);
             axis(ax, 'square');
         end
         
