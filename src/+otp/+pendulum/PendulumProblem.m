@@ -36,16 +36,18 @@ classdef PendulumProblem < otp.Problem
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
             validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
             
-            %            otp.utils.StructParser(newParameters) ...
-            %                 .checkField('g', 'scalar', 'real', 'finite', 'positive') ...
-            %                 .checkField('lengths', 'vector', 'real', 'finite', 'positive');
+            otp.utils.StructParser(newParameters) ...
+                .checkField('g', 'scalar', 'real', 'finite', 'positive') ...
+                .checkField('lengths', 'vector', 'real', 'finite', 'positive') ...
+                .checkField('masses',  'vector', 'real', 'finite', 'positive');
         end
         
-        function label = internalIndex2label(~, index)
-            if index == 1
-                label = 'Theta';
-            else
-                label = 'Omega';
+        function label = internalIndex2label(obj, index)
+            numPendulums = obj.NumVars/2;
+            if index <= numPendulums
+                label = sprintf('\\theta_{%d}', numPendulums);
+            else 
+                label = sprintf('\\omega_{%d}', index - numPendulums);
             end
         end
         
