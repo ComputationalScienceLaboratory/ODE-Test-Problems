@@ -26,8 +26,8 @@ classdef L96PODGROM < otp.quadratic.QuadraticProblem
             
             obj = obj@otp.quadratic.QuadraticProblem(tspan, u0, params);
             
-            obj.Projection = s.Va;
-            obj.Interpolation = s.V;
+            obj.Projection = s.Va(1:r, :);
+            obj.Interpolation = s.V(:, 1:r);
         end
     end
 
