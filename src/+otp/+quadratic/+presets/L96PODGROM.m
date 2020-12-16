@@ -13,7 +13,7 @@ classdef L96PODGROM < otp.quadratic.QuadraticProblem
                 r = 28;
             end   
             
-            s = load('l96_ROM_r28.mat');
+            s = load('l96_ROM_r40.mat');
             
             params.a = double(s.a(1:r));
             params.B = double(s.B(1:r, 1:r));
