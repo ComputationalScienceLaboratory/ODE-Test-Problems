@@ -52,10 +52,5 @@ classdef Lorenz96Problem <  otp.Problem
         function sol = internalSolve(obj, varargin)
             sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
         end
-        
-        function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.LineMovie(obj.Name, 'Variable Index', 'y', varargin{:});
-            mov.record(t, y);
-        end
     end
 end

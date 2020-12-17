@@ -1,6 +1,10 @@
 classdef PhysicalConstants
 
     properties (Constant)
+        OneDimensional = 1;
+        TwoDimensional = 2;
+        ThreeDimensional = 3;
+        
         GravitationalConstant = 6.67408e-11; % m^3 / (kg s^2)
         
         SunMass = 1.98855e30; % kg
@@ -16,7 +20,7 @@ classdef PhysicalConstants
         SecondsPerDay = 86400; % s
         DaysPerYear = 365.25; % d
         
-        EarthGravity = 9.80665;
+        EarthGravity = 9.80665; % m / s^2
     end
     
 end

@@ -1,7 +1,8 @@
 classdef NBodyMovie < otp.utils.movie.Movie
     properties (SetAccess = immutable, GetAccess = protected)
         MovieTitle
-        Dim
+        MovieLabels
+        MovieLegend
     end
     
     properties (Access = protected)
@@ -10,13 +11,11 @@ classdef NBodyMovie < otp.utils.movie.Movie
     end
     
     methods
-        function obj = NBodyMovie(title, dim, varargin)
+        function obj = NBodyMovie(title, labels, legend, varargin)
             obj@otp.utils.movie.Movie(varargin{:});
             obj.MovieTitle = title;
-            if dim < 2 || dim > 3
-                error('N-Body movie must be 2D or 3D');
-            end
-            obj.Dim = dim;
+            obj.MovieLabels = labels;
+            obj.Legend = legend;
         end
     end
     

@@ -24,14 +24,14 @@ classdef PhasePlaneMovie < otp.utils.movie.Movie
             
             ax = axes(fig);
             
-            otp.utils.FancyPlot.axisLimits('x', state.y(:, 1));
+            otp.utils.FancyPlot.axisLimits(ax, 'x', state.y(:, 1));
             xlabel(ax, obj.MovieLabel(1));
             
-            otp.utils.FancyPlot.axisLimits('y', state.y(:, 2));
+            otp.utils.FancyPlot.axisLimits(ax, 'y', state.y(:, 2));
             ylabel(ax, obj.MovieLabel(2));
             
             if state.numVars == 3
-                otp.utils.FancyPlot.axisLimits('z', state.y(:, 3));
+                otp.utils.FancyPlot.axisLimits(ax, 'z', state.y(:, 3));
                 zlabel(ax, obj.MovieLabel(3));
                 view(ax, [45, 45]);
             end

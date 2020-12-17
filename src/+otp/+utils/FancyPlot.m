@@ -1,50 +1,22 @@
 classdef (Sealed) FancyPlot
     
+    properties (Access = private, Constant)
+        SupportedAxesFunctions = {@title, @xlabel, @ylabel, @zlabel, @view, @grid, @colororder};
+        SupportedAxesProperties = {'linestyleorder', 'xscale', 'yscale', 'zscale', 'fontname', 'fontsize'};
+    end
+    
     methods (Static)
-        function c = color(m, n)
-            if nargin == 1
-                h = linspace(0, 1 - 1 / m, m)';
-                s = 0.8 * ones(m, 1);
-            else
-                h = (n - 1) / m;
-                s = 0.8;
-            end
-            
-            c = hsv2rgb([h, s, s]);
-        end
-        
-        function c = brighten(c, beta)
-            if beta >= 0
-                c = c .^ (1 - beta);
-            else
-                c = c .^ (1 / (1 + beta));
-            end
-        end
-        
-        function legend(ax, varargin)
-            n = length(ax.Children);
-            p = inputParser;
-            otp.utils.FancyPlot.addLegendParams(p, n);
-            p.parse(varargin{:});
-            otp.utils.FancyPlot.useLegendParams(ax, n, p.Results);
-        end
-        
         function h = plot(ax, x, y, varargin)
-            n = size(y, 2);
-            
             p = inputParser;
             p.addOptional('z', []);
             p.addParameter('plotter', []);
-            p.addParameter('linespec', '-');
-            otp.utils.FancyPlot.addStyleParams(p);
-            otp.utils.FancyPlot.addLegendParams(p, n);
+            otp.utils.FancyPlot.addAxesParameters(p);
+            otp.utils.FancyPlot.addLegendParameters(p);
             p.parse(varargin{:});
             config = p.Results;
             
             hold(ax, 'all');
-            ax.ColorOrder = otp.utils.FancyPlot.color(n);
-            ax.LineStyleOrder = config.linespec;
-            
+            otp.utils.FancyPlot.configureAxes(ax, config);
             if isempty(config.z)
                 if isempty(config.plotter)
                     h = plot(ax, x, y);
@@ -58,23 +30,66 @@ classdef (Sealed) FancyPlot
                     h = config.plotter(ax, x, y, config.z);
                 end
             end
-            
-            otp.utils.FancyPlot.useStyleParams(ax, config);
-            otp.utils.FancyPlot.useLegendParams(ax, n, config);
-            
+            otp.utils.FancyPlot.configureLegend(ax, h, config);
             hold(ax, 'off');
         end
         
-        function h = bar(ax, x, y, varargin)
-            p = inputParser;
-            otp.utils.FancyPlot.addStyleParams(p);
-            p.parse(varargin{:});
-            config = p.Results;
+        function addAxesParameters(p)
+            for i = 1:length(otp.utils.FancyPlot.SupportedAxesFunctions)
+                p.addParameter(func2str(otp.utils.FancyPlot.SupportedAxesFunctions{i}), []);
+            end
+            for i = 1:length(otp.utils.FancyPlot.SupportedAxesProperties)
+                p.addParameter(otp.utils.FancyPlot.SupportedAxesProperties{i}, []);
+            end
+        end
+        
+        function addLegendParameters(p)
+            p.addParameter('Legend', {}, @(x) iscell(x) || isa(x, 'function_handle'));
+            p.addParameter('LegendIndices', []);
+            p.addParameter('MaxLegendLabels', 10);
+        end
+        
+        function configureAxes(ax, config)
+            for i = 1:length(otp.utils.FancyPlot.SupportedAxesFunctions)
+                prop = otp.utils.FancyPlot.SupportedAxesFunctions{i};
+                val = config.(func2str(prop));
+                if ~isempty(val)
+                    prop(ax, val);
+                end
+            end
             
-            h = bar(ax, x, y);
-            otp.utils.FancyPlot.useStyleParams(ax, config);
-            h.FaceColor = 'flat';
-            h.CData = otp.utils.FancyPlot.color(size(y, 2));
+            for i = 1:length(otp.utils.FancyPlot.SupportedAxesProperties)
+                prop = otp.utils.FancyPlot.SupportedAxesProperties{i};
+                val = config.(prop);
+                if ~isempty(val)
+                    set(ax, prop, val);
+                end
+            end
+        end
+        
+        function configureLegend(ax, targets, config)
+            n = length(targets);
+            maxLabels = min(n, config.MaxLegendLabels);
+            legendIndices = config.LegendIndices;
+            if isempty(legendIndices)
+                legendIndices = 1:n;
+            end
+            
+            if iscell(config.Legend)
+                actLabels = length(config.Legend);
+                if actLabels == 0
+                    legend(ax, 'off');
+                    return;
+                end
+                labelIndices = round(linspace(1, actLabels, min(actLabels, maxLabels)));
+                childIndices = legendIndices(labelIndices);
+                labels = config.Legend(labelIndices);
+            else
+                childIndices = legendIndices(round(linspace(1, n, maxLabels)));
+                labels = arrayfun(config.Legend, childIndices, 'UniformOutput', false);
+            end
+            
+            legend(ax, targets(childIndices), labels);
         end
         
         function limits = axisLimits(ax, dir, data, padding)
@@ -101,74 +116,8 @@ classdef (Sealed) FancyPlot
         end
     end
     
-    methods (Access = private, Static)
-        function setPlotFunctions(ax, config, varargin)
-            for i = 1:length(varargin)
-                func = varargin{i};
-                val = config.(func2str(func));
-                if ~isempty(val)
-                    func(ax, val);
-                end
-            end
-        end
-        
-        function setPlotProps(ax, config, varargin)
-            for i = 1:length(varargin)
-                prop = varargin{i};
-                val = config.(prop);
-                if ~isempty(val)
-                    set(ax, prop, val);
-                end
-            end
-        end
-        
-        function addStyleParams(p)
-            p.addParameter('title', []);
-            p.addParameter('xlabel', []);
-            p.addParameter('ylabel', []);
-            p.addParameter('zlabel', []);
-            p.addParameter('view', []);
-            p.addParameter('grid', []);
-            p.addParameter('xscale', []);
-            p.addParameter('yscale', []);
-            p.addParameter('zscale', []);
-        end
-        
-        function useStyleParams(ax, config)
-            otp.utils.FancyPlot.setPlotFunctions(ax, config, @title, @xlabel, @ylabel, @zlabel, @view, @grid);
-            otp.utils.FancyPlot.setPlotProps(ax, config, 'xscale', 'yscale', 'zscale');
-        end
-        
-        function addLegendParams(p, numVars)
-            p.addParameter('Legend', {}, @(x) iscell(x) || isa(x, 'function_handle'));
-            p.addParameter('LegendIndices', 1:numVars);
-            p.addParameter('MaxLegendLabels', 10);
-        end
-        
-        function useLegendParams(ax, n, config)
-            maxLabels = min(n, config.MaxLegendLabels);
-            if iscell(config.Legend)
-                actLabels = length(config.Legend);
-                if actLabels == 0
-                    legend(ax, 'off');
-                    return;
-                end
-                labelIndices = round(linspace(1, actLabels, min(actLabels, maxLabels)));
-                childIndices = config.LegendIndices(labelIndices);
-                labels = config.Legend(labelIndices);
-            else
-                childIndices = config.LegendIndices(round(linspace(1, n, maxLabels)));
-                labels = arrayfun(config.Legend, childIndices, 'UniformOutput', false);
-            end
-            
-            reversedChildren = flipud(ax.Children);
-            legend(ax, reversedChildren(childIndices), labels);
-        end
-    end
-    
     methods (Access = private)
         function obj = FancyPlot()
         end
     end
 end
-
