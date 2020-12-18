@@ -1,4 +1,4 @@
-classdef L96PODGROM < otp.quadratic.QuadraticProblem
+classdef Lorenz96PodRom < otp.quadratic.QuadraticProblem
     
     properties
         Projection
@@ -6,7 +6,7 @@ classdef L96PODGROM < otp.quadratic.QuadraticProblem
     end
 
     methods
-        function obj = L96PODGROM(r)
+        function obj = Lorenz96PodRom(r)
             % This represents roughly ten years
             tspan = [0, 720];
             
