@@ -7,7 +7,8 @@ classdef L96PODGROM < otp.quadratic.QuadraticProblem
 
     methods
         function obj = L96PODGROM(r)
-            tspan = [0, 0.05];
+            % This represents roughly ten years
+            tspan = [0, 720];
             
             if nargin < 1
                 r = 28;
@@ -22,7 +23,7 @@ classdef L96PODGROM < otp.quadratic.QuadraticProblem
             y0 = 8*ones(40, 1);
             y0(20) = 8.008;
             
-            u0 = s.Va*y0;
+            u0 = s.Va(1:r, :)*y0;
             
             obj = obj@otp.quadratic.QuadraticProblem(tspan, u0, params);
             
