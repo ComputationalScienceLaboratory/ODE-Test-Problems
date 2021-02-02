@@ -7,8 +7,7 @@ classdef InverterChainProblem < otp.Problem
     
     methods (Access = protected)
         function fig = internalPlot(obj, t, y, varargin)
-            fig = internalPlot@otp.Problem(obj, t, y, ...
-                'ylabel', 'Voltage', varargin{:});
+            fig = internalPlot@otp.Problem(obj, t, y, 'ylabel', 'Voltage', varargin{:});
         end
         
         function onSettingsChanged(obj)

@@ -1,4 +1,4 @@
-classdef LineMovie < otp.utils.movie.FancyMovie    
+classdef LineMovie < otp.utils.movie.FancyMovie
     methods
         function obj = LineMovie(varargin)
             obj@otp.utils.movie.FancyMovie('xlabel', 'Variable Index', 'ylabel', 'y', 'linestyleorder', '*-', ...

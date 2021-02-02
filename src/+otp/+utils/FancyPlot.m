@@ -1,7 +1,7 @@
 classdef (Sealed) FancyPlot
     
     properties (Access = private, Constant)
-        SupportedAxesFunctions = {@title, @xlabel, @ylabel, @zlabel, @view, @grid, @colororder};
+        SupportedAxesFunctions = {@title, @xlabel, @ylabel, @zlabel, @view, @grid, @colororder, @axis};
         SupportedAxesProperties = {'linestyleorder', 'xscale', 'yscale', 'zscale', 'fontname', 'fontsize'};
     end
     
@@ -11,7 +11,6 @@ classdef (Sealed) FancyPlot
             p.addOptional('z', []);
             p.addParameter('plotter', []);
             otp.utils.FancyPlot.addAxesParameters(p);
-            otp.utils.FancyPlot.addLegendParameters(p);
             p.parse(varargin{:});
             config = p.Results;
             
@@ -34,6 +33,40 @@ classdef (Sealed) FancyPlot
             hold(ax, 'off');
         end
         
+        function c = lighten(c, beta)
+            if nargin < 2
+                beta = 0.5;
+            else
+                beta = max(-1, min(1, beta));
+            end
+            
+            if beta >= 0
+                c = beta + (1 - beta) * c;
+            else
+                c = (1 + beta) * c;
+            end
+        end
+        
+        function limits = axisLimits(ax, dir, data, padding)
+            if nargin < 4
+                padding = 0.05;
+            end
+            
+            if strcmp(get(ax, strcat(dir, 'scale')), 'linear')
+                [yMin, yMax] = bounds(data, 'all');
+                p = padding * (yMax - yMin);
+                limits = [yMin - p, yMax + p];
+            else
+                [yMin, yMax] = bounds(data(data > 0));
+                p = (yMax / yMin)^padding;
+                limits = [yMin / p, yMax * p];
+            end
+            
+            set(ax, strcat(dir, 'lim'), limits);
+        end
+    end
+    
+    methods (Static, Hidden)
         function addAxesParameters(p)
             for i = 1:length(otp.utils.FancyPlot.SupportedAxesFunctions)
                 p.addParameter(func2str(otp.utils.FancyPlot.SupportedAxesFunctions{i}), []);
@@ -41,9 +74,7 @@ classdef (Sealed) FancyPlot
             for i = 1:length(otp.utils.FancyPlot.SupportedAxesProperties)
                 p.addParameter(otp.utils.FancyPlot.SupportedAxesProperties{i}, []);
             end
-        end
-        
-        function addLegendParameters(p)
+            
             p.addParameter('Legend', {}, @(x) iscell(x) || isa(x, 'function_handle'));
             p.addParameter('LegendIndices', []);
             p.addParameter('MaxLegendLabels', 10);
@@ -90,29 +121,6 @@ classdef (Sealed) FancyPlot
             end
             
             legend(ax, targets(childIndices), labels);
-        end
-        
-        function limits = axisLimits(ax, dir, data, padding)
-            if nargin < 4
-                padding = 0.08;
-            end
-            
-            [yMin, yMax] = bounds(data, 'all');
-            p = padding * (yMax - yMin);
-            limits = [yMin - p, yMax + p];
-            
-            for i = 1:length(dir)
-                switch dir(i)
-                    case 'x'
-                        xlim(ax, limits);
-                    case 'y'
-                        ylim(ax, limits);
-                    case 'z'
-                        zlim(ax, limits);
-                    otherwise
-                        error('Invalid direction %s', dir);
-                end
-            end
         end
     end
     

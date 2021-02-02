@@ -1,9 +1,9 @@
 classdef PhysicalConstants
 
     properties (Constant)
-        OneDimensional = 1;
-        TwoDimensional = 2;
-        ThreeDimensional = 3;
+        OneD = 1;
+        TwoD = 2;
+        ThreeD = 3;
         
         GravitationalConstant = 6.67408e-11; % m^3 / (kg s^2)
         

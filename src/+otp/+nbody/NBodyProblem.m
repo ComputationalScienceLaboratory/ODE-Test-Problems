@@ -7,19 +7,19 @@ classdef NBodyProblem < otp.Problem
     
     methods(Access=protected)
         function onSettingsChanged(obj)
-            spacialDim = obj.Parameters.spacialDim;
+            spatialDim = obj.Parameters.spatialDim;
             masses = obj.Parameters.masses;
             g = obj.Parameters.gravitationalConstant;
             softeningLength = obj.Parameters.softeningLength;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.nbody.f(t, y, spacialDim, masses, g, softeningLength));
+            obj.Rhs = otp.Rhs(@(t, y) otp.nbody.f(t, y, spatialDim, masses, g, softeningLength));
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
             validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters);
             
             otp.utils.StructParser(newParameters) ...
-                .checkField('spacialDim', 'scalar', 'integer', 'positive') ...
+                .checkField('spatialDim', 'scalar', 'integer', 'positive') ...
                 .checkField('masses', 'finite') ...
                 .checkField('gravitationalConstant', 'scalar', 'real', 'finite', 'positive') ...
                 .checkField('softeningLength', 'scalar', 'real', 'finite', 'nonnegative');
@@ -30,8 +30,10 @@ classdef NBodyProblem < otp.Problem
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.NBodyMovie(obj.Name, obj.Parameters.spacialDim, varargin{:});
-            mov.record(t, y(:, 1:end/2));
+            mov = otp.utils.movie.PhaseSpaceMovie('Title', obj.Name, ...
+                'xlabel', 'x', 'ylabel', 'y', 'zlabel', 'z', ...
+                'Vars', reshape(1:obj.NumVars / 2, obj.Parameters.spatialDim, []).', varargin{:});
+            mov.record(t, y);
         end
     end
 end

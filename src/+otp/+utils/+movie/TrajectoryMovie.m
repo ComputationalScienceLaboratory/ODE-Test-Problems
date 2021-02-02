@@ -1,42 +1,25 @@
-classdef TrajectoryMovie < otp.utils.movie.Movie
-    properties (SetAccess = immutable, GetAccess = private)
-        AxesConfig
-    end
-    
-    properties (Access = private)
-        AnimatedLines
-    end
+classdef TrajectoryMovie < otp.utils.movie.CometMovie
     
     methods
         function obj = TrajectoryMovie(varargin)
-            p = inputParser;
-            p.KeepUnmatched = true;
-            otp.utils.FancyPlot.addAxesParameters(p);
-            p.parse('xlabel', 't', 'ylabel', 'y', varargin{:});
-            obj@otp.utils.movie.Movie(p.Unmatched);
-            obj.AxesConfig = p.Results;
+            obj@otp.utils.movie.CometMovie(otp.utils.PhysicalConstants.TwoD, 'xlabel', 't', 'ylabel', 'y', varargin{:});
         end
     end
-       
+    
     methods (Access = protected)
-        function init(obj, fig, state)
-            ax = axes(fig);            
-            obj.AnimatedLines = gobjects(state.numVars, 1);
-            for i = 1:state.numVars
-                obj.AnimatedLines(i) = animatedline(ax);
-            end
+        function gObjects = initAxes(obj, ax, state)
+            gObjects = initAxes@otp.utils.movie.CometMovie(obj, ax, state);
             
-            otp.utils.FancyPlot.axisLimits(ax, 'x', state.t, 0);
+            otp.utils.FancyPlot.axisLimits(ax, 'x', state.t);
             otp.utils.FancyPlot.axisLimits(ax, 'y', state.y);
-            otp.utils.FancyPlot.configureAxes(ax, obj.AnimatedLines, obj.AxesConfig);
         end
         
-        function drawFrame(obj, fig, state)
-            title(fig.CurrentAxes, sprintf('%s at t=%g', obj.AxesConfig.title, state.tCur));
-            for i = 1:state.numVars
-                obj.AnimatedLines(i).addpoints(state.t(state.stepRange), state.y(i, state.stepRange));
-            end
+        function x = getXPoints(~, ~, state)
+            x = state.t(state.stepRange);
+        end
+        
+        function y = getYPoints(~, cometIdx, state)
+            y = state.y(cometIdx, state.stepRange);
         end
     end
 end
-

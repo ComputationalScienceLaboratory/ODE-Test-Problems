@@ -145,78 +145,52 @@ classdef (Abstract) Problem < handle
                 varargin{:});
         end
         
-        function fig = internalPlotPhaseSpace(obj, t, y, varargin)
+        function fig = internalPlotPhaseSpace(obj, ~, y, varargin)
             % Plots a selection of trajectories with respect to each other assuming t and y are valid
             
             p = inputParser;
             p.KeepUnmatched = true;
-            p.addParameter('Vars', 1:min(otp.utils.PhysicalConstants.ThreeDimensional, obj.NumVars), @ismatrix);
+            p.addParameter('Vars', 1:min(otp.utils.PhysicalConstants.ThreeD, obj.NumVars), @ismatrix);
             p.parse(varargin{:});
             vars = p.Results.Vars;
+            
+            [numLines, dim] = size(vars);
+            if dim < otp.utils.PhysicalConstants.TwoD || dim > otp.utils.PhysicalConstants.ThreeD
+                error('Cannot plot a %dD phase space', dim);
+            end
             
             fig = figure;
             ax = axes(fig);
             
-            [numLines, dim] = size(vars);
-            switch dim
-                case otp.utils.PhysicalConstants.OneDimensional
-                    f = zeros(length(vars), length(t));
-                    for i = 1:length(t)
-                        fFullCur = obj.Rhs.F(t(i), y(:, i));
-                        f(:, i) = fFullCur(vars);
-                    end
-                    
-                    otp.utils.FancyPlot.plot(ax, y(vars, :).', f.', ...
-                        'title', 'Phase Line', ...
-                        'xlabel', 'y', ...
-                        'ylabel', 'f(y)', ...
-                        'legend', @(i) obj.internalIndex2label(vars(i)), ...
-                        p.Unmatched);
-                case otp.utils.PhysicalConstants.TwoDimensional
-                    if numLines == 1
-                        xLabel = obj.internalIndex2label(vars(1));
-                        yLabel = obj.internalIndex2label(vars(2));
-                        leg = {};
-                    else
-                        xLabel = [];
-                        yLabel = [];
-                        leg = @(i) sprintf('%s vs %s', obj.internalIndex2label(vars(i, 1)), ...
-                            obj.internalIndex2label(vars(i, 2)));
-                    end
-                    otp.utils.FancyPlot.plot(ax, y(vars(:, 1), :).', y(vars(:, 2), :).', ...
-                        'title', 'Phase Plane', ...
-                        'xlabel', xLabel, ...
-                        'ylabel', yLabel, ...
-                        'legend', leg, ...
-                        p.Unmatched);
-                case otp.utils.PhysicalConstants.ThreeDimensional
-                    if numLines == 1
-                        xLabel = obj.internalIndex2label(vars(1));
-                        yLabel = obj.internalIndex2label(vars(2));
-                        zLabel = obj.internalIndex2label(vars(3));
-                        leg = {};
-                    else
-                        xLabel = [];
-                        yLabel = [];
-                        zLabel = [];
-                        leg = @(i) sprintf('%s vs %s vs %s', obj.internalIndex2label(vars(i, 1)), ...
-                            obj.internalIndex2label(vars(i, 2)), obj.internalIndex2label(vars(i, 3)));
-                    end
-                    otp.utils.FancyPlot.plot(ax, y(vars(:, 1), :).', y(vars(:, 2), :).', y(vars(:, 3), :).', ...
-                        'title', 'Phase Space', ...
-                        'xlabel', xLabel, ...
-                        'ylabel', yLabel, ...
-                        'zlabel', zLabel, ...
-                        'legend', leg, ...
-                        'view', [45, 45], ...
-                        p.Unmatched);
-                otherwise
-                    error('Cannot plot a %dD phase space', dim);
+            if numLines == 1
+                labels = arrayfun(@obj.internalIndex2label, vars, 'UniformOutput', false);
+                leg = {};
+            else
+                labels = cell(otp.utils.PhysicalConstants.ThreeD, 1);
+                leg = @(i) strjoin(arrayfun(@obj.internalIndex2label, vars(i, :), 'UniformOutput', false), ' vs ');
+            end
+            
+            if dim == otp.utils.PhysicalConstants.TwoD
+                otp.utils.FancyPlot.plot(ax, y(vars(:, 1), :).', y(vars(:, 2), :).', ...
+                    'title', 'Phase Plane', ...
+                    'xlabel', labels{otp.utils.PhysicalConstants.OneD}, ...
+                    'ylabel', labels{otp.utils.PhysicalConstants.TwoD}, ...
+                    'legend', leg, ...
+                    p.Unmatched);
+            else
+                otp.utils.FancyPlot.plot(ax, y(vars(:, 1), :).', y(vars(:, 2), :).', y(vars(:, 3), :).', ...
+                    'title', 'Phase Space', ...
+                    'xlabel', labels{otp.utils.PhysicalConstants.OneD}, ...
+                    'ylabel', labels{otp.utils.PhysicalConstants.TwoD}, ...
+                    'zlabel', labels{otp.utils.PhysicalConstants.ThreeD}, ...
+                    'legend', leg, ...
+                    'view', otp.utils.PhysicalConstants.ThreeD, ...
+                    p.Unmatched);
             end
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.LineMovie('title', obj.Name, varargin{:});
+            mov = otp.utils.movie.TrajectoryMovie('title', obj.Name, varargin{:});
             mov.record(t, y);
         end
         

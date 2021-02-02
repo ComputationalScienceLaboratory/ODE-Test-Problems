@@ -12,17 +12,20 @@ classdef (Abstract) FancyMovie < otp.utils.movie.Movie
             p = inputParser;
             p.KeepUnmatched = true;
             otp.utils.FancyPlot.addAxesParameters(p);
-            otp.utils.FancyPlot.addLegendParameters(p);
             p.parse(varargin{:});
             obj@otp.utils.movie.Movie(p.Unmatched);
             obj.AxesConfig = p.Results;
         end
+        
+        function configureAxes(obj, ax)
+            otp.utils.FancyPlot.configureAxes(ax, obj.AxesConfig);
+        end
     end
     
-    methods (Access = protected, Sealed)    
+    methods (Access = protected, Sealed)
         function init(obj, fig, state)
             ax = axes(fig);
-            otp.utils.FancyPlot.configureAxes(ax, obj.AxesConfig);
+            obj.configureAxes(ax);
             obj.GObjects = obj.initAxes(ax, state);
             otp.utils.FancyPlot.configureLegend(ax, obj.GObjects, obj.AxesConfig);
         end

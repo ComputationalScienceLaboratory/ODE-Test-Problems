@@ -28,5 +28,9 @@ classdef RobertsonProblem < otp.Problem
         function fig = internalPlot(obj, t, y, varargin)
             fig = internalPlot@otp.Problem(obj, t, y, 'xscale', 'log', varargin{:});
         end
+        
+        function mov = internalMovie(obj, t, y, varargin)
+            mov = internalMovie@otp.Problem(obj, t, y, 'xscale', 'log', varargin{:});
+        end
     end
 end
