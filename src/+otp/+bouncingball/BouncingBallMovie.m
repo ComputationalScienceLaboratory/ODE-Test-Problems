@@ -16,7 +16,7 @@ classdef BouncingBallMovie < otp.utils.movie.CometMovie
             
             xLim = otp.utils.FancyPlot.axisLimits(ax, 'x', state.y(1, :));            
             groundX = linspace(xLim(1), xLim(2));
-            groundY = arrayfun(@(x) obj.Ground(x), groundX);
+            groundY = arrayfun(obj.Ground, groundX);
             line(ax, groundX, groundY, 'Color', 'k', 'LineWidth', 1.5);
             
             otp.utils.FancyPlot.axisLimits(ax, 'y', [state.y(2, :), groundY]);

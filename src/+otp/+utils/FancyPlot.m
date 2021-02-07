@@ -36,14 +36,13 @@ classdef (Sealed) FancyPlot
         function c = lighten(c, beta)
             if nargin < 2
                 beta = 0.5;
-            else
-                beta = max(-1, min(1, beta));
             end
             
             if beta >= 0
+                beta = min(1, beta);
                 c = beta + (1 - beta) * c;
             else
-                c = (1 + beta) * c;
+                c = max(0, beta + 1) * c;
             end
         end
         
@@ -52,14 +51,15 @@ classdef (Sealed) FancyPlot
                 padding = 0.05;
             end
             
-            if strcmp(get(ax, strcat(dir, 'scale')), 'linear')
-                [yMin, yMax] = bounds(data, 'all');
-                p = padding * (yMax - yMin);
-                limits = [yMin - p, yMax + p];
-            else
-                [yMin, yMax] = bounds(data(data > 0));
-                p = (yMax / yMin)^padding;
-                limits = [yMin / p, yMax * p];
+            switch get(ax, strcat(dir, 'scale'))
+                case 'linear'
+                    [yMin, yMax] = bounds(data, 'all');
+                    p = padding * (yMax - yMin);
+                    limits = [yMin - p, yMax + p];
+                case 'log'
+                    [yMin, yMax] = bounds(data(data > 0));
+                    p = (yMax / yMin)^padding;
+                    limits = [yMin / p, yMax * p];
             end
             
             set(ax, strcat(dir, 'lim'), limits);
