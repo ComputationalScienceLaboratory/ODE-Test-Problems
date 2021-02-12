@@ -1,7 +1,11 @@
 classdef (Abstract) Movie < handle
+    properties (Constant)
+        DefaultFramerate = 60
+    end
+    
     properties (SetAccess = immutable, GetAccess = private)
-        config
-        recorder
+        Config
+        Recorder
     end
     
     properties (Dependent)
@@ -12,67 +16,66 @@ classdef (Abstract) Movie < handle
         function obj = Movie(varargin)
             p = inputParser;
             p.addParameter('Save', false);
-            p.addParameter('FrameRate', 60);
-            p.addParameter('TargetDuration', []);
-            p.addParameter('Size', []);
-            p.addParameter('Smooth', true);
+            p.addParameter('FrameRate', otp.utils.movie.Movie.DefaultFramerate);
+            p.addParameter('TargetDuration', [], @(d) d > 0);
+            p.addParameter('Size', [], @(s) length(s) == 2 && all(s > 0));
+            p.addParameter('Smooth', true, @islogical);
             p.parse(varargin{:});
             
-            obj.config = p.Results;
-            switch obj.config.Save
+            obj.Config = p.Results;
+            switch obj.Config.Save
                 case true
-                    obj.recorder = otp.utils.movie.recorder.MemoryVideoRecorder;
+                    obj.Recorder = otp.utils.movie.recorder.MemoryVideoRecorder;
                 case false
-                    obj.recorder = otp.utils.movie.recorder.NullVideoRecorder;
+                    obj.Recorder = otp.utils.movie.recorder.NullVideoRecorder;
                 otherwise
-                    obj.recorder = otp.utils.movie.recorder.FileVideoRecorder(obj.config.Save);
+                    obj.Recorder = otp.utils.movie.recorder.FileVideoRecorder(obj.Config.Save);
             end
-            obj.FrameRate = obj.config.FrameRate;
+            obj.FrameRate = obj.Config.FrameRate;
         end
         
         function frameRate = get.FrameRate(obj)
-            frameRate = obj.recorder.getFrameRate();
+            frameRate = obj.Recorder.getFrameRate();
         end
         
         function set.FrameRate(obj, frameRate)
-            obj.recorder.setFrameRate(frameRate);
+            obj.Recorder.setFrameRate(frameRate);
         end
         
-        function record(obj, t, y, varargin)
+        function record(obj, t, y)
             totalSteps = length(t);
-            if totalSteps ~= size(y, 1)
-                error('Expected y to have %d rows but has %d', totalSteps, size(y, 1));
+            [state.numVars, state.totalSteps] = size(y);
+            if length(t) ~= state.totalSteps
+                error('Expected y to have %d columns but has %d', length(t), state.totalSteps);
             end
             
             state.t = t;
             state.y = y;
             state.step = 0;
-            state.totalSteps = totalSteps;
-            state.numVars = size(y, 2);
             state.frame = 0;
             
-            if isempty(obj.config.TargetDuration)
+            if isempty(obj.Config.TargetDuration)
                 state.totalFrames = totalSteps;
             else
-                state.totalFrames = round(obj.config.TargetDuration * obj.FrameRate);
+                state.totalFrames = round(obj.Config.TargetDuration * obj.FrameRate);
             end
             
             [t0, tEnd] = bounds(t);
             
             fig = figure;
-            if ~isempty(obj.config.Size)
-                fig.Position = [0, 0, obj.config.Size(1), obj.config.Size(2)];
+            if ~isempty(obj.Config.Size)
+                fig.Position = [0; 0: obj.Config.Size(:)];
             end
             
             obj.init(fig, state);
-            obj.recorder.start(state.totalFrames);
+            obj.Recorder.start(state.totalFrames);
             for f = 1:state.totalFrames
                 startTime = tic;
                 
                 state.frame = f;
                 frameProgress = (f - 1) / (state.totalFrames - 1);
                 stepRangeStart = state.step + 1;
-                if obj.config.Smooth
+                if obj.Config.Smooth
                     [~, state.step] = min(abs(t0 + (tEnd - t0) * frameProgress - t));
                 else
                     state.step = round((totalSteps - 1) * frameProgress + 1);
@@ -80,20 +83,20 @@ classdef (Abstract) Movie < handle
                 state.stepRange = stepRangeStart:state.step;
                 
                 state.tCur = t(state.step);
-                state.yCur = y(state.step, :);
+                state.yCur = y(:, state.step);
                 
                 obj.drawFrame(fig, state);
                 drawnow;
-                obj.recorder.recordFrame(fig);
+                obj.Recorder.recordFrame(fig);
                 
                 pause(1 / obj.FrameRate - toc(startTime));
             end
             
-            obj.recorder.stop();
+            obj.Recorder.stop();
         end
         
         function h = play(obj)
-            h = obj.recorder.play();
+            h = obj.Recorder.play();
         end
     end
     

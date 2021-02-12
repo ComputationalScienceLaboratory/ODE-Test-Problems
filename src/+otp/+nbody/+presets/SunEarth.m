@@ -3,7 +3,7 @@ classdef SunEarth < otp.nbody.NBodyProblem
         function obj = SunEarth()
             import otp.utils.PhysicalConstants
             
-            params.spacialDim = 2;
+            params.spatialDim = PhysicalConstants.TwoD;
             params.masses = [PhysicalConstants.SunMass; PhysicalConstants.EarthMass] / 1e24;
             params.gravitationalConstant = PhysicalConstants.GravitationalConstant * 1e6 * PhysicalConstants.SecondsPerDay^2;
             params.softeningLength = 0;

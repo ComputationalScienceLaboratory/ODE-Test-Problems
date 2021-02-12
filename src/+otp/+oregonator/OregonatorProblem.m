@@ -14,6 +14,10 @@ classdef OregonatorProblem < otp.Problem
         function fig = internalPlot(obj, t, y, varargin)
             fig = internalPlot@otp.Problem(obj, t, y, 'yscale', 'log', varargin{:});
         end
+        
+        function mov = internalMovie(obj, t, y, varargin)
+            mov = internalMovie@otp.Problem(obj, t, y, 'yscale', 'log', varargin{:});
+        end
     end
 end
 

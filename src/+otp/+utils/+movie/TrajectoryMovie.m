@@ -1,43 +1,25 @@
-classdef TrajectoryMovie < otp.utils.movie.Movie
-    properties (SetAccess = immutable, GetAccess = protected)
-        MovieTitle
-        MovieLegend
-    end
-    
-    properties (Access = protected)
-        AnimatedLines
-    end
+classdef TrajectoryMovie < otp.utils.movie.CometMovie
     
     methods
-        function obj = TrajectoryMovie(title, legend, varargin)
-            obj@otp.utils.movie.Movie(varargin{:});
-            obj.MovieTitle = title;
-            obj.MovieLegend = legend;
+        function obj = TrajectoryMovie(varargin)
+            obj@otp.utils.movie.CometMovie(otp.utils.PhysicalConstants.TwoD, 'xlabel', 't', 'ylabel', 'y', varargin{:});
         end
     end
-       
+    
     methods (Access = protected)
-        function init(obj, fig, state)
-            ax = axes(fig);
-            otp.utils.FancyPlot.axisLimits('x', state.t, 0);
-            otp.utils.FancyPlot.axisLimits('y', state.y);
+        function gObjects = initAxes(obj, ax, state)
+            gObjects = initAxes@otp.utils.movie.CometMovie(obj, ax, state);
             
-            obj.AnimatedLines = gobjects(state.numVars, 1);
-            for i = 1:state.numVars
-                obj.AnimatedLines(i) = animatedline(ax, 'Color', otp.utils.FancyPlot.color(state.numVars, i));
-            end
-            
-            xlabel(ax, 't');
-            ylabel(ax, 'y');
-            otp.utils.FancyPlot.legend(ax, 'Legend', obj.MovieLegend);
+            otp.utils.FancyPlot.axisLimits(ax, 'x', state.t);
+            otp.utils.FancyPlot.axisLimits(ax, 'y', state.y);
         end
         
-        function drawFrame(obj, fig, state)
-            title(fig.CurrentAxes, sprintf('%s at t=%g', obj.MovieTitle, state.tCur));
-            for i = 1:state.numVars
-                obj.AnimatedLines(i).addpoints(state.t(state.stepRange), state.y(state.stepRange, i));
-            end
+        function x = getXPoints(~, ~, state)
+            x = state.t(state.stepRange);
+        end
+        
+        function y = getYPoints(~, cometIdx, state)
+            y = state.y(cometIdx, state.stepRange);
         end
     end
 end
-

@@ -82,33 +82,6 @@ classdef (Abstract) Problem < handle
             end
         end
         
-        function varargout = plotState(obj, arg1, arg2, varargin)
-            % Plots the state at a single time
-            if isstruct(arg1)
-                t = arg1.x(arg2);
-                y = arg1.y(:, arg2);
-            else
-                t = arg1;
-                y = arg2;
-            end
-            
-            if ~(isscalar(t) && isnumeric(t))
-                error('The time must be a number');
-            end
-            if ~(isvector(y) && isnumeric(y))
-                error('The solution must be a numeric vector');
-            end
-            if length(y) ~= obj.NumVars
-                error('Expected solution to have %d variables but has %d', obj.NumVars, length(y));
-            end
-            
-            fig = obj.internalPlotState(t, reshape(y, 1, obj.NumVars), varargin{:});
-            
-            if nargout > 0
-                varargout{1} = fig;
-            end
-        end
-        
         function varargout = plotPhaseSpace(obj, sol, varargin)
             % Plots a selection of trajectories with respect to each other
             [t, y, params] = obj.parseSolution(sol, varargin{:});
@@ -119,15 +92,19 @@ classdef (Abstract) Problem < handle
             end
         end
         
-        function mov = movie(obj, sol, varargin)
+        function varargout = movie(obj, sol, varargin)
             % Plots an animation of the trajectories
             [t, y, params] = obj.parseSolution(sol, varargin{:});
             mov = obj.internalMovie(t, y, params{:});
+            
+            if nargout > 0
+                varargout{1} = mov;
+            end
         end
         
         function label = index2label(obj, index)
             % Gets a human-readable label for a particular component of the ODE
-            if floor(index) ~= index || index < 1 || index > obj.NumVars
+            if ~isscalar(index) || mod(index, 1) || index < 1 || index > obj.NumVars
                 error('The index %d is not an integer between 1 and %d', index, obj.NumVars);
             end
             label = obj.internalIndex2label(index);
@@ -143,23 +120,15 @@ classdef (Abstract) Problem < handle
             % Ensures the TimeSpan, Y0, and Parameters are valid
             if length(newTimeSpan) ~= 2
                 error('TimeSpan must be a vector of two times');
-            end
-            if ~isnumeric(newTimeSpan)
+            elseif ~isnumeric(newTimeSpan)
                 error('TimeSpan must be numeric');
-            end
-            
-            if ~iscolumn(newY0)
+            elseif ~iscolumn(newY0)
                 error('Y0 must be a column vector');
-            end
-            if ~(isnumeric(newY0) && all(isfinite(newY0)))
+            elseif ~(isnumeric(newY0) && all(isfinite(newY0)))
                 error('Y0 must be numeric and finite');
-            end
-            if ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
-                error('Expected Y0 to have %d components but has %d', ...
-                    obj.ExpectedNumVars, length(newY0));
-            end
-            
-            if ~isstruct(newParameters)
+            elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
+                error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
+            elseif ~isstruct(newParameters)
                 error('Parameters must be a struct');
             end
         end
@@ -168,7 +137,7 @@ classdef (Abstract) Problem < handle
             % Plots all trajectories in y versus time assuming t and y are valid
             fig = figure;
             ax = axes(fig);
-            otp.utils.FancyPlot.plot(ax, t, y, ...
+            otp.utils.FancyPlot.plot(ax, t, y.', ...
                 'title', obj.Name, ...
                 'xlabel', 't', ...
                 'ylabel', 'y', ...
@@ -176,73 +145,52 @@ classdef (Abstract) Problem < handle
                 varargin{:});
         end
         
-        function fig = internalPlotState(obj, t, y, varargin)
-            % Plots the state at a single time assuming t and y are valid
-            fig = figure;
-            ax = axes(fig);
-            c = categorical(arrayfun(@obj.internalIndex2label, 1:obj.NumVars, ...
-                'UniformOutput', false));
-            otp.utils.FancyPlot.bar(ax, c, y, ...
-                'title', sprintf('%s at t=%g', obj.Name, t), ...
-                varargin{:});
-        end
-        
-        function fig = internalPlotPhaseSpace(obj, t, y, varargin)
+        function fig = internalPlotPhaseSpace(obj, ~, y, varargin)
             % Plots a selection of trajectories with respect to each other assuming t and y are valid
             
-            if isempty(varargin) || ischar(varargin{1})
-                if (obj.NumVars > 3)
-                    indices = 1:2;
-                else
-                    indices = 1:obj.NumVars;
-                end
-            else
-                indices = varargin{1};
-                
-                if ~isvector(indices) || length(indices) > 3
-                    error('The indices must be a vector with at most 3 components');
-                end
-                
-                varargin = varargin(2:end);
+            p = inputParser;
+            p.KeepUnmatched = true;
+            p.addParameter('Vars', 1:min(otp.utils.PhysicalConstants.ThreeD, obj.NumVars), @ismatrix);
+            p.parse(varargin{:});
+            vars = p.Results.Vars;
+            
+            [numLines, dim] = size(vars);
+            if dim < otp.utils.PhysicalConstants.TwoD || dim > otp.utils.PhysicalConstants.ThreeD
+                error('Cannot plot a %dD phase space', dim);
             end
             
             fig = figure;
             ax = axes(fig);
             
-            switch length(indices)
-                case 1
-                    f = zeros(size(t));
-                    F = obj.Rhs.F;
-                    for i = 1:length(t)
-                        fFullCur = F(t(i), y(i, :));
-                        f(i) = fFullCur(indices);
-                    end
-                    
-                    label = obj.index2label(indices);
-                    otp.utils.FancyPlot.plot(ax, y(:, indices), f, ...
-                        'title', 'Phase Plane', ...
-                        'xlabel', label, ...
-                        'ylabel', sprintf('f(%s)', label), ...
-                        varargin{:});
-                case 2
-                    otp.utils.FancyPlot.plot(ax, y(:, indices(1)), y(:, indices(2)), ...
-                        'title', 'Phase Plane', ...
-                        'xlabel', obj.index2label(indices(1)), ...
-                        'ylabel', obj.index2label(indices(2)), ...
-                        varargin{:});
-                case 3
-                    otp.utils.FancyPlot.plot(ax, y(:, indices(1)), y(:, indices(2)), y(:, indices(3)), ...
-                        'title', 'Phase Space', ...
-                        'xlabel', obj.index2label(indices(1)), ...
-                        'ylabel', obj.index2label(indices(2)), ...
-                        'zlabel', obj.index2label(indices(3)), ...
-                        'view', [45, 45], ...
-                        varargin{:});
+            if numLines == 1
+                labels = arrayfun(@obj.internalIndex2label, vars, 'UniformOutput', false);
+                leg = {};
+            else
+                labels = cell(dim, 1);
+                leg = @(i) strjoin(arrayfun(@obj.internalIndex2label, vars(i, :), 'UniformOutput', false), ' vs ');
+            end
+            
+            if dim == otp.utils.PhysicalConstants.TwoD
+                otp.utils.FancyPlot.plot(ax, y(vars(:, 1), :).', y(vars(:, 2), :).', ...
+                    'title', sprintf('%s Phase Plane', obj.Name), ...
+                    'xlabel', labels{otp.utils.PhysicalConstants.OneD}, ...
+                    'ylabel', labels{otp.utils.PhysicalConstants.TwoD}, ...
+                    'legend', leg, ...
+                    p.Unmatched);
+            else
+                otp.utils.FancyPlot.plot(ax, y(vars(:, 1), :).', y(vars(:, 2), :).', y(vars(:, 3), :).', ...
+                    'title', sprintf('%s Phase Space', obj.Name), ...
+                    'xlabel', labels{otp.utils.PhysicalConstants.OneD}, ...
+                    'ylabel', labels{otp.utils.PhysicalConstants.TwoD}, ...
+                    'zlabel', labels{otp.utils.PhysicalConstants.ThreeD}, ...
+                    'legend', leg, ...
+                    'view', otp.utils.PhysicalConstants.ThreeD, ...
+                    p.Unmatched);
             end
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.TrajectoryMovie(obj.Name, @obj.index2label, varargin{:});
+            mov = otp.utils.movie.TrajectoryMovie('title', obj.Name, varargin{:});
             mov.record(t, y);
         end
         
@@ -254,7 +202,7 @@ classdef (Abstract) Problem < handle
         function sol = internalSolve(obj, varargin)
             p = inputParser;
             p.KeepUnmatched = true;
-            p.addParameter('Method', @ode15s);
+            p.addParameter('Method', @ode15s, @(m) isa(m, 'function_handle'));
             p.parse(varargin{:});
             
             options = obj.Rhs.odeset(p.Unmatched);
@@ -283,7 +231,7 @@ classdef (Abstract) Problem < handle
         function [t, y, params] = parseSolution(obj, sol, varargin)
             if isstruct(sol)
                 t = sol.x;
-                y = sol.y.';
+                y = sol.y;
                 params = varargin;
             else
                 t = sol;
@@ -293,18 +241,18 @@ classdef (Abstract) Problem < handle
             
             if ~(isvector(t) && isnumeric(t))
                 error('The times must be a vector of numbers');
-            end
-            if ~(ismatrix(y) && isnumeric(y))
+            elseif ~(ismatrix(y) && isnumeric(y))
                 error('The solution must be matrix of numbers');
             end
             
             steps = length(t);
             [m, n] = size(y);
             
-            if steps ~= m
+            if m == steps && n == obj.NumVars && m ~= n
+                y = y.';
+            elseif m ~= obj.NumVars
                 error('There are %d timesteps, but %d solution states', steps, m);
-            end
-            if obj.NumVars ~= n
+            elseif n ~= steps
                 error('Expected solution to have %d variables but has %d', obj.NumVars, n);
             end
         end

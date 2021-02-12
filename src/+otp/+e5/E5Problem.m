@@ -32,6 +32,10 @@ classdef E5Problem < otp.Problem
                 'xscale', 'log', 'yscale', 'log', varargin{:});
         end
         
+        function mov = internalMovie(obj, t, y, varargin)
+            mov = internalMovie@otp.Problem(obj, t, y, 'xscale', 'log', 'yscale', 'log', varargin{:});
+        end
+        
         function sol = internalSolve(obj, varargin)
             % Set tolerances due to the very small scales
             sol = internalSolve@otp.Problem(obj, 'AbsTol', 1e-50, 'RelTol', 1e-10, varargin{:});

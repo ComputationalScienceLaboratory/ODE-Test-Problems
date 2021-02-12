@@ -1,51 +1,49 @@
 classdef FileVideoRecorder < otp.utils.movie.recorder.VideoRecorder
     properties (SetAccess = immutable, GetAccess = private)
-        videoWriter
+        VideoWriter
     end
     
     methods
         function obj = FileVideoRecorder(v)
-            if nargin ~= 1
-                error('One argument expected');
-            elseif ischar(v)
-                obj.videoWriter = VideoWriter(v);
+            if ischar(v)
+                obj.VideoWriter = VideoWriter(v);
             elseif isa(v, 'VideoWriter')
-                obj.videoWriter = v;
+                obj.VideoWriter = v;
             else
                 error('Argument must be a string or a VideoWriter but is a %s', class(v));
             end
         end
         
         function frameRate = getFrameRate(obj)
-            frameRate = obj.videoWriter.FrameRate;
+            frameRate = obj.VideoWriter.FrameRate;
         end
         
         function setFrameRate(obj, newFrameRate)
-            obj.videoWriter.FrameRate = newFrameRate;
+            obj.VideoWriter.FrameRate = newFrameRate;
         end
         
         function frameCount = getFrameCount(obj)
-            frameCount = obj.videoWriter.FrameCount;
+            frameCount = obj.VideoWriter.FrameCount;
         end
         
         function duration = getDuration(obj)
-            duration = obj.videoWriter.Duration;
+            duration = obj.VideoWriter.Duration;
         end
         
         function start(obj, ~)
-            obj.videoWriter.open();
+            obj.VideoWriter.open();
         end
         
         function recordFrame(obj, fig)
-            obj.videoWriter.writeVideo(getframe(fig));
+            obj.VideoWriter.writeVideo(getframe(fig));
         end
         
         function stop(obj)
-            obj.videoWriter.close();
+            obj.VideoWriter.close();
         end
         
         function h = play(obj)
-            h = implay(fullfile(obj.videoWriter.Path, obj.videoWriter.Filename), obj.videoWriter.FrameRate);
+            h = implay(fullfile(obj.VideoWriter.Path, obj.VideoWriter.Filename), obj.VideoWriter.FrameRate);
         end
     end
 end

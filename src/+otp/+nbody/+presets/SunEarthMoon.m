@@ -3,7 +3,7 @@ classdef SunEarthMoon < otp.nbody.NBodyProblem
         function obj = SunEarthMoon()
             import otp.utils.PhysicalConstants
             
-            params.spacialDim = 2;
+            params.spatialDim = PhysicalConstants.TwoD;
             params.masses = [PhysicalConstants.SunMass; PhysicalConstants.EarthMass; PhysicalConstants.MoonMass] / 1e24;
             params.gravitationalConstant = PhysicalConstants.GravitationalConstant * 1e6 * PhysicalConstants.SecondsPerDay^2;
             params.softeningLength = 0;
