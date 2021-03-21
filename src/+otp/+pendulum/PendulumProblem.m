@@ -17,7 +17,7 @@ classdef PendulumProblem < otp.Problem
             obj@otp.Problem('Pendulum',[], timeSpan, y0, parameters);
         end
         
-        function [x, y] = convert2Polar(obj, y, includeOrigin)
+        function [x, y] = convert2Cartesian(obj, y, includeOrigin)
             angles = y(1:end/2, :);
             lengths = obj.Parameters.lengths(:);
             x = cumsum(lengths .* sin(angles));
