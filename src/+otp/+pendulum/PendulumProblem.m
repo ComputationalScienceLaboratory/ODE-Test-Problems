@@ -16,6 +16,19 @@ classdef PendulumProblem < otp.Problem
             % Constructs a problem
             obj@otp.Problem('Pendulum',[], timeSpan, y0, parameters);
         end
+        
+        function [x, y] = convert2Polar(obj, y, includeOrigin)
+            angles = y(1:end/2, :);
+            lengths = obj.Parameters.lengths(:);
+            x = cumsum(lengths .* sin(angles));
+            y = cumsum(-lengths .* cos(angles));
+            
+            if nargin > 2 && includeOrigin
+                z = zeros(1, size(y, 2));
+                x = [z; x];
+                y = [z; y];
+            end
+        end
     end
     
     methods (Access = protected)
@@ -46,7 +59,7 @@ classdef PendulumProblem < otp.Problem
             numPendulums = obj.NumVars/2;
             if index <= numPendulums
                 label = sprintf('\\theta_{%d}', numPendulums);
-            else 
+            else
                 label = sprintf('\\omega_{%d}', index - numPendulums);
             end
         end
@@ -56,12 +69,10 @@ classdef PendulumProblem < otp.Problem
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            angles = y(:, 1:obj.NumVars/2);
-            coords = [cumsum(sin(angles) * diag(obj.Parameters.lengths), 2), ...
-                cumsum(-cos(angles) * diag(obj.Parameters.lengths), 2)];
+            [x, y] = obj.convert2Polar(y, true);
             
-            mov = otp.pendulum.PendulumMovie(obj.Name, varargin{:});
-            mov.record(t, coords);
+            mov = otp.pendulum.PendulumMovie('Title', obj.Name, varargin{:});
+            mov.record(t, [x; y]);
         end
     end
 end

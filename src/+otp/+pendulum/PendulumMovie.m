@@ -1,32 +1,22 @@
-classdef PendulumMovie < otp.utils.movie.Movie
-    properties (SetAccess = immutable, GetAccess = private)
-        MovieTitle
-    end
-    
+classdef PendulumMovie < otp.utils.movie.FancyMovie
     methods
-        function obj = PendulumMovie(title, varargin)
-            obj@otp.utils.movie.Movie(varargin{:});
-            obj.MovieTitle = title;
+        function obj = PendulumMovie(varargin)
+            obj@otp.utils.movie.FancyMovie('xlabel', 'x', 'ylabel', 'y', 'linestyleorder', 'O-', ...
+                varargin{:});
         end
     end
     
     methods (Access = protected)
-        function init(~, fig, state)
-            ax = axes(fig);
-            ax.NextPlot = 'replaceChildren';
-            xlabel(ax, 'x');
-            ylabel(ax, 'y');
-            
-            b = max(abs(state.y), [], 'all');
-            otp.utils.FancyPlot.axisLimits(ax, 'xy', [-b, b]);
-            axis(ax, 'square');
+        function gObjects = initAxes(~, ax, state)
+            otp.utils.FancyPlot.axisLimits(ax, 'x', state.y(1:end/2, :));
+            otp.utils.FancyPlot.axisLimits(ax, 'y', state.y(end/2+1:end, :));
+            z = zeros(state.numVars / 2 + 1, 1);
+            gObjects = line(ax, z, z);
         end
         
-        function drawFrame(obj, fig, state)
-            ax = fig.CurrentAxes;
-            title(ax, sprintf('%s at t=%g', obj.MovieTitle, state.tCur));
-            plot(ax, [0, state.yCur(1:end/2)], [0, state.yCur((end/2+1):end)], 'O-');
+        function drawFrameAxes(~, ~, gObjects, state)
+            gObjects.XData = state.yCur(1:end/2);
+            gObjects.YData = state.yCur(end/2+1:end);
         end
     end
 end
-
