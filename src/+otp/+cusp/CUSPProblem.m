@@ -1,6 +1,10 @@
 classdef CUSPProblem < otp.Problem
     % See Hairer and Wanner, Solving ODEs II, p. 147
     
+    properties (Access = private, Constant)
+        VarNames = 'yab';
+    end
+    
     properties (SetAccess = private)
         RhsStiff
         RhsNonstiff
@@ -41,12 +45,35 @@ classdef CUSPProblem < otp.Problem
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, ...
-                newTimeSpan, newY0, newParameters)
+            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
             
             otp.utils.StructParser(newParameters) ...
                 .checkField('epsilon', 'finite', 'positive') ...
                 .checkField('sigma', 'finite', 'positive');
+        end
+        
+        function label = internalIndex2label(obj, index)
+            n = obj.Parameters.N;
+            label = sprintf('%c_{%d}', obj.VarNames(ceil(index / n)), mod(index - 1, n) + 1);
+        end
+        
+        function fig = internalPlotPhaseSpace(obj, t, y, varargin)
+            fig = internalPlotPhaseSpace@otp.Problem(obj, t, y, ...
+                'vars', reshape(1:obj.NumVars, [], otp.utils.PhysicalConstants.ThreeD), ...
+                'xlabel', obj.VarNames(1), ...
+                'ylabel', obj.VarNames(2), ...
+                'zlabel', obj.VarNames(3), ...
+                varargin{:});
+        end
+        
+        function mov = internalMovie(obj, t, y, varargin)
+            mov = otp.utils.movie.PhaseSpaceMovie('title', obj.Name, ...
+                'vars', reshape(1:obj.NumVars, [], otp.utils.PhysicalConstants.ThreeD), ...
+                'xlabel', obj.VarNames(1), ...
+                'ylabel', obj.VarNames(2), ...
+                'zlabel', obj.VarNames(3), ...
+                varargin{:});
+            mov.record(t, y);
         end
     end
 end

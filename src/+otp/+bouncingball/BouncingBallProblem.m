@@ -40,7 +40,7 @@ classdef BouncingBallProblem < otp.Problem
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.bouncingball.BouncingBallMovie(obj.Name, obj.Parameters.groundFunction, varargin{:});
+            mov = otp.bouncingball.BouncingBallMovie(obj.Parameters.groundFunction, 'Title', obj.Name, varargin{:});
             mov.record(t, y);
         end
         

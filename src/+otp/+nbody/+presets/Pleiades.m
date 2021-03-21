@@ -1,7 +1,7 @@
 classdef Pleiades < otp.nbody.NBodyProblem
     methods
         function obj = Pleiades()            
-            params.spacialDim = 2;
+            params.spatialDim = otp.utils.PhysicalConstants.TwoD;
             params.masses = 1:7;
             params.gravitationalConstant = 1;
             params.softeningLength = 0;

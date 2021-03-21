@@ -1,7 +1,7 @@
 classdef Orbit < otp.nbody.NBodyProblem
     methods
         function obj = Orbit()            
-            params.spacialDim = 2;
+            params.spatialDim = otp.utils.PhysicalConstants.TwoD;
             params.masses = [10; 10];
             params.gravitationalConstant = 1;
             params.softeningLength = 0;
