@@ -11,17 +11,21 @@ classdef PendulumProblem < otp.Problem
     %   the pendulum, and theta is the angle between the pendulum and
     %   y-axis.
     
+    properties (SetAccess = private)
+        RhsMass
+    end
+    
     methods
         function obj = PendulumProblem(timeSpan, y0, parameters)
             % Constructs a problem
-            obj@otp.Problem('Pendulum',[], timeSpan, y0, parameters);
+            obj@otp.Problem('Pendulum', [], timeSpan, y0, parameters);
         end
         
         function [x, y] = convert2Cartesian(obj, y, includeOrigin)
             angles = y(1:end/2, :);
             lengths = obj.Parameters.lengths(:);
-            x = cumsum(lengths .* sin(angles));
-            y = cumsum(-lengths .* cos(angles));
+            x = cumsum(lengths .* sin(angles), 1);
+            y = cumsum(-lengths .* cos(angles), 1);
             
             if nargin > 2 && includeOrigin
                 z = zeros(1, size(y, 2));
@@ -36,12 +40,21 @@ classdef PendulumProblem < otp.Problem
             g = obj.Parameters.g;
             lengths = obj.Parameters.lengths(:);
             masses = obj.Parameters.masses(:);
-            cumulativeMasses = cumsum(masses, 'reverse');
-            js = 1:min(numel(lengths), numel(masses));
-            scaledMasses = lengths(js) .* cumulativeMasses(max(js, js.')) .* lengths(js).';
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.pendulum.f(t, y, lengths, cumulativeMasses, g, scaledMasses),...
-                otp.Rhs.FieldNames.Jacobian, @(t,y) otp.pendulum.jac(t, y, lengths, cumulativeMasses, g, scaledMasses), ...
+            numBobs = min(numel(lengths), numel(masses));
+            lengths = lengths(1:numBobs);
+            masses = masses(1:numBobs);
+            cumulativeMasses = cumsum(masses, 'reverse');
+            
+            offDiagScaling = -1 ./ (lengths(1:end-1) .* lengths(2:end) .* masses(1:end-1));
+            cDiag = [1 / (lengths(1)^2 * masses(1)); (masses(1:end-1) + masses(2:end)) ./ (lengths(2:end).^2 .* masses(1:end-1) .* masses(2:end))];
+            
+            obj.Rhs = otp.Rhs(@(t, y) otp.pendulum.f(t, y, lengths, cumulativeMasses, g, offDiagScaling, cDiag));
+            
+            scaledMasses = lengths .* cumulativeMasses(max(1:numBobs, (1:numBobs).')) .* lengths.';
+            
+            obj.RhsMass = otp.Rhs(@(t, y) otp.pendulum.fmass(t, y, lengths, cumulativeMasses, g, scaledMasses),...
+                otp.Rhs.FieldNames.Jacobian, @(t,y) otp.pendulum.jacmass(t, y, lengths, cumulativeMasses, g, scaledMasses), ...
                 otp.Rhs.FieldNames.Mass, @(t,y) otp.pendulum.mass(t, y, lengths, cumulativeMasses, g, scaledMasses),...
                 otp.Rhs.FieldNames.MStateDependence, 'strong');
         end
@@ -69,7 +82,7 @@ classdef PendulumProblem < otp.Problem
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            [x, y] = obj.convert2Polar(y, true);
+            [x, y] = obj.convert2Cartesian(y, true);
             
             mov = otp.pendulum.PendulumMovie('Title', obj.Name, varargin{:});
             mov.record(t, [x; y]);

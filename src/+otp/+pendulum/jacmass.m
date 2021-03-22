@@ -1,4 +1,4 @@
-function jac = jac(~, y, lengths, cumulativeMasses, g, scaledMasses)
+function jac = jacmass(~, y, lengths, cumulativeMasses, g, scaledMasses)
 
 n = numel(lengths);
 angles = y(1:n);
