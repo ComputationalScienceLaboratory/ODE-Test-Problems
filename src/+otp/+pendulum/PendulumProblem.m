@@ -57,11 +57,11 @@ classdef PendulumProblem < otp.Problem
         end
         
         function label = internalIndex2label(obj, index)
-            numPendulums = obj.NumVars/2;
-            if index <= numPendulums
-                label = sprintf('\\theta_{%d}', numPendulums);
+            numBobs = obj.NumVars/2;
+            if index <= numBobs
+                label = sprintf('\\theta_{%d}', index);
             else
-                label = sprintf('\\omega_{%d}', index - numPendulums);
+                label = sprintf('\\omega_{%d}', index - numBobs);
             end
         end
         
