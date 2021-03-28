@@ -1,16 +1,4 @@
 classdef PendulumProblem < otp.Problem
-    % PendulumProblem A two-variable model for the trajectory of a pendulum
-    %
-    %
-    %   This system can be reduced to the following two equations
-    %
-    %   theta' = omega
-    %   omega' = -g/l * sin(theta)
-    %
-    %   where g is the gravitational constant, l is the length of
-    %   the pendulum, and theta is the angle between the pendulum and
-    %   y-axis.
-    
     properties (SetAccess = private)
         RhsMass
     end

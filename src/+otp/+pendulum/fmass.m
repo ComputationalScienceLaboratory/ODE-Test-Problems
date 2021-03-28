@@ -6,8 +6,5 @@ velocities = y(n+1: end);
 accelerations = -cumulativeMasses .* g .* lengths .* sin(angles) ...
     -(scaledMasses .* sin(angles - angles.')) * velocities.^2;
 
-dy = [
-    velocities;
-    accelerations
-    ];
+dy = [velocities; accelerations];
 end

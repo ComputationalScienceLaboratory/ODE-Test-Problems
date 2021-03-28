@@ -9,5 +9,3 @@ dAccelDAng = dAccelDAng - diag(sum(dAccelDAng, 2) + cumulativeMasses * g .* leng
 jac = [zeros(n), eye(n); dAccelDAng, dAccelDVel];
 
 end
-
-
