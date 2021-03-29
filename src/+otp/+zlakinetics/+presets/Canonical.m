@@ -1,4 +1,4 @@
-classdef Canonical < otp.zlakinetics.ZLAKineticsProblem
+classdef Canonical < otp.zlakinetics.ZlaKineticsProblem
     methods
         function obj = Canonical
             tspan = [0, 180];
@@ -13,7 +13,7 @@ classdef Canonical < otp.zlakinetics.ZLAKineticsProblem
             y0 = [0.444; 0.00123; 0; 0.007; 0; 0];
             y0(end) = params.Ks * y0(1) * y0(4);
             
-            obj = obj@otp.zlakinetics.ZLAKineticsProblem(tspan, y0, params);
+            obj = obj@otp.zlakinetics.ZlaKineticsProblem(tspan, y0, params);
         end
     end
 end
