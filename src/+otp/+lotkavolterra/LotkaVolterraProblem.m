@@ -17,7 +17,8 @@ classdef LotkaVolterraProblem < otp.Problem
             
             obj.Rhs = otp.Rhs(@(t, y) otp.lotkavolterra.f(t, y, preyBirthRate, preyDeathRate, predatorDeathRate, predatorBirthRate), ...
                 otp.Rhs.FieldNames.Jacobian, ...
-                @(t, y) otp.lotkavolterra.jac(t, y, preyBirthRate, preyDeathRate, predatorDeathRate, predatorBirthRate));
+                @(t, y) otp.lotkavolterra.jac(t, y, preyBirthRate, preyDeathRate, predatorDeathRate, predatorBirthRate), ...
+                otp.Rhs.FieldNames.Vectorized, 'on');
             
         end
         
