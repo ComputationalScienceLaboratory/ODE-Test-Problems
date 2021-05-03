@@ -29,5 +29,5 @@ options = odeset('Jacobian', problem.Rhs.Jacobian);
 problem.plotPhaseSpace(t, y, 'Title', 'The Circle of Life');
 
 % Create a movie and write to file
-mov = problem.movie(t, y, 'Save', 'brusselator.avi');
+mov = problem.movie(t, y, 'Save', 'lotka-volterra.avi');
 ```
