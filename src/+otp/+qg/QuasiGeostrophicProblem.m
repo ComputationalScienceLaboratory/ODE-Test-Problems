@@ -125,15 +125,34 @@ classdef QuasiGeostrophicProblem < otp.Problem
             diffc = [1, 1];
             bc = 'DD';
             
-            % create laplacian
+            % create Laplacian
             L = otp.utils.pde.laplacian(n, domain, diffc, bc);
             Ddx = otp.utils.pde.Dd(n, xdomain, 1, 2, bc(1));
             Ddy = otp.utils.pde.Dd(n, ydomain, 2, 2, bc(2));
+            
+            % create the x and y Laplacians
+            Lx = otp.utils.pde.laplacian(nx, xdomain, 1, bc(1));
+            Ly = otp.utils.pde.laplacian(ny, ydomain, 1, bc(2));
             
             % do a Cholesky decomposition on the negative laplacian
             [RdnL, ~, PdnL] = chol(-L);
             RdnLT = RdnL.';
             PdnLT = PdnL.';
+            
+            % do decompositions for the eigenvalue sylvester method. see
+            %
+            % Kirsten, Gerhardus Petrus. Comparison of methods for solving Sylvester systems. Stellenbosch University, 2018.
+            %
+            % for a detailed method, the "Eigenvalue Method" which makes this
+            % particularly efficient
+            
+            nfLx = -full(Lx);
+            nfLy = -full(Ly);
+            [P1, Lambda] = eig(nfLx);
+            [P2, D] = eig(nfLy);
+            L12 = 1./(diag(Lambda) + diag(D).');
+            P1T = P1.';
+            P2T = P2.';
             
             ys = linspace(ydomain(1), ydomain(end), ny + 2);
             ys = ys(2:end-1);
@@ -143,7 +162,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             F = sin(pi*(ymat - 1));
             
             obj.Rhs = otp.Rhs(@(t, psi) ...
-                otp.qg.f(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, F, Re, Ro), ...
+                otp.qg.f(psi, L, P1, P1T, P2, P2T, L12, Ddx, Ddy, F, Re, Ro), ...
                 ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @(t, psi, u) ...
                 otp.qg.jvp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro), ...
