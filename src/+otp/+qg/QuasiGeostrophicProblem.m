@@ -130,6 +130,9 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Ddx = otp.utils.pde.Dd(n, xdomain, 1, 2, bc(1));
             Ddy = otp.utils.pde.Dd(n, ydomain, 2, 2, bc(2));
             
+            Dx = otp.utils.pde.Dd(nx, xdomain, 1, 1, bc(1));
+            Dy = otp.utils.pde.Dd(ny, ydomain, 1, 1, bc(2));
+            
             % create the x and y Laplacians
             Lx = otp.utils.pde.laplacian(nx, xdomain, 1, bc(1));
             Ly = otp.utils.pde.laplacian(ny, ydomain, 1, bc(2));
@@ -158,11 +161,12 @@ classdef QuasiGeostrophicProblem < otp.Problem
             ys = ys(2:end-1);
             
             ymat = repmat(ys.', 1, nx);
-            ymat = reshape(ymat.', prod(n), 1);
-            F = sin(pi*(ymat - 1));
+            %ymat = reshape(ymat.', prod(n), 1);
+            %F = sin(pi*(ymat - 1));
+            F = sin(pi*(ymat.' - 1));
             
             obj.Rhs = otp.Rhs(@(t, psi) ...
-                otp.qg.f(psi, L, P1, P1T, P2, P2T, L12, Ddx, Ddy, F, Re, Ro), ...
+                otp.qg.f(psi, Lx, Ly, P1, P1T, P2, P2T, L12, Dx, Dy, F, Re, Ro), ...
                 ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @(t, psi, u) ...
                 otp.qg.jvp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro), ...
@@ -188,7 +192,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
                 filter = obj.Parameters.filter;
             end
             
-            Fbar = filter(F);
+            Fbar = filter(reshape(F, nx*ny, 1));
             obj.RhsAD = otp.Rhs(@(t, psi) ...
                     otp.qg.fAD(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, Fbar, Re, Ro, filter, passes));
             
