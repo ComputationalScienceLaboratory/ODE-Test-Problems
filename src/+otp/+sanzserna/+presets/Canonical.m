@@ -1,11 +1,12 @@
 classdef Canonical < otp.sanzserna.SanzSernaProblem
     methods
-        function obj = Canonical(m)
+        function obj = Canonical(numGridCells)
             if nargin < 1
-                m = 32;
+                numGridCells = 32;
             end
-            x = linspace(1/m + 1, 2, m).';
-            obj = obj@otp.sanzserna.SanzSernaProblem([0, 1], x, struct);
+            
+            y0 = linspace(1/numGridCells + 1, 2, numGridCells).';
+            obj = obj@otp.sanzserna.SanzSernaProblem([0, 1], y0, struct);
         end
     end
 end
