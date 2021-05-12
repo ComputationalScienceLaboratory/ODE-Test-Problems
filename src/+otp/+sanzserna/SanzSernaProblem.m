@@ -4,6 +4,11 @@ classdef SanzSernaProblem < otp.Problem
     % applied to evolutionary problems in partial differential equations. Numerische Mathematik, 50(4), 405–418.
     % https://doi.org/10.1007/BF01396661
     
+    properties (SetAccess = private)
+        RhsLinear
+        RhsForcing
+    end
+    
     methods
         function obj = SanzSernaProblem(timeSpan, y0, parameters)
             obj@otp.Problem('Sanz-Serna', [], timeSpan, y0, parameters);
@@ -21,6 +26,11 @@ classdef SanzSernaProblem < otp.Problem
             obj.Rhs = otp.Rhs(@(t, y) otp.sanzserna.f(t, y, D, x), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.sanzserna.jac(t, y, D, x), ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @(t, y, v) otp.sanzserna.jvp(t, y, v, D, x));
+            
+            obj.RhsLinear = otp.Rhs(@(t, y) otp.sanzserna.flinear(t, y, D, x), ...
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.sanzserna.jaclinear(t, y, D, x));
+            obj.RhsForcing = otp.Rhs(@(t, y) otp.sanzserna.fforcing(t, y, D, x), ...
+                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.sanzserna.jacforcing(t, y, D, x));
         end
         
         function sol = internalSolve(obj, varargin)
