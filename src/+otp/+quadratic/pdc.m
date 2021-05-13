@@ -1,4 +1,4 @@
-function jC = jacparC(~, y, ~, ~, C)
+function jC = pdc(~, y, ~, ~, C)
 
 r = size(C, 1);
 
