@@ -1,6 +1,6 @@
 function J = jacforcing(~, y, ~, ~)
 
-numVars = length(y);
+numVars = size(y, 1);
 J = sparse(numVars, numVars);
 
 end

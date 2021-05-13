@@ -1,10 +1,10 @@
 function dy = fforcing(t, y, ~, x)
 
-hIn = length(y);
+hInv = size(y, 1);
 
 dy = (t - x) / (1 + t)^2;
 
-dy(1) = dy(1) + (hIn / (1 + t));
+dy(1) = dy(1) + (hInv / (1 + t));
 
 end
 
