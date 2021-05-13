@@ -1,9 +1,5 @@
 classdef QuadraticProblem < otp.Problem
     
-    properties
-        RhsClosure
-    end
-    
     methods
         function obj = QuadraticProblem(timeSpan, y0, parameters)
             obj@otp.Problem('Quadratic Problem', [], timeSpan, y0, parameters);
@@ -21,8 +17,6 @@ classdef QuadraticProblem < otp.Problem
                 'PartialDerivativea',  @(t, x) otp.quadratic.pda(t, x, a, B, C), ...
                 'PartialDerivativeB',  @(t, x) otp.quadratic.pdb(t, x, a, B, C), ...
                 'PartialDerivativeC',  @(t, x) otp.quadratic.pdc(t, x, a, B, C));
-            
-            obj.RhsClosure = otp.Rhs(@(t, x, Btilde) otp.quadratic.fclosureB(t, x, a, B, C, Btilde));
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
