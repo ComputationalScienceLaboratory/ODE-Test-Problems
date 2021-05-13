@@ -1,4 +1,4 @@
-function du = fdiffusion(~, u, epsilon, L)
+function du = fdiffusion(~, u, ~, L)
 
 n = size(u, 1)/3;
 
