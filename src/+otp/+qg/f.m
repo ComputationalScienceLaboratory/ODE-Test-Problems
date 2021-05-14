@@ -1,4 +1,4 @@
-function dpsit = f(psi, Lx, Ly, P1, P1T, P2, P2T, L12, Dx, Dy, F, Re, Ro)
+function dpsit = f(psi, Lx, Ly, P1, P1T, P2, P2T, L12, Dx, DyT, F, Re, Ro)
 
 [nx, ny] = size(L12);
 
@@ -9,14 +9,14 @@ q = -(Lx*psi + psi*Ly);
 
 % calculate Arakawa
 dpsix = Dx*psi;
-dpsiy = psi*Dy;
+dpsiy = psi*DyT;
 
 dqx = Dx*q;
-dqy = q*Dy;
+dqy = q*DyT;
 
 J1 = dpsix.*dqy     - dpsiy.*dqx;
-J2 = Dx*(psi.*dqy) - (psi.*dqx)*Dy;
-J3 = (q.*dpsix)*Dy - Dx*(q.*dpsiy);
+J2 = Dx*(psi.*dqy) - (psi.*dqx)*DyT;
+J3 = (q.*dpsix)*DyT - Dx*(q.*dpsiy);
 
 mJ = (J1 + J2 + J3)/3;
 

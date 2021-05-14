@@ -116,7 +116,8 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             n = [nx, ny];
             
-            h = 1/(nx + 1);
+            hx = 1/(nx + 1);
+            hy = 1/(ny + 1);
             
             xdomain = [0, 1];
             ydomain = [0, 2];
@@ -131,7 +132,9 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Ddy = otp.utils.pde.Dd(n, ydomain, 2, 2, bc(2));
             
             Dx = otp.utils.pde.Dd(nx, xdomain, 1, 1, bc(1));
-            Dy = otp.utils.pde.Dd(ny, ydomain, 1, 1, bc(2));
+            
+            % The transpose here is important
+            DyT = otp.utils.pde.Dd(ny, ydomain, 1, 1, bc(2)).';
             
             % create the x and y Laplacians
             Lx = otp.utils.pde.laplacian(nx, xdomain, 1, bc(1));
@@ -153,6 +156,13 @@ classdef QuasiGeostrophicProblem < otp.Problem
             nfLy = -full(Ly);
             [P1, Lambda] = eig(nfLx);
             [P2, D] = eig(nfLy);
+            
+            % We can represent the eigenvalues as
+            dLambda = (4/(hx^2) * (sin(pi*(1:nx)/(2*(nx + 1))).^2)).';
+            dD = (4/(hy^2) * (sin(pi*(1:ny)/(2*(ny + 1))).^2)).';
+
+            
+            
             L12 = 1./(diag(Lambda) + diag(D).');
             P1T = P1.';
             P2T = P2.';
@@ -166,7 +176,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             F = sin(pi*(ymat.' - 1));
             
             obj.Rhs = otp.Rhs(@(t, psi) ...
-                otp.qg.f(psi, Lx, Ly, P1, P1T, P2, P2T, L12, Dx, Dy, F, Re, Ro), ...
+                otp.qg.f(psi, Lx, Ly, P1, P1T, P2, P2T, L12, Dx, DyT, F, Re, Ro), ...
                 ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @(t, psi, u) ...
                 otp.qg.jvp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro), ...
@@ -180,7 +190,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
 
             % AD LES
-            fmat = speye(prod(n)) - ((lambda*h)^2)*L;
+            fmat = speye(prod(n)) - ((lambda*hx)^2)*L;
             
             [Rfmat, ~, Pfmat] = chol(fmat);
             RfmatT = Rfmat.';
@@ -194,9 +204,8 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             Fbar = filter(reshape(F, nx*ny, 1));
             obj.RhsAD = otp.Rhs(@(t, psi) ...
-                    otp.qg.fAD(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, Fbar, Re, Ro, filter, passes));
-            
-            
+                   otp.qg.fAD(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, Fbar, Re, Ro, filter, passes));
+
             %% Distance function, and flow velocity
             obj.DistanceFunction = @(t, y, i, j) otp.qg.distfn(t, y, i, j, nx, ny);
             
