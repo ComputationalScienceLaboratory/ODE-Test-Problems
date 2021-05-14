@@ -1,4 +1,4 @@
-function j = jacdiffusion(~, u, epsilon, L)
+function j = jacdiffusion(~, ~, ~, L)
 
 j = blkdiag(L, L, L);
 
