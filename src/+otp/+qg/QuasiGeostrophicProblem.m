@@ -158,8 +158,11 @@ classdef QuasiGeostrophicProblem < otp.Problem
             [P2, D] = eig(nfLy);
             
             % We can represent the eigenvalues as
-            dLambda = (4/(hx^2) * (sin(pi*(1:nx)/(2*(nx + 1))).^2)).';
-            dD = (4/(hy^2) * (sin(pi*(1:ny)/(2*(ny + 1))).^2)).';
+            %dLambda = (4/(hx^2) * (sin(pi*(1:nx)/(2*(nx + 1))).^2)).';
+            %dD = (4/(hy^2) * (sin(pi*(1:ny)/(2*(ny + 1))).^2)).';
+            %L12 = 1./(dLambda + dD.');
+            %P1 = sqrt(2/(nx + 1))*sin((1:nx).'*(1:nx)*pi/(nx + 1));
+            %P2 = sqrt(2/(ny + 1))*sin((1:ny).'*(1:ny)*pi/(ny + 1));
 
             
             
