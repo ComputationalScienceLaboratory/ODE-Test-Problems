@@ -121,11 +121,11 @@ classdef (Abstract) Problem < handle
             if length(newTimeSpan) ~= 2
                 error('TimeSpan must be a vector of two times');
             elseif ~(isnumeric(newTimeSpan) || all(isSymType(newY0,'number')))
-                error('TimeSpan must be numeric');
+                error('TimeSpan must be numeric or symbolic number');
             elseif ~iscolumn(newY0)
                 error('Y0 must be a column vector');
             elseif ~((isnumeric(newY0) || all(isSymType(newY0,'number')) ) && all(isfinite(newY0)))
-                error('Y0 must be a dinite numeric or symbolic number');
+                error('Y0 must be a finite numeric or symbolic number');
             elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
                 error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
             elseif ~isstruct(newParameters)
