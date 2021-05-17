@@ -120,8 +120,8 @@ classdef (Abstract) Problem < handle
             % Ensures the TimeSpan, Y0, and Parameters are valid
             if length(newTimeSpan) ~= 2
                 error('TimeSpan must be a vector of two times');
-            elseif ~isnumeric(newTimeSpan)
-                error('TimeSpan must be numeric');
+            elseif ~( isnumeric(newTimeSpan) || all(isSymType(newTimeSpan,'number')))
+                error('TimeSpan must be numeric or symbolic ');
             elseif ~iscolumn(newY0)
                 error('Y0 must be a column vector');
             elseif ~( (isnumeric(newY0) || all(isSymType(newY0,'number')) ) && all(isfinite(newY0)) ) 
