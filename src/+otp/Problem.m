@@ -125,7 +125,7 @@ classdef (Abstract) Problem < handle
             elseif ~iscolumn(newY0)
                 error('Y0 must be a column vector');
             elseif ~(isnumeric(newY0) || isa(newY0, 'sym'))
-                error('Y0 must be a numeric');
+                error('Y0 must be numeric');
             elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
                 error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
             elseif ~isstruct(newParameters)
