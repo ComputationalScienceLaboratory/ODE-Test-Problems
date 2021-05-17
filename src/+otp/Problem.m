@@ -124,7 +124,7 @@ classdef (Abstract) Problem < handle
                 error('TimeSpan must be numeric');
             elseif ~iscolumn(newY0)
                 error('Y0 must be a column vector');
-            elseif ~( (isnumeric(newY0) || all(isSymType(newY0,'number')) ) && all(isfinite(newY0)) ) 
+            elseif ~( (isnumeric(newY0) || all(isSymType(newY0,'number')) ) && all(isfinite(newY0)) )
                 error('Y0 must be numeric or symbolic and finite');
             elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
                 error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));

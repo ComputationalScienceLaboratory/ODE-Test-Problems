@@ -27,8 +27,8 @@ classdef VanderpolProblem < otp.Problem
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
             validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
             
-             otp.utils.StructParser(newParameters) ...
-                 .checkField('epsilon', 'scalar', 'real', 'finite', 'nonnegative');
+            otp.utils.StructParser(newParameters) ...
+                .checkField('epsilon', 'scalar', 'real', 'finite', 'nonnegative');
         end
     end
 end
