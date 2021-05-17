@@ -121,7 +121,7 @@ classdef (Abstract) Problem < handle
             if length(newTimeSpan) ~= 2
                 error('TimeSpan must be a vector of two times');
             elseif ~( isnumeric(newTimeSpan) || all(isSymType(newTimeSpan,'number')))
-                error('TimeSpan must be numeric or symbolic ');
+                error('TimeSpan must be numeric');
             elseif ~iscolumn(newY0)
                 error('Y0 must be a column vector');
             elseif ~( (isnumeric(newY0) || all(isSymType(newY0,'number')) ) && all(isfinite(newY0)) ) 
