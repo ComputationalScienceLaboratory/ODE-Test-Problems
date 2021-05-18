@@ -1,4 +1,4 @@
-function jB = jacparB(~, y, ~, B, ~)
+function jB = pdb(~, y, ~, B, ~)
 
 r = size(B, 1);
 

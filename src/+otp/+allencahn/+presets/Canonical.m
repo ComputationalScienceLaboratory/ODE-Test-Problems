@@ -4,11 +4,11 @@ classdef Canonical < otp.allencahn.AllenCahnProblem
         function obj = Canonical(varargin)
             
             p = inputParser;
-            addParameter(p, 'Size', 150, @isscalar);
-            addParameter(p, 'alpha', 0.1, @isnumeric);
-            addParameter(p, 'beta', 1, @isnumeric);                        
+            p.addParameter('Size', 150, @isscalar);
+            p.addParameter('alpha', 0.1);
+            p.addParameter('beta', 1);                        
 
-            parse(p, varargin{:});
+            p.parse(varargin{:});
             
             s = p.Results;
             

@@ -28,8 +28,8 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
             
             p = inputParser;
             p.KeepUnmatched = true;
-            addParameter(p, 'Partitions', (mod(N, 4) == 0)*4 + (mod(N, 4) ~= 0)*1, @(x) mod(N, x) == 0);
-            parse(p, pu);
+            p.addParameter('Partitions', (mod(N, 4) == 0)*4 + (mod(N, 4) ~= 0)*1, @(x) mod(N, x) == 0);
+            p.parse(pu);
             
             s = p.Results;
             

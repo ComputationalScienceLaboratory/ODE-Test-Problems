@@ -46,6 +46,8 @@ classdef (Sealed) StructParser
                     isValid = all(isfinite(x), 'all');
                 case 'integer'
                     isValid = isreal(x) && all(floor(x) == x, 'all');
+                case 'vector'
+                    isValid = isvector(x);
                 case 'matrix'
                     isValid = ismatrix(x);
                 case '3-tensor'
