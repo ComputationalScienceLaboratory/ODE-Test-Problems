@@ -120,12 +120,12 @@ classdef (Abstract) Problem < handle
             % Ensures the TimeSpan, Y0, and Parameters are valid
             if length(newTimeSpan) ~= 2
                 error('TimeSpan must be a vector of two times');
-            elseif ~isnumeric(newTimeSpan)
+            elseif ~(isnumeric(newTimeSpan) || isa(newTimeSpan, 'sym'))
                 error('TimeSpan must be numeric');
             elseif ~iscolumn(newY0)
                 error('Y0 must be a column vector');
-            elseif ~(isnumeric(newY0) && all(isfinite(newY0)))
-                error('Y0 must be numeric and finite');
+            elseif ~(isnumeric(newY0) || isa(newY0, 'sym'))
+                error('Y0 must be numeric');
             elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
                 error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
             elseif ~isstruct(newParameters)
