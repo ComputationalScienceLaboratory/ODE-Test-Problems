@@ -43,8 +43,7 @@ classdef PendulumProblem < otp.Problem
             
             obj.RhsMass = otp.Rhs(@(t, y) otp.pendulum.fmass(t, y, lengths, cumulativeMasses, g, scaledMasses),...
                 otp.Rhs.FieldNames.Jacobian, @(t,y) otp.pendulum.jacmass(t, y, lengths, cumulativeMasses, g, scaledMasses), ...
-                otp.Rhs.FieldNames.Mass, @(t,y) otp.pendulum.mass(t, y, lengths, cumulativeMasses, g, scaledMasses),...
-                otp.Rhs.FieldNames.MStateDependence, 'strong');
+                otp.Rhs.FieldNames.Mass, @(t,y) otp.pendulum.mass(t, y, lengths, cumulativeMasses, g, scaledMasses));
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
