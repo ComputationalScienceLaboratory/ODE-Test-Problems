@@ -8,6 +8,7 @@ classdef ExtendedPrecision < otp.vanderpol.VanderpolProblem
             cls = class(epsilon);
             
             coeffs = [ ...
+                % Express large fractions using numbers that fit into a double
                 cast(199944165973, cls) / cast(3486784401, cls) * cast(7499951716, cls) / cast(4782969, cls), ...
                 cast(-1532057748884056, cls) / cast(617673396283947, cls) * cast(4765, cls), ...
                 cast(336712727619991, cls) / cast(22876792454961, cls) * cast(116, cls), ...
@@ -22,6 +23,7 @@ classdef ExtendedPrecision < otp.vanderpol.VanderpolProblem
                 cast(-2, cls) / cast(3, cls)];
             z0 = 0;
             for c = coeffs
+                % Use Horner's method to compute epsilon expansion
                 z0 = epsilon * z0 + c;
             end
             
