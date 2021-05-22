@@ -46,7 +46,7 @@ classdef (Sealed) FancyPlot
             end
         end
         
-        function limits = axisLimits(ax, dir, data, padding)
+        function axisLimits(ax, dir, data, padding)
             if nargin < 4
                 padding = 0.05;
             end
@@ -62,7 +62,9 @@ classdef (Sealed) FancyPlot
                     limits = [yMin / p, yMax * p];
             end
             
-            set(ax, strcat(dir, 'lim'), limits);
+            if yMin ~= yMax
+                set(ax, strcat(dir, 'lim'), limits);
+            end
         end
     end
     

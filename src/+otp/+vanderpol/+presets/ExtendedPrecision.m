@@ -1,0 +1,39 @@
+classdef ExtendedPrecision < otp.vanderpol.VanderpolProblem
+    methods
+        function obj = ExtendedPrecision(epsilon)
+            if nargin < 1
+                epsilon = 1e-6;
+            end
+            
+            cls = class(epsilon);
+            
+            coeffs = [ ...
+                % Express large fractions using numbers that fit into a double
+                cast(199944165973, cls) / cast(3486784401, cls) * cast(7499951716, cls) / cast(4782969, cls), ...
+                cast(-1532057748884056, cls) / cast(617673396283947, cls) * cast(4765, cls), ...
+                cast(336712727619991, cls) / cast(22876792454961, cls) * cast(116, cls), ...
+                cast(-231923508930412, cls) / cast(847288609443, cls), ...
+                cast(515714746118, cls) / cast(10460353203, cls), ...
+                cast(-3927188888, cls) / cast(387420489, cls), ...
+                cast(34896076, cls) / cast(14348907, cls), ...
+                cast(-1121308, cls) / cast(1594323, cls), ...
+                cast(15266, cls) / cast(59049, cls), ...
+                cast(-292, cls) / cast(2187, cls), ...
+                cast(10, cls) / cast(81, cls), ...
+                cast(-2, cls) / cast(3, cls)];
+            z0 = 0;
+            for c = coeffs
+                % Use Horner's method to compute epsilon expansion
+                z0 = epsilon * z0 + c;
+            end
+            
+            y0 = [2; z0];
+            tspan = [0, 0.5];            
+            
+            params.epsilon = epsilon;
+            obj = obj@otp.vanderpol.VanderpolProblem(tspan, y0, params);
+            
+        end
+    end
+end
+

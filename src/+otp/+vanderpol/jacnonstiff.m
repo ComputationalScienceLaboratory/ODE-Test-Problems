@@ -1,4 +1,4 @@
-function J = jacnonstiff(~, ~, ~)
+function J = jacnonstiff(~)
 
 J = [0, 1; 0, 0];
 

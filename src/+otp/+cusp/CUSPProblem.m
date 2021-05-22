@@ -38,7 +38,7 @@ classdef CUSPProblem < otp.Problem
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacnonstiff(t, y, epsilon, L));
               
             obj.RhsDiffusion = otp.Rhs(@(t, y) otp.cusp.fdiffusion(t, y, epsilon, L), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacdiffusion(t, y, epsilon, L));
+                otp.Rhs.FieldNames.Jacobian, otp.cusp.jacdiffusion(epsilon, L));
               
             obj.RhsReaction = otp.Rhs(@(t, y) otp.cusp.freaction(t, y, epsilon, L), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacreaction(t, y, epsilon, L));

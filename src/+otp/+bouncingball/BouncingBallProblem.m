@@ -8,12 +8,12 @@ classdef BouncingBallProblem < otp.Problem
     methods (Access = protected)
         function onSettingsChanged(obj)
             g   = obj.Parameters.g;
-            gF  = obj.Parameters.groundFunction;
-            dgF = obj.Parameters.dgroundFunction;
+            ground  = obj.Parameters.ground;
+            slope = obj.Parameters.groundSlope;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.bouncingball.f(t, y, g, gF, dgF), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.bouncingball.jac(t, y, g, gF, dgF), ...
-                otp.Rhs.FieldNames.Events, @(t, y) otp.bouncingball.events(t, y, g, gF, dgF), ...
+            obj.Rhs = otp.Rhs(@(t, y) otp.bouncingball.f(t, y, g, ground, slope), ...
+                otp.Rhs.FieldNames.Jacobian, otp.bouncingball.jac(g, ground, slope), ...
+                otp.Rhs.FieldNames.Events, @(t, y) otp.bouncingball.events(t, y, g, ground, slope), ...
                 otp.Rhs.FieldNames.OnEvent, @otp.bouncingball.onevent);
         end
         
@@ -22,8 +22,8 @@ classdef BouncingBallProblem < otp.Problem
             
             otp.utils.StructParser(newParameters) ...
                 .checkField('g', 'scalar', 'finite') ...
-                .checkField('groundFunction', 'function') ...
-                .checkField('dgroundFunction', 'function');
+                .checkField('ground', 'function') ...
+                .checkField('groundSlope', 'function');
         end
         
         function label = internalIndex2label(~, index)
@@ -40,7 +40,7 @@ classdef BouncingBallProblem < otp.Problem
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.bouncingball.BouncingBallMovie(obj.Parameters.groundFunction, 'Title', obj.Name, varargin{:});
+            mov = otp.bouncingball.BouncingBallMovie(obj.Parameters.ground, 'Title', obj.Name, varargin{:});
             mov.record(t, y);
         end
         

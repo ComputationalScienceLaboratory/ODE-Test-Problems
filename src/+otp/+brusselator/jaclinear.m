@@ -1,4 +1,4 @@
-function jac = jaclinear(~, ~, ~, b)
+function jac = jaclinear(~, b)
 
 jac = [-1 - b, 0; b, 0];
 

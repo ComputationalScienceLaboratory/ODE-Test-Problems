@@ -5,12 +5,12 @@ classdef Canonical < otp.cusp.CUSPProblem
         function obj = Canonical(varargin)
             
             p = inputParser;
-            addParameter(p, 'Size', 32, @isscalar);
-            addParameter(p, 'epsilon', 1e-4, @isnumeric);
-            addParameter(p, 'sigma', 1/144, @isnumeric);
+            p.addParameter('Size', 32, @isscalar);
+            p.addParameter('epsilon', 1e-4);
+            p.addParameter('sigma', 1/144);
                         
 
-            parse(p, varargin{:});
+            p.parse(varargin{:});
             
             s = p.Results;
             

@@ -120,12 +120,12 @@ classdef (Abstract) Problem < handle
             % Ensures the TimeSpan, Y0, and Parameters are valid
             if length(newTimeSpan) ~= 2
                 error('TimeSpan must be a vector of two times');
-            elseif ~isnumeric(newTimeSpan)
+            elseif ~(isnumeric(newTimeSpan) || isa(newTimeSpan, 'sym'))
                 error('TimeSpan must be numeric');
             elseif ~iscolumn(newY0)
                 error('Y0 must be a column vector');
-            elseif ~(isnumeric(newY0) && all(isfinite(newY0)))
-                error('Y0 must be numeric and finite');
+            elseif ~(isnumeric(newY0) || isa(newY0, 'sym'))
+                error('Y0 must be numeric');
             elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
                 error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
             elseif ~isstruct(newParameters)
@@ -202,10 +202,13 @@ classdef (Abstract) Problem < handle
         function sol = internalSolve(obj, varargin)
             p = inputParser;
             p.KeepUnmatched = true;
+            % Filter name-value pairs not passed to odeset
             p.addParameter('Method', @ode15s, @(m) isa(m, 'function_handle'));
             p.parse(varargin{:});
             
-            options = obj.Rhs.odeset(p.Unmatched);
+            % odeset is case sensitive for structs so convert unmatched parameters to a cell array
+            unmatched = namedargs2cell(p.Unmatched);
+            options = obj.Rhs.odeset(unmatched{:});
             
             sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
             

@@ -21,7 +21,7 @@ classdef VanderpolProblem < otp.Problem
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.vanderpol.jacstiff(t, y, epsilon));
             
             obj.RhsNonstiff = otp.Rhs(@(t, y) otp.vanderpol.fnonstiff(t, y, epsilon), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.vanderpol.jacnonstiff(t, y, epsilon));
+                otp.Rhs.FieldNames.Jacobian, otp.vanderpol.jacnonstiff(epsilon));
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
