@@ -12,7 +12,7 @@ classdef ProtheroRobinsonProblem < otp.Problem
             dphi = obj.Parameters.dphi;
             
             obj.Rhs = otp.Rhs(@(t, y) otp.protherorobinson.f(t, y, lambda, phi, dphi), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.protherorobinson.jac(t, y, lambda, phi, dphi));
+                otp.Rhs.FieldNames.Jacobian, otp.protherorobinson.jac(lambda, phi, dphi));
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)

@@ -1,4 +1,4 @@
-function j = jac(~, ~, lambda, ~, ~)
+function j = jac(lambda, ~, ~)
 
 j = lambda;
 

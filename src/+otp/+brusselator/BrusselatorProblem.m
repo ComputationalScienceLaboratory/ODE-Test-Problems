@@ -42,7 +42,7 @@ classdef BrusselatorProblem < otp.Problem
                 otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @(t, y, x) otp.brusselator.javp(t, y, x, a, b));
             
             obj.RhsLinear = otp.Rhs(@(t, y) otp.brusselator.flinear(t, y, a, b), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.brusselator.jaclinear(t, y, a, b));
+                otp.Rhs.FieldNames.Jacobian, otp.brusselator.jaclinear(a, b));
             
             obj.RhsNonlinear = otp.Rhs(@(t, y) otp.brusselator.fnonlinear(t, y, a, b), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.brusselator.jacnonlinear(t, y, a, b));
