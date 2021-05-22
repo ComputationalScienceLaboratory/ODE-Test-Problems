@@ -35,12 +35,10 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
             
             q = s.Partitions;
             
-            sixHours = 0.05;
-            day      = sixHours * 4;
-            numDays  = 5;
-            omega    = 2 * pi/(day * numDays);
+            fiveDays = 1;
+            omega    = 2 * pi/(fiveDays);
             
-            F = @(t) 8 + 4*cos(omega*(t + mod((1:40) - 1, q)/q)).';
+            F = @(t) 8 + 4*cos(omega*(t + mod((1:N) - 1, q)/q)).';
             
             params.forcingFunction = F;            
             
@@ -48,9 +46,9 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
             
             y0 = 8*ones(N, 1);
             
-            y0(20) = 8.008;
+            y0(floor(N/2)) = 8.008;
             
-            tspan = [0, sixHours]; % 6 hours
+            tspan = [0, 720]; % 3600 days
             
             obj = obj@otp.lorenz96.Lorenz96Problem(tspan, y0, params);
             
