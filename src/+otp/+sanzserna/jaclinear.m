@@ -1,4 +1,4 @@
-function D = jaclinear(~, ~, D, ~)
+function D = jaclinear(D, ~)
 
 end
 

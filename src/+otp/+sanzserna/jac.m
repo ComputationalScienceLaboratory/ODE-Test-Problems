@@ -1,4 +1,4 @@
-function D = jac(~, ~, D, ~)
+function D = jac(D, ~)
 
 end
 
