@@ -1,4 +1,4 @@
-function dpsit = f(psi, Lx, Ly, P1, P1T, P2, P2T, L12, Dx, DyT, F, Re, Ro)
+function dpsit = f(psi, Lx, Ly, P1, P2, L12, Dx, DyT, F, Re, Ro)
 
 [nx, ny] = size(L12);
 
@@ -24,7 +24,7 @@ mJ = (J1 + J2 + J3)/3;
 dqtmq = mJ + (1/Ro)*(dpsix) + (1/Ro)*F;
 
 % solve the sylvester equation
-nLidqtmq = P1*(L12.*(P1T*dqtmq*P2))*P2T;
+nLidqtmq = P1*(L12.*(P1*dqtmq*P2))*P2;
 
 % solve into stream form of the rhs
 dpsit = reshape(nLidqtmq - (1/Re)*(q), nx*ny, 1);

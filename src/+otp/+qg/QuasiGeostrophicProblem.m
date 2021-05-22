@@ -117,7 +117,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             n = [nx, ny];
             
             hx = 1/(nx + 1);
-            hy = 1/(ny + 1);
+            hy = 2/(ny + 1);
             
             xdomain = [0, 1];
             ydomain = [0, 2];
@@ -152,23 +152,22 @@ classdef QuasiGeostrophicProblem < otp.Problem
             % for a detailed method, the "Eigenvalue Method" which makes this
             % particularly efficient
             
-            nfLx = -full(Lx);
-            nfLy = -full(Ly);
-            [P1, Lambda] = eig(nfLx);
-            [P2, D] = eig(nfLy);
+            %nfLx = -full(Lx);
+            %nfLy = -full(Ly);
+            %[P1, Lambda] = eig(nfLx);
+            %[P2, D] = eig(nfLy);
             
             % We can represent the eigenvalues as
-            %dLambda = (4/(hx^2) * (sin(pi*(1:nx)/(2*(nx + 1))).^2)).';
-            %dD = (4/(hy^2) * (sin(pi*(1:ny)/(2*(ny + 1))).^2)).';
-            %L12 = 1./(dLambda + dD.');
-            %P1 = sqrt(2/(nx + 1))*sin((1:nx).'*(1:nx)*pi/(nx + 1));
-            %P2 = sqrt(2/(ny + 1))*sin((1:ny).'*(1:ny)*pi/(ny + 1));
+            dLambda = (4/(hx^2) * (sin(pi*(1:nx)/(2*(nx + 1))).^2)).';
+            dD = (4/(hy^2) * (sin(pi*(1:ny)/(2*(ny + 1))).^2)).';
+            L12 = 1./(dLambda + dD.');
+            P1 = sqrt(2/(nx + 1))*sin((1:nx).'*(1:nx)*pi/(nx + 1));
+            P2 = sqrt(2/(ny + 1))*sin((1:ny).'*(1:ny)*pi/(ny + 1));
 
-            
-            
-            L12 = 1./(diag(Lambda) + diag(D).');
-            P1T = P1.';
-            P2T = P2.';
+
+            %L12 = 1./(diag(Lambda) + diag(D).');
+            %P1T = P1.';
+            %P2T = P2.';
             
             ys = linspace(ydomain(1), ydomain(end), ny + 2);
             ys = ys(2:end-1);
@@ -179,7 +178,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             F = sin(pi*(ymat.' - 1));
             
             obj.Rhs = otp.Rhs(@(t, psi) ...
-                otp.qg.f(psi, Lx, Ly, P1, P1T, P2, P2T, L12, Dx, DyT, F, Re, Ro), ...
+                otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DyT, F, Re, Ro), ...
                 ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @(t, psi, u) ...
                 otp.qg.jvp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro), ...
