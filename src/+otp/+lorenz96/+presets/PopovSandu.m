@@ -15,26 +15,16 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
         function obj = PopovSandu(varargin)
             
             p = inputParser;
-            p.KeepUnmatched = true;
             addParameter(p, 'Size', 40, @isscalar);
+            addParameter(p, 'Partitions', 4, @isscalar);
 
             parse(p, varargin{:});
             
             s = p.Results;
             
             N = s.Size;
-            
-            pu = p.Unmatched;
-            
-            p = inputParser;
-            p.KeepUnmatched = true;
-            p.addParameter('Partitions', (mod(N, 4) == 0)*4 + (mod(N, 4) ~= 0)*1, @(x) mod(N, x) == 0);
-            p.parse(pu);
-            
-            s = p.Results;
-            
             q = s.Partitions;
-            
+
             fiveDays = 1;
             omega    = 2 * pi/(fiveDays);
             
