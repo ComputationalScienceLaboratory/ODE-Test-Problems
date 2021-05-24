@@ -1,16 +1,7 @@
 classdef PopovSandu < otp.lorenz96.Lorenz96Problem
-    % [Name]
-    %  Time-dependent Forcing
-    %
-    % [Description]
-    %  Used in (Popov and Sandu, 2019)
-    %
-    % [NoVars]
-    %  40
-    %
-    % [Properties]
-    %  Chaotic
-    %
+    
+    % Used in https://doi.org/10.5194/npg-26-109-2019
+    
     methods
         function obj = PopovSandu(varargin)
             
