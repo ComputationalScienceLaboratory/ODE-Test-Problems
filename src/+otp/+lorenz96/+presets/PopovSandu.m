@@ -6,20 +6,20 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
         function obj = PopovSandu(varargin)
             
             p = inputParser;
-            addParameter(p, 'Size', 40, @isscalar);
-            addParameter(p, 'Partitions', 4, @isscalar);
+            
+            p.addParameter('Size', 40, @isscalar);
+            p.addParameter('Partitions', 4, @isscalar);
+            p.addParameter('ForcingPeriod', 1, @isscalar); % default corresponds to 5 days
 
-            parse(p, varargin{:});
+            p.parse(varargin{:});
             
             s = p.Results;
             
             N = s.Size;
             q = s.Partitions;
-
-            fiveDays = 1;
-            omega    = 2 * pi/(fiveDays);
-            
-            F = @(t) 8 + 4*cos(omega*(t + mod((1:N) - 1, q)/q)).';
+            omega = s.ForcingPeriod;
+           
+            F = @(t) 8 + 4*cos(2*pi*omega*(t + mod((1:N) - 1, q)/q)).';
             
             params.forcingFunction = F;            
             
