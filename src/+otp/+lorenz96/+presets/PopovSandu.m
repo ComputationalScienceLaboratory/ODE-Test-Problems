@@ -19,7 +19,7 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
             q = s.Partitions;
             omega = s.ForcingPeriod;
            
-            F = @(t) 8 + 4*cos(2*pi*omega*(t + mod((1:N) - 1, q)/q)).';
+            F = @(t) 8 + 4*cospi(2*omega*(t + mod((1:N) - 1, q)/q)).';
             
             params.forcingFunction = F;            
             
