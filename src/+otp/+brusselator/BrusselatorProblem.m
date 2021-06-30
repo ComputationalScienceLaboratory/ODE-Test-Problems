@@ -33,8 +33,8 @@ classdef BrusselatorProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            a = obj.Parameters.a;
-            b = obj.Parameters.b;
+            a = obj.Parameters.ReactionRateA;
+            b = obj.Parameters.ReactionRateB;
             
             obj.Rhs = otp.Rhs(@(t, y) otp.brusselator.f(t, y, a, b), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.brusselator.jac(t, y, a, b), ...
@@ -46,14 +46,6 @@ classdef BrusselatorProblem < otp.Problem
             
             obj.RhsNonlinear = otp.Rhs(@(t, y) otp.brusselator.fnonlinear(t, y, a, b), ...
                 otp.Rhs.FieldNames.Jacobian, @(t, y) otp.brusselator.jacnonlinear(t, y, a, b));
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('a', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('b', 'scalar', 'real', 'finite', 'positive');
         end
         
         function label = internalIndex2label(~, index)

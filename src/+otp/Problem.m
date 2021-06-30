@@ -1,19 +1,15 @@
 classdef (Abstract) Problem < handle
     
     properties (SetAccess = immutable)
-        Name % A human-readable representation of the problem
-    end
-    
-    properties (SetAccess = immutable, GetAccess = private)
-        ExpectedNumVars
+        Name(1, :) char % A human-readable representation of the problem
     end
     
     properties (SetAccess = protected)
-        Rhs
+        Rhs otp.Rhs
     end
     
     properties (Access = private)
-        Settings
+        Settings otp.ProblemSettings
     end
     
     properties (Dependent)
@@ -27,47 +23,46 @@ classdef (Abstract) Problem < handle
         function obj = Problem(name, expectedNumVars, timeSpan, y0, parameters)
             % Constructs a problem
             
-            % Switch to class parameter validation when better supported
-            if ~ischar(name) || isempty(name)
-                error('The problem name must be a nonempty character array');
-            end
             obj.Name = name;
-            obj.ExpectedNumVars = expectedNumVars;
-            obj.Settings = struct('timeSpan', timeSpan(:), 'y0', y0, 'parameters', parameters);
+            obj.Settings = otp.ProblemSettings(expectedNumVars, timeSpan(:), y0, parameters);
         end
         
         function set.TimeSpan(obj, value)
-            obj.Settings.timeSpan = value(:);
+            obj.Settings.TimeSpan = value;
         end
         
         function timeSpan = get.TimeSpan(obj)
-            timeSpan = obj.Settings.timeSpan;
+            timeSpan = obj.Settings.TimeSpan;
         end
         
         function set.Y0(obj, value)
-            obj.Settings.y0 = value;
+            obj.Settings.Y0 = value;
         end
         
         function y0 = get.Y0(obj)
-            y0 = obj.Settings.y0;
+            y0 = obj.Settings.Y0;
         end
         
         function set.Parameters(obj, value)
-            obj.Settings.parameters = value;
+            obj.Settings.Parameters = value;
         end
         
         function parameters = get.Parameters(obj)
-            parameters = obj.Settings.parameters;
+            parameters = obj.Settings.Parameters;
         end
         
         function set.Settings(obj, value)
-            obj.validateNewState(value.timeSpan, value.y0, value.parameters);
+            expNumVars = value.ExpectedNumVars;
+            if ~(isempty(expNumVars) || length(value.Y0) == expNumVars)
+                error('Expected Y0 to have %d components but has %d', expNumVars, length(value.Y0));
+            end
+            obj.validateNewState(value.TimeSpan, value.Y0, value.Parameters);
             obj.Settings = value;
             obj.onSettingsChanged();
         end
         
         function dimension = get.NumVars(obj)
-            dimension = length(obj.Settings.y0);
+            dimension = length(obj.Settings.Y0);
         end
     end
     
@@ -116,21 +111,8 @@ classdef (Abstract) Problem < handle
     end
     
     methods (Access = protected)
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
+        function validateNewState(~, ~, ~, ~)
             % Ensures the TimeSpan, Y0, and Parameters are valid
-            if length(newTimeSpan) ~= 2
-                error('TimeSpan must be a vector of two times');
-            elseif ~(isnumeric(newTimeSpan) || isa(newTimeSpan, 'sym'))
-                error('TimeSpan must be numeric');
-            elseif ~iscolumn(newY0)
-                error('Y0 must be a column vector');
-            elseif ~(isnumeric(newY0) || isa(newY0, 'sym'))
-                error('Y0 must be numeric');
-            elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
-                error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
-            elseif ~isstruct(newParameters)
-                error('Parameters must be a struct');
-            end
         end
         
         function fig = internalPlot(obj, t, y, varargin)

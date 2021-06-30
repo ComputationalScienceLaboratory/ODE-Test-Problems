@@ -12,8 +12,9 @@ classdef Periodic < otp.brusselator.BrusselatorProblem
     %
     methods
         function obj = Periodic
-            params.a = 1;
-            params.b = 4.5;
+            params = otp.brusselator.BrusselatorParameters;
+            params.ReactionRateA = 1;
+            params.ReactionRateB = 4.5;
             
             y0 = [2; 1];
             tspan = [0 50];

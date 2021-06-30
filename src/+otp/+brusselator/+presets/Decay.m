@@ -12,8 +12,9 @@ classdef Decay < otp.brusselator.BrusselatorProblem
     %
     methods
         function obj = Decay
-            params.a = 1;
-            params.b = 1.7;
+            params = otp.brusselator.BrusselatorParameters;
+            params.ReactionRateA = 1;
+            params.ReactionRateB = 1.7;
             
             y0 = [1; 1];
             tspan = [0 75];

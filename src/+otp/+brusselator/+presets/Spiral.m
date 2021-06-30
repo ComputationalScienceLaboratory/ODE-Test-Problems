@@ -12,8 +12,9 @@ classdef Spiral < otp.brusselator.BrusselatorProblem
     %
     methods
         function obj = Spiral
-            params.a = 1;
-            params.b = 2;
+            params = otp.brusselator.BrusselatorParameters;
+            params.ReactionRateA = 1;
+            params.ReactionRateB = 2;
             
             y0 = [2; 1];
             tspan = [0 75];
