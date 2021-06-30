@@ -53,7 +53,7 @@ classdef (Abstract) Problem < handle
         
         function set.Settings(obj, value)
             expNumVars = value.ExpectedNumVars;
-            if ~(isempty(expNumVars) || length(value.Y0) == expNumVars)
+            if expNumVars > 0 && length(value.Y0) ~= expNumVars
                 error('Expected Y0 to have %d components but has %d', expNumVars, length(value.Y0));
             end
             obj.validateNewState(value.TimeSpan, value.Y0, value.Parameters);

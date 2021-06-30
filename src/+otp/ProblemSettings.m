@@ -1,8 +1,8 @@
 classdef (Hidden) ProblemSettings
     properties
-        ExpectedNumVars(1, 1) double {mustBeNonnegative}
-        TimeSpan(2, 1) {mustBeNumeric}
-        Y0(:, 1) {mustBeNumeric}
+        ExpectedNumVars(1, 1) {mustBeNonnegative}
+        TimeSpan(2, 1) {otp.utils.validation.mustBeNumericOrSym}
+        Y0(:, 1) {otp.utils.validation.mustBeNumericOrSym}
         Parameters(1, 1)
     end
     
