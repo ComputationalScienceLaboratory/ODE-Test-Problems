@@ -13,7 +13,6 @@ classdef QuasiGeostrophicProblem < otp.Problem
         DistanceFunction
         FlowVelocityMagnitude
         JacobianFlowVelocityMagnitudeVectorProduct
-        RhsAD
     end
     
     methods (Static)
@@ -110,10 +109,6 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Re = obj.Parameters.Re;
             Ro = obj.Parameters.Ro;
             
-            lambda = obj.Parameters.les.lambda;
-            passes = obj.Parameters.les.passes;
-            %dfiltertype = obj.Parameters.les.filtertype;
-            
             n = [nx, ny];
             
             hx = 1/(nx + 1);
@@ -122,12 +117,9 @@ classdef QuasiGeostrophicProblem < otp.Problem
             xdomain = [0, 1];
             ydomain = [0, 2];
             
-            domain = [0, 1; 0, 2];
-            diffc = [1, 1];
             bc = 'DD';
             
             % create Laplacian
-            L = otp.utils.pde.laplacian(n, domain, diffc, bc);
             Ddx = otp.utils.pde.Dd(n, xdomain, 1, 2, bc(1));
             Ddy = otp.utils.pde.Dd(n, ydomain, 2, 2, bc(2));
             
@@ -141,11 +133,6 @@ classdef QuasiGeostrophicProblem < otp.Problem
             % create the x and y Laplacians
             Lx = otp.utils.pde.laplacian(nx, xdomain, 1, bc(1));
             Ly = otp.utils.pde.laplacian(ny, ydomain, 1, bc(2));
-            
-            % do a Cholesky decomposition on the negative laplacian
-            [RdnL, ~, PdnL] = chol(-L);
-            RdnLT = RdnL.';
-            PdnLT = PdnL.';
             
             % Do decompositions for the eigenvalue sylvester method. See
             %
@@ -176,23 +163,6 @@ classdef QuasiGeostrophicProblem < otp.Problem
                 otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @(t, psi, v) ...
                 otp.qg.javp(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro));
             
-
-            % AD LES
-            fmat = speye(prod(n)) - ((lambda*hx)^2)*L;
-            
-            [Rfmat, ~, Pfmat] = chol(fmat);
-            RfmatT = Rfmat.';
-            PfmatT = Pfmat.';
-            
-            if ~isfield(obj.Parameters, 'filter') || isempty(obj.Parameters.filter)
-                filter = @(u) Pfmat*(Rfmat\(RfmatT\(PfmatT*u)));
-            else
-                filter = obj.Parameters.filter;
-            end
-            
-            Fbar = filter(reshape(F, nx*ny, 1));
-            obj.RhsAD = otp.Rhs(@(t, psi) ...
-                   otp.qg.fAD(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, Fbar, Re, Ro, filter, passes));
 
             %% Distance function, and flow velocity
             obj.DistanceFunction = @(t, y, i, j) otp.qg.distfn(t, y, i, j, nx, ny);
