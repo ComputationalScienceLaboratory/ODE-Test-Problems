@@ -119,10 +119,6 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             bc = 'DD';
             
-            % create Laplacian
-            Ddx = otp.utils.pde.Dd(n, xdomain, 1, 2, bc(1));
-            Ddy = otp.utils.pde.Dd(n, ydomain, 2, 2, bc(2));
-            
             % create the spatial derivatives
             Dx = otp.utils.pde.Dd(nx, xdomain, 1, 1, bc(1));
             DxT = Dx.';
@@ -167,9 +163,9 @@ classdef QuasiGeostrophicProblem < otp.Problem
             %% Distance function, and flow velocity
             obj.DistanceFunction = @(t, y, i, j) otp.qg.distfn(t, y, i, j, nx, ny);
             
-            obj.FlowVelocityMagnitude = @(psi) otp.qg.flowvelmag(psi, Ddx, Ddy);
+            obj.FlowVelocityMagnitude = @(psi) otp.qg.flowvelmag(psi, Dx, Dy);
             
-            obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacflowvelmagvp(psi, u, Ddx, Ddy);
+            obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacflowvelmagvp(psi, u, Dx, Dy);
             
         end
         
