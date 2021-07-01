@@ -147,20 +147,11 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             % do decompositions for the eigenvalue sylvester method. see
             %
-            % Kirsten, Gerhardus Petrus. Comparison of methods for solving Sylvester systems. Stellenbosch University, 2018.
+            %       Kirsten, Gerhardus Petrus. Comparison of methods for solving Sylvester systems. Stellenbosch University, 2018.
             %
             % for a detailed method, the "Eigenvalue Method" which makes this
             % particularly efficient
             
-            %nfLx = -full(Lx);
-            %nfLy = -full(Ly);
-            %[P1, Lambda] = eig(nfLx);
-            %[P2, D] = eig(nfLy);
-            
-            % We can represent the eigenvalues as
-            %dLambda = ((2*sinpi((1:nx)/(2*(nx + 1)))/hx).^2).';
-            %dD = ((2*sinpi((1:ny)/(2*(ny + 1)))/hy).^2).';
-            %L12 = 1./(dLambda + dD.');
             hx2 = hx^2;
             hy2 = hy^2;
             cx = (1:nx)/(nx + 1);
@@ -168,28 +159,21 @@ classdef QuasiGeostrophicProblem < otp.Problem
             L12 = -(hx2*hy2./(2*(-hx2 - hy2 + hy2*cospi(cx).' + hx2*cospi(cy))));
             P1 = sqrt(2/(nx + 1))*sinpi((1:nx).'*(1:nx)/(nx + 1));
             P2 = sqrt(2/(ny + 1))*sinpi((1:ny).'*(1:ny)/(ny + 1));
-
-
-            %L12 = 1./(diag(Lambda) + diag(D).');
-            %P1T = P1.';
-            %P2T = P2.';
             
             ys = linspace(ydomain(1), ydomain(end), ny + 2);
             ys = ys(2:end-1);
             
             ymat = repmat(ys.', 1, nx);
-            %ymat = reshape(ymat.', prod(n), 1);
-            %F = sin(pi*(ymat - 1));
             F = sin(pi*(ymat.' - 1));
             
             obj.Rhs = otp.Rhs(@(t, psi) ...
                 otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DyT, F, Re, Ro), ...
                 ...
-                otp.Rhs.FieldNames.JacobianVectorProduct, @(t, psi, u) ...
-                otp.qg.jvp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro), ...
+                otp.Rhs.FieldNames.JacobianVectorProduct, @(t, psi, v) ...
+                otp.qg.jvp(psi, v, Lx, Ly, P1, P2, L12, Dx, DyT, F, Re, Ro), ...
                 ...
-                otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @(t, psi, u) ...
-                otp.qg.javp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro));
+                otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @(t, psi, v) ...
+                otp.qg.javp(psi, v, L, RdnL, PdnL, Ddx, Ddy, Re, Ro));
             
 
             % AD LES

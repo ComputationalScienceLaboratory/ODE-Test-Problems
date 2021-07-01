@@ -1,9 +1,9 @@
-function jvp = jvp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro)
+function jvp = jvp(psi, v, Lx, Ly, P1, P2, L12, Dx, DyT, ~, Re, Ro)
 
 [nx, ny] = size(L12);
 
 psi = reshape(psi, nx, ny);
-u   = reshape(u,   nx, ny);
+v   = reshape(v,   nx, ny);
 
 % Calculate the vorticity
 q = -(Lx*psi + psi*Ly);
@@ -14,9 +14,9 @@ dpsiy = psi*DyT;
 dqx = Dx*q;
 dqy = q*DyT;
 
-nLu = -(Lx*u + u*Ly);
-Dxu = Dx*u;
-Dyu = u*DyT;
+nLu = -(Lx*v + v*Ly);
+Dxu = Dx*v;
+Dyu = v*DyT;
 
 DxnLu = Dx*nLu;
 DynLu = nLu*DyT;
@@ -25,8 +25,8 @@ DynLu = nLu*DyT;
 dJpsi1u = dpsix.*DynLu     + dqy.*Dxu ...
     - dpsiy.*DxnLu         - dqx.*Dyu;
 
-dJpsi2u = Dx*(psi.*DynLu)  + Dx*(dqy.*u) ...
-    - (psi.*DxnLu)*DyT     - (dqx.*u)*DyT;
+dJpsi2u = Dx*(psi.*DynLu)  + Dx*(dqy.*v) ...
+    - (psi.*DxnLu)*DyT     - (dqx.*v)*DyT;
 
 dJpsi3u = (dpsix.*nLu)*DyT + (q.*Dxu)*DyT ...
     - Dx*(dpsiy.*nLu)      - Dx*(q.*Dyu);
