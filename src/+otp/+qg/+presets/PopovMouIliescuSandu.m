@@ -2,7 +2,7 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
     methods
         function obj = PopovMouIliescuSandu(varargin)
             
-            defaultsize = 'medium';
+            defaultsize = 'huge';
 
             Re = 450;
             Ro = 0.0036;
