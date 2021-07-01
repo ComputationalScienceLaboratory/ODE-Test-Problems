@@ -1,4 +1,4 @@
-function jvp = jvp(psi, v, Lx, Ly, P1, P2, L12, Dx, DyT, ~, Re, Ro)
+function jvp = jvp(psi, v, Lx, Ly, P1, P2, L12, Dx, ~, ~, DyT, ~, Re, Ro)
 
 [nx, ny] = size(L12);
 
@@ -14,31 +14,31 @@ dpsiy = psi*DyT;
 dqx = Dx*q;
 dqy = q*DyT;
 
-nLu = -(Lx*v + v*Ly);
-Dxu = Dx*v;
-Dyu = v*DyT;
+nLv = -(Lx*v + v*Ly);
+Dxv = Dx*v;
+Dyv = v*DyT;
 
-DxnLu = Dx*nLu;
-DynLu = nLu*DyT;
+DxnLv = Dx*nLv;
+DynLv = nLv*DyT;
 
 % Arakawa approximation
-dJpsi1u = dpsix.*DynLu     + dqy.*Dxu ...
-    - dpsiy.*DxnLu         - dqx.*Dyu;
+dJpsi1v = dpsix.*DynLv     + dqy.*Dxv ...
+    - dpsiy.*DxnLv         - dqx.*Dyv;
 
-dJpsi2u = Dx*(psi.*DynLu)  + Dx*(dqy.*v) ...
-    - (psi.*DxnLu)*DyT     - (dqx.*v)*DyT;
+dJpsi2v = Dx*(psi.*DynLv)  + Dx*(dqy.*v) ...
+    - (psi.*DxnLv)*DyT     - (dqx.*v)*DyT;
 
-dJpsi3u = (dpsix.*nLu)*DyT + (q.*Dxu)*DyT ...
-    - Dx*(dpsiy.*nLu)      - Dx*(q.*Dyu);
+dJpsi3v = (dpsix.*nLv)*DyT + (q.*Dxv)*DyT ...
+    - Dx*(dpsiy.*nLv)      - Dx*(q.*Dyv);
 
-dJpsiu = -(dJpsi1u + dJpsi2u + dJpsi3u)/3;
+dJpsiv = -(dJpsi1v + dJpsi2v + dJpsi3v)/3;
 
-ddqtpsivp = -dJpsiu + (1/Ro)*Dxu;
+ddqtpsivp = -dJpsiv + (1/Ro)*Dxv;
 
 % solve the sylvester equation
 nLidqtmq = P1*(L12.*(P1*ddqtpsivp*P2))*P2;
 
 % solve into stream form of the Jacobian vp
-jvp = reshape(nLidqtmq - (1/Re)*(nLu), nx*ny, 1);
+jvp = reshape(nLidqtmq - (1/Re)*(nLv), nx*ny, 1);
 
 end

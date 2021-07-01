@@ -131,10 +131,12 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Ddx = otp.utils.pde.Dd(n, xdomain, 1, 2, bc(1));
             Ddy = otp.utils.pde.Dd(n, ydomain, 2, 2, bc(2));
             
+            % create the spatial derivatives
             Dx = otp.utils.pde.Dd(nx, xdomain, 1, 1, bc(1));
+            DxT = Dx.';
             
-            % The transpose here is important
-            DyT = otp.utils.pde.Dd(ny, ydomain, 1, 1, bc(2)).';
+            Dy  = otp.utils.pde.Dd(ny, ydomain, 1, 1, bc(2));
+            DyT = Dy.';
             
             % create the x and y Laplacians
             Lx = otp.utils.pde.laplacian(nx, xdomain, 1, bc(1));
@@ -145,12 +147,11 @@ classdef QuasiGeostrophicProblem < otp.Problem
             RdnLT = RdnL.';
             PdnLT = PdnL.';
             
-            % do decompositions for the eigenvalue sylvester method. see
+            % Do decompositions for the eigenvalue sylvester method. See
             %
             %       Kirsten, Gerhardus Petrus. Comparison of methods for solving Sylvester systems. Stellenbosch University, 2018.
             %
-            % for a detailed method, the "Eigenvalue Method" which makes this
-            % particularly efficient
+            % for a detailed method, the "Eigenvalue Method" which makes this particularly efficient.
             
             hx2 = hx^2;
             hy2 = hy^2;
@@ -167,13 +168,13 @@ classdef QuasiGeostrophicProblem < otp.Problem
             F = sin(pi*(ymat.' - 1));
             
             obj.Rhs = otp.Rhs(@(t, psi) ...
-                otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DyT, F, Re, Ro), ...
+                otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
                 ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, @(t, psi, v) ...
-                otp.qg.jvp(psi, v, Lx, Ly, P1, P2, L12, Dx, DyT, F, Re, Ro), ...
+                otp.qg.jvp(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
                 ...
                 otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @(t, psi, v) ...
-                otp.qg.javp(psi, v, L, RdnL, PdnL, Ddx, Ddy, Re, Ro));
+                otp.qg.javp(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro));
             
 
             % AD LES

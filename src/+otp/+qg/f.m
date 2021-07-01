@@ -1,4 +1,4 @@
-function dpsit = f(psi, Lx, Ly, P1, P2, L12, Dx, DyT, F, Re, Ro)
+function dpsit = f(psi, Lx, Ly, P1, P2, L12, Dx, ~, ~, DyT, F, Re, Ro)
 
 [nx, ny] = size(L12);
 
