@@ -9,7 +9,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
         end
     end
     
-    properties
+    properties (SetAccess = private)
         DistanceFunction
         FlowVelocityMagnitude
         JacobianFlowVelocityMagnitudeVectorProduct
