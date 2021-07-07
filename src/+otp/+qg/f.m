@@ -1,25 +1,32 @@
-function dpsit = f(psi, L, RdnL, RdnLT, PdnL, PdnLT, Ddx, Ddy, F, Re, Ro)
+function dpsit = f(psi, Lx, Ly, P1, P2, L12, Dx, ~, ~, DyT, F, Re, Ro)
+
+[nx, ny] = size(L12);
+
+psi = reshape(psi, nx, ny);
 
 % Calculate the vorticity
-q = -(L*psi);
+q = -(Lx*psi + psi*Ly);
 
 % calculate Arakawa
-dpsix = Ddx*psi;
-dpsiy = Ddy*psi;
+dpsix = Dx*psi;
+dpsiy = psi*DyT;
 
-dqx = Ddx*q;
-dqy = Ddy*q;
+dqx = Dx*q;
+dqy = q*DyT;
 
 J1 = dpsix.*dqy     - dpsiy.*dqx;
-J2 = Ddx*(psi.*dqy) - Ddy*(psi.*dqx);
-J3 = Ddy*(q.*dpsix) - Ddx*(q.*dpsiy);
+J2 = Dx*(psi.*dqy) - (psi.*dqx)*DyT;
+J3 = (q.*dpsix)*DyT - Dx*(q.*dpsiy);
 
 mJ = (J1 + J2 + J3)/3;
 
 % almost vorticity form of the rhs
 dqtmq = mJ + (1/Ro)*(dpsix) + (1/Ro)*F;
 
+% solve the sylvester equation
+nLidqtmq = P1*(L12.*(P1*dqtmq*P2))*P2;
+
 % solve into stream form of the rhs
-dpsit = PdnL*(RdnL\(RdnLT\(PdnLT*dqtmq))) - (1/Re)*(q);
+dpsit = reshape(nLidqtmq - (1/Re)*(q), nx*ny, 1);
 
 end

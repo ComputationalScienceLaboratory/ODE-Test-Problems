@@ -2,7 +2,6 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
     methods
         function obj = PopovMouIliescuSandu(varargin)
             
-            
             defaultsize = 'huge';
 
             Re = 450;
@@ -12,8 +11,6 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
             addParameter(p, 'ReynoldsNumber', Re);
             addParameter(p, 'RossbyNumber', Ro);
             addParameter(p, 'Size', defaultsize);
-            addParameter(p, 'ADLambda', 0.4);
-            addParameter(p, 'ADPasses', 4);
 
             parse(p, varargin{:});
             
@@ -21,13 +18,10 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
 
             [nx, ny] = otp.qg.QuasiGeostrophicProblem.name2size(s.Size);
             
-            les = struct('lambda', s.ADLambda, 'passes', s.ADPasses);
-
             params.nx = nx;
             params.ny = ny;
             params.Re = s.ReynoldsNumber;
             params.Ro = s.RossbyNumber;
-            params.les = les;
             
             %% Load initial conditions
             
