@@ -13,23 +13,22 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
     %  Chaotic
     %
     % [Citation]
-    %  (Lorenz & Emanuel 1998)
+    %  (Lorenz & Emanuel 1996)
     %
     methods
         function obj = Canonical(varargin)
 
             p = inputParser;
-            addParameter(p, 'Size', 40, @isscalar);
-            addParameter(p, 'Forcing', 8, @(x) isnumeric(x) || isa(x, 'function_handle'));
+            p.addParameter('Size', 40, @isscalar);
+            p.addParameter('Forcing', 8);
 
-            parse(p, varargin{:});
+            p.parse(varargin{:});
             
             s = p.Results;
             
             N = s.Size;
-            F = s.Forcing;
             
-            params.forcingFunction = F;
+            params.forcingFunction = s.Forcing;
             
             % We initialise the Lorenz96 model as in (Lorenz & Emanuel 1998)
             
@@ -37,7 +36,8 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             
             y0(floor(N/2)) = 8.008;
             
-            tspan = [0, 0.05]; % 6 hours
+            % roughly ten years in system time
+            tspan = [0, 720];
             
             obj = obj@otp.lorenz96.Lorenz96Problem(tspan, y0, params);
             

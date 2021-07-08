@@ -1,7 +1,7 @@
-classdef ZLAKineticsProblem < otp.Problem
+classdef ZlaKineticsProblem < otp.Problem
     methods
-        function obj = ZLAKineticsProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('ZLA Kinetics', 6, timeSpan, y0, parameters);
+        function obj = ZlaKineticsProblem(timeSpan, y0, parameters)
+            obj@otp.Problem('ZLA-Kinetics', 6, timeSpan, y0, parameters);
         end
     end
     

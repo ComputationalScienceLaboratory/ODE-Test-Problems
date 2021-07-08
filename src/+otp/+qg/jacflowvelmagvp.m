@@ -1,10 +1,20 @@
-function J = jacflowvelmagvp(psi, u, Ddx, Ddy)
+function J = jacflowvelmagvp(psi, v, Dx, Dy)
 
-m = sqrt((Ddx*psi).^2 + (Ddy*psi).^2);
+nx = size(Dx, 1);
+ny = size(Dy, 1);
 
-dpsix = Ddx*psi;
-dpsiy = Ddy*psi;
+N = size(v, 2);
 
-J = (1./m).*(dpsix.*(Ddx*u) + dpsiy.*(Ddy*u));
+psi = repmat(psi, 1, N);
+
+dpsix = reshape(Dx*reshape(psi, nx, []), nx, ny, []);
+dpsiy = permute(reshape(Dy*reshape(permute(reshape(psi, nx, ny, []), [2, 1, 3]), ny, []), ny, nx, []), [2, 1, 3]);
+
+dvx = reshape(Dx*reshape(v, nx, []), nx, ny, []);
+dvy = permute(reshape(Dy*reshape(permute(reshape(v, nx, ny, []), [2, 1, 3]), ny, []), ny, nx, []), [2, 1, 3]);
+
+m = sqrt((dpsix).^2 + (dpsiy).^2);
+
+J = reshape((1./m).*(dpsix.*(dvx) + dpsiy.*(dvy)), nx*ny, []);
 
 end

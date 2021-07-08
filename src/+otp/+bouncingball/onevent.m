@@ -5,22 +5,16 @@ function [isterminal, newProblem] = onevent(sol, problem)
 % horizontal plane, we then invert the y velocity, and transform
 % back.
 
-params = problem.Parameters;
-
-% get all the variables that we need.
-px = sol.ye(1, end);
-py = sol.ye(2, end);
-xVel = sol.ye(3, end);
-yVel = sol.ye(4, end);
+pos = sol.ye(1:2, end);
+vel = sol.ye(3:4, end);
 
 % Get the slope of the surface
-slope = params.dgroundFunction(px);
+slope = problem.Parameters.groundSlope(pos(1));
 
 % rotate into horizontal space, invert the y velocity, then rotate back into our normal space.
-xVelNew = ((1 - slope^2)*xVel + 2*slope*yVel)/(slope^2 + 1);
-yVelNew = (2*slope*xVel - (1 - slope^2)*yVel)/(slope^2 + 1);
+newVel = [1 - slope^2, 2*slope; 2*slope, slope^2 - 1] * vel / (slope^2 + 1);
 
 isterminal = false;
-newProblem = otp.bouncingball.BouncingBallProblem([sol.xe(end), problem.TimeSpan(end)], [px; py; xVelNew; yVelNew], params);
+newProblem = otp.bouncingball.BouncingBallProblem([sol.xe(end), problem.TimeSpan(end)], [pos; newVel], problem.Parameters);
 
 end

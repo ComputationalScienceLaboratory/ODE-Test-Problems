@@ -1,48 +1,37 @@
-classdef BouncingBallMovie < otp.utils.movie.Movie
+classdef BouncingBallMovie < otp.utils.movie.CometMovie
     properties (SetAccess = immutable, GetAccess = private)
-        MovieTitle
-        GroundFunction
-    end
-    
-    properties (Access = protected)
-        AnimatedLine
-        Head
+        Ground
     end
     
     methods
-        function obj = BouncingBallMovie(title, groundFunction, varargin)
-            obj@otp.utils.movie.Movie(varargin{:});
-            obj.MovieTitle = title;
-            obj.GroundFunction = groundFunction;
+        function obj = BouncingBallMovie(ground, varargin)
+            obj@otp.utils.movie.CometMovie(otp.utils.PhysicalConstants.TwoD, 'xlabel', 'x', 'ylabel', 'y', varargin{:});
+            obj.Ground = ground;
         end
     end
     
     methods (Access = protected)
-        function init(obj, fig, state)
-            ax = axes(fig);
-            xlabel(ax, 'x');
-            ylabel(ax, 'y');
+        function gObjects = initAxes(obj, ax, state)
+            gObjects = initAxes@otp.utils.movie.CometMovie(obj, ax, state);
             
-            xLim = otp.utils.FancyPlot.axisLimits('x', state.y(:, 1));
-            hold(ax, 'on');
+            otp.utils.FancyPlot.axisLimits(ax, 'x', state.y(1, :));            
+            groundX = linspace(ax.XLim(1), ax.XLim(2));
+            groundY = arrayfun(obj.Ground, groundX);
+            line(ax, groundX, groundY, 'Color', 'k', 'LineWidth', 1.5);
             
-            groundX = linspace(xLim(1), xLim(2), 1024).';
-            groundY = arrayfun(@(x) obj.GroundFunction(x), groundX);
-            plot(ax, groundX, groundY, 'k');
-            
-            otp.utils.FancyPlot.axisLimits('y', [state.y(:, 2); groundY]);
-            
-            color = otp.utils.FancyPlot.color(1);
-            obj.AnimatedLine = animatedline(ax, 'Color', otp.utils.FancyPlot.brighten(color, 0.9));
-            obj.Head = line(ax, 'Color', 'k', 'MarkerFaceColor', color, 'MarkerSize', 7, 'Marker', 'o', ...
-                'LineStyle', 'none', 'XData', 0, 'YData', 0);
-            hold(ax, 'off');
+            otp.utils.FancyPlot.axisLimits(ax, 'y', [state.y(2, :), groundY]);
         end
         
-        function drawFrame(obj, fig, state)
-            title(fig.CurrentAxes, sprintf('%s at t=%g', obj.MovieTitle, state.tCur));
-            obj.AnimatedLine.addpoints(state.y(state.stepRange, 1), state.y(state.stepRange, 2));
-            set(obj.Head, 'XData', state.yCur(1), 'YData', state.yCur(2));
+        function numComets = getNumComets(~, ~)
+            numComets = 1;
+        end
+        
+        function x = getXPoints(~, ~, state)
+            x = state.y(1, state.stepRange);
+        end
+        
+        function y = getYPoints(~, ~, state)
+            y = state.y(2, state.stepRange);
         end
     end
 end

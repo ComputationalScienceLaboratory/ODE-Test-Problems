@@ -1,39 +1,44 @@
-function Jacobianvp = jvp(psi, u, L, RdnL, PdnL, Ddx, Ddy, Re, Ro)
+function jvp = jvp(psi, v, Lx, Ly, P1, P2, L12, Dx, ~, ~, DyT, ~, Re, Ro)
 
-% supporting multiple mat-vecs at the same time
-N = size(u, 2);
-psi = repmat(psi, 1, N);
+[nx, ny] = size(L12);
 
-dpsix = Ddx*psi;
-dpsiy = Ddy*psi;
+psi = reshape(psi, nx, ny);
+v   = reshape(v,   nx, ny);
 
-q   = -L*psi;
-dqx = Ddx*q;
-dqy = Ddy*q;
+% Calculate the vorticity
+q = -(Lx*psi + psi*Ly);
 
-nLu   = -L*u;
-Ddxu = Ddx*u;
-Ddyu = Ddy*u;
+dpsix = Dx*psi;
+dpsiy = psi*DyT;
 
-DdxnLu = Ddx*nLu;
-DdynLu = Ddy*nLu;
+dqx = Dx*q;
+dqy = q*DyT;
+
+nLv = -(Lx*v + v*Ly);
+Dxv = Dx*v;
+Dyv = v*DyT;
+
+DxnLv = Dx*nLv;
+DynLv = nLv*DyT;
 
 % Arakawa approximation
-dJpsi1u = dpsix.*DdynLu     + dqy.*Ddxu ...
-    - dpsiy.*DdxnLu         - dqx.*Ddyu;
+dJpsi1v = dpsix.*DynLv     + dqy.*Dxv ...
+    - dpsiy.*DxnLv         - dqx.*Dyv;
 
-dJpsi2u = Ddx*(psi.*DdynLu) + Ddx*(dqy.*u) ...
-    - Ddy*(psi.*DdxnLu)     - Ddy*(dqx.*u);
+dJpsi2v = Dx*(psi.*DynLv)  + Dx*(dqy.*v) ...
+    - (psi.*DxnLv)*DyT     - (dqx.*v)*DyT;
 
-dJpsi3u = Ddy*(dpsix.*nLu)  + Ddy*(q.*Ddxu) ...
-    - Ddx*(dpsiy.*nLu)      - Ddx*(q.*Ddyu);
+dJpsi3v = (dpsix.*nLv)*DyT + (q.*Dxv)*DyT ...
+    - Dx*(dpsiy.*nLv)      - Dx*(q.*Dyv);
 
+dJpsiv = -(dJpsi1v + dJpsi2v + dJpsi3v)/3;
 
-dJpsiu = -(dJpsi1u + dJpsi2u + dJpsi3u)/3;
+ddqtpsivp = -dJpsiv + (1/Ro)*Dxv;
 
+% solve the sylvester equation
+nLidqtmq = P1*(L12.*(P1*ddqtpsivp*P2))*P2;
 
-ddqtpsivp = -dJpsiu + (1/Ro)*Ddxu + (1/Re)*(L*(nLu));
-
-Jacobianvp = PdnL*(RdnL\(RdnL'\(PdnL'*ddqtpsivp)));
+% solve into stream form of the Jacobian vp
+jvp = reshape(nLidqtmq - (1/Re)*(nLv), nx*ny, 1);
 
 end

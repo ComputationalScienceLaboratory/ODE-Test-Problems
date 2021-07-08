@@ -40,7 +40,8 @@ classdef Lorenz96Problem <  otp.Problem
                 otp.Rhs.FieldNames.HessianVectorProduct, ...
                 @(t, y, u, v) otp.lorenz96.hvp(t, y, u, v), ...
                 otp.Rhs.FieldNames.HessianAdjointVectorProduct, ...
-                @(t, y, u, v) otp.lorenz96.havp(t, y, u, v));
+                @(t, y, u, v) otp.lorenz96.havp(t, y, u, v), ...
+                otp.Rhs.FieldNames.Vectorized, 'on');
             
             % We also provide a canonical distance function as is standard for
             % localisation in Data Assimilation. This is heavily tied to this
@@ -54,7 +55,7 @@ classdef Lorenz96Problem <  otp.Problem
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.utils.movie.LineMovie(obj.Name, 'Variable Index', 'y', varargin{:});
+            mov = otp.utils.movie.LineMovie('title', obj.Name, varargin{:});
             mov.record(t, y);
         end
     end

@@ -4,11 +4,11 @@ classdef Canonical < otp.quadratic.QuadraticProblem
             tspan = [0, 10];
             
             p = inputParser;
-            addParameter(p, 'a', 0);
-            addParameter(p, 'B', 1);
-            addParameter(p, 'C', -1);
+            p.addParameter('a', 0);
+            p.addParameter('B', 1);
+            p.addParameter('C', -1);
 
-            parse(p, varargin{:});
+            p.parse(varargin{:});
             
             s = p.Results;
             

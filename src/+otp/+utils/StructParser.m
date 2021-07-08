@@ -39,13 +39,15 @@ classdef (Sealed) StructParser
         function isValid = validateFromString(~, x, validator)
             switch validator
                 case 'numeric'
-                    isValid = isnumeric(x);
+                    isValid = isnumeric(x) || isa(x, 'sym');
                 case 'real'
                     isValid = isreal(x);
                 case 'finite'
-                    isValid = all(isfinite(x));
+                    isValid = all(isfinite(x), 'all');
                 case 'integer'
-                    isValid = isreal(x) && all(floor(x) == x);
+                    isValid = isreal(x) && all(floor(x) == x, 'all');
+                case 'vector'
+                    isValid = isvector(x);
                 case 'matrix'
                     isValid = ismatrix(x);
                 case '3-tensor'
@@ -55,13 +57,13 @@ classdef (Sealed) StructParser
                 case 'scalar'
                     isValid = isscalar(x);
                 case 'positive'
-                    isValid = all(x > 0);
+                    isValid = all(x > 0, 'all');
                 case 'nonnegative'
-                    isValid = all(x >= 0);
+                    isValid = all(x >= 0, 'all');
                 case 'negative'
-                    isValid = all(x < 0);
+                    isValid = all(x < 0, 'all');
                 case 'nonpositive'
-                    isValid = all(x <= 0);
+                    isValid = all(x <= 0, 'all');
                 case 'row'
                     isValid = isrow(x);
                 case 'column'
