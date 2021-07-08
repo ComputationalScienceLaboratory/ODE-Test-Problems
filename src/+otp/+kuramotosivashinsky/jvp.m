@@ -1,5 +1,5 @@
-function jv = jvp(~, u, v, k, k2, k4)
+function jv = jvp(~, u, v, k, k24)
 
-jv = -k2.*v - k4.*v - k.*fft(real(ifft(u)).*ifft(v));
+jv = -k24.*v - k.*fft(real(ifft(u)).*ifft(v));
 
 end
