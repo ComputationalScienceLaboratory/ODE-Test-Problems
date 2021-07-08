@@ -36,7 +36,7 @@ classdef Canonical < otp.kuramotosivashinsky.KuramotoSivashinskyProblem
             % right boundary point
             x = linspace(h, L, N).';
             
-            u0 = cos(x/16).*(1+sin(x/16));
+            u0 = cospi(2*x/L).*(1+sinpi(2*x/L));
             
             u0hat = fft(u0);
 
