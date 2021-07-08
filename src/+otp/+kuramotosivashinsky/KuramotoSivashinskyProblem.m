@@ -7,13 +7,9 @@ classdef KuramotoSivashinskyProblem < otp.Problem
     end
     
     methods
-        function soly = convert2grid(soly)
+        function soly = convert2grid(~, soly)
             
-            if isstruct(soly)
-                soly.y = real(ifft(soly.y));
-            else
-                soly = real(ifft(soly.')).';
-            end
+            soly = real(ifft(soly));
             
         end
         
