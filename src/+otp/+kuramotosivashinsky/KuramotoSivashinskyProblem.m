@@ -24,6 +24,7 @@ classdef KuramotoSivashinskyProblem < otp.Problem
             
             div = L/(2*pi);
             
+            % note that k already has "i" in it
             k = (1i*[0:(N/2 - 1), 0, (-N/2 + 1):-1].'/div);
             k2 = k.^2;
             k4 = k.^4;
