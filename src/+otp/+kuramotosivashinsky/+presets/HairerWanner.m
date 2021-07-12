@@ -31,7 +31,7 @@ classdef HairerWanner < otp.kuramotosivashinsky.KuramotoSivashinskyProblem
             
             u0hat = fft(u0);
 
-            tspan = [0, 150];
+            tspan = [0, 100];
             
             obj = obj@otp.kuramotosivashinsky.KuramotoSivashinskyProblem(tspan, u0hat, params);
             
