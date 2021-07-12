@@ -4,7 +4,7 @@ classdef HairerWanner < otp.kuramotosivashinsky.KuramotoSivashinskyProblem
         function obj = HairerWanner(varargin)
             
             p = inputParser;
-            addParameter(p, 'Size', 128);
+            addParameter(p, 'Size', 1024);
             addParameter(p, 'L', 80*pi);
 
             parse(p, varargin{:});
