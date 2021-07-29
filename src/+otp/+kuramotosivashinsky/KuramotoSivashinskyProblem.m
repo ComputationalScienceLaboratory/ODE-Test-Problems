@@ -9,7 +9,7 @@ classdef KuramotoSivashinskyProblem < otp.Problem
     methods
         function soly = convert2grid(~, soly)
             
-            soly = real(ifft(soly));
+            soly = abs(ifft(soly));
             
         end
         
@@ -17,27 +17,19 @@ classdef KuramotoSivashinskyProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            
-            L = obj.Parameters.L;
-            
             N = obj.NumVars;
             
-            div = L/(2*pi);
+            k = 2 * pi * [0:(N/2 - 1), 0, (-N/2 + 1):-1].' / obj.Parameters.L;
+            ik = 1i * k;
+            k24 = k.^2 - k.^4;
             
-            % note that k already has "i" in it
-            k = (1i*[0:(N/2 - 1), 0, (-N/2 + 1):-1].'/div);
-            k2 = k.^2;
-            k4 = k.^4;
-            k24 = k2 + k4;
-
-            obj.Rhs = otp.Rhs(@(t, u) otp.kuramotosivashinsky.f(t, u, k, k24), ...
+            obj.Rhs = otp.Rhs(@(t, u) otp.kuramotosivashinsky.f(t, u, ik, k24), ...
                 otp.Rhs.FieldNames.Jacobian, ...
-                @(t, u) otp.kuramotosivashinsky.jac(t,u, k, k24), ...
+                @(t, u) otp.kuramotosivashinsky.jac(t,u, ik, k24), ...
                 otp.Rhs.FieldNames.JacobianVectorProduct, ...
-                @(t, u, v) otp.kuramotosivashinsky.jvp(t, u, v, k, k24), ...
+                @(t, u, v) otp.kuramotosivashinsky.jvp(t, u, v, ik, k24), ...
                 otp.Rhs.FieldNames.JacobianAdjointVectorProduct, ...
-                @(t, u, v) otp.kuramotosivashinsky.javp(t, u, v, k, k24));
-            
+                @(t, u, v) otp.kuramotosivashinsky.javp(t, u, v, ik, k24));
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)

@@ -5,8 +5,8 @@ classdef HairerWanner < otp.kuramotosivashinsky.KuramotoSivashinskyProblem
             
             p = inputParser;
             addParameter(p, 'Size', 1024);
-            addParameter(p, 'L', 80*pi);
-
+            addParameter(p, 'L', 80 * pi);
+            
             parse(p, varargin{:});
             
             s = p.Results;
@@ -16,21 +16,19 @@ classdef HairerWanner < otp.kuramotosivashinsky.KuramotoSivashinskyProblem
             
             params.L = L;
             
-            h = L/N;
-            
             % exclude the left boundary point as it is identical to the
             % right boundary point
-            x = linspace(h, L, N).';
+            x = linspace(L/N, L, N).';
             
             eta1 = min(x/L, 0.1 - x/L);
             eta2 = 20*(x/L - 0.2).*(0.3 - x/L);
             eta3 = min(x/L - 0.6, 0.7 - x/L);
             eta4 = min(x/L - 0.9, 1 - x/L);
             
-            u0 = 16*max(0, max(eta1, max(eta2, max(eta3, eta4))));
+            u0 = 16*max(0, max([eta1, eta2, eta3, eta4], [], 2));
             
             u0hat = fft(u0);
-
+            
             tspan = [0, 100];
             
             obj = obj@otp.kuramotosivashinsky.KuramotoSivashinskyProblem(tspan, u0hat, params);

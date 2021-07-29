@@ -1,7 +1,5 @@
-function ut = f(~, u, k, k24)
+function ut = f(~, u, ik, k24)
 
-u2 = fft(real(ifft(u)).^2);
-
-ut = -k24.*u - (k/2).*u2;
+ut = k24 .* u - (ik/2) .* fft(ifft(u).^2);
 
 end
