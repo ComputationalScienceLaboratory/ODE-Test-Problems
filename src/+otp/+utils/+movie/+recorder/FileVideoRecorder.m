@@ -1,5 +1,5 @@
 classdef FileVideoRecorder < otp.utils.movie.recorder.VideoRecorder
-    properties (SetAccess = immutable, GetAccess = private)
+    properties (Access = private)
         VideoWriter
     end
     

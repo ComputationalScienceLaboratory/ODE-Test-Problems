@@ -15,11 +15,6 @@ classdef PhaseSpaceMovie < otp.utils.movie.CometMovie
             obj@otp.utils.movie.CometMovie(size(vars, 2), p.Unmatched);
             obj.Vars = vars;
         end
-        
-        function configureAxes(obj, ax)
-            view(obj.Dim);
-            configureAxes@otp.utils.movie.FancyMovie(obj, ax);
-        end
     end
     
     methods (Access = protected)

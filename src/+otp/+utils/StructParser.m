@@ -1,7 +1,7 @@
 % Consider using validateattributes!!!
 classdef (Sealed) StructParser
     
-    properties (GetAccess = private, SetAccess = immutable)
+    properties (Access = private)
         Struct
     end
     

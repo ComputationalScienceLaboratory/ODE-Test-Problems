@@ -1,64 +1,52 @@
-classdef Rhs < dynamicprops
-    properties (SetAccess = immutable)
+classdef Rhs    
+    properties (SetAccess = private)
         F
-    end
-    
-    properties (Constant, Hidden)
-        FieldNames = struct( ...
-            ... % odeset fields
-            'NonNegative',                  'NonNegative', ...
-            'Jacobian',                     'Jacobian', ...
-            'JPattern',                     'JPattern', ...
-            'Vectorized',                   'Vectorized', ...
-            'Mass',                         'Mass', ...
-            'MStateDependence',             'MStateDependence', ...
-            'MvPattern',                    'MvPattern', ...
-            'MassSingular',                 'MassSingular', ...
-            'Events',                       'Events', ...
-            ... % other fields
-            'JacobianVectorProduct',        'JacobianVectorProduct', ...
-            'JacobianAdjointVectorProduct', 'JacobianAdjointVectorProduct', ...
-            'PartialDerivativeParameters',  'PartialDerivativeParameters', ...
-            'PartialDerivativeTime',        'PartialDerivativeTime', ...
-            'HessianVectorProduct',         'HessianVectorProduct', ...
-            'HessianAdjointVectorProduct',  'HessianAdjointVectorProduct', ...
-            'OnEvent',                      'OnEvent');
+        
+        Events
+        InitialSlope
+        Jacobian
+        JPattern
+        Mass
+        MassSingular
+        MStateDependence
+        MvPattern
+        NonNegative
+        Vectorized
+        
+        JacobianVectorProduct
+        JacobianAdjointVectorProduct
+        PartialDerivativeParameters
+        PartialDerivativeTime
+        HessianVectorProduct
+        HessianAdjointVectorProduct
+        OnEvent
     end
     
     methods
         function obj = Rhs(F, varargin)
-            if ~isa(F, 'function_handle')
-                error('The first argument must be a function');
-            end
-            
             obj.F = F;
+            extras = struct(varargin{:});
+            fields = fieldnames(extras);
             
-            if mod(length(varargin), 2) ~= 0
-                error('Uneven number of extra arguments');
-            end
-            
-            for i = 1:2:length(varargin)
-                name = varargin{i};
-                if ~ischar(name)
-                    error('All extra arguments must be name value pairs');
-                end
-                
-                prop = obj.addprop(name);
-                obj.(name) = varargin{i + 1};
-                prop.SetAccess = 'private';
-            end
-        end
-        
-        function s = struct(obj)
-            props = properties(obj);
-            s = struct();
-            for i = 1:length(props)
-                s.(props{i}) = obj.(props{i});
+            for i = 1:length(fields)
+                f = fields{i};
+                obj.(f) = extras.(f);
             end
         end
         
         function opts = odeset(obj, varargin)
-            opts = odeset(struct(obj), varargin{:});
+            opts = odeset( ...
+                'Events', obj.Events, ...
+                'InitialSlope', obj.InitialSlope, ...
+                'Jacobian', obj.Jacobian, ...
+                'JPattern', obj.JPattern, ...
+                'Mass', obj.Mass, ...
+                'MassSingular', obj.MassSingular, ...
+                'MStateDependence', obj.MStateDependence, ...
+                'MvPattern', obj.MvPattern, ...
+                'NonNegative', obj.NonNegative, ...
+                'Vectorized', obj.Vectorized, ...
+                varargin{:});
         end
     end
 end
