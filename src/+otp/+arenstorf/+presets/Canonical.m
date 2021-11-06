@@ -24,7 +24,8 @@ classdef Canonical < otp.arenstorf.ArenstorfProblem
             params.Mu = mu;
             
             cls = class(mu);
-                
+
+            % Decimals converted to rational to support multiple data types
             y0 = [cast(497, cls) / cast(500, cls); ...
                 cast(0, cls); ...
                 cast(0, cls); ...

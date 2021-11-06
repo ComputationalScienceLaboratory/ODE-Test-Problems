@@ -102,11 +102,11 @@ classdef (Abstract) Movie < handle
     
     methods (Access = protected)
         function init(obj, fig, state)
-            error('Abstract method init must be implemented by a subclass');
+            otp.utils.compatibility.abstract(obj, fig, state);
         end
         
         function drawFrame(obj, fig, state)
-            error('Abstract method drawFrame must be implemented by a subclass');
+            otp.utils.compatibility.abstract(obj, fig, state);
         end
     end
 end

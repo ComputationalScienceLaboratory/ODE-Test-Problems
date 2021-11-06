@@ -35,11 +35,11 @@ classdef (Abstract) FancyMovie < otp.utils.movie.Movie
     
     methods (Access = protected)
         function gObjects = initAxes(obj, ax, state)
-            error('Abstract method initAxes must be implemented by a subclass');
+            gObjects = otp.utils.compatibility.abstract(obj, ax, state);
         end
         
         function drawFrameAxes(obj, ax, gObjects, state)
-            error('Abstract method drawFrameAxes must be implemented by a subclass');
+            otp.utils.compatibility.abstract(obj, ax, gObjects, state);
         end
     end
 end

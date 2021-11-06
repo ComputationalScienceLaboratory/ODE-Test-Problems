@@ -114,7 +114,7 @@ classdef (Abstract) Problem < handle
     methods (Access = protected)
         % This method is called when either TimeSpan, Y0, or parameters are changed.  It should update F and other properties such as a Jacobian to reflect the changes.  This is effevtively an abstract function but not explicitly marked so in order to support Octave
         function onSettingsChanged(obj)
-            error('Abstract method onSettingsChnaged must be implemented by a subclass');
+            otp.utils.compatibility.abstract(obj);
         end
         
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
@@ -129,6 +129,8 @@ classdef (Abstract) Problem < handle
                 error('Y0 must be numeric');
             elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
                 error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
+            elseif isempty(newParameters)
+                error('Parameters cannot be empty');
             end
         end
         

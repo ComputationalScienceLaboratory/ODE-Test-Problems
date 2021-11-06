@@ -1,27 +1,27 @@
 classdef (Abstract) VideoRecorder < handle    
     methods
         function frameRate = getFrameRate(obj)
-            error('Abstract method getFrameRate must be implemented by a subclass');
+            frameRate = otp.utils.compatibility.abstract(obj);
         end
         
         function setFrameRate(obj, newFrameRate)
-            error('Abstract method setFrameRate must be implemented by a subclass');
+            otp.utils.compatibility.abstract(obj, newFrameRate);
         end
         
         function start(obj, totalFrames)
-            error('Abstract method start must be implemented by a subclass');
+            otp.utils.compatibility.abstract(obj, totalFrames);
         end
         
         function recordFrame(obj, fig)
-            error('Abstract method recordFrame must be implemented by a subclass');
+            otp.utils.compatibility.abstract(obj, fig);
         end
         
         function stop(obj)
-            error('Abstract method stop must be implemented by a subclass');
+            otp.utils.compatibility.abstract(obj);
         end
         
         function h = play(obj)
-            error('Abstract method play must be implemented by a subclass');
+            h = otp.utils.compatibility.abstract(obj);
         end
     end
 end

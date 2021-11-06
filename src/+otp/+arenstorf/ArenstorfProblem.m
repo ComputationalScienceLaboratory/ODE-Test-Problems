@@ -12,7 +12,7 @@ classdef ArenstorfProblem < otp.Problem
     %
     %   Arenstorf, Richard F. "Periodic Solutions of the Restricted Three Body
     %   Problem Representing Analytic Continuations of Keplerian Elliptic
-    %   Motions.” American Journal of Mathematics, vol. 85, no. 1, 1963, p. 27.
+    %   Motions." American Journal of Mathematics, vol. 85, no. 1, 1963, p. 27.
     %
     %   Hairer, Ernst, et al. Solving Ordinary Differential Equations I:
     %   Nonstiff Problems. 2nd ed., vol. 8, Springer-Verlag, 1993, pp. 129-130.

@@ -62,11 +62,11 @@ classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
     
     methods (Access = protected)
         function x = getXPoints(obj, cometIdx, state)
-            error('Abstract method getXPoints must be implemented by a subclass');            
+            x = otp.utils.compatibility.abstract(obj, cometIdx, state);
         end
         
         function y = getYPoints(obj, cometIdx, state)
-            error('Abstract method getYPoints must be implemented by a subclass');            
+            y = otp.utils.compatibility.abstract(obj, cometIdx, state);           
         end
     end
 end
