@@ -1,6 +1,6 @@
 classdef Canonical < otp.arenstorf.ArenstorfProblem
     %CANONICAL One period of a satellite moving in an Earth-Moon system
-    %   This configuration can be found in
+    %   Source:
     %
     %   Hairer, Ernst, et al. Solving Ordinary Differential Equations I:
     %   Nonstiff Problems. 2nd ed., vol. 8, Springer-Verlag, 1993, pp. 129-130.

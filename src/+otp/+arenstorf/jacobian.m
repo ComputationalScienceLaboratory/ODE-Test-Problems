@@ -1,5 +1,5 @@
 function j = jacobian(~, y, mu)
-%JACOBIAN The Jacobian of right-hand side function for the Arenstorf problem
+%JACOBIAN The Jacobian for the Arenstorf problem
 %
 %   See also otp.arenstorf.f, otp.arenstorf.ArenstorfProblem
 

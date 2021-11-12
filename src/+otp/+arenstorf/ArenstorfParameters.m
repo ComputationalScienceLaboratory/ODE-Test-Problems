@@ -4,7 +4,7 @@ classdef ArenstorfParameters
     %   See also otp.arenstorf.ArenstorfProblem
     
     properties
-        %MU The mass of one body, while the other body has mass 1-Mu
+        %MU The mass of one body, while the other body has mass MU'=1-Mu
         Mu %MATLAB ONLY: (1, 1) {mustBeReal, mustBeFinite}
     end
 end

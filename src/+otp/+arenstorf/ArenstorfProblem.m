@@ -1,14 +1,25 @@
 classdef ArenstorfProblem < otp.Problem
     %ARENSTORFPROBLEM A simplified 3-body problem
     %   This problem models the trajectory of a satellite of negligible mass
-    %   under the gravitational pull of two orbiting bodies.  These can be
-    %   considered the Moon and Earth with masses MU and 1-MU, respectively.
-    %   The Arenstorf problem is posed on the plane, but there are four
-    %   state variables:
+    %   under the gravitational pull of two orbiting bodies. These can be
+    %   considered the Moon and Earth with masses MU and MU'=1-MU, respectively.
+    %   The reference frame is chosen such that the Earth is at position
+    %   (-MU, 0) on the plane, and the moon is at position (MU', 0). The
+    %   satellite's motion is described by the second-order ODEs
     %
-    %   y = [y1 position; y2 position; y1 velocity; y2 velocity]
+    %   y1'' = y1 + 2 y2' - MU' (y1 + MU) / D1 - MU (y1 - MU') / D2,
+    %   y2'' = y2 - 2 y1' - MU' y2 / D1 - MU y2 / D2,
     %
-    %   The ODE can be found in
+    %   where
+    %
+    %   D1 = ((y1 + MU)^2 + y2^2)^(3/2),    D2 = ((y1 - MU')^2 + y2^2)^(3/2).
+    %
+    %   This is converted into a system of first order ODEs in which the state
+    %   contains two position variables and two velocity variables:
+    %
+    %   y = [y1; y2; y1'; y2'].
+    %
+    %   Sources:
     %
     %   Arenstorf, Richard F. "Periodic Solutions of the Restricted Three Body
     %   Problem Representing Analytic Continuations of Keplerian Elliptic
