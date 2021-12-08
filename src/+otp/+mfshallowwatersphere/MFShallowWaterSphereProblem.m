@@ -17,12 +17,15 @@ classdef MFShallowWaterSphereProblem < otp.Problem
         PlottingInterp
         PlottingLatitude
         PlottingLongitude
-        PlottingProjection
     end
 
     methods
         
-        function plotSphere(obj, huv)
+        function plotSphere(obj, huv, projection)
+            if nargin < 3
+                projection = 'eqaazim';
+            end
+
             load('coastlines', 'coastlat', 'coastlon');
 
             n = size(huv, 1)/3;
@@ -37,34 +40,33 @@ classdef MFShallowWaterSphereProblem < otp.Problem
             lat = obj.PlottingLatitude;
             lon = obj.PlottingLongitude;
 
-            projection = obj.PlottingProjection;
+            cmap = interp1([0; 0.5; 1], [1, 0, 0; 1, 1, 1; 0, 0.3, 0.8], linspace(0, 1, 500));
 
-            colormap(aapcmap);
+            colormap(cmap);
 
-            subplot(1, 3, 1); %cla;
+            subplot(1, 3, 1); cla;
             axesm(projection);
             contourfm(lat,lon,reshape(Winterp*h, Nplot, Nplot),'LineStyle','none')
             ax = gca;
-            setm(ax,'FLineWidth',3, 'Grid','on')
-            plotm(coastlat, coastlon)
+            setm(ax,'FLineWidth', 3, 'Grid','on')
+            l = plotm(coastlat, coastlon, '-k');
+            l.Color = [l.Color, 0.5];
 
-            subplot(1, 3, 2); %cla;
+            subplot(1, 3, 2); cla;
             axesm(projection);
             contourfm(lat,lon,reshape(Winterp*u, Nplot, Nplot),'LineStyle','none')
             ax = gca;
-            setm(ax,'FLineWidth',3, 'Grid','on')
-            plotm(coastlat, coastlon)
+            setm(ax,'FLineWidth', 3, 'Grid','on')
+            l = plotm(coastlat, coastlon, '-k');
+            l.Color = [l.Color, 0.5];
 
-            subplot(1, 3, 3); %cla;
+            subplot(1, 3, 3); cla;
             axesm(projection);
-
-
             contourfm(lat,lon,reshape(Winterp*v, Nplot, Nplot),'LineStyle','none')
-            %s.Children.MarkerFaceAlpha = alpha;
             ax = gca;
-            setm(ax,'FLineWidth',3, 'Grid','on')
-            plotm(coastlat, coastlon)
-
+            setm(ax,'FLineWidth', 3, 'Grid','on')
+            l = plotm(coastlat, coastlon, '-k');
+            l.Color = [l.Color, 0.5];
 
             drawnow;
 
@@ -90,16 +92,18 @@ classdef MFShallowWaterSphereProblem < otp.Problem
             tanphi = tan(phi.');
             
             % create the interpolation matrix and derivatives
-            interpolationradius = 1.0;
-            [W, dWdl, dWdp] = qsplineinterp(lambda, phi, lambda, phi, interpolationradius);
+            rbf = @otp.utils.rbf.quadratic;
+
+            interpolationradius = pi/3;
+            [W, dWdl, dWdp] = rbfinterp(lambda, phi, lambda, phi, interpolationradius, rbf);
             
             % create the interploation matrix for plotting
             Nplot = 50;
             lambdaplot = linspace(-pi, pi, Nplot);
             phiplot = linspace(-pi/2, pi/2, Nplot);
             [lambdainterpgrid, phiinterpgrid] = meshgrid(lambdaplot, phiplot);
-            radiusplot = 0.5;
-            Wplot = qsplineinterp(lambda, phi, lambdainterpgrid(:).', phiinterpgrid(:).', radiusplot);
+            radiusplot = pi/6;
+            Wplot = rbfinterp(lambda, phi, lambdainterpgrid(:).', phiinterpgrid(:).', radiusplot, rbf);
 
 
             plotlongitude = 360*(lambdainterpgrid/pi + 1)/2;
@@ -108,15 +112,13 @@ classdef MFShallowWaterSphereProblem < otp.Problem
             obj.PlottingInterp = Wplot;
             obj.PlottingLatitude = plotlatitude;
             obj.PlottingLongitude = plotlongitude;
-            obj.PlottingProjection = 'eqaazim';
-            
-            
+
             % set the right hand side
             obj.Rhs = otp.Rhs(@(t, huv) ...
                 otp.mfshallowwatersphere.f(huv, W, dWdl, dWdp, cosphi, tanphi, g, a, f));
             
 
-            %% Distance function, and flow velocity
+            %% Distance function
             obj.DistanceFunction = @(t, huv, i, j) otp.mfshallowwatersphere.distfn(t, huv, i, j, lambda, phi);
 
         end
@@ -135,14 +137,18 @@ classdef MFShallowWaterSphereProblem < otp.Problem
         end
         
         function label = internalIndex2label(obj, index)
+
+
+            label = [];
             
-            [i, j] = ind2sub([obj.Parameters.nx, obj.Parameters.ny], index);
+            %[i, j] = ind2sub([obj.Parameters.nx, obj.Parameters.ny], index);
             
-            label = sprintf('(%d, %d)', i, j);
+            %label = sprintf('(%d, %d)', i, j);
             
         end
         
         function sol = internalSolve(obj, varargin)
+            % This really requires an SSP method
             sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
         end
         
