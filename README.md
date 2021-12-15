@@ -4,7 +4,19 @@ A MATLAB suite of initial value problems
 
 ## Installation
 
-ODE Test Problems can be installed by running the MATLAB script `install` from the root directory of the project.
+TODO
+
+### Installation from Source
+
+OTP can be installed as a local MATLAB toolbox or Octave package
+by running
+
+```matlab
+OTP.install
+```
+
+from the root directory of the project.  If no longer need, it can be
+uninstalled with `OTP.uninstall`.
 
 ## Example
 
