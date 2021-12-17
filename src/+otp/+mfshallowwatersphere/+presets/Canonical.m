@@ -2,7 +2,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
     methods
         function obj = Canonical(varargin)
             
-            load('nodes500.mat', 'x', 'y', 'z');
+            load('nodes784.mat', 'x', 'y', 'z');
 
             % mean water height
             H = 5.768e4;
