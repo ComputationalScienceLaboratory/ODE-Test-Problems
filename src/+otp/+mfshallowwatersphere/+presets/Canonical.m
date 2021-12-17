@@ -2,36 +2,64 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
     methods
         function obj = Canonical(varargin)
             
-            load('mesh4000.mat', 'lambda', 'phi');
+            load('nodes500.mat', 'x', 'y', 'z');
 
             % mean water height
             H = 5.768e4;
             % earth gravity
-            g = 9.8;
+            g = otp.utils.PhysicalConstants.EarthGravity;
             % radius of the earth
-            a = 6.370e6;
+            a = otp.utils.PhysicalConstants.EarthRadius;
             % initial velocity
             u0 = 20;
-            % Angular speed of the earth
-            Omega = 7.292e-5;
+            % Angular velocity of the earth
+            Omega = otp.utils.PhysicalConstants.EarthAngularVelocity;
 
+            coriolisForce = 2*Omega*z;
 
             params = struct;
             params.gravity = otp.utils.PhysicalConstants.EarthGravity;
             params.radius = a;
             params.angularSpeed = Omega;
+            params.coriolisForce = coriolisForce;
 
-            params.lambda = lambda;
-            params.phi = phi;
-            
-            phiT = phi.';
-            lambdaT = lambda.';
+            params.x = x;
+            params.y = y;
+            params.z = z;
 
-            h = (1/g)*(H + 2*Omega*a*u0*( sin(phiT).^3 ).*cos(phiT).*sin(lambdaT));
-            u = -3*u0*sin(phiT).*( cos(phiT).^2 ).*sin(lambdaT) + u0*( sin(phiT).^3 ).*sin(lambdaT);
-            v = u0*( sin(phiT).^2 ).*cos(lambdaT);
+            params.rbfradius = 1.5;
+            params.rbf = @otp.utils.rbf.buhmann3;
 
-            huv0 = [h; u; v];
+            % convert from Cartesian to spherical coordinates
+            theta = atan2(z, sqrt(x.^2 + y.^2));
+            lambda = atan2(y, x);
+
+            %% Define the initial conditions
+            % first get a stableish Rossby-Haurwitz wave with a wave number
+            % of R = 4
+            R = 4;
+            [h, zonalwind, meridionalwind] = getrossbyhaurwitzwave(x, y, z, Omega, a, g, R);
+
+            % then, define perturbations to this wave in terms of the T-Z
+            % initial condition.
+            hpert = (1/g)*(H + 2*Omega*a*u0*( sin(theta).^3 ).*cos(theta).*sin(lambda));
+            zonalwindpert = (-3*u0*sin(theta).*( cos(theta).^2 ).*sin(lambda) + u0*( sin(theta).^3 ).*sin(lambda));
+            meridionalwindpert = (u0*( sin(theta).^2 ).*cos(lambda));
+
+            % remove the excess height and velocity
+            hpert = hpert - mean(hpert);
+            zonalwindpert = zonalwindpert - mean(zonalwindpert);
+            meridionalwindpert = meridionalwindpert - mean(meridionalwindpert);
+
+            % perturb the R-H wave
+            h = h + hpert;
+            zonalwind = zonalwind + zonalwindpert;
+            meridionalwind = meridionalwind + meridionalwindpert;
+
+            % finally, convert to Cartesian coordinates
+            [u, v, w] = velocitytocartesian(x, y, z, zonalwind, meridionalwind);
+
+            huv0 = [h; u; v; w];
             
             %% Do the rest
 

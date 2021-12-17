@@ -1,47 +1,42 @@
-function [W, dWdl, dWdp] = rbfinterp(lambda1, phi1, lambda2, phi2, r, rbf)
+function [W, dWdx, dWdy, dWdz] = rbfinterp(x1, y1, z1, x2, y2, z2, r, rbf)
 
-phi2T = phi2.';
-dell = lambda2.' - lambda1;
+dx = x2 - x1.';
+dy = y2 - y1.';
+dz = z2 - z1.';
 
-cosphi1cosdell = cos(phi1).*cos(dell);
-
-nom = sqrt(  ( cos(phi1).*sin(dell) ).^2 + ( cos(phi2T).*sin(phi1) - sin(phi2T).*cosphi1cosdell ).^2 );
-den = sin(phi2T).*sin(phi1) + cos(phi2T).*cosphi1cosdell;
-d = atan2( nom, den );
+d = sqrt(dx.^2 + dy.^2 + dz.^2);
 
 n = size(d, 1);
 m = size(d, 2);
 
 k = d/r;
 
+% we only support compactly supported RBFs
 I = find(k <= 1);
+
 [Is, Js] = ind2sub(size(k), I);
 
 k = k(I);
+d = d(I);
+dx = dx(I);
+dy = dy(I);
+dz = dz(I);
 
-[Wv, drbfk] = rbf(k);
+[Wv, dWdkv] = rbf(k);
 Wv(isnan(Wv)) = 0;
+dWdkv(isnan(dWdkv)) = 0;
 
-nomdphi = -cos(phi2T(Is)).*sin(phi1(Js).') + sin(phi2T(Is)).*cosphi1cosdell(I);
-ddphi = nomdphi./nom(I);
-
-nomdlambda = cos(phi2T(Is)).*cos(phi1(Js).').*sin(dell(I));
-ddlambda = nomdlambda./nom(I);
-
-dWdlv = (ddlambda/r).*drbfk;
-dWdlv(isnan(dWdlv)) = 0;
-
-dWdpv = (ddphi/r).*drbfk;
-dWdpv(isnan(dWdpv)) = 0;
+dkdx = dx./(r*d);
+dkdy = dy./(r*d);
+dkdz = dz./(r*d);
+dkdx(isnan(dkdx)) = 0;
+dkdy(isnan(dkdy)) = 0;
+dkdz(isnan(dkdz)) = 0;
 
 
 W = sparse(Is, Js, Wv, n, m);
-dWdl = sparse(Is, Js, dWdlv, n, m);
-dWdp = sparse(Is, Js, dWdpv, n, m);
-
-scale = sum(W, 2);
-W = W./scale;
-dWdl = dWdl./scale;
-dWdp = dWdp./scale;
+dWdx = sparse(Is, Js, dWdkv.*dkdx, n, m);
+dWdy = sparse(Is, Js, dWdkv.*dkdy, n, m);
+dWdz = sparse(Is, Js, dWdkv.*dkdz, n, m);
 
 end
