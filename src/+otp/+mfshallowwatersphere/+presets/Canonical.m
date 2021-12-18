@@ -2,7 +2,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
     methods
         function obj = Canonical(varargin)
             
-            load('nodes784.mat', 'x', 'y', 'z');
+            load('nodes500.mat', 'x', 'y', 'z');
 
             % mean water height
             H = 5.768e4;
@@ -10,7 +10,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
             g = otp.utils.PhysicalConstants.EarthGravity;
             % radius of the earth
             a = otp.utils.PhysicalConstants.EarthRadius;
-            % initial velocity
+            % initial velocity for the perturbation
             u0 = 20;
             % Angular velocity of the earth
             Omega = otp.utils.PhysicalConstants.EarthAngularVelocity;
@@ -36,25 +36,28 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
 
             %% Define the initial conditions
             % first get a stableish Rossby-Haurwitz wave with a wave number
-            % of R = 4
-            R = 4;
+            % of R = 7
+            R = 7;
             [h, zonalwind, meridionalwind] = getrossbyhaurwitzwave(x, y, z, Omega, a, g, R);
 
             % then, define perturbations to this wave in terms of the T-Z
             % initial condition.
-            hpert = (1/g)*(H + 2*Omega*a*u0*( sin(theta).^3 ).*cos(theta).*sin(lambda));
-            zonalwindpert = (-3*u0*sin(theta).*( cos(theta).^2 ).*sin(lambda) + u0*( sin(theta).^3 ).*sin(lambda));
+            hpert              = (1/g)*(H + 2*Omega*a*u0*( sin(theta).^3 ).*cos(theta).*sin(lambda));
+            zonalwindpert      = (-3*u0*sin(theta).*( cos(theta).^2 ).*sin(lambda) + u0*( sin(theta).^3 ).*sin(lambda));
             meridionalwindpert = (u0*( sin(theta).^2 ).*cos(lambda));
 
             % remove the excess height and velocity
-            hpert = hpert - mean(hpert);
-            zonalwindpert = zonalwindpert - mean(zonalwindpert);
-            meridionalwindpert = meridionalwindpert - mean(meridionalwindpert);
+            %hpert = hpert - mean(hpert);
+            %zonalwindpert = zonalwindpert - mean(zonalwindpert);
+            %meridionalwindpert = meridionalwindpert - mean(meridionalwindpert);
+
+            % mixing coefficient
+            alpha = 0.5;
 
             % perturb the R-H wave
-            h = h + hpert;
-            zonalwind = zonalwind + zonalwindpert;
-            meridionalwind = meridionalwind + meridionalwindpert;
+            h              = alpha*h              + (1 - alpha)*hpert;
+            zonalwind      = alpha*zonalwind      + (1 - alpha)*zonalwindpert;
+            meridionalwind = alpha*meridionalwind + (1 - alpha)*meridionalwindpert;
 
             % finally, convert to Cartesian coordinates
             [u, v, w] = velocitytocartesian(x, y, z, zonalwind, meridionalwind);
