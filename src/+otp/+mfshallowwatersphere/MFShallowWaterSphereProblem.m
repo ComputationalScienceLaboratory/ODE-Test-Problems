@@ -132,7 +132,11 @@ classdef MFShallowWaterSphereProblem < otp.Problem
             
 
             %% Distance function
-            obj.DistanceFunction = @(t, huv, i, j) otp.mfshallowwatersphere.distfn(t, huv, i, j, lambda, phi);
+
+            theta = atan2(z, sqrt(x.^2 + y.^2));
+            lambda = atan2(y, x);
+
+            obj.DistanceFunction = @(t, huv, i, j) otp.mfshallowwatersphere.distfn(t, huv, i, j, theta, lambda);
 
         end
         
