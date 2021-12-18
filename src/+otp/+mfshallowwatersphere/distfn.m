@@ -1,4 +1,4 @@
-function d = distfn(~, ~, i, j, lambda, phi)
+function d = distfn(~, ~, i, j, theta, lambda)
 
 n = numel(lambda);
 
@@ -6,10 +6,10 @@ i = mod(i - 1, n) + 1;
 j = mod(j - 1, n) + 1;
 
 li = lambda(i);
-pi = phi(i);
+pi = theta(i);
 
 lj = lambda(j);
-pj = phi(j);
+pj = theta(j);
 
 dell = li - lj;
 
