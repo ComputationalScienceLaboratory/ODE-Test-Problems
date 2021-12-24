@@ -28,11 +28,11 @@ classdef MFShallowWaterSphereProblem < otp.Problem
 
             Nplot = 50;
             lambdaplot = linspace(-pi, pi, Nplot);
-            phiplot = linspace(-pi/2, pi/2, Nplot);
-            [lambdainterpgrid, phiinterpgrid] = meshgrid(lambdaplot, phiplot);
+            thetaplot = linspace(-pi/2, pi/2, Nplot);
+            [lambdainterpgrid, thetainterpgrid] = meshgrid(lambdaplot, thetaplot);
 
             % get the cartesian coordinates for the uniform mesh
-            [x2, y2, z2] = sph2cart(lambdainterpgrid(:), phiinterpgrid(:), ones(numel(lambdainterpgrid), 1));
+            [x2, y2, z2] = sph2cart(lambdainterpgrid(:), thetainterpgrid(:), ones(numel(lambdainterpgrid), 1));
             radiusplot = 0.5;
 
             %
@@ -40,7 +40,7 @@ classdef MFShallowWaterSphereProblem < otp.Problem
             Winterp = Winterp./sum(Winterp, 2);
 
             lon = 360*(lambdainterpgrid/pi + 1)/2;
-            lat = 180*(phiinterpgrid/(pi/2))/2;
+            lat = 180*(thetainterpgrid/(pi/2))/2;
 
 
             load('coastlines', 'coastlat', 'coastlon');

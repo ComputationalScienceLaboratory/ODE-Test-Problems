@@ -15,6 +15,6 @@ dell = li - lj;
 
 nom = sqrt(  ( cos(pj).*sin(dell) ).^2 + ( cos(pi).*sin(pj) - sin(pi).*cos(pj).*cos(dell) ).^2 );
 den = sin(pi).*sin(pj) + cos(pi).*cos(pj).*cos(dell);
-d = atan2( nom, den );
+d = atan2( nom, den ).';
 
 end
