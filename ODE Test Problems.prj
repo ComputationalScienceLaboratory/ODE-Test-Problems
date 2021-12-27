@@ -78,10 +78,10 @@
       <param.additional.sw.linux.url />
     </unset>
     <fileset.rootdir>
-      <file>${PROJECT_ROOT}/src</file>
+      <file>${PROJECT_ROOT}/build</file>
     </fileset.rootdir>
     <fileset.rootfiles>
-      <file>${PROJECT_ROOT}/src/+otp</file>
+      <file>${PROJECT_ROOT}/build/+otp</file>
     </fileset.rootfiles>
     <fileset.depfun.included />
     <fileset.depfun.excluded />
