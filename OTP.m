@@ -13,7 +13,7 @@ classdef OTP
         
         function build()
             OTP.clean();
-            
+
             mkdir(OTP.BuildDir);
             
             if OTP.isOctave()
@@ -43,7 +43,7 @@ classdef OTP
                 printf('OTP version %s installed\n', otp.Version);
             else
                 fprintf('OTP installed\n');
-                fpritnf('If you use OTP in your research, please cite as\n')
+                fprintf('If you use OTP in your research, please cite as\n')
                 fprintf(['@article{roberts2019ode,\n' ...
                     '  title={ODE Test Problems: a MATLAB suite of initial value problems},\n' ...
                     '  author={Roberts, Steven and Popov, Andrey A and Sandu, Adrian},\n' ...
@@ -51,6 +51,8 @@ classdef OTP
                     '  year={2019}\n' ...
                     '}'])
             end
+
+            OTP.clean();
         end
         
         function uninstall()
@@ -68,28 +70,22 @@ classdef OTP
         function oct = isOctave()
             oct = exist('OCTAVE_VERSION', 'builtin') > 0;
         end
-        
+
         function preprocessReplace(str, replacement)
-            if isunix
-                cmd = sprintf( ...
-                    'find %s -type f -name "*.m" -exec sed -i "s/%s/%s/g" {} +', ...
-                    OTP.BuildDir, ...
-                    str, ...
-                    replacement);
-                [status, msg] = system(cmd);
-            elseif ismac
-                % TODO: add mac support
-                status = 0;
-            elseif ispc
-                % TODO: add windows support
-                status = 0;
-            end
-            
-            if status ~= 0
-                error('Preprocessor failure: %s', msg);
+            fnames = findmfiles('build');
+            for f = fnames
+                fname = f{1};
+
+                fileid = fopen(fname, 'r');
+                contents = fscanf(fileid, '%c');
+                fclose(fileid);
+                contents = strrep(contents, str, replacement);
+                fileid = fopen(fname, 'w');
+                fprintf(fileid, '%c', contents);
+                fclose(fileid);
             end
         end
-        
+
         function path = packagePath()
             if OTP.isOctave()
                 ext = '.zip';
@@ -105,4 +101,34 @@ classdef OTP
         function obj = OTP()
         end
     end
+end
+
+
+function fnames = findmfiles(dirname)
+% This function finds all the m files in a given directory
+
+fnamesm = dir(fullfile(dirname, '*.m'));
+
+cn = numel(fnamesm);
+
+fnames = cell(1, cn);
+
+for fi = 1:cn
+    f = fnamesm(fi);
+
+    fnames{fi} = fullfile(f.folder, f.name);
+end
+
+fnamesd = dir(dirname);
+
+for di = 1:numel(fnamesd)
+    d = fnamesd(di);
+    
+    if d.isdir && ~strcmp(d.name, '.') && ~strcmp(d.name, '..')
+        newdir = fullfile(dirname, d.name);
+        newfnames = findmfiles(newdir);
+        fnames = [fnames, newfnames];
+    end
+end
+
 end
