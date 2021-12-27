@@ -2,7 +2,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
     methods
         function obj = Canonical(varargin)
             
-            load('nodes500.mat', 'x', 'y', 'z');
+            load('nodes250.mat', 'x', 'y', 'z');
 
             % mean water height
             H = 5.768e4;
@@ -17,7 +17,6 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
 
             coriolisForce = 2*Omega*z;
 
-            params = struct;
             params.gravity = otp.utils.PhysicalConstants.EarthGravity;
             params.radius = a;
             params.angularSpeed = Omega;
@@ -27,7 +26,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
             params.y = y;
             params.z = z;
 
-            params.rbfradius = 1.5;
+            params.rbfradius = 1.0;
             params.rbf = @otp.utils.rbf.buhmann3;
 
             % convert from Cartesian to spherical coordinates
@@ -52,7 +51,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
             %meridionalwindpert = meridionalwindpert - mean(meridionalwindpert);
 
             % mixing coefficient
-            alpha = 0.5;
+            alpha = 0.1;
 
             % perturb the R-H wave
             h              = alpha*h              + (1 - alpha)*hpert;
