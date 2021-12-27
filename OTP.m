@@ -7,7 +7,8 @@ classdef OTP
     
     methods (Static)
         function clean()
-            rmdir(OTP.BuildDir, 's');
+            % This is required for Matlab to function correctly
+            [~] = rmdir(OTP.BuildDir, 's');
         end
         
         function build()
@@ -37,8 +38,12 @@ classdef OTP
                 matlab.addons.toolbox.installToolbox(OTP.packagePath());
             end
             
-            otp = ver(lower(OTP.Name));
-            printf('OTP version %s installed\n', otp.Version);
+            if OTP.isOctave()
+                otp = ver(lower(OTP.Name));
+                printf('OTP version %s installed\n', otp.Version);
+            else
+                fprintf('OTP installed\n');
+            end
         end
         
         function uninstall()
@@ -58,12 +63,20 @@ classdef OTP
         end
         
         function preprocessReplace(str, replacement)
-            cmd = sprintf( ...
-                'find %s -type f -name "*.m" -exec sed -i "s/%s/%s/g" {} +', ...
-                OTP.BuildDir, ...
-                str, ...
-                replacement);
-            [status, msg] = system(cmd);
+            if isunix
+                cmd = sprintf( ...
+                    'find %s -type f -name "*.m" -exec sed -i "s/%s/%s/g" {} +', ...
+                    OTP.BuildDir, ...
+                    str, ...
+                    replacement);
+                [status, msg] = system(cmd);
+            elseif ismac
+                % TODO: add mac support
+                status = 0;
+            elseif ispc
+                % TODO: add windows support
+                status = 0;
+            end
             
             if status ~= 0
                 error('Preprocessor failure: %s', msg);
