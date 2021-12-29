@@ -226,7 +226,6 @@ classdef (Abstract) Problem < handle
                     return;
                 end
                 
-                options = problem.Rhs.odeset(options);
                 % TODO: Octave does not support odextend
                 sol = odextend(sol, problem.Rhs.F, problem.TimeSpan(end), problem.Y0, options);
             end
