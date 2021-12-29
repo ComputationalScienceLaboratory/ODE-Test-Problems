@@ -1,28 +1,40 @@
-list = dir("+otp\");
+list = dir("+otp");
 
 for li = 1:numel(list)
-    elem = list(li);
-    if elem.isdir
-        if ~any(strcmp(elem.name, {'.', '..'}))
+    modeldir = list(li);
+    if modeldir.isdir
+        if ~any(strcmp(modeldir.name, {'.', '..'}))
+
+            modelname = modeldir.name(2:end);
             
-            canonical = strcat("otp.", elem.name(2:end), ".presets.Canonical");
-            
-            try
-                model = eval(canonical);
-            catch
-                warning('The model %s has failed to build', elem.name(2:end));
-                continue;
+            presetdir = fullfile("+otp", modeldir.name, "+presets");
+            presets = dir(presetdir);
+
+            for pi = 1:numel(presets)
+                preset = presets(pi);
+                if ~preset.isdir
+                    presetname = preset.name(1:(end-2));
+                    presetclass = strcat("otp.", modelname, ".presets.", presetname);
+
+
+
+                    try
+                        model = eval(presetclass);
+                    catch
+                        warning('The preset %s of the model %s has failed to build', presetname, modelname);
+                        continue;
+                    end
+
+                    fprintf('The preset %s of the model %s has been built successfully\n', presetname, modelname);
+
+                    try
+                        model.solve();
+                    catch
+                        warning('The preset %s of the model %s has failed to solve', presetname, modelname)
+                    end
+                    fprintf('The preset %s of the model %s has been solved successfully\n', presetname, modelname);
+                end
             end
-
-            fprintf('The model %s has been built successfully\n', elem.name(2:end));
-
-            try
-                model.solve();
-            catch
-                warning('The model %s has failed to solve', elem.name(2:end))
-            end
-            fprintf('The model %s has been solved successfully\n', elem.name(2:end));
-
         end
     end
 end
