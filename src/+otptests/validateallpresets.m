@@ -21,7 +21,7 @@ for li = 1:numel(list)
                     try
                         model = eval(presetclass);
                     catch
-                        warning('The preset %s of the model %s has failed to build', presetname, modelname);
+                        fprintf('---- The preset %s of the model %s has failed to build\n', presetname, modelname);
                         continue;
                     end
 
@@ -30,7 +30,7 @@ for li = 1:numel(list)
                     try
                         model.solve();
                     catch
-                        warning('The preset %s of the model %s has failed to solve', presetname, modelname)
+                        fprintf('---- The preset %s of the model %s has failed to solve\n', presetname, modelname)
                     end
                     fprintf('The preset %s of the model %s has been solved successfully\n', presetname, modelname);
                 end
