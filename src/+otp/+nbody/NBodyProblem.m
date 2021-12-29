@@ -5,24 +5,14 @@ classdef NBodyProblem < otp.Problem
         end
     end
     
-    methods(Access=protected)
+    methods (Access = protected)
         function onSettingsChanged(obj)
-            spatialDim = obj.Parameters.spatialDim;
-            masses = obj.Parameters.masses;
-            g = obj.Parameters.gravitationalConstant;
-            softeningLength = obj.Parameters.softeningLength;
+            spatialdim = obj.Parameters.SpatialDim;
+            masses = obj.Parameters.Masses;
+            gravitationalconstant = obj.Parameters.GravitationalConstant;
+            softeninglength = obj.Parameters.SofteningLength;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.nbody.f(t, y, spatialDim, masses, g, softeningLength));
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters);
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('spatialDim', 'scalar', 'integer', 'positive') ...
-                .checkField('masses', 'finite') ...
-                .checkField('gravitationalConstant', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('softeningLength', 'scalar', 'real', 'finite', 'nonnegative');
+            obj.Rhs = otp.Rhs(@(t, y) otp.nbody.f(t, y, spatialdim, masses, gravitationalconstant, softeninglength));
         end
         
         function sol = internalSolve(obj, varargin)
