@@ -1,19 +1,11 @@
 classdef Decay < otp.brusselator.BrusselatorProblem
-    % [Name]
-    %  Decay
-    %
-    % [Description]
-    %  Rapid descent to a fixed point
-    %
-    % [NoVars]
-    %  2
-    %
-    % [Citation]
+    %DECAY Rapid descent to a fixed point
     %
     methods
         function obj = Decay
-            params.a = 1;
-            params.b = 1.7;
+            params = otp.brusselator.BrusselatorParameters;
+            params.A = 1;
+            params.B = 1.7;
             
             y0 = [1; 1];
             tspan = [0 75];

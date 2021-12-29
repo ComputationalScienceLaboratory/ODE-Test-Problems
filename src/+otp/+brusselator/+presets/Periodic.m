@@ -1,19 +1,11 @@
 classdef Periodic < otp.brusselator.BrusselatorProblem
-    % [Name]
-    %  Periodic
-    %
-    % [Description]
-    %  A periodic cycle.
-    %
-    % [NoVars]
-    %  2
-    %
-    % [Citation]
+    %PERIODIC A periodic cycle.
     %
     methods
         function obj = Periodic
-            params.a = 1;
-            params.b = 4.5;
+            params = otp.brusselator.BrusselatorParameters;
+            params.A = 1;
+            params.B = 4.5;
             
             y0 = [2; 1];
             tspan = [0 50];

@@ -33,27 +33,19 @@ classdef BrusselatorProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            a = obj.Parameters.a;
-            b = obj.Parameters.b;
+            a = obj.Parameters.A;
+            b = obj.Parameters.B;
             
             obj.Rhs = otp.Rhs(@(t, y) otp.brusselator.f(t, y, a, b), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.brusselator.jac(t, y, a, b), ...
-                otp.Rhs.FieldNames.JacobianVectorProduct, @(t, y, x) otp.brusselator.jvp(t, y, x, a, b), ...
-                otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @(t, y, x) otp.brusselator.javp(t, y, x, a, b));
+                'Jacobian', @(t, y) otp.brusselator.jac(t, y, a, b), ...
+                'JacobianVectorProduct', @(t, y, x) otp.brusselator.jvp(t, y, x, a, b), ...
+                'JacobianAdjointVectorProduct', @(t, y, x) otp.brusselator.javp(t, y, x, a, b));
             
             obj.RhsLinear = otp.Rhs(@(t, y) otp.brusselator.flinear(t, y, a, b), ...
-                otp.Rhs.FieldNames.Jacobian, otp.brusselator.jaclinear(a, b));
+                'Jacobian', otp.brusselator.jaclinear(a, b));
             
             obj.RhsNonlinear = otp.Rhs(@(t, y) otp.brusselator.fnonlinear(t, y, a, b), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.brusselator.jacnonlinear(t, y, a, b));
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('a', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('b', 'scalar', 'real', 'finite', 'positive');
+                'Jacobian', @(t, y) otp.brusselator.jacnonlinear(t, y, a, b));
         end
         
         function label = internalIndex2label(~, index)
