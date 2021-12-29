@@ -7,23 +7,14 @@ classdef BouncingBallProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            g   = obj.Parameters.g;
-            ground  = obj.Parameters.ground;
-            slope = obj.Parameters.groundSlope;
+            g           = obj.Parameters.Gravity;
+            ground      = obj.Parameters.Ground;
+            groundslope = obj.Parameters.GroundSlope;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.bouncingball.f(t, y, g, ground, slope), ...
-                otp.Rhs.FieldNames.Jacobian, otp.bouncingball.jac(g, ground, slope), ...
-                otp.Rhs.FieldNames.Events, @(t, y) otp.bouncingball.events(t, y, g, ground, slope), ...
-                otp.Rhs.FieldNames.OnEvent, @otp.bouncingball.onevent);
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters);
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('g', 'scalar', 'finite') ...
-                .checkField('ground', 'function') ...
-                .checkField('groundSlope', 'function');
+            obj.Rhs = otp.Rhs(@(t, y) otp.bouncingball.f(t, y, g, ground, groundslope), ...
+                'Jacobian', otp.bouncingball.jac(g, ground, groundslope), ...
+                'Events', @(t, y) otp.bouncingball.events(t, y, g, ground, groundslope), ...
+                'OnEvent', @otp.bouncingball.onevent);
         end
         
         function label = internalIndex2label(~, index)

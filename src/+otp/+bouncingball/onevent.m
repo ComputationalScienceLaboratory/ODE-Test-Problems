@@ -9,7 +9,7 @@ pos = sol.ye(1:2, end);
 vel = sol.ye(3:4, end);
 
 % Get the slope of the surface
-slope = problem.Parameters.groundSlope(pos(1));
+slope = problem.Parameters.GroundSlope(pos(1));
 
 % rotate into horizontal space, invert the y velocity, then rotate back into our normal space.
 newVel = [1 - slope^2, 2*slope; 2*slope, slope^2 - 1] * vel / (slope^2 + 1);

@@ -1,4 +1,5 @@
 classdef Canonical < otp.allencahn.AllenCahnProblem
+    %CANONICAL
     
     methods
         function obj = Canonical(varargin)
