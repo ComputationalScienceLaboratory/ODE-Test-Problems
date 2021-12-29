@@ -1,24 +1,25 @@
 classdef Canonical < otp.cusp.CUSPProblem
-    % The classic problem with the classic coefficients
+    %CANONICAL The classic problem with the classic coefficients
+    %
+    % See Hairer and Wanner, Solving ODEs II, p. 147
     
     methods
         function obj = Canonical(varargin)
-            
             p = inputParser;
             p.addParameter('Size', 32, @isscalar);
             p.addParameter('epsilon', 1e-4);
             p.addParameter('sigma', 1/144);
-                        
-
+            
             p.parse(varargin{:});
             
             s = p.Results;
             
             n = s.Size;
             
-            params.N = n;
-            params.epsilon = s.epsilon;
-            params.sigma   = s.sigma;
+            params = otp.cusp.CUSPParameters;
+            params.Size = n;
+            params.Epsilon = s.epsilon;
+            params.Sigma   = s.sigma;
             
             xs = linspace(0, 1, n + 1)';
             
