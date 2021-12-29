@@ -1,7 +1,7 @@
 classdef Lorenz96Problem <  otp.Problem
-    % Lorenz96Problem  The Lorenz 96 model is a classic model for testing data assimilation techniques.
-    % The specifics of this model can be found elsewhere. I will discuss the implementation details.
-    % Here we have an implementation of a Parametres.numVars variable Lorenz 96 system
+    %LORENZ96PROBLEM  The Lorenz 96 model is a classic model for testing data assimilation techniques.
+    % 
+    % See also otp.loren96.Lorenz96Parameters
     
     properties (SetAccess = private)
         DistanceFunction
@@ -9,39 +9,32 @@ classdef Lorenz96Problem <  otp.Problem
     
     methods
         function obj = Lorenz96Problem(timeSpan, y0, parameters)
-            obj@ otp.Problem('Lorenz-96', [], timeSpan, y0, parameters);
+            obj@ otp.Problem('Lorenz ''96', [], timeSpan, y0, parameters);
         end
     end
     
     methods (Access=protected)
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('forcingFunction', @(x) isnumeric(x) || isa(x, 'function_handle'));
-        end
-        
         function obj = onSettingsChanged(obj)
-            ff = obj.Parameters.forcingFunction;
+            forcing = obj.Parameters.F;
             
-            if isa(ff, 'function_handle')
-                f = @(t, y) otp.lorenz96.f(t, y, ff);
+            if isa(forcing, 'function_handle')
+                f = @(t, y) otp.lorenz96.f(t, y, forcing);
             else
-                f = @(t, y) otp.lorenz96.fconst(t, y, ff);
+                f = @(t, y) otp.lorenz96.fconst(t, y, forcing);
             end
             
             obj.Rhs = otp.Rhs(f, ...
-                otp.Rhs.FieldNames.Jacobian, ...
+                'Jacobian', ...
                 @(t, y) otp.lorenz96.jac(t, y), ...
-                otp.Rhs.FieldNames.JacobianVectorProduct, ...
+                'JacobianVectorProduct', ...
                 @(t, y, u) otp.lorenz96.jvp(t, y, u), ...
-                otp.Rhs.FieldNames.JacobianAdjointVectorProduct, ...
+                'JacobianAdjointVectorProduct', ...
                 @(t, y, u) otp.lorenz96.javp(t, y, u), ...
-                otp.Rhs.FieldNames.HessianVectorProduct, ...
+                'HessianVectorProduct', ...
                 @(t, y, u, v) otp.lorenz96.hvp(t, y, u, v), ...
-                otp.Rhs.FieldNames.HessianAdjointVectorProduct, ...
+                'HessianAdjointVectorProduct', ...
                 @(t, y, u, v) otp.lorenz96.havp(t, y, u, v), ...
-                otp.Rhs.FieldNames.Vectorized, 'on');
+                'Vectorized', 'on');
             
             % We also provide a canonical distance function as is standard for
             % localisation in Data Assimilation. This is heavily tied to this

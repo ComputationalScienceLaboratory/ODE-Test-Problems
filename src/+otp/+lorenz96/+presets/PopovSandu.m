@@ -1,5 +1,5 @@
 classdef PopovSandu < otp.lorenz96.Lorenz96Problem
-    
+    %POPOVSANDU
     % Used in https://doi.org/10.5194/npg-26-109-2019
     
     methods
@@ -21,7 +21,8 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
            
             F = @(t) 8 + 4*cospi(2*omega*(t + mod((1:N) - 1, q)/q)).';
             
-            params.forcingFunction = F;            
+            params = otp.lorenz96.Lorenz96Parameters;
+            params.F = F;            
             
             % We initialise the Lorenz96 model as in (Lorenz & Emanuel 1998)
             
