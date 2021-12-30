@@ -27,9 +27,9 @@ classdef LinearProblem < otp.Problem
         
         function rhs = createRhs(~, A)
             rhs = otp.Rhs(@(~, y) A * y, ...
-                otp.Rhs.FieldNames.Jacobian, A, ...
-                otp.Rhs.FieldNames.JacobianVectorProduct, @(~, ~, v) A * v, ...
-                otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @(~, ~, v) A' * v);
+                'Jacobian', A, ...
+                'JacobianVectorProduct', @(~, ~, v) A * v, ...
+                'JacobianAdjointVectorProduct', @(~, ~, v) A' * v);
         end
     end
     
@@ -37,12 +37,6 @@ classdef LinearProblem < otp.Problem
         function onSettingsChanged(obj)
             obj.Rhs = obj.createRhs(obj.computeASum());
             obj.RhsPartitions = cellfun(@obj.createRhs, obj.Parameters.A);
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            otp.utils.StructParser(newParameters).checkField('A', 'cell', ...
-                @(A) all(cellfun(@(m) ismatrix(m) && isnumeric(m), A)));
         end
     end
 end
