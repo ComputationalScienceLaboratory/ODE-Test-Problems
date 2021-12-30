@@ -103,14 +103,12 @@ classdef QuasiGeostrophicProblem < otp.Problem
         
         function onSettingsChanged(obj)
             
-            nx = obj.Parameters.nx;
-            ny = obj.Parameters.ny;
+            nx = obj.Parameters.Nx;
+            ny = obj.Parameters.Ny;
             
             Re = obj.Parameters.Re;
             Ro = obj.Parameters.Ro;
-            
-            n = [nx, ny];
-            
+                        
             hx = 1/(nx + 1);
             hy = 2/(ny + 1);
             
@@ -153,10 +151,10 @@ classdef QuasiGeostrophicProblem < otp.Problem
             obj.Rhs = otp.Rhs(@(t, psi) ...
                 otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
                 ...
-                otp.Rhs.FieldNames.JacobianVectorProduct, @(t, psi, v) ...
+                'JacobianVectorProduct', @(t, psi, v) ...
                 otp.qg.jvp(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
                 ...
-                otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @(t, psi, v) ...
+                'JacobianAdjointVectorProduct', @(t, psi, v) ...
                 otp.qg.javp(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro));
             
 
@@ -166,19 +164,6 @@ classdef QuasiGeostrophicProblem < otp.Problem
             obj.FlowVelocityMagnitude = @(psi) otp.qg.flowvelmag(psi, Dx, Dy);
             
             obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacflowvelmagvp(psi, u, Dx, Dy);
-            
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            
-            validateNewState@otp.Problem(obj, ...
-                newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('nx', 'finite', 'scalar', 'integer', 'positive') ...
-                .checkField('ny', 'finite', 'scalar', 'integer', 'positive') ...
-                .checkField('Re', 'finite', 'scalar', 'real', 'positive') ...
-                .checkField('Ro', 'finite', 'scalar', 'real');
             
         end
         

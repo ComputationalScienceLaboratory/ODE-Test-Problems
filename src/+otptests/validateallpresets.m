@@ -28,6 +28,9 @@ for li = 1:numel(list)
                     fprintf('The preset %s of the model %s has been built successfully\n', presetname, modelname);
 
                     try
+                        if strcmp(modelname, 'qg')
+                            model.TimeSpan = [0, 0.01];
+                        end
                         model.solve();
                     catch
                         fprintf('---- The preset %s of the model %s has failed to solve\n', presetname, modelname)
