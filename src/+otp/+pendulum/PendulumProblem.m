@@ -25,9 +25,9 @@ classdef PendulumProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            g = obj.Parameters.g;
-            lengths = obj.Parameters.lengths(:);
-            masses = obj.Parameters.masses(:);
+            g = obj.Parameters.Gravity;
+            lengths = obj.Parameters.Lengths(:);
+            masses  = obj.Parameters.Masses(:);
             
             numBobs = min(numel(lengths), numel(masses));
             lengths = lengths(1:numBobs);
@@ -42,17 +42,8 @@ classdef PendulumProblem < otp.Problem
             scaledMasses = lengths .* cumulativeMasses(max(1:numBobs, (1:numBobs).')) .* lengths.';
             
             obj.RhsMass = otp.Rhs(@(t, y) otp.pendulum.fmass(t, y, lengths, cumulativeMasses, g, scaledMasses),...
-                otp.Rhs.FieldNames.Jacobian, @(t,y) otp.pendulum.jacmass(t, y, lengths, cumulativeMasses, g, scaledMasses), ...
-                otp.Rhs.FieldNames.Mass, @(t,y) otp.pendulum.mass(t, y, lengths, cumulativeMasses, g, scaledMasses));
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('g', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('lengths', 'vector', 'real', 'finite', 'positive') ...
-                .checkField('masses',  'vector', 'real', 'finite', 'positive');
+                'Jacobian', @(t,y) otp.pendulum.jacmass(t, y, lengths, cumulativeMasses, g, scaledMasses), ...
+                'Mass', @(t,y) otp.pendulum.mass(t, y, lengths, cumulativeMasses, g, scaledMasses));
         end
         
         function label = internalIndex2label(obj, index)
