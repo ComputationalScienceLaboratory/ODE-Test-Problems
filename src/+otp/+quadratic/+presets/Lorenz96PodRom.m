@@ -1,5 +1,11 @@
 classdef Lorenz96PodRom < otp.quadratic.QuadraticProblem
-    
+    %LORENZ96PODROM a quadratic reduced order model of the L96 equations
+    %
+    % See
+    %     Popov, A. A., & Sandu, A. (2021). 
+    %     Multifidelity ensemble Kalman filtering using surrogate models defined by physics-informed autoencoders. 
+    %     arXiv preprint arXiv:2102.13025.
+    %
     properties
         Projection
         Interpolation
@@ -16,7 +22,8 @@ classdef Lorenz96PodRom < otp.quadratic.QuadraticProblem
             
             s = load('l96_ROM_r40.mat');
             
-            params.a = double(s.a(1:r));
+            params = otp.quadratic.QuadraticParameters;
+            params.A = double(s.a(1:r));
             params.B = double(s.B(1:r, 1:r));
             params.C = double(s.C(1:r, 1:r, 1:r));
             
