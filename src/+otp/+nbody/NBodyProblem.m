@@ -7,12 +7,12 @@ classdef NBodyProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            spatialdim = obj.Parameters.SpatialDim;
+            spatialDim = obj.Parameters.SpatialDim;
             masses = obj.Parameters.Masses;
-            gravitationalconstant = obj.Parameters.GravitationalConstant;
-            softeninglength = obj.Parameters.SofteningLength;
+            gravitationalConstant = obj.Parameters.GravitationalConstant;
+            softeningLength = obj.Parameters.SofteningLength;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.nbody.f(t, y, spatialdim, masses, gravitationalconstant, softeninglength));
+            obj.Rhs = otp.Rhs(@(t, y) otp.nbody.f(t, y, spatialDim, masses, gravitationalConstant, softeningLength));
         end
         
         function sol = internalSolve(obj, varargin)

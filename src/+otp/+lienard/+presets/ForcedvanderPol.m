@@ -18,7 +18,7 @@ classdef ForcedvanderPol < otp.lienard.LienardProblem
                 0];
             
             params = otp.lienard.LienardParameters;
-            params.F  = @(x) mu*(x^2 - 1);
+            params.F  = @(x) mu*(x.^2 - 1);
             params.DF = @(x) 2*mu*x;
             params.G  = @(x) x;
             params.DG = @(x) 1;

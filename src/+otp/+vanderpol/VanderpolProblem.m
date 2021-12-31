@@ -17,13 +17,16 @@ classdef VanderpolProblem < otp.Problem
             epsilon = obj.Parameters.Epsilon;
             
             obj.Rhs = otp.Rhs(@(t, y) otp.vanderpol.f(t, y, epsilon), ...
-                'Jacobian', @(t, y) otp.vanderpol.jac(t, y, epsilon));
+                'Jacobian', @(t, y) otp.vanderpol.jac(t, y, epsilon), ...
+                'Vectorized', 'on');
             
             obj.RhsStiff = otp.Rhs(@(t, y) otp.vanderpol.fstiff(t, y, epsilon), ...
-                'Jacobian', @(t, y) otp.vanderpol.jacstiff(t, y, epsilon));
+                'Jacobian', @(t, y) otp.vanderpol.jacstiff(t, y, epsilon), ...
+                'Vectorized', 'on');
             
             obj.RhsNonstiff = otp.Rhs(@(t, y) otp.vanderpol.fnonstiff(t, y, epsilon), ...
-                'Jacobian', otp.vanderpol.jacnonstiff(epsilon));
+                'Jacobian', otp.vanderpol.jacnonstiff(epsilon), ...
+                'Vectorized', 'on');
         end
     end
 end

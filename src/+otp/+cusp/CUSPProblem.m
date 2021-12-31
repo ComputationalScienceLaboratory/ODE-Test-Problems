@@ -20,32 +20,37 @@ classdef CUSPProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            N = obj.Parameters.Size;
+            n = obj.Parameters.Size;
             epsilon = obj.Parameters.Epsilon;
             sigma = obj.Parameters.Sigma;
             
             domain = [0, 1];
             
-            L = otp.utils.pde.laplacian(N, domain, sigma, 'C');
+            L = otp.utils.pde.laplacian(n, domain, sigma, 'C');
             
             obj.Rhs = otp.Rhs(@(t, y) otp.cusp.f(t, y, epsilon, L), ...
-                'Jacobian', @(t, y) otp.cusp.jac(t, y, epsilon, L));
+                'Jacobian', @(t, y) otp.cusp.jac(t, y, epsilon, L), ...
+                'Vectorized', 'on');
             
             obj.RhsStiff = otp.Rhs(@(t, y) otp.cusp.fstiff(t, y, epsilon, L), ...
-                'Jacobian', @(t, y) otp.cusp.jacstiff(t, y, epsilon, L));
+                'Jacobian', @(t, y) otp.cusp.jacstiff(t, y, epsilon, L), ...
+                'Vectorized', 'on');
             
             obj.RhsNonstiff = otp.Rhs(@(t, y) otp.cusp.fnonstiff(t, y, epsilon, L), ...
-                'Jacobian', @(t, y) otp.cusp.jacnonstiff(t, y, epsilon, L));
+                'Jacobian', @(t, y) otp.cusp.jacnonstiff(t, y, epsilon, L), ...
+                'Vectorized', 'on');
               
             obj.RhsDiffusion = otp.Rhs(@(t, y) otp.cusp.fdiffusion(t, y, epsilon, L), ...
-                'Jacobian', otp.cusp.jacdiffusion(epsilon, L));
+                'Jacobian', otp.cusp.jacdiffusion(epsilon, L), ...
+                'Vectorized', 'on');
               
             obj.RhsReaction = otp.Rhs(@(t, y) otp.cusp.freaction(t, y, epsilon, L), ...
-                'Jacobian', @(t, y) otp.cusp.jacreaction(t, y, epsilon, L));
+                'Jacobian', @(t, y) otp.cusp.jacreaction(t, y, epsilon, L), ...
+                'Vectorized', 'on');
         end
 
         function label = internalIndex2label(obj, index)
-            n = obj.Parameters.N;
+            n = obj.Parameters.Size;
             label = sprintf('%c_{%d}', obj.VarNames(ceil(index / n)), mod(index - 1, n) + 1);
         end
         
