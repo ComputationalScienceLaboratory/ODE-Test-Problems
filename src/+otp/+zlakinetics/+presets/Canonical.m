@@ -1,13 +1,21 @@
 classdef Canonical < otp.zlakinetics.ZlaKineticsProblem
+    %CANONICAL The problem as described in the literature
+    %
+    % See:
+    %    Roberts, S. B. (2021). 
+    %    Multimethods for the Efficient Solution of Multiscale Differential Equations 
+    %    (Doctoral dissertation, Virginia Tech).
+    %
     methods
         function obj = Canonical
             tspan = [0, 180];
             
+            params = otp.zlakinetics.ZlaKineticsParameters;
             params.k = [18.7, 0.58, 0.09, 0.42];
             params.K = 34.4;
-            params.klA = 3.3;
+            params.KlA = 3.3;
             params.Ks = 115.83;
-            params.pCO2 = 0.9;
+            params.PCO2 = 0.9;
             params.H = 737;
             
             y0 = [0.444; 0.00123; 0; 0.007; 0; 0];
