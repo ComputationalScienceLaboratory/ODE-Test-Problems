@@ -2,7 +2,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
     methods
         function obj = Canonical(varargin)
             
-            load('nodes250.mat', 'x', 'y', 'z');
+            load('nodes100.mat', 'x', 'y', 'z');
 
             % mean water height
             H = 5.768e4;
@@ -26,7 +26,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
             params.y = y;
             params.z = z;
 
-            params.rbfradius = 1.0;
+            params.rbfradius = 2.0;
             params.rbf = @otp.utils.rbf.buhmann3;
 
             % convert from Cartesian to spherical coordinates
