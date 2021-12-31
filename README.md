@@ -15,7 +15,7 @@ by running
 OTP.install
 ```
 
-from the root directory of the project.  If no longer need, it can be
+from the root directory of the project.  If no longer needed, it can be
 uninstalled with `OTP.uninstall`.
 
 ## Example

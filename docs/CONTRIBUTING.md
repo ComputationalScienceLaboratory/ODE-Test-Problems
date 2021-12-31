@@ -64,11 +64,12 @@ help otp.utils.PhysicalConstants
 
 ### Classes
 
-Class names and properties should be written in Pascal case. Methods should be
+Class names and properties should be written in Pascal case. When the name
+contains an acronym, all letters should be capitalized. Methods should be
 written in camel case.
 
 ```matlab
-% Example
+% Examples
 classdef Employee
     properties
         FirstName
@@ -81,6 +82,10 @@ classdef Employee
             ...
         end
     end
+end
+
+classdef ODETestProblems
+    ...
 end
 ```
 
