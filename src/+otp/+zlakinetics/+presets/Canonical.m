@@ -2,9 +2,9 @@ classdef Canonical < otp.zlakinetics.ZlaKineticsProblem
     %CANONICAL The problem as described in the literature
     %
     % See:
-    %    Roberts, S. B. (2021). 
-    %    Multimethods for the Efficient Solution of Multiscale Differential Equations 
-    %    (Doctoral dissertation, Virginia Tech).
+    %    Walter Johannes Henricus Stortelder. Parameter estimation in nonlinear dynamical
+    %    systems. PhD thesis, Centrum Wiskunde & Informatica, 
+    %    Amsterdam, The Netherlands, 1998.
     %
     methods
         function obj = Canonical
