@@ -1,0 +1,4 @@
+classdef HIRESParameters
+    %HIRESPARAMETERS
+end
+
