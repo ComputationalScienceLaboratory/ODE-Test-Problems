@@ -12,17 +12,17 @@ classdef KPRProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            Omega = obj.Parameters.omegaMatrix;
-            omega = obj.Parameters.omega;
+            lambda = obj.Parameters.Lambda;
+            omega = obj.Parameters.Omega;
             
-            obj.Rhs = otp.Rhs(@(t,y) otp.kpr.f(t, y, Omega, omega), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.kpr.jac(t, y, Omega, omega));
+            obj.Rhs = otp.Rhs(@(t,y) otp.kpr.f(t, y, lambda, omega), ...
+                'Jacobian', @(t, y) otp.kpr.jac(t, y, lambda, omega));
             
-            obj.RhsFast = otp.Rhs(@(t,y) otp.kpr.ffast(t, y, Omega, omega), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.kpr.jacfast(t, y, Omega, omega));
+            obj.RhsFast = otp.Rhs(@(t,y) otp.kpr.ffast(t, y, lambda, omega), ...
+                'Jacobian', @(t, y) otp.kpr.jacfast(t, y, lambda, omega));
             
-            obj.RhsSlow = otp.Rhs(@(t,y) otp.kpr.fslow(t, y, Omega, omega), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.kpr.jacslow(t, y, Omega, omega));
+            obj.RhsSlow = otp.Rhs(@(t,y) otp.kpr.fslow(t, y, lambda, omega), ...
+                'Jacobian', @(t, y) otp.kpr.jacslow(t, y, lambda, omega));
         end
     end
 end
