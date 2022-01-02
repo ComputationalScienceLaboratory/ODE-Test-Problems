@@ -61,7 +61,7 @@ classdef MFShallowWaterSphereProblem < otp.Problem
             cla;
             axesm(projection);
             contourfm(lat, lon, reshape(Winterp*h, Nplot, Nplot), levels, 'LineStyle','none');
-            colorbar;
+            %colorbar;
             ax = gca;
             setm(ax,'FLineWidth', 3, 'Grid','on')
             l = plotm(coastlat, coastlon, '-k');
