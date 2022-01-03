@@ -204,14 +204,14 @@ classdef (Abstract) Problem < handle
             p = inputParser;
             p.KeepUnmatched = true;
             % Filter name-value pairs not passed to odeset
-            p.addParameter('Method', @ode15s, @(m) isa(m, 'function_handle'));
+            p.addParameter('Solver', otp.utils.Solver.Stiff, @(m) isa(m, 'function_handle'));
             p.parse(varargin{:});
             
             % odeset is case sensitive for structs so convert unmatched parameters to a cell array
             unmatched = namedargs2cell(p.Unmatched);
             options = obj.Rhs.odeset(unmatched{:});
             
-            sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
+            sol = p.Results.Solver(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
             
             if ~isfield(sol, 'ie')
                 % All done if no event occurred

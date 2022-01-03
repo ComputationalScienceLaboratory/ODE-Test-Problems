@@ -60,7 +60,7 @@ classdef BrusselatorProblem < otp.Problem
         end
         
         function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
+            sol = internalSolve@otp.Problem(obj, 'Solver', otp.utils.Solver.Nonstiff, varargin{:});
         end
     end
 end

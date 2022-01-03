@@ -1,5 +1,6 @@
 classdef OTP
     properties (Access = private, Constant)
+        Octave = exist('OCTAVE_VERSION', 'builtin') > 0
         Name = 'ODE Test Problems';
         SrcDir = 'src';
         BuildDir = 'build';
@@ -13,7 +14,7 @@ classdef OTP
         function build()
             OTP.clean();
             
-            if OTP.isOctave()
+            if OTP.Octave
                 OTP.processFiles(OTP.SrcDir, fullfile(OTP.BuildDir, 'inst'), ...
                     {}, {});
                 copyfile('DESCRIPTION', OTP.BuildDir);
@@ -30,7 +31,7 @@ classdef OTP
         function install()
             OTP.build();
             
-            if OTP.isOctave()
+            if OTP.Octave
                 pkg('install', OTP.packagePath());
             else
                 matlab.addons.toolbox.installToolbox(OTP.packagePath());
@@ -40,7 +41,7 @@ classdef OTP
         end
         
         function uninstall()
-            if OTP.isOctave
+            if OTP.Octave
                 pkg('uninstall', lower(OTP.Name));
             else
                 tbxs = matlab.addons.toolbox.installedToolboxes;
@@ -53,10 +54,6 @@ classdef OTP
     end
     
     methods (Static, Access = private)
-        function oct = isOctave()
-            oct = exist('OCTAVE_VERSION', 'builtin') > 0;
-        end
-
         function processFiles(src, dest, str, replacement)
             list = dir(src);
             mkdir(dest);
@@ -83,7 +80,7 @@ classdef OTP
         end
 
         function path = packagePath()
-            if OTP.isOctave()
+            if OTP.Octave
                 ext = '.zip';
             else
                 ext = '.mltbx';

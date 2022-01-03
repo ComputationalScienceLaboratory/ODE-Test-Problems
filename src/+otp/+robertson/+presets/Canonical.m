@@ -8,7 +8,7 @@ classdef Canonical < otp.robertson.RobertsonProblem
             params.K3 = 1e4;
             
             y0 = [1; 0; 0];
-            tspan = [0 1e11];
+            tspan = [0; 1e11];
             
             obj = obj@otp.robertson.RobertsonProblem(tspan, y0, params);
         end

@@ -5,7 +5,7 @@ classdef Canonical < otp.allencahn.AllenCahnProblem
         function obj = Canonical(varargin)
             
             p = inputParser;
-            p.addParameter('Size', 150, @isscalar);
+            p.addParameter('Size', 64);
             p.addParameter('alpha', 0.1);
             p.addParameter('beta', 1);                        
 
