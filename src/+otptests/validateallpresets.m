@@ -1,4 +1,7 @@
-list = dir("+otp");
+entry = dir(which('otp.Rhs'));
+otpdir = entry.folder;
+
+list = dir(otpdir);
 
 for li = 1:numel(list)
     modeldir = list(li);
@@ -9,7 +12,7 @@ for li = 1:numel(list)
 
     modelname = modeldir.name(2:end);
     
-    presetdir = fullfile("+otp", modeldir.name, "+presets");
+    presetdir = fullfile(otpdir, modeldir.name, "+presets");
     presets = dir(presetdir);
 
     for pi = 1:numel(presets)
