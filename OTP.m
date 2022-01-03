@@ -67,11 +67,8 @@ classdef OTP
                     [~, ~, ext] = fileparts(item.name);
                     if strcmp(ext, '.m')
                         content = regexprep(fileread(newSrc), str, replacement);
-                        if ispc
-                            fid = fopen(newDest, 'w');
-                        else
-                            fid = fopen(newDest, 'wt');
-                        end
+                        
+                        fid = fopen(newDest, 'w');
                         fprintf(fid, '%s', content);
                         fclose(fid);
                     else
