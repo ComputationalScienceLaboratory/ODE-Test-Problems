@@ -16,7 +16,7 @@ classdef KPRProblem < otp.Problem
             omega = obj.Parameters.Omega;
             
             obj.Rhs = otp.Rhs(@(t,y) otp.kpr.f(t, y, lambda, omega), ...
-                'Jacobian', @(t, y) otp.kpr.jac(t, y, lambda, omega));
+                'Jacobian', @(t, y) otp.kpr.jacobian(t, y, lambda, omega));
             
             obj.RhsFast = otp.Rhs(@(t,y) otp.kpr.ffast(t, y, lambda, omega), ...
                 'Jacobian', @(t, y) otp.kpr.jacfast(t, y, lambda, omega));

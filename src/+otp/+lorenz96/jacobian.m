@@ -1,4 +1,4 @@
-function J = jac(~, y)
+function J = jacobian(~, y)
 
 % This is very easy to read and understand I will leave a comment with the base
 % code so you can read and understand it too

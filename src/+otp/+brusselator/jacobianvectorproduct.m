@@ -1,4 +1,4 @@
-function jx = jvp(~, y, x, a, b)
+function jx = jacobianvectorproduct(~, y, x, a, b)
 
 v1 = 2 * a * y(1, :).*y(2, :);
 v2 = a * y(1, :).^2;

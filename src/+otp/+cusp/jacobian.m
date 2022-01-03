@@ -1,4 +1,4 @@
-function j = jac(~, u, epsilon, L)
+function j = jacobian(~, u, epsilon, L)
 
 n = size(u, 1)/3;
 
