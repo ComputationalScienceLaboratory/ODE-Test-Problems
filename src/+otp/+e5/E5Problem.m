@@ -30,7 +30,7 @@ classdef E5Problem < otp.Problem
         function sol = internalSolve(obj, varargin)
             % Set tolerances due to the very small scales
             sol = internalSolve@otp.Problem(obj, ...
-                'AbsTol', 1e-50, 'RelTol', 1e-10, varargin{:});
+                'AbsTol', 1e-50, varargin{:});
         end
     end
 end

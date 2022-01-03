@@ -1,4 +1,4 @@
-function dy = jac(~, y, k1, k2, k3)
+function dy = jacobian(~, y, k1, k2, k3)
 %JACOBIAN The Jacobian for the Robertson problem
 %
 %   See also otp.robertson.f, otp.robertson.RobertsonProblem

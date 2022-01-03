@@ -2,7 +2,7 @@ function dy = f(~, y, lengths, cumulativeMasses, g, offDiagScaling, cDiag)
 
 n = numel(lengths);
 angles = y(1:n);
-dAngles = diff(angles);
+dAngles = angles(2:end) - angles(1:end-1);
 velocities = y(n+1:end);
 
 % Following the optimizations and notation of page 10 of

@@ -32,7 +32,8 @@ classdef PendulumProblem < otp.Problem
             numBobs = min(numel(lengths), numel(masses));
             lengths = lengths(1:numBobs);
             masses = masses(1:numBobs);
-            cumulativeMasses = cumsum(masses, 'reverse');
+            % reverse flag of cumsum not supported in Octave
+            cumulativeMasses = cumsum(flip(masses));
             
             offDiagScaling = -1 ./ (lengths(1:end-1) .* lengths(2:end) .* masses(1:end-1));
             cDiag = [1 / (lengths(1)^2 * masses(1)); (masses(1:end-1) + masses(2:end)) ./ (lengths(2:end).^2 .* masses(1:end-1) .* masses(2:end))];

@@ -138,9 +138,9 @@ classdef QuasiGeostrophicProblem < otp.Problem
             hy2 = hy^2;
             cx = (1:nx)/(nx + 1);
             cy = (1:ny)/(ny + 1);
-            L12 = -(hx2*hy2./(2*(-hx2 - hy2 + hy2*cospi(cx).' + hx2*cospi(cy))));
-            P1 = sqrt(2/(nx + 1))*sinpi((1:nx).'*(1:nx)/(nx + 1));
-            P2 = sqrt(2/(ny + 1))*sinpi((1:ny).'*(1:ny)/(ny + 1));
+            L12 = -(hx2*hy2./(2*(-hx2 - hy2 + hy2*cos(pi*cx).' + hx2*cos(pi*cy))));
+            P1 = sqrt(2/(nx + 1))*sin(pi*(1:nx).'*(1:nx)/(nx + 1));
+            P2 = sqrt(2/(ny + 1))*sin(pi*(1:ny).'*(1:ny)/(ny + 1));
             
             ys = linspace(ydomain(1), ydomain(end), ny + 2);
             ys = ys(2:end-1);

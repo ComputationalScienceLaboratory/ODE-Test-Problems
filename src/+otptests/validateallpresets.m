@@ -34,11 +34,8 @@ for li = 1:numel(list)
             if strcmp(modelname, 'qg')
                 model.TimeSpan = [0, 0.01];
             end
-            if strcmp(modelname, 'e5')
-                model.TimeSpan = [0, 1e-9];
-            end
             if strcmp(presetname, 'Lorenz96PodRom')
-                model.TimeSpan = [0, 1e-9];
+                model.TimeSpan = [0, 10];
             end
             model.solve();
             fprintf('The preset %s of the model %s has been solved successfully\n', presetname, modelname);
