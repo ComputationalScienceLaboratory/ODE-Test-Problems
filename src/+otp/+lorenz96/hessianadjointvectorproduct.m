@@ -1,4 +1,4 @@
-function Havp = havp(~, y, u, v)
+function Havp = hessianadjointvectorproduct(~, y, u, v)
 
 n = numel(y);
 

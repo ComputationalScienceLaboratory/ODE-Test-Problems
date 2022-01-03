@@ -1,4 +1,4 @@
-function Hvp= hvp(~, y, u, v)
+function Hvp= hessianvectorproduct(~, y, u, v)
 
 n = size(y, 1);
 
