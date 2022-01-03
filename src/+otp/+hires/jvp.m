@@ -1,4 +1,4 @@
-function Jv = jacobianvectorproduct(~, y, v)
+function Jv = jvp(~, y, v)
 
 y6 = y(6);
 y8 = y(8);

@@ -1,4 +1,4 @@
-function J = jacobian(~, y, f, df, ~, dg, ~, ~)
+function J = jac(~, y, f, df, ~, dg, ~, ~)
 
 y1 = y(1);
 y2 = y(2);
