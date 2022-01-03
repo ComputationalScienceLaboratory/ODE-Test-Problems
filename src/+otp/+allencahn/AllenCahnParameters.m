@@ -11,6 +11,6 @@ classdef AllenCahnParameters
         %Beta is a non-negative reaction constant
         Beta %MATLAB ONLY: (1,1) {mustBeNonnegative}
         %Forcing is a forcing function or constant
-        Forcing %MATLAB ONLY: {mustBeA(F, {'numeric', 'function_handle'})}
+        Forcing %MATLAB ONLY: {mustBeA(Forcing, {'numeric', 'function_handle'})}
     end
 end
