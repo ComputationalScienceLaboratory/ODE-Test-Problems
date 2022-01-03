@@ -1,4 +1,4 @@
-function jac = jac(~, y, a, b)
+function jac = jacobian(~, y, a, b)
 
 v1 = 2 * a * y(1) * y(2);
 v2 = a * y(1)^2;

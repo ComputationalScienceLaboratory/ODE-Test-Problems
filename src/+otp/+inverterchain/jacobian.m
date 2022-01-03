@@ -1,4 +1,4 @@
-function Jac = jac(t, u, u0, uIn, ~, uT, gamma)
+function Jac = jacobian(t, u, u0, uIn, ~, uT, gamma)
 
 uLeft = [uIn(t); u(1:end-1)];
 

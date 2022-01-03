@@ -12,7 +12,7 @@ classdef ProtheroRobinsonProblem < otp.Problem
             dphi = obj.Parameters.DPhi;
             
             obj.Rhs = otp.Rhs(@(t, y) otp.protherorobinson.f(t, y, lambda, phi, dphi), ...
-                'Jacobian', otp.protherorobinson.jac(lambda, phi, dphi));
+                'Jacobian', otp.protherorobinson.jacobian(lambda, phi, dphi));
         end
     end
 end

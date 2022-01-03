@@ -1,4 +1,4 @@
-function J = jac(~, y, ~, R, ~, UF, alpha, beta)
+function J = jacobian(~, y, ~, R, ~, UF, alpha, beta)
 
 g23p   = beta/UF*exp((y(2) - y(3))/UF);
 g56p   = beta/UF*exp((y(5) - y(6))/UF);

@@ -1,4 +1,4 @@
-function javp = javp(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, ~, Re, Ro)
+function javp = jacobianvectorproduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, ~, Re, Ro)
 
 [nx, ny] = size(L12);
 
