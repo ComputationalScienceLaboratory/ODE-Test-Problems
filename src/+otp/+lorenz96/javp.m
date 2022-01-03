@@ -1,4 +1,4 @@
-function Javp = jacobianvectorproduct(~, y, u)
+function Javp = javp(~, y, u)
 
 n = size(y, 1);
 

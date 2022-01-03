@@ -1,4 +1,4 @@
-function J = jacobian(~, x, a, B, C)
+function J = jac(~, x, a, B, C)
 
 r = length(a);
 
