@@ -12,7 +12,7 @@ classdef NBodyProblem < otp.Problem
             gravitationalConstant = obj.Parameters.GravitationalConstant;
             softeningLength = obj.Parameters.SofteningLength;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.nbody.f(t, y, spatialDim, masses, gravitationalConstant, softeningLength));
+            obj.RHS = otp.RHS(@(t, y) otp.nbody.f(t, y, spatialDim, masses, gravitationalConstant, softeningLength));
         end
         
         function sol = internalSolve(obj, varargin)

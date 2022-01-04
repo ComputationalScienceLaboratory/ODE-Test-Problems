@@ -27,7 +27,7 @@ classdef AllenCahnProblem < otp.Problem
                 f = @(t, y) otp.allencahn.f(t, y, L, alpha, beta, ft);
             end
             
-            obj.Rhs = otp.Rhs(f, ...
+            obj.RHS = otp.RHS(f, ...
                 'Jacobian', @(t, u) otp.allencahn.jacobian(t, u, L, alpha, beta, forcing));
             
         end

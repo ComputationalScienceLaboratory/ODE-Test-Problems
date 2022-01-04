@@ -41,7 +41,7 @@ classdef ArenstorfProblem < otp.Problem
         function onSettingsChanged(obj)
             mu = obj.Parameters.Mu;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.arenstorf.f(t, y, mu), ...
+            obj.RHS = otp.RHS(@(t, y) otp.arenstorf.f(t, y, mu), ...
                 'Jacobian', @(t, y) otp.arenstorf.jacobian(t, y, mu));
         end
         

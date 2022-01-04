@@ -1,6 +1,6 @@
 classdef PendulumProblem < otp.Problem
     properties (SetAccess = private)
-        RhsMass
+       RHSMass
     end
     
     methods
@@ -38,11 +38,11 @@ classdef PendulumProblem < otp.Problem
             offDiagScaling = -1 ./ (lengths(1:end-1) .* lengths(2:end) .* masses(1:end-1));
             cDiag = [1 / (lengths(1)^2 * masses(1)); (masses(1:end-1) + masses(2:end)) ./ (lengths(2:end).^2 .* masses(1:end-1) .* masses(2:end))];
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.pendulum.f(t, y, lengths, cumulativeMasses, g, offDiagScaling, cDiag));
+            obj.RHS = otp.RHS(@(t, y) otp.pendulum.f(t, y, lengths, cumulativeMasses, g, offDiagScaling, cDiag));
             
             scaledMasses = lengths .* cumulativeMasses(max(1:numBobs, (1:numBobs).')) .* lengths.';
             
-            obj.RhsMass = otp.Rhs(@(t, y) otp.pendulum.fmass(t, y, lengths, cumulativeMasses, g, scaledMasses),...
+            obj.RHSMass = otp.RHS(@(t, y) otp.pendulum.fmass(t, y, lengths, cumulativeMasses, g, scaledMasses),...
                 'Jacobian', @(t,y) otp.pendulum.jacmass(t, y, lengths, cumulativeMasses, g, scaledMasses), ...
                 'Mass', @(t,y) otp.pendulum.mass(t, y, lengths, cumulativeMasses, g, scaledMasses));
         end

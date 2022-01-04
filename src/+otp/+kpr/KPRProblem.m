@@ -1,7 +1,7 @@
 classdef KPRProblem < otp.Problem
     properties (SetAccess = private)
-        RhsFast
-        RhsSlow
+       RHSFast
+       RHSSlow
     end
     
     methods
@@ -15,13 +15,13 @@ classdef KPRProblem < otp.Problem
             lambda = obj.Parameters.Lambda;
             omega = obj.Parameters.Omega;
             
-            obj.Rhs = otp.Rhs(@(t,y) otp.kpr.f(t, y, lambda, omega), ...
+            obj.RHS = otp.RHS(@(t,y) otp.kpr.f(t, y, lambda, omega), ...
                 'Jacobian', @(t, y) otp.kpr.jacobian(t, y, lambda, omega));
             
-            obj.RhsFast = otp.Rhs(@(t,y) otp.kpr.ffast(t, y, lambda, omega), ...
+            obj.RHSFast = otp.RHS(@(t,y) otp.kpr.ffast(t, y, lambda, omega), ...
                 'Jacobian', @(t, y) otp.kpr.jacfast(t, y, lambda, omega));
             
-            obj.RhsSlow = otp.Rhs(@(t,y) otp.kpr.fslow(t, y, lambda, omega), ...
+            obj.RHSSlow = otp.RHS(@(t,y) otp.kpr.fslow(t, y, lambda, omega), ...
                 'Jacobian', @(t, y) otp.kpr.jacslow(t, y, lambda, omega));
         end
     end

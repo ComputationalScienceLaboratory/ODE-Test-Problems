@@ -1,6 +1,6 @@
 classdef LinearProblem < otp.Problem
     properties (SetAccess = private)
-        RhsPartitions
+       RHSPartitions
     end
     
     properties (Dependent)
@@ -25,8 +25,8 @@ classdef LinearProblem < otp.Problem
             end
         end
         
-        function rhs = createRhs(~, A)
-            rhs = otp.Rhs(@(~, y) A * y, ...
+        function rhs = createRHS(~, A)
+            rhs = otp.RHS(@(~, y) A * y, ...
                 'Jacobian', A, ...
                 'JacobianVectorProduct', @(~, ~, v) A * v, ...
                 'JacobianAdjointVectorProduct', @(~, ~, v) A' * v);
@@ -35,9 +35,9 @@ classdef LinearProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            obj.Rhs = obj.createRhs(obj.computeASum());
+            obj.RHS = obj.createRHS(obj.computeASum());
             % Octave doesn't support class arrays so nonuniform output
-            obj.RhsPartitions = cellfun(@obj.createRhs, obj.Parameters.A, ...
+            obj.RHSPartitions = cellfun(@obj.createRHS, obj.Parameters.A, ...
                 'UniformOutput', false);
         end
     end

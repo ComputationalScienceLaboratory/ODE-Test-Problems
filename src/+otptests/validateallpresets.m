@@ -1,4 +1,4 @@
-entry = dir(which('otp.Rhs'));
+entry = dir(which('otp.RHS'));
 otpdir = entry.folder;
 
 list = dir(otpdir);

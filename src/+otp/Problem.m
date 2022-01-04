@@ -5,7 +5,7 @@ classdef (Abstract) Problem < handle
     end
     
     properties (SetAccess = protected)
-        Rhs
+        RHS
     end
     
     properties (Access = private)
@@ -209,9 +209,9 @@ classdef (Abstract) Problem < handle
             
             % odeset is case sensitive for structs so convert unmatched parameters to a cell array
             unmatched = namedargs2cell(p.Unmatched);
-            options = obj.Rhs.odeset(unmatched{:});
+            options = obj.RHS.odeset(unmatched{:});
             
-            sol = p.Results.Solver(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
+            sol = p.Results.Solver(obj.RHS.F, obj.TimeSpan, obj.Y0, options);
             
             if ~isfield(sol, 'ie')
                 % All done if no event occurred
@@ -220,14 +220,14 @@ classdef (Abstract) Problem < handle
             
             problem = obj;
             while sol.x(end) ~= problem.TimeSpan(end)
-                [isterminal, problem] = problem.Rhs.OnEvent(sol, problem);
+                [isterminal, problem] = problem.RHS.OnEvent(sol, problem);
                 
                 if isterminal
                     return;
                 end
                 
                 % TODO: Octave does not support odextend
-                sol = odextend(sol, problem.Rhs.F, problem.TimeSpan(end), problem.Y0, options);
+                sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), problem.Y0, options);
             end
         end
     end
