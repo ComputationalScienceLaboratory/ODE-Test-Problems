@@ -34,8 +34,8 @@ problem.plot(sol);
 problem.Parameters.preyDeathRate = 2;
 
 % Manually use a MATLAB ODE solver to solve the problem
-options = odeset('Jacobian', problem.Rhs.Jacobian);
-[t, y] = ode15s(problem.Rhs.F, problem.TimeSpan, problem.Y0, options);
+options = odeset('Jacobian', problem.RHS.Jacobian);
+[t, y] = ode15s(problem.RHS.F, problem.TimeSpan, problem.Y0, options);
 
 % Plot the phase space with a custom title
 problem.plotPhaseSpace(t, y, 'Title', 'The Circle of Life');
