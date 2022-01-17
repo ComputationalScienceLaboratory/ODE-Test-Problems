@@ -8,6 +8,50 @@ Changes to OTP should be proposed as a pull request and undergo a review process
 before being merged into master. New code must be free of warnings and errors
 and adhere to the style guidelines.
 
+## Creating a Problem
+
+Each problem defines a package under `+otp` that contains all files used by the
+problem. When creating a new problem, we recommend duplicating an existing
+problem package, then renaming and editing the contents as needed.
+
+### Problem Class
+
+A problem package must contain a class named `<Name>Problem.m` that is a
+subclass of `otp.Problem`. There are two methods that must be implemented: the
+constructor and `onSettingsChanged`. Optionally, one can override functions such
+as `internalPlot` and `internalSolve` to provide problem-specific defaults.
+Partitioned problems can add custom `RHS`'s as class properties with private
+write access. The property name should start with `RHS`, e.g., `RHSStiff`.
+
+### Parameters
+
+A problem package must also contain a class named `<Name>Parameters.m`. It only
+needs to provide public properties for each of the problem parameters; no
+constructor or methods are needed. Property validation is currently not
+supported in Octave. Therefore, we use a custom comment syntax that is parsed by
+the installer to optionally include validation.
+
+```matlab
+% Example
+properties
+    MyProp %MATLAB ONLY: (1,1) {mustBeInteger, mustBePositive}
+end
+```
+
+### Functions for `RHS`
+
+Functions provided through a problem's `RHS` are implemented in function files.
+The names should match (up to capitalization) the `RHS` property names, e.g.,
+`jacobianvectorproduct.m`. Functions for custom `RHS`'s should include a
+descriptor at the end, e.g., `jacobianstiff.m`.
+
+### Presets
+
+Within a problem package, there should be a subpackage named `+presets`. This
+contains subclasses of `<Name>Problem` that specify the timespan, initial
+conditions, and parameters. Typically, only the constructor needs to be
+implemented in a preset class.
+
 ## Style Conventions
 
 In order for this project to maintain a consistent coding style, the following
@@ -27,7 +71,7 @@ Variable names should be written in camel case.
 % Examples
 data = 4;
 maxEigenvalue = eigs(rand(4), 1);
-rhsFun = @(t, y) y + sin(t);
+fun = @(t, y) y + sin(t);
 ```
 
 ### Functions
