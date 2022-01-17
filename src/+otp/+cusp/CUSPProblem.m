@@ -1,15 +1,15 @@
 classdef CUSPProblem < otp.Problem
-    % See Hairer and Wanner, Solving ODEs II, p. 147
+    %CUSPPROBLEM
     
     properties (Access = private, Constant)
         VarNames = 'yab';
     end
     
     properties (SetAccess = private)
-        RhsStiff
-        RhsNonstiff
-        RhsDiffusion
-        RhsReaction
+       RHSStiff
+       RHSNonstiff
+       RHSDiffusion
+       RHSReaction
     end
     
     methods
@@ -20,40 +20,37 @@ classdef CUSPProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            N = obj.Parameters.N;
-            epsilon = obj.Parameters.epsilon;
-            sigma = obj.Parameters.sigma;
+            n = obj.Parameters.Size;
+            epsilon = obj.Parameters.Epsilon;
+            sigma = obj.Parameters.Sigma;
             
             domain = [0, 1];
             
-            L = otp.utils.pde.laplacian(N, domain, sigma, 'C');
+            L = otp.utils.pde.laplacian(n, domain, sigma, 'C');
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.cusp.f(t, y, epsilon, L), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jac(t, y, epsilon, L));
+            obj.RHS = otp.RHS(@(t, y) otp.cusp.f(t, y, epsilon, L), ...
+                'Jacobian', @(t, y) otp.cusp.jacobian(t, y, epsilon, L), ...
+                'Vectorized', 'on');
             
-            obj.RhsStiff = otp.Rhs(@(t, y) otp.cusp.fstiff(t, y, epsilon, L), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacstiff(t, y, epsilon, L));
+            obj.RHSStiff = otp.RHS(@(t, y) otp.cusp.fstiff(t, y, epsilon, L), ...
+                'Jacobian', @(t, y) otp.cusp.jacobianstiff(t, y, epsilon, L), ...
+                'Vectorized', 'on');
             
-            obj.RhsNonstiff = otp.Rhs(@(t, y) otp.cusp.fnonstiff(t, y, epsilon, L), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacnonstiff(t, y, epsilon, L));
+            obj.RHSNonstiff = otp.RHS(@(t, y) otp.cusp.fnonstiff(t, y, epsilon, L), ...
+                'Jacobian', @(t, y) otp.cusp.jacobiannonstiff(t, y, epsilon, L), ...
+                'Vectorized', 'on');
               
-            obj.RhsDiffusion = otp.Rhs(@(t, y) otp.cusp.fdiffusion(t, y, epsilon, L), ...
-                otp.Rhs.FieldNames.Jacobian, otp.cusp.jacdiffusion(epsilon, L));
+            obj.RHSDiffusion = otp.RHS(@(t, y) otp.cusp.fdiffusion(t, y, epsilon, L), ...
+                'Jacobian', otp.cusp.jacobiandiffusion(epsilon, L), ...
+                'Vectorized', 'on');
               
-            obj.RhsReaction = otp.Rhs(@(t, y) otp.cusp.freaction(t, y, epsilon, L), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.cusp.jacreaction(t, y, epsilon, L));
+            obj.RHSReaction = otp.RHS(@(t, y) otp.cusp.freaction(t, y, epsilon, L), ...
+                'Jacobian', @(t, y) otp.cusp.jacobianreaction(t, y, epsilon, L), ...
+                'Vectorized', 'on');
         end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('epsilon', 'finite', 'positive') ...
-                .checkField('sigma', 'finite', 'positive');
-        end
-        
+
         function label = internalIndex2label(obj, index)
-            n = obj.Parameters.N;
+            n = obj.Parameters.Size;
             label = sprintf('%c_{%d}', obj.VarNames(ceil(index / n)), mod(index - 1, n) + 1);
         end
         

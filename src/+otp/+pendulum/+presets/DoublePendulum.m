@@ -1,9 +1,10 @@
 classdef DoublePendulum < otp.pendulum.PendulumProblem
     methods
         function obj = DoublePendulum
-            params.g = otp.utils.PhysicalConstants.EarthGravity;
-            params.lengths = [1,1];
-            params.masses = [1,1];
+            params = otp.pendulum.PendulumParameters;
+            params.Gravity = otp.utils.PhysicalConstants.EarthGravity;
+            params.Lengths = [1; 1];
+            params.Masses  = [1; 1];
             
             y0 = [pi/3; 0; 0; 0];
             tspan = [0 10];

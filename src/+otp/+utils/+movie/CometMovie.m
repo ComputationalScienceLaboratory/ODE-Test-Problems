@@ -1,6 +1,6 @@
 classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
     
-    properties (SetAccess = immutable, GetAccess = protected)
+    properties (Access = protected)
         Dim
     end
     
@@ -10,7 +10,7 @@ classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
                 error('Cannot make a %dD comet movie', dim);
             end
             
-            obj@otp.utils.movie.FancyMovie(varargin{:});
+            obj@otp.utils.movie.FancyMovie('View', dim, varargin{:});
             obj.Dim = dim;
         end
     end
@@ -60,8 +60,13 @@ classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
         end
     end
     
-    methods (Access = protected, Abstract)
-        x = getXPoints(obj, cometIdx, state);
-        y = getYPoints(obj, cometIdx, state);
+    methods (Access = protected)
+        function x = getXPoints(obj, cometIdx, state)
+            x = otp.utils.compatibility.abstract(obj, cometIdx, state);
+        end
+        
+        function y = getYPoints(obj, cometIdx, state)
+            y = otp.utils.compatibility.abstract(obj, cometIdx, state);           
+        end
     end
 end

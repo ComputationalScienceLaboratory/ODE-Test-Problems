@@ -1,19 +1,16 @@
 classdef (Abstract) Problem < handle
     
-    properties (SetAccess = immutable)
+    properties (SetAccess = private)
         Name % A human-readable representation of the problem
     end
     
-    properties (SetAccess = immutable, GetAccess = private)
-        ExpectedNumVars
-    end
-    
     properties (SetAccess = protected)
-        Rhs
+        RHS
     end
     
     properties (Access = private)
         Settings
+        ExpectedNumVars
     end
     
     properties (Dependent)
@@ -27,8 +24,7 @@ classdef (Abstract) Problem < handle
         function obj = Problem(name, expectedNumVars, timeSpan, y0, parameters)
             % Constructs a problem
             
-            % Switch to class parameter validation when better supported
-            if ~ischar(name) || isempty(name)
+            if ~ischar(name)
                 error('The problem name must be a nonempty character array');
             end
             obj.Name = name;
@@ -116,6 +112,11 @@ classdef (Abstract) Problem < handle
     end
     
     methods (Access = protected)
+        % This method is called when either TimeSpan, Y0, or parameters are changed.  It should update F and other properties such as a Jacobian to reflect the changes.  This is effevtively an abstract function but not explicitly marked so in order to support Octave
+        function onSettingsChanged(obj)
+            otp.utils.compatibility.abstract(obj);
+        end
+        
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
             % Ensures the TimeSpan, Y0, and Parameters are valid
             if length(newTimeSpan) ~= 2
@@ -128,8 +129,8 @@ classdef (Abstract) Problem < handle
                 error('Y0 must be numeric');
             elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
                 error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
-            elseif ~isstruct(newParameters)
-                error('Parameters must be a struct');
+            elseif isempty(newParameters)
+                error('Parameters cannot be empty');
             end
         end
         
@@ -203,29 +204,30 @@ classdef (Abstract) Problem < handle
             p = inputParser;
             p.KeepUnmatched = true;
             % Filter name-value pairs not passed to odeset
-            p.addParameter('Method', @ode15s, @(m) isa(m, 'function_handle'));
+            p.addParameter('Solver', otp.utils.Solver.Stiff, @(m) isa(m, 'function_handle'));
             p.parse(varargin{:});
             
             % odeset is case sensitive for structs so convert unmatched parameters to a cell array
             unmatched = namedargs2cell(p.Unmatched);
-            options = obj.Rhs.odeset(unmatched{:});
+            options = obj.RHS.odeset(unmatched{:});
             
-            sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
+            sol = p.Results.Solver(obj.RHS.F, obj.TimeSpan, obj.Y0, options);
             
             if ~isfield(sol, 'ie')
+                % All done if no event occurred
                 return;
             end
             
             problem = obj;
             while sol.x(end) ~= problem.TimeSpan(end)
-                [isterminal, problem] = problem.Rhs.OnEvent(sol, problem);
+                [isterminal, problem] = problem.RHS.OnEvent(sol, problem);
                 
                 if isterminal
                     return;
                 end
                 
-                options = problem.Rhs.odeset(options);
-                sol = odextend(sol, problem.Rhs.F, problem.TimeSpan(end), problem.Y0, options);
+                % TODO: Octave does not support odextend
+                sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), problem.Y0, options);
             end
         end
     end
@@ -259,10 +261,5 @@ classdef (Abstract) Problem < handle
                 error('Expected solution to have %d variables but has %d', obj.NumVars, n);
             end
         end
-    end
-    
-    methods (Abstract, Access = protected)
-        % This method is called when either TimeSpan, Y0, or parameters are changed.  It should update F and other properties such as a Jacobian to reflect the changes.
-        onSettingsChanged(obj);
     end
 end

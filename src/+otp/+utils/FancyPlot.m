@@ -53,11 +53,11 @@ classdef (Sealed) FancyPlot
             
             switch get(ax, strcat(dir, 'scale'))
                 case 'linear'
-                    [yMin, yMax] = bounds(data, 'all');
+                    [yMin, yMax] = bounds(data(:));
                     p = padding * (yMax - yMin);
                     limits = [yMin - p, yMax + p];
                 case 'log'
-                    [yMin, yMax] = bounds(data(data > 0));
+                    [yMin, yMax] = bounds(data(data(:) > 0));
                     p = (yMax / yMin)^padding;
                     limits = [yMin / p, yMax * p];
             end

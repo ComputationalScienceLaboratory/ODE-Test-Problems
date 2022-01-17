@@ -18,8 +18,9 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
 
             [nx, ny] = otp.qg.QuasiGeostrophicProblem.name2size(s.Size);
             
-            params.nx = nx;
-            params.ny = ny;
+            params = otp.qg.QuasiGeostrophicParameters;
+            params.Nx = nx;
+            params.Ny = ny;
             params.Re = s.ReynoldsNumber;
             params.Ro = s.RossbyNumber;
             

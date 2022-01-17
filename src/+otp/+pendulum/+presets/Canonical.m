@@ -1,17 +1,17 @@
 classdef Canonical < otp.pendulum.PendulumProblem
     methods
         function obj = Canonical(numBobs)
-            if nargin < 1
+            if nargin < 1 || isempty(numBobs)
                 numBobs = 1;
             end
             
-            params.g = otp.utils.PhysicalConstants.EarthGravity;
+            params.Gravity = otp.utils.PhysicalConstants.EarthGravity;
             
-            o = ones(numBobs, 1);
-            params.lengths = o;
-            params.masses = o;
+            vecOnes = ones(numBobs, 1);
+            params.Lengths = vecOnes;
+            params.Masses  = vecOnes;
             
-            y0 = [pi/2 * o; zeros(numBobs, 1)];
+            y0 = [pi/2*vecOnes; zeros(numBobs, 1)];
             tspan = [0, 10];
             
             obj = obj@otp.pendulum.PendulumProblem(tspan, y0, params);

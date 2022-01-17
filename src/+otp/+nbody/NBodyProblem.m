@@ -5,28 +5,18 @@ classdef NBodyProblem < otp.Problem
         end
     end
     
-    methods(Access=protected)
+    methods (Access = protected)
         function onSettingsChanged(obj)
-            spatialDim = obj.Parameters.spatialDim;
-            masses = obj.Parameters.masses;
-            g = obj.Parameters.gravitationalConstant;
-            softeningLength = obj.Parameters.softeningLength;
+            spatialDim = obj.Parameters.SpatialDim;
+            masses = obj.Parameters.Masses;
+            gravitationalConstant = obj.Parameters.GravitationalConstant;
+            softeningLength = obj.Parameters.SofteningLength;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.nbody.f(t, y, spatialDim, masses, g, softeningLength));
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters);
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('spatialDim', 'scalar', 'integer', 'positive') ...
-                .checkField('masses', 'finite') ...
-                .checkField('gravitationalConstant', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('softeningLength', 'scalar', 'real', 'finite', 'nonnegative');
+            obj.RHS = otp.RHS(@(t, y) otp.nbody.f(t, y, spatialDim, masses, gravitationalConstant, softeningLength));
         end
         
         function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
+            sol = internalSolve@otp.Problem(obj, 'Solver', otp.utils.Solver.Symplectic, varargin{:});
         end
         
         function mov = internalMovie(obj, t, y, varargin)

@@ -1,6 +1,6 @@
 function dy = fnonlinear(~, y, a, ~)
 
-nonlinearTerm = a * y(1)^2 * y(2);
+nonlinearTerm = a * y(1, :).^2 * y(2, :);
 
 dy = [
      1 + nonlinearTerm;

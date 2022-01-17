@@ -1,5 +1,5 @@
-function Jp = jpattern(N)
+function Jp = jpattern(n)
 
-Jp = spdiags(ones(N, 7), [-(N-1), -2, -1, 0, 1, N-2, N-1], N, N);
+Jp = spdiags(ones(n, 7), [-(n-1), -2, -1, 0, 1, n-2, n-1], n, n);
 
 end

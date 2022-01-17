@@ -3,7 +3,7 @@ classdef (Abstract) Movie < handle
         DefaultFramerate = 60
     end
     
-    properties (SetAccess = immutable, GetAccess = private)
+    properties (Access = private)
         Config
         Recorder
     end
@@ -100,9 +100,14 @@ classdef (Abstract) Movie < handle
         end
     end
     
-    methods (Access = protected, Abstract)
-        init(obj, fig, state);
-        drawFrame(obj, fig, state);
+    methods (Access = protected)
+        function init(obj, fig, state)
+            otp.utils.compatibility.abstract(obj, fig, state);
+        end
+        
+        function drawFrame(obj, fig, state)
+            otp.utils.compatibility.abstract(obj, fig, state);
+        end
     end
 end
 

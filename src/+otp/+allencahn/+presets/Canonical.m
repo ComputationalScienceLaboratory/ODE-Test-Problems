@@ -1,10 +1,11 @@
 classdef Canonical < otp.allencahn.AllenCahnProblem
+    %CANONICAL
     
     methods
         function obj = Canonical(varargin)
             
             p = inputParser;
-            p.addParameter('Size', 150, @isscalar);
+            p.addParameter('Size', 64);
             p.addParameter('alpha', 0.1);
             p.addParameter('beta', 1);                        
 
@@ -14,10 +15,12 @@ classdef Canonical < otp.allencahn.AllenCahnProblem
             
             n = s.Size;
             
-            params.n = n;
-            params.alpha = s.alpha;
-            params.beta = s.beta;
-            params.forcing = [];
+
+            params = otp.allencahn.AllenCahnParameters;
+            params.Size = n;
+            params.Alpha = s.alpha;
+            params.Beta = s.beta;
+            params.Forcing = 0;
             
             x = linspace(0, 1, n);
             [xs, ys] = meshgrid(x, x);

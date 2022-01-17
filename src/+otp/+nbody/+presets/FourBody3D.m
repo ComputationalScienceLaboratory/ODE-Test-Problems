@@ -1,10 +1,11 @@
 classdef FourBody3D < otp.nbody.NBodyProblem
     methods
-        function obj = FourBody3D()            
-            params.spatialDim = otp.utils.PhysicalConstants.ThreeD;
-            params.masses = [8; 10; 12; 14];
-            params.gravitationalConstant = 1;
-            params.softeningLength = 0;
+        function obj = FourBody3D()  
+            params = otp.nbody.NBodyParameters;
+            params.SpatialDim = otp.utils.PhysicalConstants.ThreeD;
+            params.Masses = [8; 10; 12; 14];
+            params.GravitationalConstant = 1;
+            params.SofteningLength = 0;
             
             positions = [ ...
                 0; 0; 0; ...

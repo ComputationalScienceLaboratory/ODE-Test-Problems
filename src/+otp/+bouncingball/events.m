@@ -1,6 +1,6 @@
-function [value, isterminal, direction] = events(~, u, ~, gF, ~)
+function [value, isterminal, direction] = events(~, u, ~, ground, ~)
 
-value      = u(2) - gF(u(1));
+value      = u(2) - ground(u(1));
 isterminal = true;
 direction  = -1;
 

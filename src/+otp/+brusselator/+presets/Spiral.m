@@ -1,19 +1,11 @@
 classdef Spiral < otp.brusselator.BrusselatorProblem
-    % [Name]
-    %  Spiral
-    %
-    % [Description]
-    %  Rapid decay into a fixed orbit
-    %
-    % [NoVars]
-    %  2
-    %
-    % [Citation]
+    %SPIRAL Rapid decay into a fixed orbit
     %
     methods
         function obj = Spiral
-            params.a = 1;
-            params.b = 2;
+            params = otp.brusselator.BrusselatorParameters;
+            params.A = 1;
+            params.B = 2;
             
             y0 = [2; 1];
             tspan = [0 75];

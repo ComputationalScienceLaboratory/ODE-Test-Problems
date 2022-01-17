@@ -1,14 +1,13 @@
 % From I.2.4 of Geometric Numerical Integration
 classdef OuterSolarSystem < otp.nbody.NBodyProblem
     methods
-        function obj = OuterSolarSystem()
-            import otp.utils.PhysicalConstants
-            
-            params.spatialDim = PhysicalConstants.ThreeD;
-            params.masses = [1.00000597682, 0.000954786104043, 0.000285583733151, 0.0000437273164546, ...
+        function obj = OuterSolarSystem()            
+            params = otp.nbody.NBodyParameters;
+            params.SpatialDim = otp.utils.PhysicalConstants.ThreeD;
+            params.Masses = [1.00000597682, 0.000954786104043, 0.000285583733151, 0.0000437273164546, ...
                 0.0000517759138449, 1 / 1.3e8];
-            params.gravitationalConstant = 2.95912208286e-4;
-            params.softeningLength = 0;
+            params.GravitationalConstant = 2.95912208286e-4;
+            params.SofteningLength = 0;
             
             positions = [0; 0; 0; ...
                 -3.5023653; -3.8169847; -1.5507963; ...

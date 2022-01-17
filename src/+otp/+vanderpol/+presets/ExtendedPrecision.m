@@ -30,10 +30,10 @@ classdef ExtendedPrecision < otp.vanderpol.VanderpolProblem
             y0 = [2; z0];
             tspan = [0, 0.5];            
             
-            params.epsilon = epsilon;
+            params = otp.vanderpol.VanderpolParameters;
+            params.Epsilon = epsilon;
             obj = obj@otp.vanderpol.VanderpolProblem(tspan, y0, params);
             
         end
     end
 end
-

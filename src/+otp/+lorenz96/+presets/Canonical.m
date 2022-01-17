@@ -1,20 +1,10 @@
 classdef Canonical < otp.lorenz96.Lorenz96Problem
-    % [Name]
-    %  Canonical
-    %
-    % [Description]
-    %  This is the original problem presented in the literature.
+    %CANONICAL This is the original problem presented in the literature.
     %  The initial condition is a slight perturbation of a critical point.
     %
-    % [NoVars]
-    %  40
-    %
-    % [Properties]
-    %  Chaotic
-    %
-    % [Citation]
-    %  (Lorenz & Emanuel 1996)
-    %
+    % See:
+    %     Lorenz, E. N. (1996, September). Predictability: A problem partly solved. 
+    %     In Proc. Seminar on predictability (Vol. 1, No. 1).
     methods
         function obj = Canonical(varargin)
 
@@ -26,15 +16,16 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             
             s = p.Results;
             
-            N = s.Size;
+            n = s.Size;
             
-            params.forcingFunction = s.Forcing;
+            params = otp.lorenz96.Lorenz96Parameters;
+            params.F = s.Forcing;
             
             % We initialise the Lorenz96 model as in (Lorenz & Emanuel 1998)
             
-            y0 = 8*ones(N, 1);
+            y0 = 8*ones(n, 1);
             
-            y0(floor(N/2)) = 8.008;
+            y0(floor(n/2)) = 8.008;
             
             % roughly ten years in system time
             tspan = [0, 720];
