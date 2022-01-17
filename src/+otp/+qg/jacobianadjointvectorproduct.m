@@ -26,7 +26,7 @@ DxTdpsiydnLv = DxT*(dpsiy.*dnLv);
 psiDxadnLvDy = (psi.*DxadnLv)*Dy;
 DxTpsiDyadnLv = DxT*(psi.*DyadnLv);
 
-dpsixDyadnLv = dpsix.*DyadnLv
+dpsixDyadnLv = dpsix.*DyadnLv;
 dpsiyDxadnLv = dpsiy.*DxadnLv;
 
 

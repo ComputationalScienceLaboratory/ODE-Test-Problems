@@ -8,7 +8,7 @@ classdef Canonical < otp.sanzserna.SanzSernaProblem
             params = otp.sanzserna.SanzSernaParameters;
 
             y0 = linspace(1/numGridCells + 1, 2, numGridCells).';
-            obj = obj@otp.sanzserna.SanzSernaProblem([0, 1], y0, struct);
+            obj = obj@otp.sanzserna.SanzSernaProblem([0, 1], y0, params);
         end
     end
 end
