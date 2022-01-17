@@ -1,4 +1,4 @@
-function jac = jacslow(t, y, lambda, omega)
+function jac = jacobianslow(t, y, lambda, omega)
 
 yf = y(1);
 ys = y(2);

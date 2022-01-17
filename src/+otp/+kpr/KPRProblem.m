@@ -19,10 +19,10 @@ classdef KPRProblem < otp.Problem
                 'Jacobian', @(t, y) otp.kpr.jacobian(t, y, lambda, omega));
             
             obj.RHSFast = otp.RHS(@(t,y) otp.kpr.ffast(t, y, lambda, omega), ...
-                'Jacobian', @(t, y) otp.kpr.jacfast(t, y, lambda, omega));
+                'Jacobian', @(t, y) otp.kpr.jacobianfast(t, y, lambda, omega));
             
             obj.RHSSlow = otp.RHS(@(t,y) otp.kpr.fslow(t, y, lambda, omega), ...
-                'Jacobian', @(t, y) otp.kpr.jacslow(t, y, lambda, omega));
+                'Jacobian', @(t, y) otp.kpr.jacobianslow(t, y, lambda, omega));
         end
     end
 end

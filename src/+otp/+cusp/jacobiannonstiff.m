@@ -1,4 +1,4 @@
-function j = jacnonstiff(~, u, ~, ~)
+function j = jacobiannonstiff(~, u, ~, ~)
 
 n = size(u, 1)/3;
 

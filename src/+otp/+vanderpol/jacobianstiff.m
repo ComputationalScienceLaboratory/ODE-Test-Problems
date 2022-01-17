@@ -1,4 +1,4 @@
-function J = jacstiff(~, y, epsilon)
+function J = jacobianstiff(~, y, epsilon)
 
 y1 = y(1);
 y2 = y(2);

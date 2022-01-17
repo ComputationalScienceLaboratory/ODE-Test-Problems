@@ -1,4 +1,4 @@
-function jac = jacfast(t, y, lambda, omega)
+function jac = jacobianfast(t, y, lambda, omega)
 
 yf = y(1);
 ys = y(2);

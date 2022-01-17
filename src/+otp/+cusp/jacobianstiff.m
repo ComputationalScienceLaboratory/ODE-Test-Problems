@@ -1,4 +1,4 @@
-function j = jacstiff(~, u, epsilon, L)
+function j = jacobianstiff(~, u, epsilon, L)
 
 n = size(u, 1)/3;
 

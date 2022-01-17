@@ -1,4 +1,4 @@
-function jac = jacnonlinear(~, y, a, ~)
+function jac = jacobiannonlinear(~, y, a, ~)
 
 v1 = 2 * a * y(1) * y(2);
 v2 = a * y(1)^2;

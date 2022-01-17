@@ -1,4 +1,4 @@
-function j = jacreaction(~, u, epsilon, ~)
+function j = jacobianreaction(~, u, epsilon, ~)
 
 n = size(u, 1)/3;
 
