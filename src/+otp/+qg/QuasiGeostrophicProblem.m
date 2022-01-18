@@ -10,6 +10,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
     end
     
     properties (SetAccess = private)
+        RHSADLES
         DistanceFunction
         FlowVelocityMagnitude
         JacobianFlowVelocityMagnitudeVectorProduct
@@ -17,83 +18,22 @@ classdef QuasiGeostrophicProblem < otp.Problem
     
     methods (Static)
         
-        function [nx, ny] = name2size(name)
+        function u = resize(u, newsize)
+            % resize uses interpolation to resize states
             
-            switch name
-                case 'atomic'
-                    nx = 3;
-                case 'miniscule'
-                    nx = 7;
-                case 'tiny'
-                    nx = 15;
-                case 'small'
-                    nx = 31;
-                case 'medium'
-                    nx = 63;
-                case 'large'
-                    nx = 127;
-                case 'huge'
-                    nx = 255;
-                case 'monsterous'
-                    nx = 511;
-                case 'bigly'
-                    nx = 1023;
-                otherwise
-                    error('Cannot convert string to grid sizes');
-            end
-            
-            ny = 2*nx + 1;
-            
-        end
-        
-        function u = relaxprolong(u, newsizename)
-            
-            s1 = size(u, 1);
-            
-            [s2x, s2y] = otp.qg.QuasiGeostrophicProblem.name2size(newsizename);
-            
-            size2n = @(s) round(log2((round(sqrt(1 + 8*s)) + 3)/4));
-            
-            n1 = size2n(s1);
-            n2 = size2n(s2x*s2y);
-            
-            if n1 > n2
-                
-                for i = 1:(n1 - n2)
-                    
-                    ni = n1 - i + 1;
-                    
-                    six = 2^ni - 1;
-                    siy = 2^(ni + 1) - 1;
-                    
-                    sjx = 2^(ni - 1) - 1;
-                    sjy = 2^ni - 1;
-                    
-                    [If2c, ~] = otp.utils.pde.relaxprolong2D(six, sjx, siy, sjy);
-                    
-                    u = If2c*u;
-                    
-                end
-                
-            elseif n1 < n2
-                
-                for i = 1:(n2 - n1)
-                    
-                    ni = n1 + i - 1;
-                    
-                    six = 2^ni - 1;
-                    siy = 2^(ni + 1) - 1;
-                    
-                    sjx = 2^(ni + 1) - 1;
-                    sjy = 2^(ni + 2) - 1;
-                    
-                    [~, Ic2f] = otp.utils.pde.relaxprolong2D(sjx, six, sjy, siy);
-                    
-                    u = Ic2f*u;
-                    
-                end
-                
-            end
+            s = size(u);
+
+            X = linspace(0, 1, s(1) + 2);
+            Y = linspace(0, 2, s(2) + 2).';
+            X = X(2:end-1);
+            Y = Y(2:end-1);
+
+            Xnew = linspace(0, 1, newsize(1) + 2);
+            Ynew = linspace(0, 2, newsize(2) + 2).';
+            Xnew = Xnew(2:end-1);
+            Ynew = Ynew(2:end-1);
+
+            u = interp2(Y, X, u, Ynew, Xnew);
             
         end
         
@@ -157,6 +97,21 @@ classdef QuasiGeostrophicProblem < otp.Problem
                 'JacobianAdjointVectorProduct', @(t, psi, v) ...
                 otp.qg.jacobianadjointvectorproduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro));
             
+
+            %% AD LES
+            adpasses = 4;
+            adlambda = 0.4;
+
+            adcoeffs = arrayfun(@(k) (-1)^(k + 1) * nchoosek(adpasses + 1, k), ...
+                1:(adpasses + 1));
+
+            % Equivalent to solving I - (lambda*hx)^2 L
+            L12filter = -(hx2*hy2./(-hx2*hy2 + 2*((adlambda^2)*hx2)*(-hx2 - hy2 + hy2*cos(pi*cx).' + hx2*cos(pi*cy))));
+
+            Fbar = P1*(L12filter.*(P1*F*P2))*P2;
+
+            obj.RHSADLES = otp.RHS(@(t, psi) ...
+                otp.qg.fapproximatedeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, adcoeffs, L12filter, Fbar));
 
             %% Distance function, and flow velocity
             obj.DistanceFunction = @(t, y, i, j) otp.qg.distfn(t, y, i, j, nx, ny);

@@ -8,19 +8,22 @@ classdef Canonical < otp.qg.QuasiGeostrophicProblem
             p = inputParser;
             addParameter(p, 'ReynoldsNumber', Re);
             addParameter(p, 'RossbyNumber', Ro);
-            addParameter(p, 'Size', 'huge');
+            addParameter(p, 'Size', [255, 511]);
 
             parse(p, varargin{:});
             
             s = p.Results;
             
-            [nx, ny] = otp.qg.QuasiGeostrophicProblem.name2size(s.Size);
+            nx = s.Size(1);
+            ny = s.Size(2);
             
             params = otp.qg.QuasiGeostrophicParameters;
             params.Nx = nx;
             params.Ny = ny;
             params.Re = s.ReynoldsNumber;
             params.Ro = s.RossbyNumber;
+            params.ADLambda = 0.4;
+            params.ADPasses = 4;
             
             %% Construct initial conditions
 

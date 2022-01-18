@@ -2,7 +2,7 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
     methods
         function obj = PopovMouIliescuSandu(varargin)
             
-            defaultsize = 'huge';
+            defaultsize = [255, 511];
 
             Re = 450;
             Ro = 0.0036;
@@ -16,22 +16,24 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
             
             s = p.Results;
 
-            [nx, ny] = otp.qg.QuasiGeostrophicProblem.name2size(s.Size);
+            nx = s.Size(1);
+            ny = s.Size(2);
             
             params = otp.qg.QuasiGeostrophicParameters;
             params.Nx = nx;
             params.Ny = ny;
             params.Re = s.ReynoldsNumber;
             params.Ro = s.RossbyNumber;
+            params.ADLambda = 0.4;
+            params.ADPasses = 4;
             
             %% Load initial conditions
             
             spy0s = load('PMISQGICsp.mat');
-            psi0 = double(spy0s.y0);
+            psi0 = reshape(double(spy0s.y0), 255, 511);
             
-            if ~ strcmp(defaultsize, s.Size)
-                psi0 = otp.qg.QuasiGeostrophicProblem.relaxprolong(psi0, s.Size);
-            end
+            psi0 = otp.qg.QuasiGeostrophicProblem.resize(psi0, s.Size);
+            psi0 = reshape(psi0, [], 1);
             
             %% Do the rest
             
