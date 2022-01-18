@@ -99,8 +99,8 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
 
             %% AD LES
-            adpasses = 4;
-            adlambda = 0.4;
+            adpasses = obj.Parameters.ADPasses;
+            adlambda = obj.Parameters.ADLambda;
 
             adcoeffs = arrayfun(@(k) (-1)^(k + 1) * nchoosek(adpasses + 1, k), ...
                 1:(adpasses + 1));
