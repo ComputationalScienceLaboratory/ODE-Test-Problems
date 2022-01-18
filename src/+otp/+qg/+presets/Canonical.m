@@ -22,7 +22,7 @@ classdef Canonical < otp.qg.QuasiGeostrophicProblem
             params.Ny = ny;
             params.Re = s.ReynoldsNumber;
             params.Ro = s.RossbyNumber;
-            params.ADLambda = 0.4;
+            params.ADLambda = 1;
             params.ADPasses = 4;
             
             %% Construct initial conditions

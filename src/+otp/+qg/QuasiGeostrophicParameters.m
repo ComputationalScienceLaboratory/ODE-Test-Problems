@@ -11,7 +11,7 @@ classdef QuasiGeostrophicParameters
         %Ro is the Rossby number
         Ro %MATLAB ONLY: (1,1) {mustBeFinite} = 0.0036
         %ADlambda is the approximate deconvolution parameter
-        ADLambda %MATLAB ONLY: (1,1) {mustBeFinite, mustBePositive} = 0.4
+        ADLambda %MATLAB ONLY: (1,1) {mustBeFinite, mustBePositive} = 1
         %ADPasses defines how many passes of the filter to do
         ADPasses %MATLAB ONLY: (1,1) {mustBeFinite, mustBePositive, mustBeInteger} = 4
     end
