@@ -121,11 +121,11 @@ classdef (Abstract) Problem < handle
             % Ensures the TimeSpan, Y0, and Parameters are valid
             if length(newTimeSpan) ~= 2
                 error('TimeSpan must be a vector of two times');
-            elseif ~(isnumeric(newTimeSpan) || isa(newTimeSpan, 'sym'))
+            elseif ~otp.utils.validation.isNumerical(newTimeSpan)
                 error('TimeSpan must be numeric');
             elseif ~iscolumn(newY0)
                 error('Y0 must be a column vector');
-            elseif ~(isnumeric(newY0) || isa(newY0, 'sym'))
+            elseif ~otp.utils.validation.isNumerical(newY0)
                 error('Y0 must be numeric');
             elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
                 error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
