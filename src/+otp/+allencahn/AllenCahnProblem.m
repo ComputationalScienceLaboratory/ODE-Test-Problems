@@ -18,7 +18,7 @@ classdef AllenCahnProblem < otp.Problem
             L = otp.utils.pde.laplacian([n n], domain, [1, 1], 'NN');
             
             if ~isa(forcing, 'function_handle')
-                f = @(t, y) otp.allencahn.fconstforce(t, y, L, alpha, beta, forcing);
+                f = @(t, y) otp.allencahn.fConstForce(t, y, L, alpha, beta, forcing);
             else
                 [x, y] = meshgrid(linspace(0, 1, n), linspace(0, 1, n));
                 x = x(:);

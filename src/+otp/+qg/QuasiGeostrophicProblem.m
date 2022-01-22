@@ -50,7 +50,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             
             s1 = size(u, 1);
             
-            [s2x, s2y] = otp.qg.QuasiGeostrophicProblem.name2size(newsizename);
+            [s2x, s2y] = otp.qg.QuasiGeostrophicProblem.name2Size(newsizename);
             
             size2n = @(s) round(log2((round(sqrt(1 + 8*s)) + 3)/4));
             
@@ -69,7 +69,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
                     sjx = 2^(ni - 1) - 1;
                     sjy = 2^ni - 1;
                     
-                    [If2c, ~] = otp.utils.pde.relaxprolong2D(six, sjx, siy, sjy);
+                    [If2c, ~] = otp.utils.pde.relaxProlong2D(six, sjx, siy, sjy);
                     
                     u = If2c*u;
                     
@@ -87,7 +87,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
                     sjx = 2^(ni + 1) - 1;
                     sjy = 2^(ni + 2) - 1;
                     
-                    [~, Ic2f] = otp.utils.pde.relaxprolong2D(sjx, six, sjy, siy);
+                    [~, Ic2f] = otp.utils.pde.relaxProlong2D(sjx, six, sjy, siy);
                     
                     u = Ic2f*u;
                     
@@ -152,18 +152,18 @@ classdef QuasiGeostrophicProblem < otp.Problem
                 otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
                 ...
                 'JacobianVectorProduct', @(t, psi, v) ...
-                otp.qg.jacobianvectorproduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
+                otp.qg.jacobianVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
                 ...
                 'JacobianAdjointVectorProduct', @(t, psi, v) ...
-                otp.qg.jacobianadjointvectorproduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro));
+                otp.qg.jacobianAdjointVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro));
             
 
             %% Distance function, and flow velocity
-            obj.DistanceFunction = @(t, y, i, j) otp.qg.distfn(t, y, i, j, nx, ny);
+            obj.DistanceFunction = @(t, y, i, j) otp.qg.distanceFunction(t, y, i, j, nx, ny);
             
-            obj.FlowVelocityMagnitude = @(psi) otp.qg.flowvelmag(psi, Dx, Dy);
+            obj.FlowVelocityMagnitude = @(psi) otp.qg.flowVelocityMagnitude(psi, Dx, Dy);
             
-            obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacflowvelmagvp(psi, u, Dx, Dy);
+            obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacobianFlowVelocityMagnitudeVectorProduct(psi, u, Dx, Dy);
             
         end
         
