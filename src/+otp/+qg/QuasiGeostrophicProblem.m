@@ -67,6 +67,12 @@ classdef QuasiGeostrophicProblem < otp.Problem
             % create the x and y Laplacians
             Lx = otp.utils.pde.laplacian(nx, xdomain, 1, bc(1));
             Ly = otp.utils.pde.laplacian(ny, ydomain, 1, bc(2));
+
+            % make Dx, DyT, Lx, and Ly full as pagemtimes does not support sparse
+            Dx  = full(Dx);
+            DyT = full(DyT);
+            Lx  = full(Lx);
+            Ly  = full(Ly);
             
             % Do decompositions for the eigenvalue sylvester method. See
             %
