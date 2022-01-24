@@ -42,8 +42,8 @@ end
 
 Functions provided through a problem's `RHS` are implemented in function files.
 The names should match (up to capitalization) the `RHS` property names, e.g.,
-`jacobianvectorproduct.m`. Functions for custom `RHS`'s should include a
-descriptor at the end, e.g., `jacobianstiff.m`.
+`jacobianVectorProduct.m`. Functions for custom `RHS`'s should include a
+descriptor at the end, e.g., `jacobianStiff.m`.
 
 ### Presets
 
@@ -76,12 +76,12 @@ fun = @(t, y) y + sin(t);
 
 ### Functions
 
-Functions should be completely alphanumeric and lowercase. No capitalization or
+Functions should be completely alphanumeric and written in camel case. No
 special character is used to distinguish between words.
 
 ```matlab
 % Example
-function r = depthfirstsearch(tree)
+function r = depthFirstSearch(tree)
     ...
 end
 ```

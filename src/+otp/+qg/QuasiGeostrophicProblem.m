@@ -36,7 +36,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             u = interp2(Y, X, u, Ynew, Xnew);
             
         end
-        
+      
     end
     
     methods (Access = protected)
@@ -98,10 +98,10 @@ classdef QuasiGeostrophicProblem < otp.Problem
                 otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
                 ...
                 'JacobianVectorProduct', @(t, psi, v) ...
-                otp.qg.jacobianvectorproduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
+                otp.qg.jacobianVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
                 ...
                 'JacobianAdjointVectorProduct', @(t, psi, v) ...
-                otp.qg.jacobianadjointvectorproduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro));
+                otp.qg.jacobianAdjointVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro));
             
 
             %% AD LES
@@ -120,11 +120,11 @@ classdef QuasiGeostrophicProblem < otp.Problem
                 otp.qg.fapproximatedeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, adcoeffs, L12filter, Fbar));
 
             %% Distance function, and flow velocity
-            obj.DistanceFunction = @(t, y, i, j) otp.qg.distfn(t, y, i, j, nx, ny);
+            obj.DistanceFunction = @(t, y, i, j) otp.qg.distanceFunction(t, y, i, j, nx, ny);
             
-            obj.FlowVelocityMagnitude = @(psi) otp.qg.flowvelmag(psi, Dx, Dy);
+            obj.FlowVelocityMagnitude = @(psi) otp.qg.flowVelocityMagnitude(psi, Dx, Dy);
             
-            obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacflowvelmagvp(psi, u, Dx, Dy);
+            obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacobianFlowVelocityMagnitudeVectorProduct(psi, u, Dx, Dy);
             
         end
         

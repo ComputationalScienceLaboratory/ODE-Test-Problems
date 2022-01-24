@@ -1,3 +1,4 @@
+
 classdef HIRESProblem < otp.Problem
     
     methods
@@ -10,8 +11,8 @@ classdef HIRESProblem < otp.Problem
         function onSettingsChanged(obj)
             obj.RHS = otp.RHS(@otp.hires.f, ...
                 'Jacobian', @otp.hires.jacobian, ...
-                'JacobianVectorProduct', @otp.hires.jvp, ...
-                'JacobianAdjointVectorProduct', @otp.hires.javp);
+                'JacobianVectorProduct', @otp.hires.jacobianVectorProduct, ...
+                'JacobianAdjointVectorProduct', @otp.hires.jacobianAdjointVectorProduct);
         end
         
         function fig = internalPlot(obj, t, y, varargin)
