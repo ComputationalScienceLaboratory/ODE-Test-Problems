@@ -24,7 +24,7 @@ mJ = (J1 + J2 + J3)/3;
 dqtmq = mJ + (1/Ro)*(dpsix) + (1/Ro)*F;
 
 % solve the sylvester equation
-nLidqtmq =  pagemtimes(pagemtimes(P1, L12.*pagemtimes(pagemtimes(P1, dqtmq), P2)), P2);
+nLidqtmq = pagemtimes(pagemtimes(P1, L12.*pagemtimes(pagemtimes(P1, dqtmq), P2)), P2);
 
 % solve into stream form of the rhs
 dpsit = reshape(nLidqtmq - (1/Re)*(q), nx*ny, []);

@@ -1,4 +1,4 @@
-function dpsit = fapproximatedeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, ~, ~, DyT, ~, Re, Ro, adcoeffs, L12filter, Fbar)
+function dpsit = fApproximateDeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, ~, ~, DyT, ~, Re, Ro, adcoeffs, L12filter, Fbar)
 % See
 %
 %  San, O., Staples, A. E., & Iliescu, T. (2013). 

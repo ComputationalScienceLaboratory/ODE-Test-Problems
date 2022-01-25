@@ -68,8 +68,10 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Lx = otp.utils.pde.laplacian(nx, xdomain, 1, bc(1));
             Ly = otp.utils.pde.laplacian(ny, ydomain, 1, bc(2));
 
-            % make Dx, DyT, Lx, and Ly full as pagemtimes does not support sparse
+            % make Dx, Dy, Lx, and Ly full as pagemtimes does not support sparse
             Dx  = full(Dx);
+            DxT = full(DxT);
+            Dy  = full(Dy);
             DyT = full(DyT);
             Lx  = full(Lx);
             Ly  = full(Ly);
@@ -117,7 +119,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Fbar = P1*(L12filter.*(P1*F*P2))*P2;
 
             obj.RHSADLES = otp.RHS(@(t, psi) ...
-                otp.qg.fapproximatedeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, adcoeffs, L12filter, Fbar));
+                otp.qg.fApproximateDeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, adcoeffs, L12filter, Fbar));
 
             %% Distance function, and flow velocity
             obj.DistanceFunction = @(t, y, i, j) otp.qg.distanceFunction(t, y, i, j, nx, ny);
