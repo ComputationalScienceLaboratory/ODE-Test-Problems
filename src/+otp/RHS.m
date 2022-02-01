@@ -40,6 +40,16 @@ classdef RHS
             newF = @(t, y) objF(t, y) + otherF(t, y);
             newRHS = otp.RHS(newF);
         end
+
+        function newRHS = subsref(obj, vs)
+            if vs.type == '.'
+                newRHS = obj.(vs.subs);
+            else
+                objF   = obj.F;
+                newF = @(t, y) subsref(objF(t, y), vs);
+                newRHS = otp.RHS(newF);
+            end
+        end
         
         function opts = odeset(obj, varargin)
             opts = odeset( ...
