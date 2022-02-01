@@ -64,12 +64,20 @@ classdef RHS < matlab.mixin.indexing.RedefinesParen
             newRHS = otp.RHS(newF);
         end
 
-        function newRHS = cat(obj, other)
-            error('');
+        function newRHS = cat(dim, varargin)
+            newF = @(t, y) [];
+            if dim == 1
+                for i = 1:numel(varargin)
+                    oldRHS = varargin{i};
+                    oldF = oldRHS.F;
+                    newF = @(t, y) [newF(t, y); oldF(t, y)];
+                end
+            end
+            newRHS = otp.RHS(newF);
         end
 
-        function newRHS = size(obj)
-            error('');
+        function s = size(~)
+            s = [1, 1];
         end
         
         function opts = odeset(obj, varargin)
