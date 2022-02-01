@@ -33,6 +33,13 @@ classdef RHS
                 obj.(f) = extras.(f);
             end
         end
+
+        function newRHS = plus(obj, other)
+            objF   = obj.F;
+            otherF = other.F;
+            newF = @(t, y) objF(t, y) + otherF(t, y);
+            newRHS = otp.RHS(newF);
+        end
         
         function opts = odeset(obj, varargin)
             opts = odeset( ...
