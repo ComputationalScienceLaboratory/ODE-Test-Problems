@@ -1,4 +1,4 @@
-classdef RHS < matlab.mixin.indexing.RedefinesParen
+classdef RHS 
     properties (SetAccess = private)
         F
         
@@ -21,29 +21,6 @@ classdef RHS < matlab.mixin.indexing.RedefinesParen
         HessianAdjointVectorProduct
         OnEvent
     end
-    
-    methods (Access = protected)
-        function newRHS = parenReference(obj, indexClass)
-            objF   = obj.F;
-            subst.type = '()';
-            subst.subs =  indexClass.Indices;
-            newF = @(t, y) subsref(objF(t, y), subst);
-            newRHS = otp.RHS(newF);
-        end
-
-        function newRHS = parenAssign(~, ~,~)
-            error('');
-        end
-
-        function newRHS = parenListLength(~, ~,~)
-            error('');
-        end
-
-        function newRHS = parenDelete(~, ~,~)
-            error('');
-        end
-    end
-
 
     methods
         function obj = RHS(F, varargin)
@@ -57,6 +34,16 @@ classdef RHS < matlab.mixin.indexing.RedefinesParen
             end
         end
 
+        function newRHS = subsref(obj, vs)
+            if strcmp(vs(1).type, '()')
+                objF   = obj.F;
+                newF = @(t, y) subsref(objF(t, y), vs);
+                newRHS = otp.RHS(newF);
+            else
+                newRHS = builtin('subsref', obj, vs);
+            end
+        end
+
         function newRHS = plus(obj, other)
             objF   = obj.F;
             otherF = other.F;
@@ -64,15 +51,17 @@ classdef RHS < matlab.mixin.indexing.RedefinesParen
             newRHS = otp.RHS(newF);
         end
 
-        function newRHS = cat(dim, varargin)
+        function newRHS = vertcat(varargin)
             newF = @(t, y) [];
-            if dim == 1
-                for i = 1:numel(varargin)
-                    oldRHS = varargin{i};
-                    oldF = oldRHS.F;
-                    newF = @(t, y) [newF(t, y); oldF(t, y)];
-                end
+
+            for i = 1:numel(varargin)
+                oldRHS = varargin{i};
+                oldF = oldRHS.F;
+
+                newF = @(t, y) [newF(t, y); oldF(t, y)];
+
             end
+
             newRHS = otp.RHS(newF);
         end
 
