@@ -38,7 +38,21 @@ classdef RHS
             if strcmp(vs(1).type, '()')
                 objF   = obj.F;
                 newF = @(t, y) subsref(objF(t, y), vs);
-                newRHS = otp.RHS(newF);
+                newJac = [];
+                if ~isempty(obj.Jacobian)
+                    newJac = @(t, y) subsref(obj.Jacobian(t, y), vs);
+                end
+                newJacvp = [];
+                if ~isempty(obj.JacobianVectorProduct)
+                    newJacvp = @(t, y, v) subsref(obj.JacobianVectorProduct(t, y, v), vs);
+                end
+                
+                vectorized = obj.Vectorized;
+
+                newRHS = otp.RHS(newF, ...
+                    'Jacobian', newJac, ...
+                    'JacobianVectorProduct', newJacvp, ...
+                    'Vectorized', vectorized);
             else
                 newRHS = builtin('subsref', obj, vs);
             end
