@@ -36,8 +36,8 @@ classdef RHS
 
         function newRHS = subsref(obj, vs)
             if strcmp(vs(1).type, '()')
-                objF   = obj.F;
-                newF = @(t, y) subsref(objF(t, y), vs);
+                newF = @(t, y) subsref(obj.F(t, y), vs);
+
                 newJac = [];
                 if ~isempty(obj.Jacobian)
                     newJac = @(t, y) subsref(obj.Jacobian(t, y), vs);
@@ -67,6 +67,8 @@ classdef RHS
 
         function newRHS = vertcat(varargin)
             newF = @(t, y) [];
+            newJac = @(t, y) [];
+            newJacvp = @(t, y, v) [];
 
             for i = 1:numel(varargin)
                 oldRHS = varargin{i};
@@ -74,9 +76,26 @@ classdef RHS
 
                 newF = @(t, y) [newF(t, y); oldF(t, y)];
 
+                oldJac = oldRHS.Jacbobian;
+                if ~isempty(oldJac)
+                    newJac = @(t, y) [newJac(t, y); oldJac(t, y)];
+                end
+
+                oldJacvp = oldRHS.JacobianVectorProduct;
+                if ~isempty(oldJacvp)
+                    newJacvp = @(t, y, v) [newJacvp(t, y, v); oldJacvp(t, y, v)];
+                end
+
             end
 
-            newRHS = otp.RHS(newF);
+            
+
+            vectorized = obj.Vectorized;
+
+            newRHS = otp.RHS(newF, ...
+                'Jacobian', newJac, ...
+                'JacobianVectorProduct', newJacvp, ...
+                'Vectorized', vectorized);
         end
 
         function s = size(~)
