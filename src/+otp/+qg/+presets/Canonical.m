@@ -20,8 +20,8 @@ classdef Canonical < otp.qg.QuasiGeostrophicProblem
             params = otp.qg.QuasiGeostrophicParameters;
             params.Nx = nx;
             params.Ny = ny;
-            params.Re = s.ReynoldsNumber;
-            params.Ro = s.RossbyNumber;
+            params.ReynoldsNumber = s.ReynoldsNumber;
+            params.RossbyNumber   = s.RossbyNumber;
             params.ADLambda = 1;
             params.ADPasses = 4;
             

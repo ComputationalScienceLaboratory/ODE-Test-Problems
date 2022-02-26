@@ -46,8 +46,8 @@ classdef QuasiGeostrophicProblem < otp.Problem
             nx = obj.Parameters.Nx;
             ny = obj.Parameters.Ny;
             
-            Re = obj.Parameters.Re;
-            Ro = obj.Parameters.Ro;
+            Re = obj.Parameters.ReynoldsNumber;
+            Ro = obj.Parameters.RossbyNumber;
                         
             hx = 1/(nx + 1);
             hy = 2/(ny + 1);
