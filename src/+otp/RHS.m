@@ -1,4 +1,4 @@
-classdef RHS 
+classdef RHS
     properties (SetAccess = private)
         F
         
@@ -65,43 +65,43 @@ classdef RHS
         end
 
         function newRHS = plus(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @plus, 2);
+            newRHS = applyOp(obj1, obj2, @plus, @(r, ~) r, @(~, r) r, @plus);
         end
 
         function newRHS = minus(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @minus, 2);
+            newRHS = applyOp(obj1, obj2, @minus, @(r, ~) r, @(~, r) r, @minus);
         end
 
         function newRHS = mtimes(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @mtimes, 1);
+            newRHS = applyOp(obj1, obj2, @mtimes, @mtimes, @mtimes, []);
         end
 
         function newRHS = times(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @times, 1);
+            newRHS = applyOp(obj1, obj2, @times, @times, @times, []);
         end
 
         function newRHS = rdivide(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @rdivide, 1);
+            newRHS = applyOp(obj1, obj2, @rdivide, @rdivide, @rdivide, []);
         end
 
         function newRHS = ldivide(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @ldivide, 1);
+            newRHS = applyOp(obj1, obj2, @ldivide, @ldivide, @ldivide, []);
         end
 
         function newRHS = mrdivide(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @mrdivide, 1);
+            newRHS = applyOp(obj1, obj2, @mrdivide, @mrdivide, @mrdivide, []);
         end
 
         function newRHS = mldivide(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @mldivide, 1);
+            newRHS = applyOp(obj1, obj2, @mldivide, @mldivide, @mldivide, []);
         end
 
         function newRHS = power(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @power, 0);
+            newRHS = applyOp(obj1, obj2, @power, [], [], []);
         end
 
         function newRHS = mpower(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @mpower, 0);
+            newRHS = applyOp(obj1, obj2, @mpower, [], [], []);
         end
         
         function opts = odeset(obj, varargin)
@@ -122,93 +122,84 @@ classdef RHS
     end
     
     methods (Access = private)
-        function mat = prop2Matrix(~, prop)
-            if isa(prop, 'function_handle')
+        function mat = prop2Matrix(~, p)
+            if isa(p, 'function_handle')
                 mat = [];
             else
-                mat = prop;
+                mat = p;
             end
         end
         
-        function fun = prop2Function(~, prop)
-            if isa(prop, 'function_handle') || isempty(prop)
-                fun = prop;
+        function fun = prop2Function(~, p)
+            if isa(p, 'function_handle') || isempty(p)
+                fun = p;
             else
-                fun = @(varargin) prop;
+                fun = @(varargin) p;
             end
         end
         
-        function newRHS = applyOp(obj1, obj2, op, differentiability)            
+        function newRHS = applyOp(obj1, obj2, op, dOpLeft, dOpRight, dOpBoth)
+            if isa(obj1, 'function_handle')
+                obj1 = otp.RHS(obj1);
+            elseif isa(obj2, 'function_handle')
+                obj2 = otp.RHS(obj2);
+            end
+            
+            if isa(obj1, 'otp.RHS')
+                primaryRHS = obj1;
+                if isa(obj2, 'otp.RHS')
+                    f = otp.RHS.mergeProp(obj1.F, obj2.F, op);
+                    merge = @(p) otp.RHS.mergeProp(obj1.(p), obj2.(p), dOpBoth);
+                    
+                    if strcmp(obj1.Vectorized, obj2.Vectorized)
+                        vectorized = obj1.Vectorized;
+                    end
+                else
+                    f = otp.RHS.mergeProp(obj1.F, obj2, op);
+                    merge = @(p) otp.RHS.mergeProp(obj1.(p), obj2, dOpLeft);
+                    vectorized = obj1.Vectorized;
+                end
+            else
+                primaryRHS = obj2;
+                f = otp.RHS.mergeProp(obj1, obj2.F, op);
+                merge = @(p) otp.RHS.mergeProp(obj1, obj2.(p), dOpRight);
+                vectorized = obj2.Vectorized;
+            end
+            
             % Events and NonNegative practically cannot be supported and are
             % always unset.
+            
+            % JPattern is problematic to compute for division operators due to
+            % singular patterns
             
             % Mass matrices introduce several difficulties. When singular, it
             % makes it infeasible to update InitialSlope, and therefore, it is
             % always unset. To avoid issues with two RHS' having different mass
             % matrices, only the primary RHS is used.
-            [~, ~, props.Mass] = getProp(obj1, obj2, 'Mass');
-            [~, ~, props.MassSingular] = getProp(obj1, obj2, 'MassSingular');
-            [~, ~, props.MStateDependence] = getProp(obj1, obj2, ...
-                'MStateDependence');
-            [~, ~, props.MvPattern] = getProp(obj1, obj2, 'MvPattern');
             
-            % Merge derivatives
-            props.Jacobian = mergeProp(obj1, obj2, op, differentiability, ...
-                'Jacobian');
-            props.JacobianVectorProduct = mergeProp(obj1, obj2, op, ...
-                differentiability, 'JacobianVectorProduct');
-            props.JacobianAdjointVectorProduct = mergeProp(obj1, obj2, op, ...
-                differentiability, 'JacobianAdjointVectorProduct');
-            props.PartialDerivativeParameters = mergeProp(obj1, obj2, op, ...
-                differentiability, 'PartialDerivativeParameters');
-            props.PartialDerivativeTime = mergeProp(obj1, obj2, op, ...
-                differentiability, 'PartialDerivativeTime');
-            props.HessianVectorProduct = mergeProp(obj1, obj2, op, ...
-                differentiability, 'HessianVectorProduct');
-            props.HessianAdjointVectorProduct = mergeProp(obj1, obj2, op, ...
-                differentiability, 'HessianAdjointVectorProduct');
-            
-            % JPattern requirs a special merge function
-            if differentiability == 2
-                patternOp = @or;
-            else
-                patternOp = @(j1, j2) op(j1 ~= 0, j2 ~=0) ~= 0;
-            end
-            props.JPattern = mergeProp(obj1, obj2, patternOp, ...
-                differentiability, 'JPattern');
-            
-            % Vectorization
-            [v1, v2, vPrimary, numRHS] = getProp(obj1, obj2, 'Vectorized');
-            if numRHS == 1 || strcmp({v1, v2}, 'on')
-                props.Vectorized = vPrimary;
-            end
-            
-            newRHS = otp.RHS(mergeProp(obj1, obj2, op, inf, 'F'), props);
+            newRHS = otp.RHS(f, ...
+                'Mass', primaryRHS.Mass, ...
+                'MassSingular', primaryRHS.MassSingular, ...
+                'MStateDependence', primaryRHS.MStateDependence, ...
+                'MvPattern', primaryRHS.MvPattern, ...
+                'Jacobian', merge('Jacobian'), ...
+                'JacobianVectorProduct', merge('JacobianVectorProduct'), ...
+                'JacobianAdjointVectorProduct', ...
+                merge('JacobianAdjointVectorProduct'), ...
+                'PartialDerivativeParameters', ...
+                merge('PartialDerivativeParameters'), ...
+                'PartialDerivativeTime', merge('PartialDerivativeTime'), ...
+                'HessianVectorProduct', merge('HessianVectorProduct'), ...
+                'HessianAdjointVectorProduct', ...
+                merge('HessianAdjointVectorProduct'), ...
+                'Vectorized', vectorized);
         end
-        
-        function [obj1, obj2, primary, numRHS] = getProp(obj1, obj2, prop)
-            numRHS = 1;
-            
-            if isa(obj1, 'otp.RHS')
-                obj1 = obj1.(prop);                
-                if isa(obj2, 'otp.RHS')
-                    obj2 = obj2.(prop);
-                    numRHS = 2;
-                end
-                primary = obj1;
-            else
-                obj2 = obj2.(prop);
-                primary = obj2;
-            end
-        end
-        
-        function p = mergeProp(obj1, obj2, op, differentiability, prop)
-            [p1, p2, pPrimary, numRHS] = getProp(obj1, obj2, prop);
-            
-            if isempty(p1) || isempty(p2) || numRHS > differentiability
+    end
+    
+    methods (Static, Access = private)
+        function p = mergeProp(p1, p2, op)
+            if isempty(p1) || isempty(p2) || isempty(op)
                 p = [];
-            elseif numRHS == differentiability - 1
-                p = pPrimary;
             elseif isa(p1, 'function_handle')
                 if isa(p2, 'function_handle')
                     p = @(varargin) op(p1(varargin{:}), p2(varargin{:}));
