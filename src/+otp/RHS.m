@@ -69,7 +69,7 @@ classdef RHS
         end
 
         function newRHS = minus(obj1, obj2)
-            newRHS = applyOp(obj1, obj2, @minus, @(r, ~) r, @(~, r) r, @minus);
+            newRHS = applyOp(obj1, obj2, @minus, @(r, ~) r, @(~, r) -r, @minus);
         end
 
         function newRHS = mtimes(obj1, obj2)
