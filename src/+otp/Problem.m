@@ -246,9 +246,9 @@ classdef (Abstract) Problem < handle
                 params = varargin(2:end);
             end
             
-            if ~(isvector(t) && isnumeric(t))
+            if ~(isvector(t) && otp.utils.validation.isNumerical(t))
                 error('The times must be a vector of numbers');
-            elseif ~(ismatrix(y) && isnumeric(y))
+            elseif ~(ismatrix(y) && otp.utils.validation.isNumerical(y))
                 error('The solution must be matrix of numbers');
             end
             
