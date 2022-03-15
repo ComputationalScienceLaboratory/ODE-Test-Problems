@@ -168,7 +168,10 @@ classdef (Abstract) Problem < handle
                 leg = {};
             else
                 labels = cell(dim, 1);
-                leg = @(i) strjoin(arrayfun(@obj.internalIndex2label, vars(i, :), 'UniformOutput', false), ' vs ');
+                % Octave bug: function handle from class not working with
+                % arrayfun so stored in local var first
+                labelFun = @obj.internalIndex2label;
+                leg = @(i) strjoin(arrayfun(labelFun, vars(i, :), 'UniformOutput', false), ' vs ');
             end
             
             if dim == otp.utils.PhysicalConstants.TwoD
