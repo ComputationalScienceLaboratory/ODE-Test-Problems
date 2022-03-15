@@ -227,7 +227,9 @@ classdef (Abstract) Problem < handle
                 end
                 
                 % TODO: Octave does not support odextend
-                sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), problem.Y0, options);
+                options = problem.RHS.odeset(unmatched{:});
+                sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
+                    problem.Y0, options);
             end
         end
     end
