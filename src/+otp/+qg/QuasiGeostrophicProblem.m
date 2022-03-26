@@ -100,6 +100,15 @@ classdef QuasiGeostrophicProblem < otp.Problem
     end
     
     methods (Access = protected)
+        function validateNewState(obj, newTimeSpan, newY0, newParameters)
+            y0Len = length(newY0);
+            gridPts = newParameters.Nx * newParameters.Ny;
+            
+            if y0Len ~= gridPts
+                warning('Y0 has size %d, but there are %d grid points', ...
+                    y0Len, gridPts);
+            end
+        end
         
         function onSettingsChanged(obj)
             

@@ -24,10 +24,25 @@ classdef PendulumProblem < otp.Problem
     end
     
     methods (Access = protected)
+        function validateNewState(obj, newTimeSpan, newY0, newParameters)
+            y0Len = length(newY0);
+            numMasses = length(newParameters.Masses);
+            numLens = length(newParameters.Lengths);
+            
+            if y0Len ~= 2 * numMasses
+                warning( ...
+                    'With %d masses, Y0 should have length %d but has %d', ...
+                    numMasses, 2 * numMasses, y0Len);
+            elseif numMasses ~= numLens
+                warning('Masses has length %d, but Lengths has length %d', ...
+                    numMasses, numLens);
+            end
+        end
+        
         function onSettingsChanged(obj)
             g = obj.Parameters.Gravity;
-            lengths = obj.Parameters.Lengths(:);
-            masses  = obj.Parameters.Masses(:);
+            lengths = obj.Parameters.Lengths;
+            masses  = obj.Parameters.Masses;
             
             numBobs = min(numel(lengths), numel(masses));
             lengths = lengths(1:numBobs);
