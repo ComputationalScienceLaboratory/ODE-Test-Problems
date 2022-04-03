@@ -29,6 +29,8 @@ classdef (Abstract) Problem < handle
             end
             obj.Name = name;
             obj.ExpectedNumVars = expectedNumVars;
+            
+            % IDEA: Make Settings a class with property validation
             obj.Settings = struct('timeSpan', timeSpan(:), 'y0', y0, 'parameters', parameters);
         end
         

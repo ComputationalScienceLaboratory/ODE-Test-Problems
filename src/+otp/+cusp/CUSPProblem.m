@@ -20,11 +20,15 @@ classdef CUSPProblem < otp.Problem
     
     methods (Access = protected)
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
+            validateNewState@otp.Problem(obj, newTimeSpan, newY0, ...
+                newParameters);
+            
             y0Len = length(newY0);
             gridPts = 3 * newParameters.Size;
             
             if y0Len ~= gridPts
-                warning('Y0 has size %d, but there are %d grid points', ...
+                warning('OTP:inconsistentNumVars', ...
+                    'NumVars is %d, but there are %d grid points', ...
                     y0Len, gridPts);
             end
         end

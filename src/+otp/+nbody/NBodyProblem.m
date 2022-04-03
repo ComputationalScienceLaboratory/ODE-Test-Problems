@@ -7,13 +7,16 @@ classdef NBodyProblem < otp.Problem
     
     methods (Access = protected)
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
+            validateNewState@otp.Problem(obj, newTimeSpan, newY0, ...
+                newParameters);
+            
             numMasses = length(newParameters.Masses);
             expectedLen = numMasses * 2^newParameters.SpatialDim;
             actualLen = length(newY0);
             
             if expectedLen ~= actualLen
-                warning( ...
-                    'With %d masses, Y0 should have length %d but has %d', ...
+                warning('OTP:inconsistentNumVars', ...
+                    'With %d masses, NumVars should be %d but is %d', ...
                     numMasses, expectedLen, actualLen);
             end
         end

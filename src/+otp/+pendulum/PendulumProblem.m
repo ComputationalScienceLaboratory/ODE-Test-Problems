@@ -25,17 +25,21 @@ classdef PendulumProblem < otp.Problem
     
     methods (Access = protected)
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
+            validateNewState@otp.Problem(obj, newTimeSpan, newY0, ...
+                newParameters);
+            
             y0Len = length(newY0);
             numMasses = length(newParameters.Masses);
             numLens = length(newParameters.Lengths);
             
             if y0Len ~= 2 * numMasses
-                warning( ...
-                    'With %d masses, Y0 should have length %d but has %d', ...
+                warning('OTP:inconsistentNumVars', ...
+                    'With %d masses, NumVars should be %d but is %d', ...
                     numMasses, 2 * numMasses, y0Len);
-            elseif numMasses ~= numLens
-                warning('Masses has length %d, but Lengths has length %d', ...
-                    numMasses, numLens);
+            elseif y0Len ~= 2 * numLens
+                warning('OTP:inconsistentNumVars', ...
+                    'With %d lengths, NumVars should be %d but is %d', ...
+                    numLens, 2 * numLens, y0Len);
             end
         end
         
