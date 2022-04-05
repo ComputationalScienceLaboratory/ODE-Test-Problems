@@ -24,10 +24,29 @@ classdef PendulumProblem < otp.Problem
     end
     
     methods (Access = protected)
+        function validateNewState(obj, newTimeSpan, newY0, newParameters)
+            validateNewState@otp.Problem(obj, newTimeSpan, newY0, ...
+                newParameters);
+            
+            y0Len = length(newY0);
+            numMasses = length(newParameters.Masses);
+            numLens = length(newParameters.Lengths);
+            
+            if y0Len ~= 2 * numMasses
+                warning('OTP:inconsistentNumVars', ...
+                    'With %d masses, NumVars should be %d but is %d', ...
+                    numMasses, 2 * numMasses, y0Len);
+            elseif y0Len ~= 2 * numLens
+                warning('OTP:inconsistentNumVars', ...
+                    'With %d lengths, NumVars should be %d but is %d', ...
+                    numLens, 2 * numLens, y0Len);
+            end
+        end
+        
         function onSettingsChanged(obj)
             g = obj.Parameters.Gravity;
-            lengths = obj.Parameters.Lengths(:);
-            masses  = obj.Parameters.Masses(:);
+            lengths = obj.Parameters.Lengths;
+            masses  = obj.Parameters.Masses;
             
             numBobs = min(numel(lengths), numel(masses));
             lengths = lengths(1:numBobs);

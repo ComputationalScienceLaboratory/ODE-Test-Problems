@@ -8,6 +8,20 @@ classdef AllenCahnProblem < otp.Problem
     end
     
     methods (Access = protected)
+        function validateNewState(obj, newTimeSpan, newY0, newParameters)
+            validateNewState@otp.Problem(obj, newTimeSpan, newY0, ...
+                newParameters);
+            
+            y0Len = length(newY0);
+            gridPts = newParameters.Size^2;
+            
+            if y0Len ~= gridPts
+                warning('OTP:inconsistentNumVars', ...
+                    'NumVars is %d, but there are %d grid points', ...
+                    y0Len, gridPts);
+            end
+        end
+        
         function onSettingsChanged(obj)
             n = obj.Parameters.Size;
             alpha = obj.Parameters.Alpha;
