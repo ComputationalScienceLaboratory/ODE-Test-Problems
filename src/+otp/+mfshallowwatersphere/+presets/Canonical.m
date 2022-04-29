@@ -2,7 +2,14 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
     methods
         function obj = Canonical(varargin)
             
-            load('nodes100.mat', 'x', 'y', 'z');
+            %load('nodes100.mat', 'x', 'y', 'z');
+
+            load('nodes250.mat', 'x', 'y', 'z');
+
+            %load('nodes784.mat', 'x', 'y', 'z');
+
+            %load('nodes500.mat', 'x', 'y', 'z');
+
 
             % mean water height
             H = 5.768e4;
@@ -12,6 +19,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
             a = otp.utils.PhysicalConstants.EarthRadius;
             % initial velocity for the perturbation
             u0 = 20;
+            %u0 = 1;
             % Angular velocity of the earth
             Omega = otp.utils.PhysicalConstants.EarthAngularVelocity;
 
@@ -26,8 +34,13 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
             params.y = y;
             params.z = z;
 
-            params.rbfradius = 2.0;
+            %params.rbfradius = 2.0;
+            %params.rbf = @otp.utils.rbf.buhmann3;
+
+            params.rbfradius =  2;
             params.rbf = @otp.utils.rbf.buhmann3;
+            %params.rbf = @otp.utils.rbf.quadricspline;
+            %params.rbf = @otp.utils.rbf.wendlandWeC2PD1;
 
             % convert from Cartesian to spherical coordinates
             theta = atan2(z, sqrt(x.^2 + y.^2));
@@ -36,7 +49,7 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
             %% Define the initial conditions
             % first get a stableish Rossby-Haurwitz wave with a wave number
             % of R = 7
-            R = 7;
+            R = 4;
             [h, zonalwind, meridionalwind] = getrossbyhaurwitzwave(x, y, z, Omega, a, g, R);
 
             % then, define perturbations to this wave in terms of the T-Z
@@ -51,7 +64,8 @@ classdef Canonical < otp.mfshallowwatersphere.MFShallowWaterSphereProblem
             %meridionalwindpert = meridionalwindpert - mean(meridionalwindpert);
 
             % mixing coefficient
-            alpha = 0.1;
+            %alpha = 0.1;
+            alpha = 0;
 
             % perturb the R-H wave
             h              = alpha*h              + (1 - alpha)*hpert;

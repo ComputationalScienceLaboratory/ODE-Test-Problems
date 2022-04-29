@@ -11,13 +11,16 @@ classdef MFShallowWaterSphereProblem < otp.Problem
     
     properties (SetAccess = private)
         DistanceFunction
+        Constraints
+        ConstraintsDerivative
     end
 
     methods
         
         function plotSphere(obj, huv, projection)
             if nargin < 3
-                projection = 'eqaazim';
+                %projection = 'eqaazim';
+                projection = 'eckert4';
             end
 
 
@@ -107,28 +110,62 @@ classdef MFShallowWaterSphereProblem < otp.Problem
             f = obj.Parameters.coriolisForce;
             
             % create the interpolation matrix and derivatives
-            [W, dWdx, dWdy, dWdz] = rbfinterp(x, y, z, x, y, z, rbfradius, rbf);
+            [W, dWdx, dWdy, dWdz, d2Wdx2, d2Wdy2, d2Wdz2] = rbfinterp(x, y, z, x, y, z, rbfradius, rbf);
             
             Bx = dWdx.*(1 - x.^2) + dWdy.*(-x.*y)    + dWdz.*(-x.*z);
             By = dWdx.*(-x.*y)    + dWdy.*(1 - y.^2) + dWdz.*(-y.*z);
             Bz = dWdx.*(-x.*z)    + dWdy.*(-y.*z)    + dWdz.*(1 - z.^2);
 
+
             Bx = Bx/a;
             By = By/a;
             Bz = Bz/a;
+
+            Bx2 = d2Wdx2.*(1 - x.^2) + d2Wdy2.*(-x.*y)    + d2Wdz2.*(-x.*z);
+            By2 = d2Wdx2.*(-x.*y)    + d2Wdy2.*(1 - y.^2) + d2Wdz2.*(-y.*z);
+            Bz2 = d2Wdx2.*(-x.*z)    + d2Wdy2.*(-y.*z)    + d2Wdz2.*(1 - z.^2);
+
+            Bx2 = Bx2/a;
+            By2 = By2/a;
+            Bz2 = Bz2/a;
+
+
+            Wscale = full(sum(W, 2));
 
             try 
                 Wdecomp = decomposition(W, 'chol');
             catch
                 error('The selected compination of RBF, radius, and nodes did not result in a SPD collocation matrix.')
-            end
+            end            
+            
+            
+            
+            n = size(obj.Y0, 1)/4;
+
+            h = obj.Y0(1:n, :);
+
+            sch0 = sum(Wdecomp\h);
 
             % build Shepard interpolation matrix
             S = W./sum(W, 2);
 
             % set the right hand side
             obj.Rhs = otp.Rhs(@(t, huvw) ...
-                otp.mfshallowwatersphere.f(huvw, S, Wdecomp, Bx, By, Bz, f, g, x, y, z));
+                otp.mfshallowwatersphere.f(huvw, S, Wdecomp, Bx, By, Bz, Bx2, By2, Bz2, f, g, x, y, z, a, sch0));
+
+
+
+            H0Z0E0 = otp.mfshallowwatersphere.massenstrophyenergy(obj.Y0, S, Wdecomp, Bx, By, Bz, f, g, x, y, z, a, Wscale);
+            
+            % H0Z0E0(3) = 1;
+            %eq = [1; 0; 0; 1];
+
+            obj.Constraints = @(t, huvw) ...
+                otp.mfshallowwatersphere.massenstrophyenergy(huvw, S, Wdecomp, Bx, By, Bz, f, g, x, y, z, a, Wscale)./H0Z0E0 - 1;
+
+
+            obj.ConstraintsDerivative = @(t, huvw) ...
+                otp.mfshallowwatersphere.jacobianmassenstrophyenergy(huvw, S, Wdecomp, Bx, By, Bz, f, g, x, y, z, a, Wscale)./H0Z0E0;
             
 
             %% Distance function
