@@ -17,8 +17,8 @@ dc2dv = 2*y;
 
 dc3dx = 0;
 dc3dy = m*g;
-dc3du = m*g*u;
-dc3dv = m*g*v;
+dc3du = m*u;
+dc3dv = m*v;
 
 dc = [dc1dx, dc1dy, dc1du, dc1dv; ...
    dc2dx, dc2dy, dc2du, dc2dv; ...

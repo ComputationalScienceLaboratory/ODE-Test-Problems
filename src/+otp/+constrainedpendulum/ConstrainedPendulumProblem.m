@@ -5,6 +5,7 @@ classdef ConstrainedPendulumProblem < otp.Problem
     properties
         Constraints
         ConstraintsJacobian
+        Z0 = [0; 0; 0];
     end
 
     methods
