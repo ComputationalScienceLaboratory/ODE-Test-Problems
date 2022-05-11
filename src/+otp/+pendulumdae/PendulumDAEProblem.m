@@ -2,7 +2,7 @@ classdef PendulumDAEProblem < otp.Problem
     %CONSTRAINEDPENDULUM PROBLEM This is a Hessenberg Index-2 DAE problem posed in terms of three constraints
     %
     
-    properties (Access=protected)
+    properties (SetAccess=protected)
         RHSDifferential
         RHSAlgebraic
     end
