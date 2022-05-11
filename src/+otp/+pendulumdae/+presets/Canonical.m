@@ -1,22 +1,24 @@
-classdef Canonical < otp.constrainedpendulum.ConstrainedPendulumProblem
+classdef Canonical < otp.pendulumdae.PendulumDAEProblem
     %CANONICAL The constrained pendulum problem
     %
     % See
-    %    Ascher, Uri. "On symmetric schemes and differential-algebraic equations."
-    %    SIAM journal on scientific and statistical computing 10.5 (1989): 937-949.
+    %    Hairer, E., Roche, M., Lubich, C. (1989). Description of differential-algebraic problems. 
+    %    In: The Numerical Solution of Differential-Algebraic Systems by Runge-Kutta Methods. 
+    %    Lecture Notes in Mathematics, vol 1409. Springer, Berlin, Heidelberg. 
+    %    https://doi.org/10.1007/BFb0093948
     
     methods
         function obj = Canonical
             tspan = [0; 10];
             
-            params = otp.constrainedpendulum.ConstrainedPendulumParameters;
+            params = otp.pendulumdae.PendulumDAEParameters;
             params.Mass = 1;
             params.Length = 1;
             params.Gravity = otp.utils.PhysicalConstants.EarthGravity;
             
-            y0 = [sqrt(2)/2; sqrt(2)/2; 0; 0];
+            y0 = [sqrt(2)/2; sqrt(2)/2; 0; 0; 0; 0; 0];
             
-            obj = obj@otp.constrainedpendulum.ConstrainedPendulumProblem(tspan, y0, params);
+            obj = obj@otp.pendulumdae.PendulumDAEProblem(tspan, y0, params);
         end
     end
 end

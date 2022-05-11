@@ -1,19 +1,13 @@
-function dstate = f(~, state, g, m, l, ~)
+function dfull = f(t, statepluscontrol, g, m, l, E0)
 
-x = state(1, :);
-y = state(2, :);
-u = state(3, :);
-v = state(4, :);
+state   = statepluscontrol(1:4, :);
+control = statepluscontrol(5:end, :);
 
-lxy2 = x.^2 + y.^2;
+dstate = otp.pendulumdae.fdifferential(t, state, g, m, l, E0) ...
+    - otp.pendulumdae.constraintsjacobian(t, state, g, m, l, E0).'*control;
 
-lambda =  (m/lxy2)*(u.^2 + v.^2) - (g/lxy2)*y;
+c = otp.pendulumdae.constraints(t, state, g, m, l, E0);
 
-dx = u;
-dy = v;
-du = -(lambda/m).*x;
-dv = -(lambda/m)*y - g/m;
-
-dstate = [dx; dy; du; dv];
+dfull = [dstate; c];
 
 end
