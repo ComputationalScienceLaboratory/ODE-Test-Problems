@@ -1,4 +1,4 @@
-classdef ConstrainedPendulumProblem < otp.Problem
+classdef PendulumDAEProblem < otp.Problem
     %CONSTRAINEDPENDULUM PROBLEM This is a Hessenberg Index-2 DAE problem posed in terms of three constraints
     %
     
@@ -9,7 +9,7 @@ classdef ConstrainedPendulumProblem < otp.Problem
     end
 
     methods
-        function obj = ConstrainedPendulumProblem(timeSpan, y0, parameters)
+        function obj = PendulumDAEProblem(timeSpan, y0, parameters)
             obj@otp.Problem('Constrained Pendulum', 4, timeSpan, y0, parameters);
         end
     end
