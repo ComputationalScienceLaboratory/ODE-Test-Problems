@@ -1,4 +1,4 @@
-function dstatevp = jacobianVectorProductDifferential(~, state, g, m, ~, ~, vec)
+function dstatevp = jacobianVectorProductDifferential(~, state, vec, g, m, ~, ~)
 
 x = state(1, :);
 y = state(2, :);

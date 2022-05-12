@@ -1,4 +1,4 @@
-function dvp = jacobianVectorProductAlgebraic(~, state, g, m, ~, ~, vec)
+function dvp = jacobianVectorProductAlgebraic(~, state, vec, g, m, ~, ~)
 
 x = state(1, :);
 y = state(2, :);

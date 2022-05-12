@@ -1,4 +1,4 @@
-function dfull = jacobianVectorProduct(t, statepluscontrol, g, m, l, E0, v)
+function dfull = jacobianVectorProduct(t, statepluscontrol, v, g, m, l, E0)
 
 state   = statepluscontrol(1:4, :);
 control = statepluscontrol(5:end, :);
@@ -6,11 +6,11 @@ control = statepluscontrol(5:end, :);
 vstate = v(1:4, :);
 vcontrol = v(5:end, :);
 
-dstate = otp.pendulumdae.jacobianVectorProductDifferential(t, state, g, m, l, E0, vstate) ...
-    - otp.pendulumdae.hessianAdjointVectorProductAlgebraic(t, state, g, m, l, E0, control, vstate) ...
-    - otp.pendulumdae.jacobianAdjointVectorProductAlgebraic(t, state, g, m, l, E0, vcontrol);
+dstate = otp.pendulumdae.jacobianVectorProductDifferential(t, state, vstate, g, m, l, E0) ...
+    - otp.pendulumdae.hessianAdjointVectorProductAlgebraic(t, state, control, vstate, g, m, l, E0) ...
+    - otp.pendulumdae.jacobianAdjointVectorProductAlgebraic(t, state, vcontrol, g, m, l, E0);
 
-c = otp.pendulumdae.jacobianVectorProductAlgebraic(t, state, g, m, l, E0, vstate);
+c = otp.pendulumdae.jacobianVectorProductAlgebraic(t, state, vstate, g, m, l, E0);
 
 dfull = [dstate; c];
 

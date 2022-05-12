@@ -1,4 +1,4 @@
-function dvp = hessianAdjointVectorProductAlgebraic(~, ~, g, m, ~, ~, control, vec)
+function dvp = hessianAdjointVectorProductAlgebraic(~, ~, control, vec, ~, m, ~, ~)
 
 z1 = control(1, :);
 z2 = control(2, :);
