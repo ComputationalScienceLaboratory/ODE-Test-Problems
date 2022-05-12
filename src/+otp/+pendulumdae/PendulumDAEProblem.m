@@ -25,18 +25,38 @@ classdef PendulumDAEProblem < otp.Problem
             g = obj.Parameters.Gravity;
 
             % get initial energy
-            initialconstraints = otp.pendulumdae.constraints([], obj.Y0Differential, g, m, l, 0);
+            initialconstraints = otp.pendulumdae.invariants([], obj.Y0Differential, g, m, l, 0);
             E0 = initialconstraints(3);
-            
 
             % The right hand size in terms of x, y, x', y', and three control parameters z
             obj.RHS = otp.RHS(@(t, y) otp.pendulumdae.f(t, y, g, m, l, E0), ...
-                'Mass', @(t, y) otp.pendulumdae.mass(t, y, g, m, l, E0));
+                'Mass', otp.pendulumdae.mass([], [], g, m, l, E0));
 
-            obj.RHSDifferential = otp.RHS(@(t, y) otp.pendulumdae.fdifferential(t, y, g, m, l, E0));
+            % Generate the constituent RHS for the differential part
+            obj.RHSDifferential = otp.RHS(@(t, y) otp.pendulumdae.fDifferential(t, y, g, m, l, E0));
 
-            obj.RHSAlgebraic = otp.RHS(@(t, y) otp.pendulumdae.constraints(t, y, g, m, l, E0), ...
-                'Jacobian', @(t, y) otp.pendulumdae.constraintsjacobian(t, y, g, m, l, E0));
+            % Generate the constituent RHS for the algebraic part
+            obj.RHSAlgebraic = otp.RHS(@(t, y) otp.pendulumdae.invariants(t, y, g, m, l, E0), ...
+                'Jacobian', @(t, y) otp.pendulumdae.invariantsJacobian(t, y, g, m, l, E0));
+        end
+
+        function label = internalIndex2label(~, index)
+            switch index
+                case 1
+                    label = 'x position';
+                case 2
+                    label = 'y position';
+                case 3
+                    label = 'x velocity';
+                case 4
+                    label = 'y velocity';
+                case 5
+                    label = 'Control 1';
+                case 6
+                    label = 'Control 2';
+                case 7
+                    label = 'Control 3';
+            end
         end
     end
 

@@ -1,4 +1,4 @@
-function dc = constraintsjacobian(~, state, g, m, ~, ~)
+function dc = invariantsJacobian(~, state, g, m, ~, ~)
 
 x = state(1);
 y = state(2);

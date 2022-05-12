@@ -1,4 +1,4 @@
-function dstate = fdifferential(~, state, g, m, ~, ~)
+function dstate = fDifferential(~, state, g, m, ~, ~)
 
 x = state(1, :);
 y = state(2, :);
