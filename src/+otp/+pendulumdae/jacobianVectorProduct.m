@@ -6,11 +6,11 @@ control = statepluscontrol(5:end, :);
 vstate = v(1:4, :);
 vcontrol = v(5:end, :);
 
-dstate = otp.pendulumdae.jacobianDifferentialVectorProduct(t, state, g, m, l, E0, vstate) ...
-    - otp.pendulumdae.invariantsHessianAdjointVectorProduct(t, state, g, m, l, E0, control, vstate) ...
-    - otp.pendulumdae.invariantsJacobianAdjointVectorProduct(t, state, g, m, l, E0, vcontrol);
+dstate = otp.pendulumdae.jacobianVectorProductDifferential(t, state, g, m, l, E0, vstate) ...
+    - otp.pendulumdae.hessianAdjointVectorProductAlgebraic(t, state, g, m, l, E0, control, vstate) ...
+    - otp.pendulumdae.jacobianAdjointVectorProductAlgebraic(t, state, g, m, l, E0, vcontrol);
 
-c = otp.pendulumdae.invariantsJacobianVectorProduct(t, state, g, m, l, E0, vstate);
+c = otp.pendulumdae.jacobianVectorProductAlgebraic(t, state, g, m, l, E0, vstate);
 
 dfull = [dstate; c];
 

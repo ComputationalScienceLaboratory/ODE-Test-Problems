@@ -1,4 +1,4 @@
-function c = invariants(~, state, g, m, l, E0)
+function c = fAlgebraic(~, state, g, m, l, E0)
 
 x = state(1, :);
 y = state(2, :);
