@@ -5,6 +5,7 @@ classdef PendulumDAEProblem < otp.Problem
     properties (SetAccess=protected)
         RHSDifferential
         RHSAlgebraic
+        RHSHalfExplicit
     end
 
     properties (Dependent)
@@ -51,6 +52,14 @@ classdef PendulumDAEProblem < otp.Problem
                 'HessianAdjointVectorProduct', ...
                 @(t, y, v, u) otp.pendulumdae.hessianAdjointVectorProductAlgebraic(t, y, v, u, g, m, l, E0), ...
                 'Vectorized', 'on');
+
+            % Generate an Auxillary RHS for the half-explicit Jacobian
+            obj.RHSHalfExplicit = otp.RHS([], ...
+                'Jacobian', @(t, y) otp.pendulumdae.jacobianHalfExplicit(t, y, g, m, l, E0), ...
+                'JacobianVectorProduct', ...
+                @(t, y, v) otp.pendulumdae.jacobianVectorProductHalfExplicit(t, y, v, g, m, l, E0), ...
+                'Vectorized', 'on');
+
         end
 
         function label = internalIndex2label(~, index)
