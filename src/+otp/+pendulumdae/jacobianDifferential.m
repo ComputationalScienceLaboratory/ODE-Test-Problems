@@ -1,9 +1,9 @@
 function j = jacobianDifferential(~, state, g, m, ~, ~)
 
-x = state(1, :);
-y = state(2, :);
-u = state(3, :);
-v = state(4, :);
+x = state(1);
+y = state(2);
+u = state(3);
+v = state(4);
 
 lxy2 = x.^2 + y.^2;
 
