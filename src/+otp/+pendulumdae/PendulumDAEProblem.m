@@ -82,6 +82,10 @@ classdef PendulumDAEProblem < otp.Problem
                     label = 'Control 3';
             end
         end
+
+        function sol = internalSolve(obj, varargin)
+            sol = internalSolve@otp.Problem(obj, 'Solver', @otp.utils.solvers.dae34, varargin{:});
+        end
     end
 
     methods
