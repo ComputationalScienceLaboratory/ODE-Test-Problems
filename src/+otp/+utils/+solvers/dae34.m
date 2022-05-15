@@ -4,27 +4,14 @@ function [sol, y] = dae34(f, tspan, y0, options)
 %    Quasi stage order conditions for SDIRK methods. 
 %    Applied numerical mathematics, 42(1-3), 61-75.
 
+f1 = f(tspan(1), y0);
+hdefault = norm(y0)/norm(f1)*0.01;
 
-J = options.Jacobian;
-M = options.Mass;
-abstol = options.AbsTol;
-reltol = options.RelTol;
-
-if isempty(abstol)
-    abstol = 1e-6;
-end
-
-if isempty(reltol)
-    reltol = 1e-3;
-end
-
-if isempty(J)
-    error('OTP:DAEJacobianRequired', 'The default DAE solver requires a Jacobian to be provided.')
-end
-
-if isempty(M)
-    M = speye(numel(y0));
-end
+h = odeget(options, 'InitialStep', hdefault);
+reltol = odeget(options, 'RelTol', 1e-3);
+abstol = odeget(options, 'AbsTol', 1e-6);
+J = odeget(options, 'Jacobian', @(t, y) jacapprox(f, t, y));
+M = odeget(options, 'Mass', speye(numel(y0)));
 
 if ~isa(M, 'function_handle')
     M = @(t, y) M;
@@ -59,7 +46,6 @@ y = y0.';
 
 yc = y0;
 tc = tspan(1);
-h = 1e-3;
 
 stagenum = size(A, 1);
 
@@ -81,9 +67,10 @@ while tc < tend
 
         staget = tc + C(stage)*h;
 
-        stagedy = 0;
-        for i = 1:(stage - 1)
-            stagedy = stagedy + A(stagenum, i)*h*stages(:, i);
+        if stage > 1
+            stagedy = h*(stages(:, 1:(stage - 1))*A(stage, 1:(stage - 1)).');
+        else
+            stagedy = 0;
         end
 
         newtonk0 = zeros(size(yc));
@@ -107,15 +94,14 @@ while tc < tend
 
     end
 
-    yhat = yc;
-    for bi = 1:numel(b)
-        yc = yc + h*b(bi)*stages(:, bi);
-        yhat = yhat + h*bhat(bi)*stages(:, bi);
-    end
+    yhat = yc + h*stages*bhat.';
+    yc = yc + h*stages*b.';
 
     sc = abstol + max(abs(yc), abs(yhat))*reltol;
 
-    err = rms((M(tc + h, yc)*(yc-yhat))./sc);
+    Mc = M(tc + h, yc);
+
+    err = rms((Mc*(yc-yhat))./sc);
 
     fac = 0.38^(1/(orderE + 1));
 
@@ -148,6 +134,23 @@ if nargout < 2
     sol = struct('x', t, 'y', y.');
 else
     sol = t;
+end
+
+end
+
+function J = jacapprox(f, t, y)
+
+n = numel(y);
+
+J = zeros(n, n);
+
+h = sqrt(1e-6);
+
+f0 = f(t, y);
+
+for i = 1:n
+    e = zeros(n, 1); e(i) = 1;
+    J(:, i) = (f(t, y + h*e) - f0)/h;
 end
 
 end
