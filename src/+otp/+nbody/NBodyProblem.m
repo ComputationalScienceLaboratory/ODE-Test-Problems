@@ -11,7 +11,7 @@ classdef NBodyProblem < otp.Problem
                 newParameters);
             
             numMasses = length(newParameters.Masses);
-            expectedLen = numMasses * 2^newParameters.SpatialDim;
+            expectedLen = 2 * numMasses * newParameters.SpatialDim;
             actualLen = length(newY0);
             
             if expectedLen ~= actualLen
