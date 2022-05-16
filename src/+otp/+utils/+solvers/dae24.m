@@ -4,18 +4,6 @@ function [sol, y] = dae24(f, tspan, y0, options)
 %    Quasi stage order conditions for SDIRK methods. 
 %    Applied numerical mathematics, 42(1-3), 61-75.
 
-f1 = f(tspan(1), y0);
-hdefault = norm(y0)/norm(f1)*0.01;
-
-h = odeget(options, 'InitialStep', hdefault);
-reltol = odeget(options, 'RelTol', 1e-3);
-abstol = odeget(options, 'AbsTol', 1e-6);
-J = odeget(options, 'Jacobian', @(t, y) jacapprox(f, t, y));
-M = odeget(options, 'Mass', speye(numel(y0)));
-
-if ~isa(M, 'function_handle')
-    M = @(t, y) M;
-end
 
 gamma = 1/4;
 
@@ -37,9 +25,48 @@ bhat(2) = 49/600;
 bhat(3) = 79/100;
 bhat(4) = 23/100;
 
-orderE = 1;
+c = sum(A, 2) + gamma;
 
-C = sum(A, 2) + gamma;
+orderM = 3;
+orderE = 2;
+
+%% Get all relevant options out 
+h = odeget(options, 'InitialStep', []);
+reltol = odeget(options, 'RelTol', 1e-3);
+abstol = odeget(options, 'AbsTol', 1e-6);
+J = odeget(options, 'Jacobian', @(t, y) jacapprox(f, t, y));
+M = odeget(options, 'Mass', speye(numel(y0)));
+MStateDependence = odeget(options, 'MStateDependence', 'none');
+
+% We won't support state-dependent Mass, simple as that
+if strcmp(MStateDependence, 'strong')
+    error('OTP:MassStateDependent', 'State dependent mass is not supported.')
+end
+
+if ~isa(M, 'function_handle')
+    M = @(t) M;
+else
+    if nargin(M) > 1
+        M = @(t) M(t, y0);
+    end
+end
+
+if isempty(h)
+    sc = abstol + reltol*abs(y0);
+    f0 = f(tspan(1), y0);
+    d0 = mean((y0./sc).^2);
+    d1 = mean((f0./sc).^2);
+    h0 = (d0/d1)*0.01;
+
+    y1 = y0 + h0*f0;
+    f1 = f(tspan(1) + h0, y1);
+
+    d2 = mean(((f1 - f0)./sc).^2)/h0;
+
+    h1 = (0.01/max(d1, d2))^(1/orderM);
+
+    h = min(100*h0, h1);
+end
 
 t = tspan(1);
 y = y0.';
@@ -48,12 +75,14 @@ yc = y0;
 tc = tspan(1);
 
 stagenum = size(A, 1);
-
 tend = tspan(end);
 
-step = 1;
+newtonk0 = zeros(size(yc));
 
+step = 1;
 while tc < tend
+
+    bnewtonreject = false;
 
     if tc + h > tend
         h = tend - tc;
@@ -65,7 +94,7 @@ while tc < tend
 
     for stage = 1:stagenum
 
-        staget = tc + C(stage)*h;
+        staget = tc + c(stage)*h;
 
         if stage > 1
             stagedy = h*(stages(:, 1:(stage - 1))*A(stage, 1:(stage - 1)).');
@@ -73,36 +102,84 @@ while tc < tend
             stagedy = 0;
         end
 
-        newtonk0 = zeros(size(yc));
+        newtonk0 = 0*newtonk0;
 
-        np = inf;
-
-        ntol = 1e-6;
-        nmaxits = 10;
+        ntol = min(abstol, reltol);
+        nmaxits = 1e2;
+        alpha = 1;
         its = 0;
-        while norm(np) > ntol && its < nmaxits
-            Mc = M(staget, yc + stagedy + gh*newtonk0);
-            g = Mc*newtonk0 - f(staget, yc + stagedy + gh*newtonk0);
-            H = Mc - gh*J(staget, yc + stagedy + gh*newtonk0);
-            [np, ~] = lsqr(H, g, [], size(H, 1));
 
-            newtonk0 = newtonk0 - np;
+        etak = inf;
+        nnp = inf;
+
+        kappa = 1e-1;
+
+        ng = inf;
+
+
+        Jc = J(staget, yc + stagedy + gh*newtonk0);
+        while kappa*(etak*nnp) >= ntol && its < nmaxits
+            Mc = M(staget);
+            ycs = yc + stagedy + gh*newtonk0;
+            g = Mc*newtonk0 - f(staget, ycs);
+            H = Mc - gh*Jc;
+            [npnew, ~] = qmr(H, g, [], size(H, 1));
+
+            newtonknew = newtonk0 - alpha*npnew;
+
+            sc = abstol + reltol*abs(ycs);
+
+
+            if its > 2
+                ngnew = sqrt(mean((g./sc).^2));
+                % recompute the jacobian
+                if ngnew > 1.25*ng
+                    Jc = J(staget, ycs);
+                end
+                ng = ngnew;
+
+                nnpnew = sqrt(mean((npnew./sc).^2));
+               
+                thetak = nnpnew/nnp;
+
+                if thetak > 1.25 || isnan(thetak)
+                    bnewtonreject = true;
+                    break;
+                end
+
+                etak = thetak/(1 - thetak);
+            end
+
+            newtonk0 = newtonknew;
+
+            np = npnew;
+            nnp = sqrt(mean((np./sc).^2));
+
             its = its + 1;
+        end
+
+        if bnewtonreject
+            break;
         end
 
         stages(:, stage) = newtonk0;
 
     end
 
+    if bnewtonreject
+        h = h/2;
+        continue;
+    end
+
     yhat = yc + h*stages*bhat.';
     ycnew = yc + h*stages*b.';
 
-    sc = abstol + max(abs(ycnew), abs(yhat))*reltol;
+    sc = abstol + max(abs(ycnew), abs(yc))*reltol;
 
-    Mc = M(tc + h, ycnew);
+    Mc = M(tc + h);
 
-    err = rms((Mc*(ycnew-yhat))./sc);
-    %err = rms(((ycnew-yhat))./sc);
+    err = sqrt(mean(((Mc*(ycnew - yhat))./sc).^2));
+    %err = rms(((ycnew - yhat))./sc);
 
     fac = 0.38^(1/(orderE + 1));
 

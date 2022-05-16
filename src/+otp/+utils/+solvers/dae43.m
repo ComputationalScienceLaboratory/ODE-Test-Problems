@@ -1,11 +1,8 @@
 function [sol, y] = dae43(f, tspan, y0, options)
 
-f1 = f(tspan(1), y0);
-hdefault = norm(y0)/norm(f1)*0.01;
-
 n = numel(y0);
 
-h = odeget(options, 'InitialStep', hdefault);
+h = odeget(options, 'InitialStep', []);
 reltol = odeget(options, 'RelTol', 1e-3);
 abstol = odeget(options, 'AbsTol', 1e-6);
 J = odeget(options, 'Jacobian', @(t, y) jacapprox(f, t, y));
@@ -24,6 +21,26 @@ else
         M = @(t) M(t, y0);
     end
 end
+
+
+% Compute 
+if isempty(h)
+    sc = abstol + reltol*abs(y0);
+    f0 = f(tspan(1), y0);
+    d0 = mean((y0./sc).^2);
+    d1 = mean((f0./sc).^2);
+    h0 = (d0/d1)*0.01;
+
+    y1 = y0 + h0*f0;
+    f1 = f(tspan(1) + h0, y1);
+
+    d2 = mean(((f1 - f0)./sc).^2)/h0;
+
+    h1 = (0.01/max(d1, d2))^(1/orderM);
+
+    h = min(100*h0, h1);
+end
+
 
 % Lobatto IIIC
 A = [1/6, -1/3, 1/6; 1/6, 5/12, -1/12; 1/6, 2/3, 1/6];
@@ -96,11 +113,11 @@ while tc < tend
     yhat = yc + h*reshape(newtonk, n, [])*bhat.';
     ycnew = yc + h*reshape(newtonk, n, [])*b.';
 
-    sc = abstol + max(abs(ycnew), abs(yhat))*reltol;
+    sc = abstol + max(abs(ycnew), abs(yc))*reltol;
 
     Mc = M(tc + h);
 
-    err = rms((Mc*(ycnew-yhat))./sc);
+    err = rms((Mc*(ycnew - yhat))./sc);
 
     fac = 0.9;
 
