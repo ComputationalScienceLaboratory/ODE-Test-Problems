@@ -1,0 +1,156 @@
+function [sol, y] = dae43(f, tspan, y0, options)
+
+f1 = f(tspan(1), y0);
+hdefault = norm(y0)/norm(f1)*0.01;
+
+n = numel(y0);
+
+h = odeget(options, 'InitialStep', hdefault);
+reltol = odeget(options, 'RelTol', 1e-3);
+abstol = odeget(options, 'AbsTol', 1e-6);
+J = odeget(options, 'Jacobian', @(t, y) jacapprox(f, t, y));
+M = odeget(options, 'Mass', speye(numel(y0)));
+MStateDependence = odeget(options, 'MStateDependence', 'none');
+
+% We won't support state-dependent Mass, simple as that
+if strcmp(MStateDependence, 'strong')
+    error('OTP:MassStateDependent', 'State dependent mass is not supported.')
+end
+
+if ~isa(M, 'function_handle')
+    M = @(t) M;
+else
+    if nargin(M) > 1
+        M = @(t) M(t, y0);
+    end
+end
+
+% Lobatto IIIC
+A = [1/6, -1/3, 1/6; 1/6, 5/12, -1/12; 1/6, 2/3, 1/6];
+b = [1/6, 2/3, 1/6];
+c = [0, 1/2, 1];
+bhat = [-1/2, 2, -1/2];
+
+orderE = 3;
+
+t = tspan(1);
+y = y0.';
+
+yc = y0;
+tc = tspan(1);
+
+stagenum = size(A, 1);
+tend = tspan(end);
+
+step = 1;
+
+Mc = M(tspan(1));
+Mfull = zeros(n*stagenum, n*stagenum, 'like', Mc);
+gfull = zeros(n*stagenum, 1);
+Jfull = zeros(n*stagenum, n*stagenum, 'like', Mc);
+newtonk = zeros(n*stagenum, 1);
+
+while tc < tend
+
+    if tc + h > tend
+        h = tend - tc;
+    end
+
+    % build M
+    for stage = 1:stagenum
+        %Mfull(((stage - 1)*n + 1):(stage*n), :) = kron(ones(1, stagenum), M(tc + h*c(stage)));
+        si = ((stage - 1)*n + 1):(stage*n);
+        Mfull(si, si) = M(tc + h*c(stage));
+    end
+
+    np = inf;
+
+    ntol = 1e-10;
+    nmaxits = 100;
+    its = 0;
+
+    newtonk = 0*newtonk;
+
+    while norm(np) > ntol && its < nmaxits
+        % build g and Jacobians
+        for stage = 1:stagenum
+            si = ((stage - 1)*n + 1):(stage*n);
+            staget = tc + c(stage)*h;
+            ycs = yc + h*reshape(newtonk, n, [])*(A(stage, :).');
+       
+            Mc = Mfull(si, si);
+            gfull(si) =  Mc*newtonk(si) - f(staget, ycs);
+            Jc = J(staget, ycs);
+
+            Jfull(si, :) = kron(A(stage, :), Jc);
+        end
+
+        H = Mfull - h*Jfull;
+
+        np = pinv(H)*gfull;
+
+        newtonk = newtonk - np;
+        its = its + 1;
+    end
+
+    yhat = yc + h*reshape(newtonk, n, [])*bhat.';
+    ycnew = yc + h*reshape(newtonk, n, [])*b.';
+
+    sc = abstol + max(abs(ycnew), abs(yhat))*reltol;
+
+    Mc = M(tc + h);
+
+    err = rms((Mc*(ycnew-yhat))./sc);
+
+    %err = rms(((ycnew-yhat))./sc);
+
+    fac = 0.38^(1/(orderE + 1));
+
+    facmin = 0.1;
+    if err > 1 || isnan(err)
+        % Reject timestep
+        facmax = 1;
+    else
+        % Accept time step
+        tc = tc + h;
+
+        yc = ycnew;
+
+        t(step + 1) = tc;
+        y(step + 1, :) = yc.';
+
+
+        step = step + 1;
+
+        facmax = 4;
+    end
+
+    % adjust step-size
+    h = h*min(facmax, max(facmin, fac*(1/err)^1/(orderE + 1)));
+
+end
+
+if nargout < 2
+    sol = struct('x', t, 'y', y.');
+else
+    sol = t;
+end
+
+end
+
+function J = jacapprox(f, t, y)
+
+n = numel(y);
+
+J = zeros(n, n);
+
+h = sqrt(1e-6);
+
+f0 = f(t, y);
+
+for i = 1:n
+    e = zeros(n, 1); e(i) = 1;
+    J(:, i) = (f(t, y + h*e) - f0)/h;
+end
+
+end

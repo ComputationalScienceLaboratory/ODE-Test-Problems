@@ -1,4 +1,4 @@
-function [sol, y] = dae34(f, tspan, y0, options)
+function [sol, y] = dae24(f, tspan, y0, options)
 % See
 %    Cameron, F., Palmroth, M., & Piché, R. (2002). 
 %    Quasi stage order conditions for SDIRK methods. 
@@ -37,7 +37,7 @@ bhat(2) = 49/600;
 bhat(3) = 79/100;
 bhat(4) = 23/100;
 
-orderE = 3;
+orderE = 1;
 
 C = sum(A, 2) + gamma;
 
@@ -78,9 +78,9 @@ while tc < tend
         np = inf;
 
         ntol = 1e-6;
-        nmaxits = 5;
+        nmaxits = 10;
         its = 0;
-        while norm(np) > ntol || its < nmaxits
+        while norm(np) > ntol && its < nmaxits
             Mc = M(staget, yc + stagedy + gh*newtonk0);
             g = Mc*newtonk0 - f(staget, yc + stagedy + gh*newtonk0);
             H = Mc - gh*J(staget, yc + stagedy + gh*newtonk0);
@@ -95,13 +95,14 @@ while tc < tend
     end
 
     yhat = yc + h*stages*bhat.';
-    yc = yc + h*stages*b.';
+    ycnew = yc + h*stages*b.';
 
-    sc = abstol + max(abs(yc), abs(yhat))*reltol;
+    sc = abstol + max(abs(ycnew), abs(yhat))*reltol;
 
-    Mc = M(tc + h, yc);
+    Mc = M(tc + h, ycnew);
 
-    err = rms((Mc*(yc-yhat))./sc);
+    err = rms((Mc*(ycnew-yhat))./sc);
+    %err = rms(((ycnew-yhat))./sc);
 
     fac = 0.38^(1/(orderE + 1));
 
@@ -112,13 +113,11 @@ while tc < tend
     else
         % Accept time step
         tc = tc + h;
-
-        if tc + h > tend
-            h = tend - tc;
-        end
+        yc = ycnew;
 
         t(step + 1) = tc;
         y(step + 1, :) = yc.';
+
 
         step = step + 1;
 
