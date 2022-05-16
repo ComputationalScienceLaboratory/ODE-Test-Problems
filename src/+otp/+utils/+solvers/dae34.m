@@ -1,4 +1,4 @@
-function [sol, y] = dae24(f, tspan, y0, options)
+function [sol, y] = dae34(f, tspan, y0, options)
 % See
 %    Cameron, F., Palmroth, M., & Piché, R. (2002). 
 %    Quasi stage order conditions for SDIRK methods. 
@@ -28,7 +28,7 @@ bhat(4) = 23/100;
 c = sum(A, 2) + gamma;
 
 orderM = 3;
-orderE = 2;
+orderE = 4;
 
 %% Get all relevant options out 
 h = odeget(options, 'InitialStep', []);
@@ -108,14 +108,10 @@ while tc < tend
         nmaxits = 1e2;
         alpha = 1;
         its = 0;
-
         etak = inf;
         nnp = inf;
-
         kappa = 1e-1;
-
         ng = inf;
-
 
         Jc = J(staget, yc + stagedy + gh*newtonk0);
         while kappa*(etak*nnp) >= ntol && its < nmaxits
@@ -178,8 +174,8 @@ while tc < tend
 
     Mc = M(tc + h);
 
-    err = sqrt(mean(((Mc*(ycnew - yhat))./sc).^2));
-    %err = rms(((ycnew - yhat))./sc);
+    errdifferential = sqrt(mean(((Mc*(ycnew - yhat))./sc).^2));
+    err = errdifferential;
 
     fac = 0.38^(1/(orderE + 1));
 
