@@ -84,7 +84,7 @@ while tc < tend
             Mc = M(staget, yc + stagedy + gh*newtonk0);
             g = Mc*newtonk0 - f(staget, yc + stagedy + gh*newtonk0);
             H = Mc - gh*J(staget, yc + stagedy + gh*newtonk0);
-            [np, ~] = symmlq(H, g);
+            [np, ~] = lsqr(H, g, [], size(H, 1));
 
             newtonk0 = newtonk0 - np;
             its = its + 1;

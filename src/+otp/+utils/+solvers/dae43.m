@@ -87,7 +87,7 @@ while tc < tend
 
         H = Mfull - h*Jfull;
 
-        [np, ~] = symmlq(H, gfull);
+        [np, ~] = lsqr(H, gfull, [], size(H, 1));
 
         newtonk = newtonk - np;
         its = its + 1;
