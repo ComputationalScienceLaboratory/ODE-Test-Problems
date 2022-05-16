@@ -87,7 +87,7 @@ while tc < tend
 
         H = Mfull - h*Jfull;
 
-        np = pinv(H)*gfull;
+        [np, ~] = symmlq(H, gfull);
 
         newtonk = newtonk - np;
         its = its + 1;
@@ -102,9 +102,7 @@ while tc < tend
 
     err = rms((Mc*(ycnew-yhat))./sc);
 
-    %err = rms(((ycnew-yhat))./sc);
-
-    fac = 0.38^(1/(orderE + 1));
+    fac = 0.9;
 
     facmin = 0.1;
     if err > 1 || isnan(err)
