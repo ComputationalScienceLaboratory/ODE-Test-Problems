@@ -105,7 +105,7 @@ while tc < tend
     gh = gamma*h;
 
     if step == 1 && isempty(laststage)
-        [laststage, ~] = qmr(M(tc), f(tc, yc));
+        [laststage, ~] = bicg(M(tc), f(tc, yc));
     end
 
     stages(:, 1) = laststage;
@@ -133,7 +133,7 @@ while tc < tend
             ycs = yc + stagedy + gh*newtonk0;
             g = Mc*newtonk0 - f(staget, ycs);
             H = Mc - gh*Jc;
-            [npnew, ~] = qmr(H, g, [], size(H, 1));
+            [npnew, ~] = bicg(H, g, [], size(H, 1));
 
             newtonknew = newtonk0 - alpha*npnew;
 
