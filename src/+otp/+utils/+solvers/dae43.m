@@ -108,12 +108,12 @@ while tc < tend
 
         npnew = H\gfull;
 
-        if its > 2
+        if its > 1
             nnpnew = sqrt(mean((npnew./sc).^2));
 
             thetak = nnpnew/nnp;
 
-            if thetak > 1.25 || isnan(thetak)
+            if thetak > 1.25 || isnan(thetak) || isinf(thetak)
                 bnewtonreject = true;
                 break;
             end
