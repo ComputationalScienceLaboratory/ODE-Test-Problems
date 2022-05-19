@@ -79,16 +79,24 @@ while tc < tend
     ntol = min(abstol, reltol);
     nmaxits = 1e2;
     its = 0;
+    etak = inf;
+    nnp = inf;
+    kappa = 1e-1;
 
     newtonk = 0*newtonk;
+    sc = 0*newtonk;
 
-    while norm(np) > ntol && its < nmaxits
+    bnewtonreject = false;
+
+    while kappa*(etak*nnp) >= ntol && its < nmaxits
         % build g and Jacobians
         for stage = 1:stagenum
             si = ((stage - 1)*n + 1):(stage*n);
             staget = tc + c(stage)*h;
             ycs = yc + h*reshape(newtonk, n, [])*(A(stage, :).');
-       
+
+            sc(si) = abstol + reltol*abs(ycs);
+
             Mc = Mfull(si, si);
             gfull(si) =  Mc*newtonk(si) - f(staget, ycs);
             Jc = J(staget, ycs);
@@ -98,10 +106,32 @@ while tc < tend
 
         H = Mfull - h*Jfull;
 
-        np = H\gfull;
+        npnew = H\gfull;
 
-        newtonk = newtonk - np;
+        if its > 2
+            nnpnew = sqrt(mean((npnew./sc).^2));
+
+            thetak = nnpnew/nnp;
+
+            if thetak > 1.25 || isnan(thetak)
+                bnewtonreject = true;
+                break;
+            end
+
+            etak = thetak/(1 - thetak);
+        end
+
+        newtonk = newtonk - npnew;
+
+        np = npnew;
+        nnp = sqrt(mean((np./sc).^2));
+
         its = its + 1;
+    end
+
+    if bnewtonreject
+       h = h/2;
+       continue;
     end
 
     yhat = yc + h*reshape(newtonk, n, [])*bhat.';
