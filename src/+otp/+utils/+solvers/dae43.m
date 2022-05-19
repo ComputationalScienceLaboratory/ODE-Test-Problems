@@ -77,7 +77,7 @@ while tc < tend
     np = inf;
 
     ntol = min(abstol, reltol);
-    nmaxits = 1e2;
+    nmaxits = 1e3;
     its = 0;
     etak = inf;
     nnp = inf;
