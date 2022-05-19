@@ -24,6 +24,9 @@ A(6,3) = -27/364;
 A(6,4) = -20000/171717;
 A(6,5) = 843750/1140071;
 
+b = A(6, :);
+b(6) = gamma;
+
 bhat5 = 1/4;
 bhat6 = 1/4;
 bhat1 = 163/333 + (204072709/112387500)* bhat5 - (725/111)*bhat6;
@@ -49,28 +52,24 @@ laststage = odeget(options, 'InitialSlope', []);
 
 % We won't support state-dependent Mass, simple as that
 if strcmp(MStateDependence, 'strong')
-    error('OTP:MassStateDependent', 'State dependent mass is not supported.')
+    error('OTP:MassStateDependent', 'Strong state dependent mass is not supported.')
 end
 
 if ~isa(M, 'function_handle')
-    M = @(t) M;
-else
-    if nargin(M) > 1
-        M = @(t) M(t, y0);
-    end
+    M = @(t, y) M;
 end
 
 if isempty(h)
     sc = abstol + reltol*abs(y0);
     f0 = f(tspan(1), y0);
-    d0 = mean((y0./sc).^2);
-    d1 = mean((f0./sc).^2);
+    d0 = sqrt(mean((y0./sc).^2));
+    d1 = sqrt(mean((f0./sc).^2));
     h0 = (d0/d1)*0.01;
 
     y1 = y0 + h0*f0;
     f1 = f(tspan(1) + h0, y1);
 
-    d2 = mean(((f1 - f0)./sc).^2)/h0;
+    d2 = sqrt(mean(((f1 - f0)./sc).^2))/h0;
 
     h1 = (0.01/max(d1, d2))^(1/orderM);
 
@@ -102,7 +101,7 @@ while tc < tend
     gh = gamma*h;
 
     if step == 1 && isempty(laststage)
-        [laststage, ~] = bicg(M(tc), f(tc, yc));
+        [laststage, ~] = bicg(M(tc, yc), f(tc, yc));
     end
 
     stages(:, 1) = laststage;
@@ -126,11 +125,12 @@ while tc < tend
 
         Jc = J(staget, yc + stagedy + gh*newtonk0);
         while kappa*(etak*nnp) >= ntol && its < nmaxits
-            Mc = M(staget);
             ycs = yc + stagedy + gh*newtonk0;
+            Mc = M(staget, ycs);
             g = Mc*newtonk0 - f(staget, ycs);
             H = Mc - gh*Jc;
-            [npnew, ~] = bicg(H, g, [], size(H, 1));
+            %[npnew, ~] = bicg(H, g, [], size(H, 1));
+            npnew = H\g;
 
             newtonknew = newtonk0 - alpha*npnew;
 
@@ -149,7 +149,7 @@ while tc < tend
                
                 thetak = nnpnew/nnp;
 
-                if thetak > 10 || isnan(thetak)
+                if thetak > 1.25 || isnan(thetak)
                     bnewtonreject = true;
                     break;
                 end
@@ -179,13 +179,11 @@ while tc < tend
     end
 
     yhat = yc + h*stages*bhat.';
-    %ycnew = yc + h*stages*b.';
-
-    ycnew = ycs;
+    ycnew = yc + h*stages*b.';
 
     sc = abstol + max(abs(ycnew), abs(yc))*reltol;
 
-    Mc = M(tc + h);
+    Mc = M(tc + h, ycnew);
 
     errdifferential = sqrt(mean(((Mc*(ycnew - yhat))./sc).^2));
     err = errdifferential;

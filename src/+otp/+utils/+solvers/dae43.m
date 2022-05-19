@@ -11,36 +11,12 @@ MStateDependence = odeget(options, 'MStateDependence', 'none');
 
 % We won't support state-dependent Mass, simple as that
 if strcmp(MStateDependence, 'strong')
-    error('OTP:MassStateDependent', 'State dependent mass is not supported.')
+    error('OTP:MassStateDependent', 'Strong state dependent mass is not supported.')
 end
 
 if ~isa(M, 'function_handle')
-    M = @(t) M;
-else
-    if nargin(M) > 1
-        M = @(t) M(t, y0);
-    end
+    M = @(t, y) M;
 end
-
-
-% Compute 
-if isempty(h)
-    sc = abstol + reltol*abs(y0);
-    f0 = f(tspan(1), y0);
-    d0 = mean((y0./sc).^2);
-    d1 = mean((f0./sc).^2);
-    h0 = (d0/d1)*0.01;
-
-    y1 = y0 + h0*f0;
-    f1 = f(tspan(1) + h0, y1);
-
-    d2 = mean(((f1 - f0)./sc).^2)/h0;
-
-    h1 = (0.01/max(d1, d2))^(1/orderM);
-
-    h = min(100*h0, h1);
-end
-
 
 % Lobatto IIIC
 A = [1/6, -1/3, 1/6; 1/6, 5/12, -1/12; 1/6, 2/3, 1/6];
@@ -48,7 +24,26 @@ b = [1/6, 2/3, 1/6];
 c = [0, 1/2, 1];
 bhat = [-1/2, 2, -1/2];
 
+orderM = 4;
 orderE = 3;
+
+% Compute initial step size
+if isempty(h)
+    sc = abstol + reltol*abs(y0);
+    f0 = f(tspan(1), y0);
+    d0 = sqrt(mean((y0./sc).^2));
+    d1 = sqrt(mean((f0./sc).^2));
+    h0 = (d0/d1)*0.01;
+
+    y1 = y0 + h0*f0;
+    f1 = f(tspan(1) + h0, y1);
+
+    d2 = sqrt(mean(((f1 - f0)./sc).^2))/h0;
+
+    h1 = (0.01/max(d1, d2))^(1/orderM);
+
+    h = min(100*h0, h1);
+end
 
 t = tspan(1);
 y = y0.';
@@ -61,7 +56,7 @@ tend = tspan(end);
 
 step = 1;
 
-Mc = M(tspan(1));
+Mc = M(tspan(1), y0);
 Mfull = zeros(n*stagenum, n*stagenum, 'like', Mc);
 gfull = zeros(n*stagenum, 1);
 Jfull = zeros(n*stagenum, n*stagenum, 'like', Mc);
@@ -75,15 +70,14 @@ while tc < tend
 
     % build M
     for stage = 1:stagenum
-        %Mfull(((stage - 1)*n + 1):(stage*n), :) = kron(ones(1, stagenum), M(tc + h*c(stage)));
         si = ((stage - 1)*n + 1):(stage*n);
-        Mfull(si, si) = M(tc + h*c(stage));
+        Mfull(si, si) = M(tc + h*c(stage), yc);
     end
 
     np = inf;
 
-    ntol = 1e-10;
-    nmaxits = 100;
+    ntol = min(abstol, reltol);
+    nmaxits = 1e2;
     its = 0;
 
     newtonk = 0*newtonk;
@@ -104,7 +98,7 @@ while tc < tend
 
         H = Mfull - h*Jfull;
 
-        [np, ~] = lsqr(H, gfull, [], size(H, 1));
+        np = H\gfull;
 
         newtonk = newtonk - np;
         its = its + 1;
@@ -115,9 +109,9 @@ while tc < tend
 
     sc = abstol + max(abs(ycnew), abs(yc))*reltol;
 
-    Mc = M(tc + h);
+    Mc = M(tc + h , ycnew);
 
-    err = rms((Mc*(ycnew - yhat))./sc);
+    err = sqrt(mean(((Mc*(ycnew - yhat))./sc).^2));
 
     fac = 0.9;
 

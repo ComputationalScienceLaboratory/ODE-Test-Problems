@@ -54,14 +54,14 @@ end
 if isempty(h)
     sc = abstol + reltol*abs(y0);
     f0 = f(tspan(1), y0);
-    d0 = mean((y0./sc).^2);
-    d1 = mean((f0./sc).^2);
+    d0 = sqrt(mean((y0./sc).^2));
+    d1 = sqrt(mean((f0./sc).^2));
     h0 = (d0/d1)*0.01;
 
     y1 = y0 + h0*f0;
     f1 = f(tspan(1) + h0, y1);
 
-    d2 = mean(((f1 - f0)./sc).^2)/h0;
+    d2 = sqrt(mean(((f1 - f0)./sc).^2))/h0;
 
     h1 = (0.01/max(d1, d2))^(1/orderM);
 
@@ -119,7 +119,7 @@ while tc < tend
             ycs = yc + stagedy + gh*newtonk0;
             g = Mc*newtonk0 - f(staget, ycs);
             H = Mc - gh*Jc;
-            [npnew, ~] = qmr(H, g, [], size(H, 1));
+            npnew = H\g;
 
             newtonknew = newtonk0 - alpha*npnew;
 
