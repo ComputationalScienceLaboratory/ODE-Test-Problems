@@ -5,7 +5,7 @@ n = numel(y0);
 h = odeget(options, 'InitialStep', []);
 reltol = odeget(options, 'RelTol', 1e-3);
 abstol = odeget(options, 'AbsTol', 1e-6);
-J = odeget(options, 'Jacobian', @(t, y) jacapprox(f, t, y));
+J = odeget(options, 'Jacobian', []);
 M = odeget(options, 'Mass', speye(numel(y0)));
 MStateDependence = odeget(options, 'MStateDependence', 'none');
 
@@ -14,7 +14,20 @@ if strcmp(MStateDependence, 'strong')
     error('OTP:MassStateDependent', 'Strong state dependent mass is not supported.')
 end
 
-if ~isa(M, 'function_handle')
+if isempty(J)
+    J = @(t, y) jacapprox(f, t, y);
+    usesparse = false;
+else
+    usesparse = issparse(J(tspan(1), y0));
+end
+
+if isempty(M)
+    if usesparse
+        M = @(t, y) speye(numel(y0));
+    else
+        M = @(t, y) eye(numel(y0));
+    end
+elseif ~isa(M, 'function_handle')
     M = @(t, y) M;
 end
 
@@ -98,6 +111,13 @@ while tc < tend
         Jfull(si, :) = kron(A(stage, :), Jc);
     end
 
+    H = Mfull - h*Jfull;
+    if usesparse
+        [L, U, P, Q, D] = lu(H);
+    else
+        [L, U] = lu(H);
+    end
+
     while kappa*(etak*nnp) >= ntol && its < nmaxits
         % build g and Jacobians
         for stage = 1:stagenum
@@ -109,9 +129,11 @@ while tc < tend
             gfull(si) =  Mc*newtonk(si) - f(staget, ycs);
         end
 
-        H = Mfull - h*Jfull;
-
-        npnew = H\gfull;
+        if usesparse
+            npnew = Q*(U\(L\(P*(D\gfull))));
+        else
+            npnew = U\(L\gfull);
+        end
 
         if its > 1
             nnpnew = sqrt(mean((npnew./sc).^2));
@@ -132,6 +154,13 @@ while tc < tend
                         Jc = J(staget, ycs);
                         Jfull(si, :) = kron(A(stage, :), Jc);
                     end
+                    H = Mfull - h*Jfull;
+                    if usesparse
+                        [L, U, P, Q, D] = lu(H);
+                    else
+                        [L, U] = lu(H);
+                    end
+
                     continue;
                 end
 
