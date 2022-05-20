@@ -61,6 +61,9 @@ Mfull = zeros(n*stagenum, n*stagenum, 'like', Mc);
 gfull = zeros(n*stagenum, 1);
 Jfull = zeros(n*stagenum, n*stagenum, 'like', Mc);
 newtonk = zeros(n*stagenum, 1);
+sc = zeros(n*stagenum, 1);
+
+brejectstage = false;
 
 while tc < tend
 
@@ -74,8 +77,6 @@ while tc < tend
         Mfull(si, si) = M(tc + h*c(stage), yc);
     end
 
-    np = inf;
-
     ntol = min(abstol, reltol);
     nmaxits = 1e3;
     its = 0;
@@ -83,10 +84,19 @@ while tc < tend
     nnp = inf;
     kappa = 1e-1;
 
-    newtonk = 0*newtonk;
-    sc = 0*newtonk;
-
     bnewtonreject = false;
+
+    % Here we never reset the newton stages, as the previous stages are good starting points 
+    % This has empirically reduced the time it takes to compute everything.
+
+    % Compute the Jacobian once per step
+    for stage = 1:stagenum
+        si = ((stage - 1)*n + 1):(stage*n);
+        staget = tc + c(stage)*h;
+        ycs = yc + h*reshape(newtonk, n, [])*(A(stage, :).');
+        Jc = J(staget, ycs);
+        Jfull(si, :) = kron(A(stage, :), Jc);
+    end
 
     while kappa*(etak*nnp) >= ntol && its < nmaxits
         % build g and Jacobians
@@ -94,14 +104,9 @@ while tc < tend
             si = ((stage - 1)*n + 1):(stage*n);
             staget = tc + c(stage)*h;
             ycs = yc + h*reshape(newtonk, n, [])*(A(stage, :).');
-
             sc(si) = abstol + reltol*abs(ycs);
-
             Mc = Mfull(si, si);
             gfull(si) =  Mc*newtonk(si) - f(staget, ycs);
-            Jc = J(staget, ycs);
-
-            Jfull(si, :) = kron(A(stage, :), Jc);
         end
 
         H = Mfull - h*Jfull;
@@ -114,9 +119,29 @@ while tc < tend
             thetak = nnpnew/nnp;
 
             if thetak > 1.25 || isnan(thetak) || isinf(thetak)
+                
+                % If theta is large, we recompute the Jacobian and try again
+                if ~brejectstage
+                    brejectstage = true;
+
+
+                    for stage = 1:stagenum
+                        si = ((stage - 1)*n + 1):(stage*n);
+                        staget = tc + c(stage)*h;
+                        ycs = yc + h*reshape(newtonk, n, [])*(A(stage, :).');
+                        Jc = J(staget, ycs);
+                        Jfull(si, :) = kron(A(stage, :), Jc);
+                    end
+                    continue;
+                end
+
+                % If theta is still large after recomputing the Jacobian, we reject the step and decrease the stepsize
+
                 bnewtonreject = true;
                 break;
             end
+
+            brejectstage = false;
 
             etak = thetak/(1 - thetak);
         end
