@@ -6,7 +6,7 @@ h = odeget(options, 'InitialStep', []);
 reltol = odeget(options, 'RelTol', 1e-3);
 abstol = odeget(options, 'AbsTol', 1e-6);
 J = odeget(options, 'Jacobian', []);
-M = odeget(options, 'Mass', speye(numel(y0)));
+M = odeget(options, 'Mass', []);
 MStateDependence = odeget(options, 'MStateDependence', 'none');
 
 % We won't support state-dependent Mass, simple as that
@@ -15,7 +15,7 @@ if strcmp(MStateDependence, 'strong')
 end
 
 if isempty(J)
-    J = @(t, y) jacapprox(f, t, y);
+    J = @(t, y) otp.utils.jacobianApproximation(f, t, y);
     usesparse = false;
 else
     usesparse = issparse(J(tspan(1), y0));
@@ -29,6 +29,8 @@ if isempty(M)
     end
 elseif ~isa(M, 'function_handle')
     M = @(t, y) M;
+elseif isa(M, 'function_handle') && nargin(M) == 1
+    M = @(t, y) M(t);
 end
 
 % Lobatto IIIC
@@ -42,7 +44,7 @@ orderE = 3;
 
 % Compute initial step size
 if isempty(h)
-    sc = abstol + reltol*abs(y0);
+    sc = abstol + reltol.*abs(y0);
     f0 = f(tspan(1), y0);
     d0 = sqrt(mean((y0./sc).^2));
     d1 = sqrt(mean((f0./sc).^2));
@@ -69,10 +71,15 @@ tend = tspan(end);
 
 step = 1;
 
-Mc = M(tspan(1), y0);
-Mfull = zeros(n*stagenum, n*stagenum, 'like', Mc);
+if usesparse
+    Mfull = sparse(n*stagenum, n*stagenum);
+    Jfull = sparse(n*stagenum, n*stagenum);
+else
+    Mfull = zeros(n*stagenum, n*stagenum);
+    Jfull = zeros(n*stagenum, n*stagenum);
+end
+
 gfull = zeros(n*stagenum, 1);
-Jfull = zeros(n*stagenum, n*stagenum, 'like', Mc);
 newtonk = zeros(n*stagenum, 1);
 sc = zeros(n*stagenum, 1);
 
@@ -90,7 +97,7 @@ while tc < tend
         Mfull(si, si) = M(tc + h*c(stage), yc);
     end
 
-    ntol = min(abstol, reltol);
+    ntol = min(abstol, min(reltol));
     nmaxits = 1e3;
     its = 0;
     etak = inf;
@@ -124,7 +131,7 @@ while tc < tend
             si = ((stage - 1)*n + 1):(stage*n);
             staget = tc + c(stage)*h;
             ycs = yc + h*reshape(newtonk, n, [])*(A(stage, :).');
-            sc(si) = abstol + reltol*abs(ycs);
+            sc(si) = abstol + reltol.*abs(ycs);
             Mc = Mfull(si, si);
             gfull(si) =  Mc*newtonk(si) - f(staget, ycs);
         end
@@ -191,7 +198,7 @@ while tc < tend
     yhat = yc + h*reshape(newtonk, n, [])*bhat.';
     ycnew = yc + h*reshape(newtonk, n, [])*b.';
 
-    sc = abstol + max(abs(ycnew), abs(yc))*reltol;
+    sc = abstol + max(abs(ycnew), abs(yc)).*reltol;
 
     Mc = M(tc + h , ycnew);
 
@@ -227,23 +234,6 @@ if nargout < 2
     sol = struct('x', t, 'y', y.');
 else
     sol = t;
-end
-
-end
-
-function J = jacapprox(f, t, y)
-
-n = numel(y);
-
-J = zeros(n, n);
-
-h = sqrt(1e-6);
-
-f0 = f(t, y);
-
-for i = 1:n
-    e = zeros(n, 1); e(i) = 1;
-    J(:, i) = (f(t, y + h*e) - f0)/h;
 end
 
 end
