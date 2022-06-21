@@ -1,4 +1,5 @@
 function dpsit = f(psi, Lx, Ly, P1, P2, L12, Dx, ~, ~, DyT, F, Re, Ro)
+% F Computes the QG right hand side
 
 [nx, ny] = size(L12);
 
