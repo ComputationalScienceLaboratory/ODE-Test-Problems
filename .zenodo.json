@@ -33,11 +33,6 @@
             "scheme": "url", 
             "identifier": "https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/tree/v0.0.1", 
             "relation": "isSupplementTo"
-        }, 
-        {
-            "scheme": "doi", 
-            "identifier": "10.5281/zenodo.6653545", 
-            "relation": "isVersionOf"
         }
     ]
 }
