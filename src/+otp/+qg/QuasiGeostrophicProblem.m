@@ -14,6 +14,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
         DistanceFunction
         FlowVelocityMagnitude
         JacobianFlowVelocityMagnitudeVectorProduct
+        JacobianFlowVelocityMagnitudeAdjointVectorProduct
     end
     
     methods (Static)
@@ -140,7 +141,9 @@ classdef QuasiGeostrophicProblem < otp.Problem
             obj.FlowVelocityMagnitude = @(psi) otp.qg.flowVelocityMagnitude(psi, Dx, Dy);
             
             obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacobianFlowVelocityMagnitudeVectorProduct(psi, u, Dx, Dy);
-            
+
+            obj.JacobianFlowVelocityMagnitudeAdjointVectorProduct = @(psi, u) otp.qg.jacobianFlowVelocityMagnitudeAdjointVectorProduct(psi, u, Dx, Dy);
+
         end
         
         function label = internalIndex2label(obj, index)
