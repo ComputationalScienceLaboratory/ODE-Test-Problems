@@ -21,6 +21,11 @@ classdef PhysicalConstants
         DaysPerYear = 365.25; % d
         
         EarthGravity = 9.80665; % m / s^2
+
+        SecondsInEarthDay = 24*60*60; % s
+
+        EarthAngularVelocity = 7.292e-5; % rad / s
+        EarthRadius = 6.370e6; % m
     end
     
 end
