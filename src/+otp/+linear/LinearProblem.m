@@ -40,5 +40,19 @@ classdef LinearProblem < otp.Problem
             obj.RHSPartitions = cellfun(@obj.createRHS, obj.Parameters.A, ...
                 'UniformOutput', false);
         end
+        
+        function y = internalSolveExactly(obj, t)
+            numT = length(t)
+            for i = 1:numT
+                yi = expm(t(i) * obj.RHS.Jacobian) * obj.Y0;
+                
+                if i == 1
+                    % The first yi provides the data type. Simply repeat vector for allocation
+                    y = repmat(yi, 1, numT);
+                else
+                    y(:, i) = yi;
+                end
+            end
+        end
     end
 end

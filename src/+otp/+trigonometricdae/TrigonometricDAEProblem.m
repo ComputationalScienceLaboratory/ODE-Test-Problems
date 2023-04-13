@@ -13,6 +13,14 @@ classdef TrigonometricDAEProblem < otp.Problem
                 'MassSingular', 'yes', ...
                 'Vectorized', 'on');
         end
+        
+        function y = internalSolveExactly(obj, t)
+            if ~isequal(obj.Y0, [sinh(0.5); tanh(0.5)])
+                error('An exact solution is unavailable for this initial condition');
+            end
+            
+            y = [sinh(t); tanh(t)];
+        end
     end
 end
 
