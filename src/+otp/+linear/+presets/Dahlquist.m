@@ -2,15 +2,19 @@ classdef Dahlquist < otp.linear.LinearProblem
     %DAHLQUIST
     %
     methods
-        function obj = Dahlquist(A)
-            if nargin < 1 || isempty(A)
-                A = {-1};
-            end
-
+        function obj = Dahlquist(varargin)
             params = otp.linear.LinearParameters;
-            params.A = A;
             
-            obj = obj@otp.linear.LinearProblem([0, 1], ones(size(params.A{1}, 1), 1), params);
+            if nargin == 0
+                params.A = {-1};
+            else
+                params.A = varargin;
+            end
+            
+            A1 = params.A{1};
+            y0 = ones(size(A1, 1), 1, 'like', A1);
+            
+            obj = obj@otp.linear.LinearProblem([0, 1], y0, params);
         end
     end
 end

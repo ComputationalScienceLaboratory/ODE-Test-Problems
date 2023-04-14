@@ -111,6 +111,15 @@ classdef (Abstract) Problem < handle
         function sol = solve(obj, varargin)
             sol = obj.internalSolve(varargin{:});
         end
+        
+        function y = solveExactly(obj, t)
+            if nargin < 2
+                t = obj.TimeSpan(2);
+            else
+                t = obj.parseTime(t);
+            end
+            y = obj.internalSolveExactly(t);
+        end
     end
     
     methods (Access = protected)
@@ -237,6 +246,11 @@ classdef (Abstract) Problem < handle
                     problem.Y0, options);
             end
         end
+        
+        function y = internalSolveExactly(obj, t)
+            y = 'This problem does not provide an exact solution';
+            error(y);
+        end
     end
     
     methods (Access = private)
@@ -251,9 +265,8 @@ classdef (Abstract) Problem < handle
                 params = varargin(2:end);
             end
             
-            if ~(isvector(t) && otp.utils.validation.isNumerical(t))
-                error('The times must be a vector of numbers');
-            elseif ~(ismatrix(y) && otp.utils.validation.isNumerical(y))
+            t = obj.parseTime(t);
+            if ~(ismatrix(y) && otp.utils.validation.isNumerical(y))
                 error('The solution must be matrix of numbers');
             end
             
@@ -267,6 +280,14 @@ classdef (Abstract) Problem < handle
             elseif n ~= steps
                 error('Expected solution to have %d variables but has %d', obj.NumVars, n);
             end
+        end
+        
+        function t = parseTime(obj, t)
+            if ~isvector(t) || isempty(t) || ~otp.utils.validation.isNumerical(t)
+                error('The times must be a nonempty vector of numbers');
+            end
+            % Convert to row vector for consistency
+            t = t(:).';
         end
     end
 end

@@ -24,5 +24,13 @@ classdef KPRProblem < otp.Problem
             obj.RHSSlow = otp.RHS(@(t,y) otp.kpr.fSlow(t, y, lambda, omega), ...
                 'Jacobian', @(t, y) otp.kpr.jacobianSlow(t, y, lambda, omega));
         end
+        
+        function y = internalSolveExactly(obj, t)
+            if ~isequal(obj.Y0, [2; sqrt(3)])
+                error('An exact solution is unavailable for this initial condition');
+            end
+            
+            y = sqrt([3 + cos(obj.Parameters.Omega * t); 2 + cos(t)]);
+        end
     end
 end

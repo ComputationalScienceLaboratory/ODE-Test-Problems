@@ -14,5 +14,13 @@ classdef ProtheroRobinsonProblem < otp.Problem
             obj.RHS = otp.RHS(@(t, y) otp.protherorobinson.f(t, y, lambda, phi, dphi), ...
                 'Jacobian', otp.protherorobinson.jacobian(lambda, phi, dphi));
         end
+        
+        function y = internalSolveExactly(obj, t)
+            if ~isequal(obj.Y0, obj.Parameters.Phi(obj.TimeSpan(1)))
+                error('An exact solution is unavailable for this initial condition');
+            end
+            
+            y = obj.Parameters.Phi(t);
+        end
     end
 end
