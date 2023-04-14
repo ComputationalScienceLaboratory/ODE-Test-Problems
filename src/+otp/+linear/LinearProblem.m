@@ -44,7 +44,7 @@ classdef LinearProblem < otp.Problem
         function y = internalSolveExactly(obj, t)
             numT = length(t)
             for i = 1:numT
-                yi = expm(t(i) * obj.RHS.Jacobian) * obj.Y0;
+                yi = expm((t(i) - obj.TimeSpan(1)) * obj.RHS.Jacobian) * obj.Y0;
                 
                 if i == 1
                     % The first yi provides the data type. Simply repeat vector for allocation
