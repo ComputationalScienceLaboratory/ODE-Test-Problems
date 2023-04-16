@@ -6,10 +6,6 @@ classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
     
     methods
         function obj = CometMovie(dim, varargin)
-            if dim < otp.utils.PhysicalConstants.TwoD || dim > otp.utils.PhysicalConstants.ThreeD
-                error('Cannot make a %dD comet movie', dim);
-            end
-            
             obj@otp.utils.movie.FancyMovie('View', dim, varargin{:});
             obj.Dim = dim;
         end
@@ -54,19 +50,16 @@ classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
             numComets = state.numVars;
         end
         
-        function z = getZPoints(~, ~, ~)
-            z = '3D trajectory not supported';
-            error(z);
-        end
-    end
-    
-    methods (Access = protected)
         function x = getXPoints(obj, cometIdx, state)
             x = otp.utils.compatibility.abstract(obj, cometIdx, state);
         end
         
         function y = getYPoints(obj, cometIdx, state)
             y = otp.utils.compatibility.abstract(obj, cometIdx, state);           
+        end
+        
+        function z = getZPoints(obj, cometIdx, state)
+            z = otp.utils.compatibility.abstract(obj, cometIdx, state);           
         end
     end
 end

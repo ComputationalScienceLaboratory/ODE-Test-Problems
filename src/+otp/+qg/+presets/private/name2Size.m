@@ -20,7 +20,7 @@ switch name
     case 'bigly'
         nx = 1023;
     otherwise
-        error('Cannot convert string to grid sizes');
+        error('OTP:invalidSize', 'Cannot convert string to grid sizes');
 end
 
 ny = 2*nx + 1;
