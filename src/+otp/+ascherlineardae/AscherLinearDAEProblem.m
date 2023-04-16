@@ -21,7 +21,8 @@ classdef AscherLinearDAEProblem < otp.Problem
         function y = internalSolveExactly(obj, t)
             beta = obj.Parameters.Beta;
             if ~isequal(obj.Y0, [1; beta])
-                error('An exact solution is unavailable for this initial condition');
+                error('OTP:noExactSolution', ...
+                    'An exact solution is unavailable for this initial condition');
             end
             
             y = [t .* sin(t) + (1 + beta * t) .* exp(-t); ...

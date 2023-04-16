@@ -46,7 +46,9 @@ classdef (Abstract) Movie < handle
             totalSteps = length(t);
             [state.numVars, state.totalSteps] = size(y);
             if length(t) ~= state.totalSteps
-                error('Expected y to have %d columns but has %d', length(t), state.totalSteps);
+                error('OTP:invalidSolution', ...
+                    'Expected y to have %d columns but has %d', ...
+                    length(t), state.totalSteps);
             end
             
             state.t = t;

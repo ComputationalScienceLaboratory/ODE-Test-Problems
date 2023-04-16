@@ -10,7 +10,8 @@ classdef FileRecorder < otp.utils.movie.recorder.Recorder
             elseif isa(v, 'VideoWriter')
                 obj.VideoWriter = v;
             else
-                error('Argument must be a string or a VideoWriter but is a %s', class(v));
+                error('OTP:invalidType', ...
+                    'Argument must be a string or a VideoWriter but is a %s', class(v));
             end
         end
         
