@@ -26,7 +26,7 @@ classdef NullVideoRecorder < otp.utils.movie.recorder.VideoRecorder
         
         function h = play(~)
             h = 'Video not saved for playback';
-            error(h);
+            error('OTP:movieNotSaved', h);
         end
     end
 end

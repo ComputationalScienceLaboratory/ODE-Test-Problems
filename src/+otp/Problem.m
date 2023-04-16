@@ -23,10 +23,6 @@ classdef (Abstract) Problem < handle
     methods
         function obj = Problem(name, expectedNumVars, timeSpan, y0, parameters)
             % Constructs a problem
-            
-            if ~ischar(name)
-                error('The problem name must be a nonempty character array');
-            end
             obj.Name = name;
             obj.ExpectedNumVars = expectedNumVars;
             
@@ -103,7 +99,9 @@ classdef (Abstract) Problem < handle
         function label = index2label(obj, index)
             % Gets a human-readable label for a particular component of the ODE
             if ~isscalar(index) || mod(index, 1) || index < 1 || index > obj.NumVars
-                error('The index %d is not an integer between 1 and %d', index, obj.NumVars);
+                error('OTP:indexOutOfBounds', ...
+                    'The index %d is not an integer between 1 and %d', ...
+                    index, obj.NumVars);
             end
             label = obj.internalIndex2label(index);
         end
@@ -131,17 +129,20 @@ classdef (Abstract) Problem < handle
         function validateNewState(obj, newTimeSpan, newY0, newParameters)
             % Ensures the TimeSpan, Y0, and Parameters are valid
             if length(newTimeSpan) ~= 2
-                error('TimeSpan must be a vector of two times');
+                error('OTP:invalidNewState', ...
+                    'TimeSpan must be a vector of two times');
             elseif ~otp.utils.validation.isNumerical(newTimeSpan)
-                error('TimeSpan must be numeric');
+                error('OTP:invalidNewState', 'TimeSpan must be numeric');
             elseif ~iscolumn(newY0)
-                error('Y0 must be a column vector');
+                error('OTP:invalidNewState', 'Y0 must be a column vector');
             elseif ~otp.utils.validation.isNumerical(newY0)
-                error('Y0 must be numeric');
+                error('OTP:invalidNewState', 'Y0 must be numeric');
             elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
-                error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
+                error('OTP:invalidNewState', ...
+                    'Expected Y0 to have %d components but has %d', ...
+                    obj.ExpectedNumVars, length(newY0));
             elseif isempty(newParameters)
-                error('Parameters cannot be empty');
+                error('OTP:invalidNewState', 'Parameters cannot be empty');
             end
         end
         
@@ -168,7 +169,8 @@ classdef (Abstract) Problem < handle
             
             [numLines, dim] = size(vars);
             if dim < otp.utils.PhysicalConstants.TwoD || dim > otp.utils.PhysicalConstants.ThreeD
-                error('Cannot plot a %dD phase space', dim);
+                error('OTP:invalidPhaseDimension', ...
+                    'Cannot plot a %dD phase space', dim);
             end
             
             fig = figure;
@@ -247,9 +249,9 @@ classdef (Abstract) Problem < handle
             end
         end
         
-        function y = internalSolveExactly(obj, t)
+        function y = internalSolveExactly(~, ~)
             y = 'This problem does not provide an exact solution';
-            error(y);
+            error('OTP:noExactSolution', y);
         end
     end
     
@@ -267,7 +269,8 @@ classdef (Abstract) Problem < handle
             
             t = obj.parseTime(t);
             if ~(ismatrix(y) && otp.utils.validation.isNumerical(y))
-                error('The solution must be matrix of numbers');
+                error('OTP:invalidSolution', ...
+                    'The solution must be matrix of numbers');
             end
             
             steps = length(t);
@@ -276,15 +279,19 @@ classdef (Abstract) Problem < handle
             if m == steps && n == obj.NumVars && m ~= n
                 y = y.';
             elseif m ~= obj.NumVars
-                error('There are %d timesteps, but %d solution states', steps, m);
+                error('OTP:invalidSolution', ...
+                    'There are %d timesteps, but %d solution states', steps, m);
             elseif n ~= steps
-                error('Expected solution to have %d variables but has %d', obj.NumVars, n);
+                error('OTP:invalidSolution', ...
+                    'Expected solution to have %d variables but has %d', ...
+                    obj.NumVars, n);
             end
         end
         
         function t = parseTime(obj, t)
             if ~isvector(t) || isempty(t) || ~otp.utils.validation.isNumerical(t)
-                error('The times must be a nonempty vector of numbers');
+                error('OTP:invalidSolution', ...
+                    'The times must be a nonempty vector of numbers');
             end
             % Convert to row vector for consistency
             t = t(:).';

@@ -27,7 +27,8 @@ classdef KPRProblem < otp.Problem
         
         function y = internalSolveExactly(obj, t)
             if ~isequal(obj.Y0, [2; sqrt(3)])
-                error('An exact solution is unavailable for this initial condition');
+                error('OTP:noExactSolution', ...
+                    'An exact solution is unavailable for this initial condition');
             end
             
             y = sqrt([3 + cos(obj.Parameters.Omega * t); 2 + cos(t)]);

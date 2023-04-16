@@ -63,7 +63,8 @@ for dim = 1:dims
             
             ds = (-pa):pa;
         otherwise
-            error('Other Boundary condition types are not supported');
+            error('OTP:invalidBoundaryCondition', ...
+                'Other Boundary condition types are not supported');
     end
     
     D = spdiags(diagonals, ds, nd, nd);

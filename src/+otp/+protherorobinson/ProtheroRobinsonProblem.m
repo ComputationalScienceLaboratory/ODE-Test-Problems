@@ -17,7 +17,8 @@ classdef ProtheroRobinsonProblem < otp.Problem
         
         function y = internalSolveExactly(obj, t)
             if ~isequal(obj.Y0, obj.Parameters.Phi(obj.TimeSpan(1)))
-                error('An exact solution is unavailable for this initial condition');
+                error('OTP:noExactSolution', ...
+                    'An exact solution is unavailable for this initial condition');
             end
             
             y = obj.Parameters.Phi(t);
