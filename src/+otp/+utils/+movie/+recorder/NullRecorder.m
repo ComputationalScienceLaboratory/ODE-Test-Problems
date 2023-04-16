@@ -5,6 +5,7 @@ classdef NullRecorder < otp.utils.movie.recorder.Recorder
         end
         
         function setFrameRate(~, ~)
+            % Nothing to do
         end
         
         function start(~, ~)
