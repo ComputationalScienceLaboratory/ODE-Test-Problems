@@ -25,11 +25,11 @@ classdef (Abstract) Movie < handle
             obj.Config = p.Results;
             switch obj.Config.Save
                 case true
-                    obj.Recorder = otp.utils.movie.recorder.MemoryVideoRecorder;
+                    obj.Recorder = otp.utils.movie.recorder.MemoryRecorder;
                 case false
-                    obj.Recorder = otp.utils.movie.recorder.NullVideoRecorder;
+                    obj.Recorder = otp.utils.movie.recorder.NullRecorder;
                 otherwise
-                    obj.Recorder = otp.utils.movie.recorder.FileVideoRecorder(obj.Config.Save);
+                    obj.Recorder = otp.utils.movie.recorder.FileRecorder(obj.Config.Save);
             end
             obj.FrameRate = obj.Config.FrameRate;
         end

@@ -1,4 +1,4 @@
-classdef (Abstract) VideoRecorder < handle    
+classdef (Abstract) Recorder < handle    
     methods
         function frameRate = getFrameRate(obj)
             frameRate = otp.utils.compatibility.abstract(obj);
