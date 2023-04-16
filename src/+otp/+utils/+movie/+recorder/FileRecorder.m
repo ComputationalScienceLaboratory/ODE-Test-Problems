@@ -1,10 +1,10 @@
-classdef FileVideoRecorder < otp.utils.movie.recorder.VideoRecorder
+classdef FileRecorder < otp.utils.movie.recorder.Recorder
     properties (Access = private)
         VideoWriter
     end
     
     methods
-        function obj = FileVideoRecorder(v)
+        function obj = FileRecorder(v)
             if ischar(v)
                 obj.VideoWriter = VideoWriter(v);
             elseif isa(v, 'VideoWriter')

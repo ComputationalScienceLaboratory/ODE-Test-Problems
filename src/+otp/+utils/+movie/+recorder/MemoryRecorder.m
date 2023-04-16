@@ -1,4 +1,4 @@
-classdef MemoryVideoRecorder < otp.utils.movie.recorder.VideoRecorder
+classdef MemoryRecorder < otp.utils.movie.recorder.Recorder
     properties (Access = private)
         Mov
         CurFrame = 0
