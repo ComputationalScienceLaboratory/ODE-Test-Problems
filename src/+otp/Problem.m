@@ -64,7 +64,7 @@ classdef (Abstract) Problem < handle
         
         function set.Y0(obj, value)
             numVars = length(value);
-            if ~isempty(obj.ExpectedNumVars) && numVars != obj.ExpectedNumVars
+            if ~isempty(obj.ExpectedNumVars) && numVars ~= obj.ExpectedNumVars
                 error('OTP:invalidY0', ...
                     'Expected Y0 to have %d components but has %d', ...
                     obj.ExpectedNumVars, numVars);
