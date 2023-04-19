@@ -1,23 +1,43 @@
 classdef (Abstract) Problem < handle
     
     properties (SetAccess = private)
-        Name % A human-readable representation of the problem
+        % A human-readable representation of the problem
+        Name %MATLAB ONLY: (1,:) char
     end
     
     properties (SetAccess = protected)
-        RHS
+        RHS %MATLAB ONLY: (1,1) otp.RHS = otp.RHS(@() [])
     end
     
     properties (Access = private)
-        Settings
-        ExpectedNumVars
+        ExpectedNumVars %MATLAB ONLY: {mustBeScalarOrEmpty, mustBeInteger, mustBePositive}
+        
+        % Determines if the Problem properties are still being set. Once set, it
+        % is ok to call onSettingsChanged.
+        Initialized = false
+        
+        % The following internal properties represent the state of the problem
+        % and have matching external properties. The external properties have to
+        % be dependent because they trigger onSettingsChanged and access Problem
+        % properties
+        
+        InternalTimeSpan
+        InternalY0
+        InternalParameters
     end
     
     properties (Dependent)
-        TimeSpan % The time interval of the problem
-        Y0 % The initial condition
-        Parameters % Additional variables to pass to the F function
-        NumVars % The dimension of the ODE
+        % The time interval of the problem
+        TimeSpan %MATLAB ONLY: (1,2) {otp.utils.validation.mustBeNumerical}
+        
+        % The initial condition
+        Y0 %MATLAB ONLY: (:,1) {otp.utils.validation.mustBeNumerical}
+        
+        % Additional variables to pass to the F function
+        Parameters %MATLAB ONLY: (1,1)
+        
+        % The dimension of the ODE
+        NumVars
     end
     
     methods
@@ -25,43 +45,51 @@ classdef (Abstract) Problem < handle
             % Constructs a problem
             obj.Name = name;
             obj.ExpectedNumVars = expectedNumVars;
-            
-            % IDEA: Make Settings a class with property validation
-            obj.Settings = struct('timeSpan', timeSpan(:), 'y0', y0, 'parameters', parameters);
+            obj.TimeSpan = timeSpan;
+            obj.Y0 = y0;
+            obj.Initialized = true;
+            obj.Parameters = parameters;
         end
         
         function set.TimeSpan(obj, value)
-            obj.Settings.timeSpan = value(:);
+            obj.InternalTimeSpan = value;
+            if obj.Initialized
+                obj.onSettingsChanged();
+            end
         end
         
         function timeSpan = get.TimeSpan(obj)
-            timeSpan = obj.Settings.timeSpan;
+            timeSpan = obj.InternalTimeSpan;
         end
         
         function set.Y0(obj, value)
-            obj.Settings.y0 = value;
+            numVars = length(value);
+            if ~isempty(obj.ExpectedNumVars) && numVars != obj.ExpectedNumVars
+                error('OTP:invalidY0', ...
+                    'Expected Y0 to have %d components but has %d', ...
+                    obj.ExpectedNumVars, numVars);
+            end
+            obj.InternalY0 = value;
+            if obj.Initialized
+                obj.onSettingsChanged();
+            end
         end
         
         function y0 = get.Y0(obj)
-            y0 = obj.Settings.y0;
+            y0 = obj.InternalY0;
         end
         
         function set.Parameters(obj, value)
-            obj.Settings.parameters = value;
-        end
-        
-        function parameters = get.Parameters(obj)
-            parameters = obj.Settings.parameters;
-        end
-        
-        function set.Settings(obj, value)
-            obj.validateNewState(value.timeSpan, value.y0, value.parameters);
-            obj.Settings = value;
+            obj.InternalParameters = value;
             obj.onSettingsChanged();
         end
         
-        function dimension = get.NumVars(obj)
-            dimension = length(obj.Settings.y0);
+        function parameters = get.Parameters(obj)
+            parameters = obj.InternalParameters;
+        end
+        
+        function vars = get.NumVars(obj)
+            vars = length(obj.InternalY0);
         end
     end
     
@@ -124,26 +152,6 @@ classdef (Abstract) Problem < handle
         % This method is called when either TimeSpan, Y0, or parameters are changed.  It should update F and other properties such as a Jacobian to reflect the changes.  This is effevtively an abstract function but not explicitly marked so in order to support Octave
         function onSettingsChanged(obj)
             otp.utils.compatibility.abstract(obj);
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            % Ensures the TimeSpan, Y0, and Parameters are valid
-            if length(newTimeSpan) ~= 2
-                error('OTP:invalidNewState', ...
-                    'TimeSpan must be a vector of two times');
-            elseif ~otp.utils.validation.isNumerical(newTimeSpan)
-                error('OTP:invalidNewState', 'TimeSpan must be numeric');
-            elseif ~iscolumn(newY0)
-                error('OTP:invalidNewState', 'Y0 must be a column vector');
-            elseif ~otp.utils.validation.isNumerical(newY0)
-                error('OTP:invalidNewState', 'Y0 must be numeric');
-            elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
-                error('OTP:invalidNewState', ...
-                    'Expected Y0 to have %d components but has %d', ...
-                    obj.ExpectedNumVars, length(newY0));
-            elseif isempty(newParameters)
-                error('OTP:invalidNewState', 'Parameters cannot be empty');
-            end
         end
         
         function fig = internalPlot(obj, t, y, varargin)
