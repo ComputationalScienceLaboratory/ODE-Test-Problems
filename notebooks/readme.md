@@ -2,7 +2,7 @@
 
 Use this button to run try ODE-Test-Problems in a stand-alone Jupyter Notebook environment: 
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/elswit/xeus-octave-fork.git/main?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252FComputationalScienceLaboratory%252FODE-Test-Problems%26urlpath%3Dlab%252Ftree%252FODE-Test-Problems%252Fnotebooks%252Fquick-start.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/elswit/xeus-octave-fork/main?urlpath=git-pull%3Frepo%3Dhttps%253A%252F%252Fgithub.com%252FComputationalScienceLaboratory%252FODE-Test-Problems%26urlpath%3Dlab%252Ftree%252FODE-Test-Problems%252Fnotebooks%252Fquick-start.ipynb)
 
 This Notebook includes the following examples: 
 
