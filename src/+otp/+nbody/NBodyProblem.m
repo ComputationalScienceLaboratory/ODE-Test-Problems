@@ -6,26 +6,18 @@ classdef NBodyProblem < otp.Problem
     end
     
     methods (Access = protected)
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, ...
-                newParameters);
-            
-            numMasses = length(newParameters.Masses);
-            expectedLen = 2 * numMasses * newParameters.SpatialDim;
-            actualLen = length(newY0);
-            
-            if expectedLen ~= actualLen
-                warning('OTP:inconsistentNumVars', ...
-                    'With %d masses, NumVars should be %d but is %d', ...
-                    numMasses, expectedLen, actualLen);
-            end
-        end
-        
         function onSettingsChanged(obj)
             spatialDim = obj.Parameters.SpatialDim;
             masses = obj.Parameters.Masses;
             gravitationalConstant = obj.Parameters.GravitationalConstant;
             softeningLength = obj.Parameters.SofteningLength;
+            
+            expectedLen = 2 * length(masses) * spatialDim;
+            if expectedLen ~= obj.NumVars
+                warning('OTP:inconsistentNumVars', ...
+                    'With %d masses, NumVars should be %d but is %d', ...
+                    length(masses), expectedLen, obj.NumVars);
+            end
             
             obj.RHS = otp.RHS(@(t, y) otp.nbody.f(t, y, spatialDim, masses, gravitationalConstant, softeningLength));
         end
