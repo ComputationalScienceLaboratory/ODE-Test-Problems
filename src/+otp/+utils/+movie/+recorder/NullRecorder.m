@@ -1,11 +1,15 @@
 classdef NullRecorder < otp.utils.movie.recorder.Recorder
+    properties (Access = private)
+        FrameRate = otp.utils.movie.Movie.DefaultFramerate;
+    end
+    
     methods
-        function frameRate = getFrameRate(~)
-            frameRate = 0;
+        function frameRate = getFrameRate(obj)
+            frameRate = obj.FrameRate;
         end
         
-        function setFrameRate(~, ~)
-            % Nothing to do
+        function setFrameRate(obj, frameRate)
+            obj.FrameRate = frameRate;
         end
         
         function start(~, ~)
