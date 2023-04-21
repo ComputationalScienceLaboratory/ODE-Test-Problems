@@ -149,7 +149,8 @@ classdef (Abstract) Problem < handle
     end
     
     methods (Access = protected)
-        % This method is called when either TimeSpan, Y0, or parameters are changed.  It should update F and other properties such as a Jacobian to reflect the changes.  This is effevtively an abstract function but not explicitly marked so in order to support Octave
+        % This method is called when either TimeSpan, Y0, or parameters are changed. It should
+        % update F and other properties such as a Jacobian to reflect the changes.
         function onSettingsChanged(obj)
             otp.utils.compatibility.abstract(obj);
         end
@@ -189,8 +190,7 @@ classdef (Abstract) Problem < handle
                 leg = {};
             else
                 labels = cell(dim, 1);
-                % Octave bug: function handle from class not working with
-                % arrayfun so stored in local var first
+                % OCTAVE BUG: function handle from class not accessible in anonymous function
                 labelFun = @obj.internalIndex2label;
                 leg = @(i) strjoin(arrayfun(labelFun, vars(i, :), 'UniformOutput', false), ' vs ');
             end
@@ -244,14 +244,15 @@ classdef (Abstract) Problem < handle
             
             problem = obj;
             while sol.x(end) ~= problem.TimeSpan(end)
+                % OCTAVE BUG: sol.xe and sol.ye are transposed compared to MATLAB
                 [isterminal, problem] = problem.RHS.OnEvent(sol, problem);
                 
                 if isterminal
                     return;
                 end
                 
-                % TODO: Octave does not support odextend
                 options = problem.RHS.odeset(unmatched{:});
+                % OCTAVE BUG: odextend not supported
                 sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
                     problem.Y0, options);
             end

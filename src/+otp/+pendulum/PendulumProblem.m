@@ -45,7 +45,7 @@ classdef PendulumProblem < otp.Problem
             numBobs = min(numLengths, numMasses);
             lengths = lengths(1:numBobs);
             masses = masses(1:numBobs);
-            % reverse flag of cumsum not supported in Octave
+            % OCTAVE BUG: reverse flag for cumsum is not supported
             cumulativeMasses = cumsum(flip(masses));
             
             offDiagScaling = -1 ./ (lengths(1:end-1) .* lengths(2:end) .* masses(1:end-1));

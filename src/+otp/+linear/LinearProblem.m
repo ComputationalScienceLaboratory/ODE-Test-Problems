@@ -36,7 +36,7 @@ classdef LinearProblem < otp.Problem
     methods (Access = protected)
         function onSettingsChanged(obj)
             obj.RHS = obj.createRHS(obj.computeASum());
-            % Octave doesn't support class arrays so nonuniform output
+            % OCTAVE BUG: class arrays are not supported so a cell array must be used
             obj.RHSPartitions = cellfun(@obj.createRHS, obj.Parameters.A, ...
                 'UniformOutput', false);
         end

@@ -14,6 +14,7 @@ classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
     methods (Access = protected)
         function gObjects = initAxes(obj, ax, state)
             numComets = obj.getNumComets(state);
+            % OCTAVE BUG: animatedline not supported
             gObjects.lines = arrayfun(@(~) animatedline(ax), 1:numComets);
             gObjects.heads = line(ax, zeros(numComets, 1), 0, 0, 'Marker', 'o', 'LineStyle', 'none');
             for i = 1:numComets

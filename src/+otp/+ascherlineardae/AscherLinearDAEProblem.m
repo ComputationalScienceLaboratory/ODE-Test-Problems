@@ -28,6 +28,11 @@ classdef AscherLinearDAEProblem < otp.Problem
             y = [t .* sin(t) + (1 + beta * t) .* exp(-t); ...
                 beta * exp(-t) + sin(t)];
         end
+        
+        function sol = internalSolve(obj, varargin)
+            sol = internalSolve@otp.Problem(obj, ...
+                'Solver', otp.utils.Solver.StiffNonConstantMass, varargin{:});
+        end
     end
 end
 

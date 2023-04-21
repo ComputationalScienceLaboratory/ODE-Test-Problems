@@ -12,6 +12,7 @@ classdef Dahlquist < otp.linear.LinearProblem
             end
             
             A1 = params.A{1};
+            % OCTAVE BUG: like option requires version 7+
             y0 = ones(size(A1, 1), 1, 'like', A1);
             
             obj = obj@otp.linear.LinearProblem([0, 1], y0, params);
