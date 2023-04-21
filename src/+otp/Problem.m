@@ -190,7 +190,7 @@ classdef (Abstract) Problem < handle
                 leg = {};
             else
                 labels = cell(dim, 1);
-                % OCTAVE BUG: function handle from class not accessible in anonymous function
+                % OCTAVE FIX: function handle from class not accessible in anonymous function
                 labelFun = @obj.internalIndex2label;
                 leg = @(i) strjoin(arrayfun(labelFun, vars(i, :), 'UniformOutput', false), ' vs ');
             end
