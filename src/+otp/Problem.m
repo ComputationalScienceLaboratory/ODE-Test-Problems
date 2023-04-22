@@ -252,7 +252,7 @@ classdef (Abstract) Problem < handle
                 end
                 
                 options = problem.RHS.odeset(unmatched{:});
-                % OCTAVE BUG: odextend not supported
+                % OCTAVE FIX: odextend not supported
                 if exist('odextend', 'builtin')
                     sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
                         problem.Y0, options);
