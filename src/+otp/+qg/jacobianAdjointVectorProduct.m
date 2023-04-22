@@ -1,4 +1,4 @@
-function javp = jacobianAdjointVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, ~, Re, Ro)
+function javp = jacobianAdjointVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, ~, Re, Ro, pmt)
 
 [nx, ny] = size(L12);
 
@@ -6,44 +6,44 @@ psi = reshape(psi, nx, ny, []);
 v   = reshape(v,   nx, ny, []);
 
 % Calculate the vorticity
-q = -(pagemtimes(Lx, psi) + pagemtimes(psi, Ly));
+q = -(pmt(Lx, psi) + pmt(psi, Ly));
 
-dpsix = pagemtimes(Dx, psi);
-dpsiy = pagemtimes(psi, DyT);
+dpsix = pmt(Dx, psi);
+dpsiy = pmt(psi, DyT);
 
-dqx = pagemtimes(Dx, q);
-dqy = pagemtimes(q, DyT);
+dqx = pmt(Dx, q);
+dqy = pmt(q, DyT);
 
 % solve the sylvester equation
-dnLv = pagemtimes(pagemtimes(P1, L12.*pagemtimes(pagemtimes(P1, v), P2)), P2);
+dnLv = pmt(pmt(P1, L12.*pmt(pmt(P1, v), P2)), P2);
 
-dnLvxa = pagemtimes(DxT, dnLv);
-dnLvya = pagemtimes(dnLv, Dy);
+dnLvxa = pmt(DxT, dnLv);
+dnLvya = pmt(dnLv, Dy);
 
-ddpsixdnLvya = pagemtimes(dpsix.*dnLv, Dy);
-ddpsiydnLvxa = pagemtimes(DxT, dpsiy.*dnLv);
+ddpsixdnLvya = pmt(dpsix.*dnLv, Dy);
+ddpsiydnLvxa = pmt(DxT, dpsiy.*dnLv);
 
-psiDxadnLvDy = pagemtimes(psi.*dnLvxa, Dy);
-DxTpsiDyadnLv = pagemtimes(DxT, psi.*dnLvya);
+psiDxadnLvDy = pmt(psi.*dnLvxa, Dy);
+DxTpsiDyadnLv = pmt(DxT, psi.*dnLvya);
 
 dpsixDyadnLv = dpsix.*dnLvya;
 dpsiyDxadnLv = dpsiy.*dnLvxa;
 
 
 % Arakawa approximation
-dJpsi1v = -(pagemtimes(Lx, ddpsixdnLvya) + pagemtimes(ddpsixdnLvya, Ly)) + pagemtimes(DxT, dqy.*dnLv) ...
-    + (pagemtimes(Lx, ddpsiydnLvxa) + pagemtimes(ddpsiydnLvxa, Ly))      - pagemtimes(dqx.*dnLv, Dy);
+dJpsi1v = -(pmt(Lx, ddpsixdnLvya) + pmt(ddpsixdnLvya, Ly)) + pmt(DxT, dqy.*dnLv) ...
+    + (pmt(Lx, ddpsiydnLvxa) + pmt(ddpsiydnLvxa, Ly))      - pmt(dqx.*dnLv, Dy);
 
-dJpsi2v = -(pagemtimes(Lx, psiDxadnLvDy) + pagemtimes(psiDxadnLvDy, Ly)) + dqy.*dnLvxa ...
-    + (pagemtimes(Lx, DxTpsiDyadnLv) + pagemtimes(DxTpsiDyadnLv, Ly))    - dqx.*dnLvya;
+dJpsi2v = -(pmt(Lx, psiDxadnLvDy) + pmt(psiDxadnLvDy, Ly)) + dqy.*dnLvxa ...
+    + (pmt(Lx, DxTpsiDyadnLv) + pmt(DxTpsiDyadnLv, Ly))    - dqx.*dnLvya;
 
-dJpsi3v = -(pagemtimes(Lx, dpsixDyadnLv) + pagemtimes(dpsixDyadnLv, Ly)) + pagemtimes(DxT, q.*dnLvya) ...
-    + (pagemtimes(Lx, dpsiyDxadnLv) + pagemtimes(dpsiyDxadnLv, Ly))      - pagemtimes(q.*dnLvxa, Dy);
+dJpsi3v = -(pmt(Lx, dpsixDyadnLv) + pmt(dpsixDyadnLv, Ly)) + pmt(DxT, q.*dnLvya) ...
+    + (pmt(Lx, dpsiyDxadnLv) + pmt(dpsiyDxadnLv, Ly))      - pmt(q.*dnLvxa, Dy);
 
 
 dJpsiv = -(dJpsi1v + dJpsi2v + dJpsi3v)/3;
 
-nLv = -(pagemtimes(Lx, v) + pagemtimes(v, Ly));
+nLv = -(pmt(Lx, v) + pmt(v, Ly));
 
 ddqtpsiav = -dJpsiv + (1/Ro)*dnLvxa  - (1/Re)*(nLv);
 

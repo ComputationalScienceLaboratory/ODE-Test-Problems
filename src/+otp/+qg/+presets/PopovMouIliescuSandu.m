@@ -28,6 +28,9 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
             params.ADPasses = 4;
             
             %% Load initial conditions
+
+            % OCTAVE BUG: Octave gives a warning on loading the data, even
+            % though MATLAB supports this type of private folder loading
             
             spy0s = load('PMISQGICsp.mat');
             psi0 = reshape(double(spy0s.y0), 255, 511);

@@ -97,20 +97,30 @@ classdef QuasiGeostrophicProblem < otp.Problem
             P1 = sqrt(2/(nx + 1))*sin(pi*(1:nx).'*(1:nx)/(nx + 1));
             P2 = sqrt(2/(ny + 1))*sin(pi*(1:ny).'*(1:ny)/(ny + 1));
             
+            % define the ydomain for the external force
             ys = linspace(ydomain(1), ydomain(end), ny + 2);
             ys = ys(2:end-1);
             
+            % compute the external force
             ymat = repmat(ys.', 1, nx);
             F = sin(pi*(ymat.' - 1));
+
+            % OCTAVE FIX: find out if the function pagemtimes exists, and
+            % if it does not, replace it with a compatible function
+            if exist('pagemtimes', 'builtin') == 0
+                pmt = @otp.utils.compatibility.pagemtimes_;
+            else
+                pmt = @pagemtimes;
+            end
             
             obj.RHS = otp.RHS(@(t, psi) ...
-                otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
+                otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt), ...
                 ...
                 'JacobianVectorProduct', @(t, psi, v) ...
-                otp.qg.jacobianVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro), ...
+                otp.qg.jacobianVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt), ...
                 ...
                 'JacobianAdjointVectorProduct', @(t, psi, v) ...
-                otp.qg.jacobianAdjointVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro));
+                otp.qg.jacobianAdjointVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt));
             
 
             %% AD LES
@@ -126,7 +136,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Fbar = P1*(L12filter.*(P1*F*P2))*P2;
 
             obj.RHSADLES = otp.RHS(@(t, psi) ...
-                otp.qg.fApproximateDeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, adcoeffs, L12filter, Fbar));
+                otp.qg.fApproximateDeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt, adcoeffs, L12filter, Fbar));
 
             %% Distance function, and flow velocity
             obj.DistanceFunction = @(t, y, i, j) otp.qg.distanceFunction(t, y, i, j, nx, ny);
