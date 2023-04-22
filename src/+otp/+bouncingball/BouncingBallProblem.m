@@ -36,7 +36,7 @@ classdef BouncingBallProblem < otp.Problem
         end
         
         function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Solver', otp.utils.Solver.Nonstiff, varargin{:});
+            sol = internalSolve@otp.Problem(obj, 'Solver', otp.utils.Solver.Nonstiff, 'MaxStep', 1e-2, varargin{:});
         end
     end
 end
