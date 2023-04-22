@@ -253,8 +253,13 @@ classdef (Abstract) Problem < handle
                 
                 options = problem.RHS.odeset(unmatched{:});
                 % OCTAVE BUG: odextend not supported
-                sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
-                    problem.Y0, options);
+                if exist('odextend', 'builtin')
+                    sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
+                        problem.Y0, options);
+                else
+                    sol = otp.utils.compatibility.odextend_(sol, problem.RHS.F, problem.TimeSpan(end), ...
+                        problem.Y0, options);
+                end
             end
         end
         
