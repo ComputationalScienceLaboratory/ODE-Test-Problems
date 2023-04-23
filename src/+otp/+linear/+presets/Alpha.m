@@ -14,17 +14,14 @@ classdef Alpha < otp.linear.LinearProblem
             end
             
             a = deg2rad(alpha);
-            z = logspace(log10(magnitudeRange(1)), log10(magnitudeRange(end)), numVars) ...
-                * (1i * sin(a) - cos(a));
-
-            if numVars == 1
-                A = {z};
-            else
-                A = {spdiags(z.', 0, numVars, numVars)};
-            end
+            z = logspace(log10(magnitudeRange(1)), log10(magnitudeRange(end)), numVars) * (1i * sin(a) - cos(a));
 
             params = otp.linear.LinearParameters;
-            params.A = A;
+            if numVars == 1
+                params.Lambda = {z};
+            else
+                params.Lambda = {spdiags(z.', 0, numVars, numVars)};
+            end
             
             obj = obj@otp.linear.LinearProblem([0, 1], ones(numVars, 1), params);
         end
