@@ -5,9 +5,8 @@ function [isterminal, newProblem] = onEvent(sol, problem)
 % horizontal plane, we then invert the y velocity, and transform
 % back.
 
-% OCTAVE FIX: event data is transposed compared to MATLAB
-pos = reshape(sol.ye(1:2), 2, 1);
-vel = reshape(sol.ye(3:4), 2, 1);
+pos = sol.y(1:2, end);
+vel = sol.y(3:4, end);
 
 % Get the slope of the surface
 slope = problem.Parameters.GroundSlope(pos(1));

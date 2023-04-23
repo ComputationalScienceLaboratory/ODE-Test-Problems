@@ -235,15 +235,10 @@ classdef (Abstract) Problem < handle
             unmatched = namedargs2cell(p.Unmatched);
             options = obj.RHS.odeset(unmatched{:});
             
-            sol = p.Results.Solver(obj.RHS.F, obj.TimeSpan, obj.Y0, options);
-            
-            if ~isfield(sol, 'ie')
-                % All done if no event occurred
-                return;
-            end
+            sol = feval(p.Results.Solver, obj.RHS.F, obj.TimeSpan, obj.Y0, options);
             
             problem = obj;
-            while sol.x(end) ~= problem.TimeSpan(end)
+            while isfield(sol, 'ie') && sol.x(end) ~= problem.TimeSpan(end)
                 % OCTAVE BUG: sol.xe and sol.ye are transposed compared to MATLAB
                 [isterminal, problem] = problem.RHS.OnEvent(sol, problem);
                 
@@ -253,11 +248,10 @@ classdef (Abstract) Problem < handle
                 
                 options = problem.RHS.odeset(unmatched{:});
                 % OCTAVE FIX: odextend not supported
-                if exist('odextend', 'builtin')
-                    sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
-                        problem.Y0, options);
+                if exist('odextend', 'file')
+                    sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), problem.Y0, options);
                 else
-                    sol = otp.utils.compatibility.odextend_(sol, problem.RHS.F, problem.TimeSpan(end), ...
+                    sol = otp.utils.compatibility.odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
                         problem.Y0, options);
                 end
             end
