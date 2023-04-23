@@ -238,7 +238,7 @@ classdef (Abstract) Problem < handle
             sol = feval(p.Results.Solver, obj.RHS.F, obj.TimeSpan, obj.Y0, options);
             
             problem = obj;
-            while isfield(, 'ie') && sol.x(end) ~= problem.TimeSpan(end)
+            while isfield(sol, 'ie') && sol.x(end) ~= problem.TimeSpan(end)
                 % OCTAVE BUG: sol.xe and sol.ye are transposed compared to MATLAB
                 [isterminal, problem] = problem.RHS.OnEvent(sol, problem);
                 
