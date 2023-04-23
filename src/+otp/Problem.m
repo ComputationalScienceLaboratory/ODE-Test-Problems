@@ -238,7 +238,7 @@ classdef (Abstract) Problem < handle
             sol = feval(p.Results.Solver, obj.RHS.F, obj.TimeSpan, obj.Y0, options);
             
             problem = obj;
-            while isfield(sol, 'ie') && sol.x(end) ~= problem.TimeSpan(end)
+            while isfield(, 'ie') && sol.x(end) ~= problem.TimeSpan(end)
                 % OCTAVE BUG: sol.xe and sol.ye are transposed compared to MATLAB
                 [isterminal, problem] = problem.RHS.OnEvent(sol, problem);
                 
@@ -296,7 +296,7 @@ classdef (Abstract) Problem < handle
             end
         end
         
-        function t = parseTime(obj, t)
+        function t = parseTime(~, t)
             if ~isvector(t) || isempty(t) || ~otp.utils.validation.isNumerical(t)
                 error('OTP:invalidSolution', ...
                     'The times must be a nonempty vector of numbers');
