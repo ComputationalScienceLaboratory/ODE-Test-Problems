@@ -1,4 +1,4 @@
-classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
+classdef PopovMouIliescuSandu < otp.quasigeostrophic.QuasiGeostrophicProblem
     methods
         function obj = PopovMouIliescuSandu(varargin)
             
@@ -19,7 +19,7 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
             nx = s.Size(1);
             ny = s.Size(2);
             
-            params = otp.qg.QuasiGeostrophicParameters;
+            params = otp.quasigeostrophic.QuasiGeostrophicParameters;
             params.Nx = nx;
             params.Ny = ny;
             params.ReynoldsNumber = s.ReynoldsNumber;
@@ -35,7 +35,7 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
             spy0s = load('PMISQGICsp.mat');
             psi0 = reshape(double(spy0s.y0), 255, 511);
             
-            psi0 = otp.qg.QuasiGeostrophicProblem.resize(psi0, s.Size);
+            psi0 = otp.quasigeostrophic.QuasiGeostrophicProblem.resize(psi0, s.Size);
             psi0 = reshape(psi0, [], 1);
             
             %% Do the rest
@@ -44,7 +44,7 @@ classdef PopovMouIliescuSandu < otp.qg.QuasiGeostrophicProblem
             
             tspan = [100, 100 + sixHours];
             
-            obj = obj@otp.qg.QuasiGeostrophicProblem(tspan, ...
+            obj = obj@otp.quasigeostrophic.QuasiGeostrophicProblem(tspan, ...
                 psi0, params);
             
         end

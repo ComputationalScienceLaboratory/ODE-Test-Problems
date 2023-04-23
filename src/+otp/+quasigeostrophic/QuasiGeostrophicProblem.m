@@ -114,13 +114,13 @@ classdef QuasiGeostrophicProblem < otp.Problem
             end
             
             obj.RHS = otp.RHS(@(t, psi) ...
-                otp.qg.f(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt), ...
+                otp.quasigeostrophic.f(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt), ...
                 ...
                 'JacobianVectorProduct', @(t, psi, v) ...
-                otp.qg.jacobianVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt), ...
+                otp.quasigeostrophic.jacobianVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt), ...
                 ...
                 'JacobianAdjointVectorProduct', @(t, psi, v) ...
-                otp.qg.jacobianAdjointVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt));
+                otp.quasigeostrophic.jacobianAdjointVectorProduct(psi, v, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt));
             
 
             %% AD LES
@@ -136,16 +136,16 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Fbar = P1*(L12filter.*(P1*F*P2))*P2;
 
             obj.RHSADLES = otp.RHS(@(t, psi) ...
-                otp.qg.fApproximateDeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt, adcoeffs, L12filter, Fbar));
+                otp.quasigeostrophic.fApproximateDeconvolution(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt, adcoeffs, L12filter, Fbar));
 
             %% Distance function, and flow velocity
-            obj.DistanceFunction = @(t, y, i, j) otp.qg.distanceFunction(t, y, i, j, nx, ny);
+            obj.DistanceFunction = @(t, y, i, j) otp.quasigeostrophic.distanceFunction(t, y, i, j, nx, ny);
             
-            obj.FlowVelocityMagnitude = @(psi) otp.qg.flowVelocityMagnitude(psi, Dx, Dy);
+            obj.FlowVelocityMagnitude = @(psi) otp.quasigeostrophic.flowVelocityMagnitude(psi, Dx, Dy);
             
-            obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.qg.jacobianFlowVelocityMagnitudeVectorProduct(psi, u, Dx, Dy);
+            obj.JacobianFlowVelocityMagnitudeVectorProduct = @(psi, u) otp.quasigeostrophic.jacobianFlowVelocityMagnitudeVectorProduct(psi, u, Dx, Dy);
 
-            obj.JacobianFlowVelocityMagnitudeAdjointVectorProduct = @(psi, u) otp.qg.jacobianFlowVelocityMagnitudeAdjointVectorProduct(psi, u, Dx, Dy);
+            obj.JacobianFlowVelocityMagnitudeAdjointVectorProduct = @(psi, u) otp.quasigeostrophic.jacobianFlowVelocityMagnitudeAdjointVectorProduct(psi, u, Dx, Dy);
 
         end
         

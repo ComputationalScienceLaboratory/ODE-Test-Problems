@@ -1,4 +1,4 @@
-classdef Canonical < otp.qg.QuasiGeostrophicProblem
+classdef Canonical < otp.quasigeostrophic.QuasiGeostrophicProblem
     methods
         function obj = Canonical(varargin)
 
@@ -17,7 +17,7 @@ classdef Canonical < otp.qg.QuasiGeostrophicProblem
             nx = s.Size(1);
             ny = s.Size(2);
             
-            params = otp.qg.QuasiGeostrophicParameters;
+            params = otp.quasigeostrophic.QuasiGeostrophicParameters;
             params.Nx = nx;
             params.Ny = ny;
             params.ReynoldsNumber = s.ReynoldsNumber;
@@ -35,7 +35,7 @@ classdef Canonical < otp.qg.QuasiGeostrophicProblem
             
             tspan = [0, 100];
             
-            obj = obj@otp.qg.QuasiGeostrophicProblem(tspan, ...
+            obj = obj@otp.quasigeostrophic.QuasiGeostrophicProblem(tspan, ...
                 psi0, params);
             
         end
