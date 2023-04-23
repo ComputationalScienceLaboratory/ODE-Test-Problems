@@ -1,4 +1,4 @@
-function x = pagemtimes_(A, b)
+function x = pagemtimes(A, b)
 % OCTAVE FIX: This function is a naive implementation of the pagemtimes
 % functionality for the purposes of supporting octave and legacy matlab
 % installations

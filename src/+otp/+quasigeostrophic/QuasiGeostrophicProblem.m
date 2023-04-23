@@ -108,7 +108,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             % OCTAVE FIX: find out if the function pagemtimes exists, and
             % if it does not, replace it with a compatible function
             if exist('pagemtimes', 'builtin') == 0
-                pmt = @otp.utils.compatibility.pagemtimes_;
+                pmt = @otp.utils.compatibility.pagemtimes;
             else
                 pmt = @pagemtimes;
             end
