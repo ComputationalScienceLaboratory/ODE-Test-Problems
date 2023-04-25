@@ -13,45 +13,36 @@ classdef LinearProblem < otp.Problem
         end
         
         function p = get.NumPartitions(obj)
-            p = length(obj.Parameters.A);
+            p = length(obj.Parameters.Lambda);
         end
     end
     
     methods (Access = private)
-        function Asum = computeASum(obj)
-            Asum = obj.Parameters.A{1};
+        function lambdaSum = computeASum(obj)
+            lambdaSum = obj.Parameters.Lambda{1};
             for i = 2:obj.NumPartitions
-                Asum = Asum + obj.Parameters.A{i};
+                lambdaSum = lambdaSum + obj.Parameters.Lambda{i};
             end
         end
         
-        function rhs = createRHS(~, A)
-            rhs = otp.RHS(@(~, y) A * y, ...
-                'Jacobian', A, ...
-                'JacobianVectorProduct', @(~, ~, v) A * v, ...
-                'JacobianAdjointVectorProduct', @(~, ~, v) A' * v);
+        function rhs = createRHS(~, lambda)
+            rhs = otp.RHS(@(~, y) lambda * y, ...
+                'Jacobian', lambda, ...
+                'JacobianVectorProduct', @(~, ~, v) lambda * v, ...
+                'JacobianAdjointVectorProduct', @(~, ~, v) lambda' * v);
         end
     end
     
     methods (Access = protected)
         function onSettingsChanged(obj)
             obj.RHS = obj.createRHS(obj.computeASum());
-            % Octave doesn't support class arrays so nonuniform output
-            obj.RHSPartitions = cellfun(@obj.createRHS, obj.Parameters.A, ...
-                'UniformOutput', false);
+            % OCTAVE FIX: class arrays are not supported so a cell array must be use
+            obj.RHSPartitions = cellfun(@obj.createRHS, obj.Parameters.Lambda, 'UniformOutput', false);
         end
         
         function y = internalSolveExactly(obj, t)
-            numT = length(t)
-            for i = 1:numT
-                yi = expm((t(i) - obj.TimeSpan(1)) * obj.RHS.Jacobian) * obj.Y0;
-                
-                if i == 1
-                    % The first yi provides the data type. Simply repeat vector for allocation
-                    y = repmat(yi, 1, numT);
-                else
-                    y(:, i) = yi;
-                end
+            for i = length(t):-1:1
+                y(:, i) = expm((t(i) - obj.TimeSpan(1)) * obj.RHS.Jacobian) * obj.Y0;
             end
         end
     end

@@ -1,4 +1,4 @@
-function J = jacobianstiff(~, y, epsilon)
+function J = jacobianStiff(~, y, epsilon)
 
 y1 = y(1);
 y2 = y(2);

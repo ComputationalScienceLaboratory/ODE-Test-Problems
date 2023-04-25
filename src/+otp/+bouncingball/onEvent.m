@@ -5,8 +5,8 @@ function [isterminal, newProblem] = onEvent(sol, problem)
 % horizontal plane, we then invert the y velocity, and transform
 % back.
 
-pos = sol.ye(1:2, end);
-vel = sol.ye(3:4, end);
+pos = sol.y(1:2, end);
+vel = sol.y(3:4, end);
 
 % Get the slope of the surface
 slope = problem.Parameters.GroundSlope(pos(1));
