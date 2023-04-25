@@ -21,7 +21,7 @@ classdef BrusselatorProblem < otp.Problem
     %       Number of Variables: 2
     %       Stiff: no
     %
-    %   Bibliography:
+    %   Sources:
     %   Lefever, R., and G. Nicolis. "Chemical Instabilities and Sustained Oscillations." Journal of Theoretical
     %   Biology, vol. 30, no. 2, Elsevier BV, Feb. 1971, pp. 267–284. https://doi.org/10.1016/0022-5193(71)90054-3.
     %   
