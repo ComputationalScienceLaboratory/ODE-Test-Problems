@@ -39,6 +39,12 @@ classdef RHS
                 f = fields{i};
                 obj.(f) = extras.(f);
             end
+            
+            % OCTAVE FIX: ode15s throws an error when the Vectorized option is set. It seems no
+            % integrator uses this option anyway.
+            if otp.utils.compatibility.isOctave()
+                obj.Vectorized = [];
+            end
         end
         
         function mat = get.JacobianMatrix(obj)

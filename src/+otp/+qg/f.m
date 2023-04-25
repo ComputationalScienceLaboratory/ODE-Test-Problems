@@ -6,6 +6,7 @@ function dpsit = f(psi, Lx, Ly, P1, P2, L12, Dx, ~, ~, DyT, F, Re, Ro)
 psi = reshape(psi, nx, ny, []);
 
 % Calculate the vorticity
+% OCTAVE BUG: pagemtimes not supported
 q = -(pagemtimes(Lx, psi) + pagemtimes(psi, Ly));
 
 % calculate Arakawa

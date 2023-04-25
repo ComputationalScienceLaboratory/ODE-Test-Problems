@@ -149,7 +149,8 @@ classdef (Abstract) Problem < handle
     end
     
     methods (Access = protected)
-        % This method is called when either TimeSpan, Y0, or parameters are changed.  It should update F and other properties such as a Jacobian to reflect the changes.  This is effevtively an abstract function but not explicitly marked so in order to support Octave
+        % This method is called when either TimeSpan, Y0, or parameters are changed. It should
+        % update F and other properties such as a Jacobian to reflect the changes.
         function onSettingsChanged(obj)
             otp.utils.compatibility.abstract(obj);
         end
@@ -189,8 +190,7 @@ classdef (Abstract) Problem < handle
                 leg = {};
             else
                 labels = cell(dim, 1);
-                % Octave bug: function handle from class not working with
-                % arrayfun so stored in local var first
+                % OCTAVE FIX: function handle from class not accessible in anonymous function
                 labelFun = @obj.internalIndex2label;
                 leg = @(i) strjoin(arrayfun(labelFun, vars(i, :), 'UniformOutput', false), ' vs ');
             end
@@ -235,25 +235,25 @@ classdef (Abstract) Problem < handle
             unmatched = namedargs2cell(p.Unmatched);
             options = obj.RHS.odeset(unmatched{:});
             
-            sol = p.Results.Solver(obj.RHS.F, obj.TimeSpan, obj.Y0, options);
-            
-            if ~isfield(sol, 'ie')
-                % All done if no event occurred
-                return;
-            end
+            sol = feval(p.Results.Solver, obj.RHS.F, obj.TimeSpan, obj.Y0, options);
             
             problem = obj;
-            while sol.x(end) ~= problem.TimeSpan(end)
+            while isfield(sol, 'ie') && sol.x(end) ~= problem.TimeSpan(end)
+                % OCTAVE BUG: sol.xe and sol.ye are transposed compared to MATLAB
                 [isterminal, problem] = problem.RHS.OnEvent(sol, problem);
                 
                 if isterminal
                     return;
                 end
                 
-                % TODO: Octave does not support odextend
                 options = problem.RHS.odeset(unmatched{:});
-                sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
-                    problem.Y0, options);
+                % OCTAVE FIX: odextend not supported
+                if exist('odextend', 'file')
+                    sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), problem.Y0, options);
+                else
+                    sol = otp.utils.compatibility.odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
+                        problem.Y0, options);
+                end
             end
         end
         
@@ -296,7 +296,7 @@ classdef (Abstract) Problem < handle
             end
         end
         
-        function t = parseTime(obj, t)
+        function t = parseTime(~, t)
             if ~isvector(t) || isempty(t) || ~otp.utils.validation.isNumerical(t)
                 error('OTP:invalidSolution', ...
                     'The times must be a nonempty vector of numbers');

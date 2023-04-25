@@ -36,9 +36,8 @@ classdef LinearProblem < otp.Problem
     methods (Access = protected)
         function onSettingsChanged(obj)
             obj.RHS = obj.createRHS(obj.computeASum());
-            % Octave doesn't support class arrays so nonuniform output
-            obj.RHSPartitions = cellfun(@obj.createRHS, obj.Parameters.Lambda, ...
-                'UniformOutput', false);
+            % OCTAVE FIX: class arrays are not supported so a cell array must be use
+            obj.RHSPartitions = cellfun(@obj.createRHS, obj.Parameters.Lambda, 'UniformOutput', false);
         end
         
         function y = internalSolveExactly(obj, t)

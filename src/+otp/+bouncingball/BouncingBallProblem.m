@@ -31,12 +31,13 @@ classdef BouncingBallProblem < otp.Problem
         end
         
         function mov = internalMovie(obj, t, y, varargin)
-            mov = otp.bouncingball.BouncingBallMovie(obj.Parameters.ground, 'Title', obj.Name, varargin{:});
+            mov = otp.bouncingball.BouncingBallMovie(obj.Parameters.Ground, 'Title', obj.Name, varargin{:});
             mov.record(t, y);
         end
         
         function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Solver', otp.utils.Solver.Nonstiff, varargin{:});
+            # OCTAVE FIX: Octave oversteps events unless MaxStep is set
+            sol = internalSolve@otp.Problem(obj, 'Solver', otp.utils.Solver.Nonstiff, 'MaxStep', 1e-2, varargin{:});
         end
     end
 end
