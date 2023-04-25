@@ -138,7 +138,7 @@ classdef MyProblem < otp.Problem
 %
 %   y' = cos(y)
 %
-%   Sources:
+%   References:
 %   Doe, John, and Jane Doe. "Title." Journal of Testing 123.4 (2021): 10-20.
 %
 %   See also ANOTHERPROBLEM
