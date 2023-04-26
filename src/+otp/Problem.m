@@ -228,7 +228,7 @@ classdef (Abstract) Problem < handle
             p = inputParser;
             p.KeepUnmatched = true;
             % Filter name-value pairs not passed to odeset
-            p.addParameter('Solver', otp.utils.Solver.Stiff, @(m) isa(m, 'function_handle'));
+            p.addParameter('Solver', otp.utils.Solver.Stiff);
             p.parse(varargin{:});
             
             % odeset is case sensitive for structs so convert unmatched parameters to a cell array
