@@ -13,8 +13,8 @@ classdef Alpha < otp.linear.LinearProblem
                 magnitudeRange = [1e-4, 1e4];
             end
             
-            a = deg2rad(alpha);
-            z = logspace(log10(magnitudeRange(1)), log10(magnitudeRange(end)), numVars) * (1i * sin(a) - cos(a));
+            z = logspace(log10(magnitudeRange(1)), log10(magnitudeRange(end)), numVars) ...
+                * (1i * sind(alpha) - cosd(alpha));
 
             params = otp.linear.LinearParameters;
             if numVars == 1
