@@ -36,7 +36,7 @@ dJpsiv = -(dJpsi1v + dJpsi2v + dJpsi3v)/3;
 ddqtpsivp = -dJpsiv + (1/Ro)*dvx;
 
 % solve the sylvester equation
-nLidqtmq = pmt(pmt(P1, L12.*pmt(pagemtimes(P1, ddqtpsivp), P2)), P2);
+nLidqtmq = pmt(pmt(P1, L12.*pmt(pmt(P1, ddqtpsivp), P2)), P2);
 
 % solve into stream form of the Jacobian vp
 jvp = reshape(nLidqtmq - (1/Re)*(nLv), nx*ny, []);

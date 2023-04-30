@@ -14,7 +14,7 @@ else
     error('OTP:invalidNumberOfArguments', 'The number of arguments has to be 2 or 4.');
 end
 
-if numel(size(A)) > 3 || numel(size(B)) > 3
+if ndims(A) > 3 || ndims(B) > 3
     error('OTP:notImplemented', 'Dimensions greater than 3 are not supported.');
 end
 
@@ -34,41 +34,21 @@ elseif size(B, 3) ~= N
 end
 
 % transpose A and B as required
-
 switch transpA 
     case 'transpose'
-        Anew = zeros(size(A, 2), size(A, 1), N);
-        for i = 1:N
-            Anew(:, :, i) = A(:, :, i).';
-        end
-        A = Anew;
+        A = permute(A, [2, 1, 3]);
     case 'ctranspose'
-        Anew = zeros(size(A, 2), size(A, 1), N);
-        for i = 1:N
-            Anew(:, :, i) = A(:, :, i)';
-        end
-        A = Anew;
+        A = permute(conj(A), [2, 1, 3]);
 end
 
 switch transpB
     case 'transpose'
-        Bnew = zeros(size(B, 2), size(B, 1), N);
-        for i = 1:N
-            Bnew(:, :, i) = B(:, :, i).';
-        end
-        B = Bnew;
+        B = permute(B, [2, 1, 3]);
     case 'ctranspose'
-        Bnew = zeros(size(B, 2), size(B, 1), N);
-        for i = 1:N
-            Bnew(:, :, i) = B(:, :, i)';
-        end
-        B = Bnew;
+        B = permute(conj(B), [2, 1, 3]);
 end
 
-
-X = zeros(size(A, 1), size(B, 2), N);
-
-for i = 1:N
+for i = N:-1:1
     X(:, :, i) = A(:, :, i)*B(:, :, i);
 end
 
