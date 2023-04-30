@@ -43,13 +43,19 @@ for preset = pi.PresetList
         
         % test the jacobian if not sparse
         if ~issparse(japprox)
-            % finite difference
-            j = zeros(n, n);
-            for i = 1:n
-                e = zeros(n, 1);
-                e(i) = 1;
-                diff = f(tc, y0 + 1*h*e) - f(tc, y0 - 1*h*e);
-                j(:, i) = diff/(2*h);
+
+            if exist('dlarray', 'file')
+                ftc = @(x) f(tc, x);
+                j = adjacobian(ftc, y0);
+            else
+                % finite difference
+                j = zeros(n, n);
+                for i = 1:n
+                    e = zeros(n, 1);
+                    e(i) = 1;
+                    diff = f(tc, y0 + 1*h*e) - f(tc, y0 - 1*h*e);
+                    j(:, i) = diff/(2*h);
+                end
             end
         else
             % if we are sparse do JVP
@@ -74,6 +80,8 @@ for preset = pi.PresetList
             fprintf('The preset %s of the model %s has a valid Jacobian\n', presetname, modelname);
             passed = passed + 1;
         else
+            j
+            japprox
             fprintf('---- The preset %s of the model %s has an invalid Jacobian with error: %.3e\n', ...
                 presetname, modelname, err)
             failed = failed + 1;
@@ -124,21 +132,17 @@ for preset = pi.PresetList
             j = ja*y0;     
         else
 
-            % build auxiliary function
             jvp = model.RHS.JacobianVectorProduct;
-            g = @(t, x, u, v) jvp(t, x, u)'*v;
+            v = y0;
+            % build auxiliary function
+            g = @(t, u) jvp(t, y0, u)'*v;
 
             j = zeros(n, 1);
-
-            y = y0;
-            u = y0;
-            v = y0;
-
             for i = 1:n
                 e = zeros(n, 1);
                 e(i) = 1;
-                diff = g(tc, y, u + 1*h*e, v) - g(tc, y, u - 1*h*e, v);
-                j(i) = conj(diff)/(2*h);
+                diff = finitediff(g, tc, y0, e, h);
+                j(i) = conj(diff);
             end
 
         end
@@ -166,7 +170,31 @@ end
 end
 
 
-function adjacobian(f, y)
+function d = finitediff(f, t, y, u, h)
 
+d = (f(t, y + h*u) - f(t, y - h*u))/(2*h);
+
+end
+
+function J = adjacobian(f, y)
+y = dlarray(y);
+
+J = dlfeval(@adjacobianinternal, f, y);
+
+J = extractdata(J);
+
+end
+
+function J = adjacobianinternal(f, y)
+
+n = numel(y);
+
+fy = f(y);
+
+J = zeros(n, n, 'like', y);
+
+for  i = 1:n
+    J(i, :) = dlgradient(fy(i), y, 'RetainData', true).';
+end
 
 end
