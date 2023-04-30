@@ -1,6 +1,6 @@
 classdef Decay < otp.brusselator.BrusselatorProblem
-    %DECAY Rapid descent to a fixed point
-    %
+    %DECAY Brusselator preset with a solution that decays towards a steady state
+    %   See also otp.brusselator.BrusselatorProblem
     methods
         function obj = Decay
             params = otp.brusselator.BrusselatorParameters;
@@ -8,7 +8,7 @@ classdef Decay < otp.brusselator.BrusselatorProblem
             params.B = 1.7;
             
             y0 = [1; 1];
-            tspan = [0 75];
+            tspan = [0, 50];
             
             obj = obj@otp.brusselator.BrusselatorProblem(tspan, y0, params);
         end

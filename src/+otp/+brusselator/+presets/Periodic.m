@@ -1,6 +1,6 @@
 classdef Periodic < otp.brusselator.BrusselatorProblem
-    %PERIODIC A periodic cycle.
-    %
+    %PERIODIC Brusselator preset with a periodic solution
+    %   See also otp.brusselator.BrusselatorProblem
     methods
         function obj = Periodic
             params = otp.brusselator.BrusselatorParameters;
@@ -8,7 +8,7 @@ classdef Periodic < otp.brusselator.BrusselatorProblem
             params.B = 4.5;
             
             y0 = [2; 1];
-            tspan = [0 50];
+            tspan = [0, 50];
             
             obj = obj@otp.brusselator.BrusselatorProblem(tspan, y0, params);
         end
