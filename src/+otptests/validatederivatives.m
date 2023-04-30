@@ -164,3 +164,9 @@ for preset = pi.PresetList
 end
 
 end
+
+
+function adjacobian(f, y)
+
+
+end

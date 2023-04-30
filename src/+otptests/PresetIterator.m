@@ -7,7 +7,13 @@ classdef PresetIterator < handle
 
     methods
         function obj = PresetIterator
-            entry = dir(which('otp.RHS'));
+            entry = dir("+otp/");
+
+            if isempty(entry)
+                entry = dir(which('otp.RHS'));
+            end
+
+            
             otpdir = entry.folder;
 
             listTmp = dir(otpdir);
