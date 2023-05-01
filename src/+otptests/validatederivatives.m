@@ -11,7 +11,7 @@ for preset = pi.PresetList
     presetname = preset.presetName;
     presetclass = preset.presetClass;
 
-    if strcmp(modelname, 'qg')
+    if strcmp(modelname, 'quasigeostrophic')
         presetclass = sprintf('%s%s', presetclass, "('size', [16, 32])");
     end
 

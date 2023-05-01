@@ -22,8 +22,8 @@ for preset = pi.PresetList
     end
 
     try
-        if strcmp(modelname, 'qg')
-            model.TimeSpan = [0, 0.01];
+        if strcmp(modelname, 'quasigeostrophic')
+            model.TimeSpan = [0, 0.0109];
         end
         if strcmp(presetname, 'Lorenz96PodRom')
             model.TimeSpan = [0, 10];
