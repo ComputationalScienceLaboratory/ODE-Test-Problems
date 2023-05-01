@@ -1,12 +1,12 @@
 passedTotal = 0;
 failedTotal = 0;
 
-[passed, failed] = otptests.validateallpresets;
+[passed, failed] = validateallpresets;
 
 passedTotal = passedTotal + passed;
 failedTotal = failedTotal + failed;
 
-[passed, failed] = otptests.validatederivatives;
+[passed, failed] = validatederivatives;
 
 passedTotal = passedTotal + passed;
 failedTotal = failedTotal + failed;

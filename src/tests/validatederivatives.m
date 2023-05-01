@@ -1,6 +1,6 @@
 function [passed, failed] = validatederivatives
 
-pi = otptests.PresetIterator;
+pi = PresetIterator;
 
 passed = 0;
 failed = 0;
