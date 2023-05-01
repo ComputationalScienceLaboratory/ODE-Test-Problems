@@ -43,7 +43,6 @@ for preset = pi.PresetList
         
         % test the jacobian if not sparse
         if ~issparse(japprox)
-
             if exist('dlarray', 'file')
                 ftc = @(x) f(tc, x);
                 j = adjacobian(ftc, y0);
@@ -53,15 +52,13 @@ for preset = pi.PresetList
                 for i = 1:n
                     e = zeros(n, 1);
                     e(i) = 1;
-                    diff = f(tc, y0 + 1*h*e) - f(tc, y0 - 1*h*e);
-                    j(:, i) = diff/(2*h);
+                    j(:, i) = finitediff(f, tc, y0, e, h);
                 end
             end
         else
             % if we are sparse do JVP
             japprox = japprox*y0;
-            diff = f(tc, y0 + 1*h*y0) - f(tc, y0 - 1*h*y0);
-            j = diff/(2*h);
+            j = finitediff(f, tc, y0, y0, h);
         end
 
         normj = norm(j);
@@ -80,8 +77,6 @@ for preset = pi.PresetList
             fprintf('The preset %s of the model %s has a valid Jacobian\n', presetname, modelname);
             passed = passed + 1;
         else
-            j
-            japprox
             fprintf('---- The preset %s of the model %s has an invalid Jacobian with error: %.3e\n', ...
                 presetname, modelname, err)
             failed = failed + 1;
@@ -94,8 +89,14 @@ for preset = pi.PresetList
         jvp = model.RHS.JacobianVectorProduct;
         japprox = jvp(tc, y0, y0);
 
-        diff = f(tc, y0 + 1*h*y0) - f(tc, y0 - 1*h*y0);
-        j = diff/(2*h);
+        if exist('dlarray', 'file')
+            ftc = @(x) f(tc, x);
+            j = adjacobianvectorproduct(ftc, y0, y0);
+        else
+
+            j = finitediff(f, tc, y0, y0, h);
+
+        end
 
         normj = norm(j);
         if normj < eps
@@ -110,6 +111,9 @@ for preset = pi.PresetList
             fprintf('The preset %s of the model %s has a valid JacobianVectorProduct\n', presetname, modelname);
             passed = passed + 1;
         else
+            j
+            japprox
+            return
             fprintf('---- The preset %s of the model %s has an invalid JacobianVectorProduct\n      with error: %.3e\n', ...
                 presetname, modelname, err);
             failed = failed + 1;
@@ -122,7 +126,6 @@ for preset = pi.PresetList
         javp = model.RHS.JacobianAdjointVectorProduct;
         japprox = javp(tc, y0, y0);
 
-
         if ~isempty(model.RHS.Jacobian)
             if isnumeric(model.RHS.Jacobian)
                 ja = model.RHS.Jacobian';
@@ -134,9 +137,13 @@ for preset = pi.PresetList
 
             jvp = model.RHS.JacobianVectorProduct;
             v = y0;
+
             % build auxiliary function
             g = @(t, u) jvp(t, y0, u)'*v;
 
+            % this is a way to do jacobian adjoint vector product finite
+            % differences with low memory. It is still computationally
+            % intensive
             j = zeros(n, 1);
             for i = 1:n
                 e = zeros(n, 1);
@@ -195,6 +202,29 @@ J = zeros(n, n, 'like', y);
 
 for  i = 1:n
     J(i, :) = dlgradient(fy(i), y, 'RetainData', true).';
+end
+
+end
+
+
+function J = adjacobianvectorproduct(f, y, u)
+y = dlarray(y);
+
+J = dlfeval(@adjacobianvectorproductinternal, f, y, u);
+
+J = extractdata(J);
+
+end
+
+function J = adjacobianvectorproductinternal(f, y, u)
+
+n = numel(u);
+
+J = zeros(n, 1, 'like', y);
+
+fy = f(y);
+for i = 1:n
+    J(i) = dlgradient(fy(i), y, 'RetainData', true).'*u;
 end
 
 end
