@@ -1,3 +1,3 @@
 * text=auto
 *.m text eol=lf
-
+notebooks/quick-start.ipynb linguist-generated=true
