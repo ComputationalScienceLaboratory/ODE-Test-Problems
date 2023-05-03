@@ -11,7 +11,7 @@ classdef PendulumProblem < otp.Problem
         
         function [x, y] = convert2Cartesian(obj, y, includeOrigin)
             angles = y(1:end/2, :);
-            lengths = obj.Parameters.lengths(:);
+            lengths = obj.Parameters.Lengths(:);
             x = cumsum(lengths .* sin(angles), 1);
             y = cumsum(-lengths .* cos(angles), 1);
             
@@ -27,7 +27,7 @@ classdef PendulumProblem < otp.Problem
         function onSettingsChanged(obj)
             g = obj.Parameters.Gravity;
             lengths = obj.Parameters.Lengths;
-            masses  = obj.Parameters.Masses;
+            masses = obj.Parameters.Masses;
             
             numLengths = length(lengths);
             numMasses = length(masses);
@@ -46,7 +46,7 @@ classdef PendulumProblem < otp.Problem
             lengths = lengths(1:numBobs);
             masses = masses(1:numBobs);
             % OCTAVE FIX: reverse flag for cumsum is not supported
-            cumulativeMasses = cumsum(flip(masses));
+            cumulativeMasses = flip(cumsum(flip(masses)));
             
             offDiagScaling = -1 ./ (lengths(1:end-1) .* lengths(2:end) .* masses(1:end-1));
             cDiag = [1 / (lengths(1)^2 * masses(1)); (masses(1:end-1) + masses(2:end)) ./ (lengths(2:end).^2 .* masses(1:end-1) .* masses(2:end))];
