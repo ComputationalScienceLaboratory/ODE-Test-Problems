@@ -50,8 +50,8 @@ ODE Test Problems (OTP) is an object-oriented OCTAVE/MATLAB package offering a b
 All test problems in `OTP` are considered as a first-order ordinary differential equation of the form:
 
 $$
-    Y'(t) &= F(t,Y), \qquad
-    Y(0)  &= Y0,
+    Y'(t) = F(t,Y), \qquad
+    Y(0)  = Y0,
 $$
 
 where $Y(t)$ is the time-dependent solution to the problem, $F(t,Y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. The initial condition $Y0$ specifies the value of $Y$ at the initial time $t = 0$.
