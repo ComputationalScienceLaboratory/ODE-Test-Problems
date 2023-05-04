@@ -56,10 +56,11 @@ $$
 \end{align*}
 $$
 
-where $Y(t)$ is the time-dependent solution to the problem, $F(t,Y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. The initial condition $Y_0$ specifies the value of $Y$ at the initial time $t = 0$.
+where $Y(t)$ is the time-dependent solution to the problem, $F(t,Y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. The initial condition $Y0$ specifies the value of $Y$ at the initial time $t = 0$.
 
 
 # Features
+Any problems in `OTP` can be initialized using the problem name and a preset that defines well-known parameters and initial conditions for that specific problem. The `Canonical` preset is available for all problems. Problems can be solved by calling the `solve()` method. It is possible to pass optional parameteres to the solver. 
 
 ## Basic usage
 
@@ -80,12 +81,16 @@ The `problem` object contains a number of useful properties including:
 * `TimeSpan`: Timespan of the integration
 * `Y0`: Initial condition 
 
+The complete list of test problems implemented in `OTP` can be found [here](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/paper/paper/problems.md).
 ## Visualizing solutions
 
-`OTP` has built-in plotting capabilities for visualizing the computed problem solution.  For small problems it is possible to plot the solution trajectory using the `plot` function:
+`OTP` has built-in plotting capabilities for visualizing the computed solution. The `plot()` method can be used to plot the solution trajectory. The `plotPhaseSpace() ` method creates a phase-space diagram by visualizing all spatial-components of the state vector.
 
 ```Matlab
-% Plot the PhaseSpace solution 
+% Plot the solution trajectory
+problem.plot(sol);
+
+% Plot the Phase-Space solution 
 problem.plotPhaseSpace(sol);
 ```
 
@@ -95,8 +100,7 @@ problem.plotPhaseSpace(sol);
 You can use any other ODE solvers in `OTP`. This is achievable by passing the right-hand-side function, timespan, initial condition and other optional parameters to the solver. As an example to use the *Implicit* time-stepping method `ode23s`:
 
 ```Matlab
-sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
-                       odeset('Jacobian', problem.RHS.Jacobian));
+sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, odeset('Jacobian', problem.RHS.Jacobian));
 ```
 
 # Acknowledgments
