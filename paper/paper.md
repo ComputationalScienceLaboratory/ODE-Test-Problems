@@ -37,7 +37,7 @@ bibliography: paper.bib
 
 # Summary
 
-ODE Test Problems (OTP) is an object-oriented OCTAVE/MATLAB package offering a broad range of initial value problems which can be used to test numerical methods such as time integration or data assimilation methods.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems from fields such as chemistry, astrophysics, meteorology, and electrical engineering.  OTP also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are princluded when available. OTP is desgined for ease of use---meaning that working with and modifying problems is simple and intuitive.
+ODE Test Problems (OTP) is an object-oriented OCTAVE/MATLAB package offering a broad range of initial value problems which can be used to test numerical methods such as time integration or data assimilation methods.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems from fields such as chemistry, astrophysics, meteorology, and electrical engineering.  OTP also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are included when available. OTP is desgined for ease of use---meaning that working with and modifying problems is simple and intuitive.
 
 [![DOI](https://zenodo.org/badge/201154808.svg)](https://zenodo.org/badge/latestdoi/201154808)
 
@@ -47,16 +47,54 @@ ODE Test Problems (OTP) is an object-oriented OCTAVE/MATLAB package offering a b
 
 # Formulation
 
+All test problems in `OTP` are considered as a first-order ordinary differential equation of the form:
 
-# Components
+$$
+    Y'(t) = F(t,Y) \\
+    Y(0) = Y0
+$$
+
+where $Y(t)$ is the time-dependent solution to the problem, $F(t,Y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. The initial condition $Y(0) = 1$ specifies the value of $Y$ at the initial time $t = 0$.
 
 
-# Use cases
+# Features
+
+## Basic usage
+
+```Matlab
+% Create a problem object
+problem = otp.lorenz63.presets.Canonical;
+
+% Solve the problem
+sol = problem.solve('RelTol', 1e-10);
+```
+
+The `problem` object contains a number of useful properties including:
+
+* `Name`: The name of the problem
+* `NumVars`: Number of variables in the state vector
+* `Parameters`: Vector of problem-specific parameters that can be modified 
+* `RHS` : The Right-hand-side structure includes the ODE right-hand-side function and possibly Jacobians, splittings, etc. (depending on the test problem)
+* `TimeSpan`: Timespan of the integration
+* `Y0`: Initial condition 
+
+## Visualizing solutions
+
+`OTP` has built-in plotting capabilities for visualizing the computed problem solution.  For small problems it is possible to plot the solution trajectory using the `plot` function:
+
+```Matlab
+% Plot the PhaseSpace solution 
+problem.plotPhaseSpace(sol);
+```
+
 
 ##  Changing the solver
 
-```{octave}
-sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, odeset('Jacobian', problem.RHS.Jacobian));
+You can use any other ODE solvers in `OTP`. This is achievable by passing the right-hand-side function, timespan, initial condition and other optional parameters to the solver. As an example to use the *Implicit* time-stepping method `ode23s`:
+
+```Matlab
+sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
+                       odeset('Jacobian', problem.RHS.Jacobian));
 ```
 
 # Available test problems
