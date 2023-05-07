@@ -29,7 +29,7 @@ classdef NBodyProblem < otp.Problem
         function mov = internalMovie(obj, t, y, varargin)
             mov = otp.utils.movie.PhaseSpaceMovie('Title', obj.Name, ...
                 'xlabel', 'x', 'ylabel', 'y', 'zlabel', 'z', ...
-                'Vars', reshape(1:obj.NumVars / 2, obj.Parameters.spatialDim, []).', varargin{:});
+                'Vars', reshape(1:obj.NumVars / 2, obj.Parameters.SpatialDim, []).', varargin{:});
             mov.record(t, y);
         end
     end
