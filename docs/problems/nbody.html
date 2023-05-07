@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>NBody &#8212; ODE Test Problems 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Oregonator" href="oregonator.html" />
+    <link rel="prev" title="Lotka Volterra" href="lotkavolterra.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../mat-modindex.html" title="MATLAB Module Index"
+             >matlab index</a> |</li>
+        <li class="right" >
+          <a href="oregonator.html" title="Oregonator"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lotkavolterra.html" title="Lotka Volterra"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NBody</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-+otp.+nbody">
+<span id="nbody"></span><h1>NBody<a class="headerlink" href="#module-+otp.+nbody" title="Permalink to this heading">¶</a></h1>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+nbody.NBodyProblem">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.nbody.</span></span><span class="sig-name descname"><span class="pre">NBodyProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+nbody.NBodyProblem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.Problem</span></code></p>
+</dd></dl>
+
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+nbody.NBodyParameters">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.nbody.</span></span><span class="sig-name descname"><span class="pre">NBodyParameters</span></span><a class="headerlink" href="#+otp.+nbody.NBodyParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>NBODYPARAMETERS</p>
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+nbody.NBodyParameters.GravitationalConstant">
+<span class="sig-name descname"><span class="pre">GravitationalConstant</span></span><a class="headerlink" href="#+otp.+nbody.NBodyParameters.GravitationalConstant" title="Permalink to this definition">¶</a></dt>
+<dd><p>GravitationalConstant is exactly what it says on the box</p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+nbody.NBodyParameters.Masses">
+<span class="sig-name descname"><span class="pre">Masses</span></span><a class="headerlink" href="#+otp.+nbody.NBodyParameters.Masses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Masses are the masses of the objects</p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+nbody.NBodyParameters.SofteningLength">
+<span class="sig-name descname"><span class="pre">SofteningLength</span></span><a class="headerlink" href="#+otp.+nbody.NBodyParameters.SofteningLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>SofteningLength is a heuristic parameter that avoids singularities</p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+nbody.NBodyParameters.SpatialDim">
+<span class="sig-name descname"><span class="pre">SpatialDim</span></span><a class="headerlink" href="#+otp.+nbody.NBodyParameters.SpatialDim" title="Permalink to this definition">¶</a></dt>
+<dd><p>MATLAB ONLY: (1,1) {mustBeInteger, mustBePositive} = 2</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-+otp.+nbody.+presets">
+<span id="presets"></span><h2>Presets<a class="headerlink" href="#module-+otp.+nbody.+presets" title="Permalink to this heading">¶</a></h2>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+nbody.+presets.Canonical">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.nbody.presets.</span></span><span class="sig-name descname"><span class="pre">Canonical</span></span><a class="headerlink" href="#+otp.+nbody.+presets.Canonical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.nbody.presets.SunEarth</span></code></p>
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+nbody.+presets.FourBody3D">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.nbody.presets.</span></span><span class="sig-name descname"><span class="pre">FourBody3D</span></span><a class="headerlink" href="#+otp.+nbody.+presets.FourBody3D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.nbody.NBodyProblem</span></code></p>
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+nbody.+presets.Orbit">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.nbody.presets.</span></span><span class="sig-name descname"><span class="pre">Orbit</span></span><a class="headerlink" href="#+otp.+nbody.+presets.Orbit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.nbody.NBodyProblem</span></code></p>
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+nbody.+presets.OuterSolarSystem">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.nbody.presets.</span></span><span class="sig-name descname"><span class="pre">OuterSolarSystem</span></span><a class="headerlink" href="#+otp.+nbody.+presets.OuterSolarSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.nbody.NBodyProblem</span></code></p>
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+nbody.+presets.Pleiades">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.nbody.presets.</span></span><span class="sig-name descname"><span class="pre">Pleiades</span></span><a class="headerlink" href="#+otp.+nbody.+presets.Pleiades" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.nbody.NBodyProblem</span></code></p>
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+nbody.+presets.SunEarth">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.nbody.presets.</span></span><span class="sig-name descname"><span class="pre">SunEarth</span></span><a class="headerlink" href="#+otp.+nbody.+presets.SunEarth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.nbody.NBodyProblem</span></code></p>
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+nbody.+presets.SunEarthMoon">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.nbody.presets.</span></span><span class="sig-name descname"><span class="pre">SunEarthMoon</span></span><a class="headerlink" href="#+otp.+nbody.+presets.SunEarthMoon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.nbody.NBodyProblem</span></code></p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="allencahn.html">Allen Cahn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arenstorf.html">Arenstorf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ascherlineardae.html">Ascher Linear DAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bouncingball.html">Bouncing Ball</a></li>
+<li class="toctree-l1"><a class="reference internal" href="brusselator.html">Brusselator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cusp.html">CUSP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="e5.html">E5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hires.html">HIRES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inverterchain.html">Inverter Chain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kpr.html">KPR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lienard.html">Lienard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear.html">Linear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lorenz63.html">Lorenz 63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lorenz96.html">Lorenz 96</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lotkavolterra.html">Lotka Volterra</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">NBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oregonator.html">Oregonator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pendulum.html">Pendulum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protherorobinson.html">Prothero Robinson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadratic.html">Quadratic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quasigeostrophic.html">Quasi Geostrophic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robertson.html">Robertson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sanzserna.html">Sanz Serna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transistoramplifier.html">Transistor Amplifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trigonometricdae.html">Trigonometric DAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vanderpol.html">Vanderpol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zlakinetics.html">Zla Kinetics</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../mat-modindex.html" title="MATLAB Module Index"
+             >matlab index</a> |</li>
+        <li class="right" >
+          <a href="oregonator.html" title="Oregonator"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="lotkavolterra.html" title="Lotka Volterra"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NBody</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Steven Roberts, Andrey A Popov, Arash Sarshar, Adrian Sandu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
+    </div>
+  </body>
+</html>

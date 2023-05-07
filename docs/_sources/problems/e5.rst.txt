@@ -1,0 +1,20 @@
+E5 
+===
+
+.. automodule:: +otp.+e5
+.. autoclass:: E5Problem
+    :show-inheritance:
+    :members:
+
+Parameters
+----------
+.. autoclass:: E5Parameters
+    :members:
+
+Presets
+-------
+.. automodule:: +otp.+e5.+presets
+.. autoclass:: Canonical
+    :show-inheritance:
+    :members:
+
