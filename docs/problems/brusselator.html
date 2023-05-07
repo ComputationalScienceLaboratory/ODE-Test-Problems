@@ -79,16 +79,6 @@ Biology, vol. 30, no. 2, Elsevier BV, Feb. 1971, pp. 267–284. <a class="refere
 <p>Hairer, E., et al. Solving Ordinary Differential Equations I. 2nd ed., Springer, 1993, pp. 115–116.
 <a class="reference external" href="https://doi.org/10.1007/978-3-540-78862-1">https://doi.org/10.1007/978-3-540-78862-1</a>. Springer Series in Computational Mathematics, 8.</p>
 <p>See also otp.brusselator.BrusselatorParameters, otp.Problem</p>
-<dl class="mat method">
-<dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorProblem.BrusselatorProblem">
-<span class="sig-name descname"><span class="pre">BrusselatorProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.BrusselatorProblem" title="Permalink to this definition">¶</a></dt>
-<dd><p>BRUSSELATORPROBLEM Create a Brusselator problem object
-OBJ = BrusselatorProblem(TIMESPAN, Y0, PARAMETERS) constructs a BRUSSELATORPROBLEM with time span
-TIMESPAN, initial condition Y0, and parameters PARAMETERS. PARAMETERS should be of type
-otp.brusselator.BrusselatorParameters.</p>
-<p>See also otp.brusselator.BrusselatorParameters, otp.Problem</p>
-</dd></dl>
-
 <dl class="mat attribute">
 <dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorProblem.RHSLinear">
 <span class="sig-name descname"><span class="pre">RHSLinear</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.RHSLinear" title="Permalink to this definition">¶</a></dt>
@@ -101,6 +91,16 @@ See also otp.brusselator.BrusselatorProblem.RHSNonlinear, otp.RHS</p>
 <span class="sig-name descname"><span class="pre">RHSNonlinear</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.RHSNonlinear" title="Permalink to this definition">¶</a></dt>
 <dd><p>RHSNONLINEAR Right-hand side containing the nonlinear terms [1 + aX²Y; -aX²Y]
 See also otp.brusselator.BrusselatorProblem.RHSLinear, otp.RHS</p>
+</dd></dl>
+
+<dl class="mat method">
+<dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorProblem.BrusselatorProblem">
+<span class="sig-name descname"><span class="pre">BrusselatorProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.BrusselatorProblem" title="Permalink to this definition">¶</a></dt>
+<dd><p>BRUSSELATORPROBLEM Create a Brusselator problem object
+OBJ = BrusselatorProblem(TIMESPAN, Y0, PARAMETERS) constructs a BRUSSELATORPROBLEM with time span
+TIMESPAN, initial condition Y0, and parameters PARAMETERS. PARAMETERS should be of type
+otp.brusselator.BrusselatorParameters.</p>
+<p>See also otp.brusselator.BrusselatorParameters, otp.Problem</p>
 </dd></dl>
 
 </dd></dl>
