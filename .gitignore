@@ -1,5 +1,9 @@
 *.asv
 *.m~
+*.md~
+*.py~
+*.sh~
+*.rst~
 *.mltbx
 build/
 
