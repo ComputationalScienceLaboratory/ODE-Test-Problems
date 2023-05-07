@@ -35,14 +35,14 @@ bibliography: paper.bib
 
 # Summary
 
-ODE Test Problems (OTP) is an object-oriented OCTAVE/MATLAB package offering a broad range of initial value problems which can be used to test numerical methods such as time integration or data assimilation methods.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems from fields such as chemistry, astrophysics, meteorology, and electrical engineering.  OTP also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are included when available. OTP is desgined for ease of use---meaning that working with and modifying problems is simple and intuitive.
+ODE Test Problems (`OTP`) is an object-oriented OCTAVE/MATLAB package offering a broad range of initial value problems which can be used to test numerical methods such as time integration or data assimilation methods.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems from fields such as chemistry, astrophysics, meteorology, and electrical engineering.  OTP also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are included when available. OTP is desgined for ease of use---meaning that working with and modifying problems is simple and intuitive.
 
 [![DOI](https://zenodo.org/badge/201154808.svg)](https://zenodo.org/badge/latestdoi/201154808)
 
 
 # Statement of need
 
-Test problems are essential for developing and evaluating numerical methods for solving differential equations. `OTP` includes an extensive assortment of test problems that have been broadly used in the literature to evaluate the performance of numerical methods. These problems range from simple linear equations to complex chaotic systems of nonlinear differential equations. It can be used to evaluate the accuracy, stability, and convergence of numerical methods by comparing the numerical solutions obtained by different methods to reference or known exact solutions. Many of the existing test problems are quipped with parameters and derivative functions that can be used in data assimilation and parameter estimation research projects. Another important application of this packages is to investigate how numerical methods behave in the presence of oscillations and chaos. 
+Test problems are essential for developing and evaluating numerical methods for solving differential equations. `OTP` includes an broad assortment of test problems that have been extensively used in the literature to investigate numerical methods. These problems range from simple linear equations to complex chaotic systems of nonlinear differential equations. It can be used to evaluate the accuracy, stability, and convergence of numerical methods by comparing the numerical solutions obtained by different methods to reference or known exact solutions. Many of the existing test problems are quipped with parameters and derivative functions that can be used in data assimilation and parameter estimation research projects. Another important application of this packages is to investigate how numerical methods behave in the presence of oscillations and chaos. 
 
 # Formulation
 
@@ -81,7 +81,7 @@ The `problem` object contains a number of useful properties including:
 * `TimeSpan`: Timespan of the integration
 * `Y0`: Initial condition of the problem
 
-The complete list of test problems implemented in `OTP` can be found [here](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/paper/paper/problems.md).
+The complete list of test problems implemented in `OTP` and the documentation for the package can be found [here](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/paper/paper/problems.md).
 
 ## Visualizing solutions
 
@@ -106,10 +106,10 @@ problem.movie(sol);
 ```Matlab
 sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, odeset('Jacobian', problem.RHS.Jacobian));
 ```
-## Adding new test problems 
+ ## Adding new test problems 
 
 # Acknowledgments
 
-We'd like to thank Drs. M. Narayanamurthi, S. R. Glandon, and A. Subrahmanya as well as B. Regmi, R. Tuggle, R. Gomillion, and the rest of the Computational Science Lab at Virginia Tech for their feedback and support of this project.
+We'd like to thank Drs. M. Narayanamurthi and S. R. Glandon as well as A. Subrahmanya , B. Regmi, R. Tuggle, R. Gomillion, and the rest of the Computational Science Lab at Virginia Tech for their feedback and support of this project.
 
 # References
