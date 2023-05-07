@@ -1,4 +1,6 @@
 * text=auto
 *.m text eol=lf
 notebooks/*.ipynb linguist-generated=true
+docs/** linguist-generated=true
+docsrc/** linguist-generated=true
 
