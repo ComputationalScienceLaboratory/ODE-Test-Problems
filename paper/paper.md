@@ -60,9 +60,11 @@ where $Y(t)$ is the time-dependent solution to the problem, $F(t,Y)$ is the righ
 
 
 # Features
-Any problems in `OTP` can be initialized using the problem name and a preset that defines well-known parameters and initial conditions for that specific problem. The `Canonical` preset is available for all problems. Problems can be solved by calling the `solve()` method. It is possible to pass optional parameteres to the solver. 
+Any problem in `OTP` can be initialized using the problem name and a preset that defines documented parameters and initial conditions for that specific case. The `Canonical` preset is available for all problems. 
 
 ## Basic usage
+
+Problems can be solved by calling the `solve()` method. It is possible to pass optional parameteres to the solver.
 
 ```Matlab
 % Create a problem object
@@ -77,14 +79,15 @@ The `problem` object contains a number of useful properties including:
 * `Name`: The name of the problem
 * `NumVars`: Number of variables in the state vector
 * `Parameters`: Vector of problem-specific parameters that can be modified 
-* `RHS` : The Right-hand-side structure includes the ODE right-hand-side function and possibly Jacobians, splittings, etc. (depending on the test problem)
+* `RHS` : A Right-hand-side structure that includes the ODE right-hand-side function and possibly Jacobians, splittings, etc. (depending on the test problem)
 * `TimeSpan`: Timespan of the integration
-* `Y0`: Initial condition 
+* `Y0`: Initial condition of the problem
 
 The complete list of test problems implemented in `OTP` can be found [here](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/paper/paper/problems.md).
+
 ## Visualizing solutions
 
-`OTP` has built-in plotting capabilities for visualizing the computed solution. The `plot()` method can be used to plot the solution trajectory. The `plotPhaseSpace() ` method creates a phase-space diagram by visualizing all spatial-components of the state vector.
+`OTP` has built-in plotting capabilities for visualizing the computed solution. The `plot()` method can be used to plot the solution trajectory. The `plotPhaseSpace() ` method creates a phase-space diagram by visualizing all spatial-components of the state vector. `OTP` also supports animations for the computed solution. 
 
 ```Matlab
 % Plot the solution trajectory
@@ -92,17 +95,20 @@ problem.plot(sol);
 
 % Plot the Phase-Space solution 
 problem.plotPhaseSpace(sol);
+
+% Create a movie of the solution 
+problem.movie(sol);
 ```
 
 
 ##  Changing the solver
 
-You can use any other ODE solvers in `OTP`. This is achievable by passing the right-hand-side function, timespan, initial condition and other optional parameters to the solver. As an example to use the *Implicit* time-stepping method `ode23s`:
+`OTP` uses appropriate internal solvers to integrate each problem. However, if you are researching time-stepping methods you can plug-in your specific solver to any test problem by passing the right-hand-side function, timespan, initial condition and other optional parameters to your solver. As an example, to use the *Implicit* time-stepping method `ode23s`:
 
 ```Matlab
 sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, odeset('Jacobian', problem.RHS.Jacobian));
 ```
 
 # Acknowledgments
-
+We'd like to thank Drs. M. Narayanamurthi, S. R. Glandon, and A. Subrahmanya as well as B. Regmi, R. Tuggle, R. Gomillion and the rest of the Computational Science Lab at Virginia Tech for their feedback and support of this project.
 # References
