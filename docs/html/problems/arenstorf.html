@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Arenstorf &#8212; ODE Test Problems 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ascher Linear DAE" href="ascherlineardae.html" />
+    <link rel="prev" title="Allen Cahn" href="allencahn.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../mat-modindex.html" title="MATLAB Module Index"
+             >matlab index</a> |</li>
+        <li class="right" >
+          <a href="ascherlineardae.html" title="Ascher Linear DAE"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="allencahn.html" title="Allen Cahn"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Arenstorf</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-+otp.+arenstorf">
+<span id="arenstorf"></span><h1>Arenstorf<a class="headerlink" href="#module-+otp.+arenstorf" title="Permalink to this heading">¶</a></h1>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+arenstorf.ArenstorfProblem">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.arenstorf.</span></span><span class="sig-name descname"><span class="pre">ArenstorfProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+arenstorf.ArenstorfProblem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.Problem</span></code></p>
+<p>ARENSTORFPROBLEM A simplified 3-body problem
+This problem models the trajectory of a satellite of negligible mass
+under the gravitational pull of two orbiting bodies. These can be
+considered the Moon and Earth with masses MU and MU’=1-MU, respectively.
+The reference frame is chosen such that the Earth is at position
+(-MU, 0) on the plane, and the moon is at position (MU’, 0). The
+satellite’s motion is described by the second-order ODEs</p>
+<p>y1’’ = y1 + 2 y2’ - MU’ (y1 + MU) / D1 - MU (y1 - MU’) / D2,
+y2’’ = y2 - 2 y1’ - MU’ y2 / D1 - MU y2 / D2,</p>
+<p>where</p>
+<p>D1 = ((y1 + MU)^2 + y2^2)^(3/2),    D2 = ((y1 - MU’)^2 + y2^2)^(3/2).</p>
+<p>This is converted into a system of first order ODEs in which the state
+contains two position variables and two velocity variables:</p>
+<p>y = [y1; y2; y1’; y2’].</p>
+<p>Sources:</p>
+<p>Arenstorf, Richard F. “Periodic Solutions of the Restricted Three Body
+Problem Representing Analytic Continuations of Keplerian Elliptic
+Motions.” American Journal of Mathematics, vol. 85, no. 1, 1963, p. 27.</p>
+<p>Hairer, Ernst, et al. Solving Ordinary Differential Equations I:
+Nonstiff Problems. 2nd ed., vol. 8, Springer-Verlag, 1993, pp. 129-130.</p>
+<p>See also otp.arenstorf.ArenstorfParameters</p>
+</dd></dl>
+
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+arenstorf.ArenstorfParameters">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.arenstorf.</span></span><span class="sig-name descname"><span class="pre">ArenstorfParameters</span></span><a class="headerlink" href="#+otp.+arenstorf.ArenstorfParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>ARENSTORFPARAMETERS User-configurable parameters for the Arenstorf problem</p>
+<p>See also otp.arenstorf.ArenstorfProblem</p>
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+arenstorf.ArenstorfParameters.Mu">
+<span class="sig-name descname"><span class="pre">Mu</span></span><a class="headerlink" href="#+otp.+arenstorf.ArenstorfParameters.Mu" title="Permalink to this definition">¶</a></dt>
+<dd><p>MU The mass of one body, while the other body has mass MU’=1-Mu</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-+otp.+arenstorf.+presets">
+<span id="presets"></span><h2>Presets<a class="headerlink" href="#module-+otp.+arenstorf.+presets" title="Permalink to this heading">¶</a></h2>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+arenstorf.+presets.Canonical">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.arenstorf.presets.</span></span><span class="sig-name descname"><span class="pre">Canonical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">mu</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+arenstorf.+presets.Canonical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.arenstorf.ArenstorfProblem</span></code></p>
+<p>CANONICAL One period of a satellite moving in an Earth-Moon system
+Source:</p>
+<p>Hairer, Ernst, et al. Solving Ordinary Differential Equations I:
+Nonstiff Problems. 2nd ed., vol. 8, Springer-Verlag, 1993, pp. 129-130.</p>
+<p>See also otp.arenstorf.ArenstorfProblem</p>
+<dl class="mat method">
+<dt class="sig sig-object mat" id="+otp.+arenstorf.+presets.Canonical.Canonical">
+<span class="sig-name descname"><span class="pre">Canonical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">mu</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+arenstorf.+presets.Canonical.Canonical" title="Permalink to this definition">¶</a></dt>
+<dd><p>CANONICAL Construct a canonical Arenstorf problem
+OBJ = CANONICAL(MU) Uses a Moon of mass MU. The time span and
+initial conditions use the same data type as MU. Single
+precision, vpa, and other types are supported.</p>
+<p>OBJ = CANONICAL() Uses a MU corresponding to the Moon</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="allencahn.html">Allen Cahn</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Arenstorf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ascherlineardae.html">Ascher Linear DAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bouncingball.html">Bouncing Ball</a></li>
+<li class="toctree-l1"><a class="reference internal" href="brusselator.html">Brusselator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cusp.html">CUSP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="e5.html">E5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hires.html">HIRES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inverterchain.html">Inverter Chain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kpr.html">KPR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lienard.html">Lienard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear.html">Linear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lorenz63.html">Lorenz 63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lorenz96.html">Lorenz 96</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lotkavolterra.html">Lotka Volterra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nbody.html">NBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oregonator.html">Oregonator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pendulum.html">Pendulum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protherorobinson.html">Prothero Robinson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadratic.html">Quadratic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quasigeostrophic.html">Quasi Geostrophic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robertson.html">Robertson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sanzserna.html">Sanz Serna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transistoramplifier.html">Transistor Amplifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trigonometricdae.html">Trigonometric DAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vanderpol.html">Vanderpol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zlakinetics.html">Zla Kinetics</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../mat-modindex.html" title="MATLAB Module Index"
+             >matlab index</a> |</li>
+        <li class="right" >
+          <a href="ascherlineardae.html" title="Ascher Linear DAE"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="allencahn.html" title="Allen Cahn"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Arenstorf</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Steven Roberts, Andrey A Popov, Arash Sarshar, Adrian Sandu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
+    </div>
+  </body>
+</html>

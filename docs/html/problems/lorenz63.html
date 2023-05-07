@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Lorenz 63 &#8212; ODE Test Problems 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Lorenz 96" href="lorenz96.html" />
+    <link rel="prev" title="Linear" href="linear.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../mat-modindex.html" title="MATLAB Module Index"
+             >matlab index</a> |</li>
+        <li class="right" >
+          <a href="lorenz96.html" title="Lorenz 96"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="linear.html" title="Linear"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Lorenz 63</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-+otp.+lorenz63">
+<span id="lorenz-63"></span><h1>Lorenz 63<a class="headerlink" href="#module-+otp.+lorenz63" title="Permalink to this heading">¶</a></h1>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.Lorenz63Problem">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.lorenz63.</span></span><span class="sig-name descname"><span class="pre">Lorenz63Problem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+lorenz63.Lorenz63Problem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.Problem</span></code></p>
+<p>Three variable Lorenz ‘63 problem of the form</p>
+<blockquote>
+<div><p><span class="math notranslate nohighlight">\(x' = \sigma(y - x)\)</span>,</p>
+<p><span class="math notranslate nohighlight">\(y' = \rho x - y - xz\)</span>,</p>
+<p><span class="math notranslate nohighlight">\(z' = xy - \beta z\)</span>,</p>
+</div></blockquote>
+<p>that exhibits chaotic behavior for certain values of the parameters.</p>
+<p>For a full problem description take a look at the original formulation in</p>
+<blockquote>
+<div><p>Lorenz, Edward N. “Deterministic nonperiodic flow.”
+Journal of the atmospheric sciences 20, no. 2 (1963): 130-141.</p>
+</div></blockquote>
+<p>For a more detailed description also take a look at</p>
+<blockquote>
+<div><p>Strogatz, Steven H. Nonlinear dynamics and chaos: with applications to
+physics, biology, chemistry, and engineering. Westview press, 2014.</p>
+</div></blockquote>
+</dd></dl>
+
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.Lorenz63Parameters">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.lorenz63.</span></span><span class="sig-name descname"><span class="pre">Lorenz63Parameters</span></span><a class="headerlink" href="#+otp.+lorenz63.Lorenz63Parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>LORENZ63PARAMETERS User-configurable parameters for the Lorenz 63 problem</p>
+<p>See also otp.lorenz63.Lorenz63Problem</p>
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.Lorenz63Parameters.Beta">
+<span class="sig-name descname"><span class="pre">Beta</span></span><a class="headerlink" href="#+otp.+lorenz63.Lorenz63Parameters.Beta" title="Permalink to this definition">¶</a></dt>
+<dd><p>BETA is a geometric factor</p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.Lorenz63Parameters.Rho">
+<span class="sig-name descname"><span class="pre">Rho</span></span><a class="headerlink" href="#+otp.+lorenz63.Lorenz63Parameters.Rho" title="Permalink to this definition">¶</a></dt>
+<dd><p>RHO represents the Rayleigh number</p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.Lorenz63Parameters.Sigma">
+<span class="sig-name descname"><span class="pre">Sigma</span></span><a class="headerlink" href="#+otp.+lorenz63.Lorenz63Parameters.Sigma" title="Permalink to this definition">¶</a></dt>
+<dd><p>SIGMA represents the Prandtl number</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-+otp.+lorenz63.+presets">
+<span id="presets"></span><h2>Presets<a class="headerlink" href="#module-+otp.+lorenz63.+presets" title="Permalink to this heading">¶</a></h2>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.+presets.Canonical">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.lorenz63.presets.</span></span><span class="sig-name descname"><span class="pre">Canonical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">sigma</span></em>, <em class="sig-param"><span class="pre">rho</span></em>, <em class="sig-param"><span class="pre">beta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+lorenz63.+presets.Canonical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.lorenz63.Lorenz63Problem</span></code></p>
+<p>This is the original problem presented in the literature.
+The initial condition is purposefully outside of the attractor, but converges to it quite quickly.</p>
+<dl class="simple">
+<dt>References:</dt><dd><p>Lorenz, E. N. (1963). Deterministic nonperiodic flow. Journal of atmospheric sciences, 20(2), 130-141.</p>
+</dd>
+</dl>
+<p>See also <a class="reference internal" href="#+otp.+lorenz63.Lorenz63Problem" title="+otp.+lorenz63.Lorenz63Problem"><code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.lorenz63.Lorenz63Problem</span></code></a></p>
+<dl class="mat method">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.+presets.Canonical.Canonical">
+<span class="sig-name descname"><span class="pre">Canonical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">sigma</span></em>, <em class="sig-param"><span class="pre">rho</span></em>, <em class="sig-param"><span class="pre">beta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+lorenz63.+presets.Canonical.Canonical" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a Lorenz ‘63 problem</p>
+<p>problem = Canonical(sigma, rho, beta) defines the Lorenz ‘63
+problem with corresponding parameters</p>
+<p>problem = Canonical() sets the default values of the parameters
+to Sigma = 10, Rho = 28, and Beta = 8/3. The arguments can
+be left empty or ignored to use these defaults.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.+presets.LimitCycle">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.lorenz63.presets.</span></span><span class="sig-name descname"><span class="pre">LimitCycle</span></span><a class="headerlink" href="#+otp.+lorenz63.+presets.LimitCycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.lorenz63.Lorenz63Problem</span></code></p>
+<p>LIMITCYCLE A non-chaotic set of parameters for the problem to showcase potential periodic behavior.
+Source:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Strogatz, S. H. (2018). Nonlinear dynamics and chaos with student solutions manual: </dt><dd><p>With applications to physics, biology, chemistry, and
+engineering. CRC press. Page 341</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="mat method">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.+presets.LimitCycle.LimitCycle">
+<span class="sig-name descname"><span class="pre">LimitCycle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+lorenz63.+presets.LimitCycle.LimitCycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>LIMITCYCLE Construct a limit cycle Lorenz ‘63 problem
+OBJ = LIMITCYCLE() defines the Lorenz ‘63
+problem with corresponding parameters</p>
+<blockquote>
+<div><p>sigma = 10, rho = 350, and beta = 8/3;</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.+presets.Surprise">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.lorenz63.presets.</span></span><span class="sig-name descname"><span class="pre">Surprise</span></span><a class="headerlink" href="#+otp.+lorenz63.+presets.Surprise" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.lorenz63.Lorenz63Problem</span></code></p>
+<p>SURPISE Strogatz’s <a href="#id1"><span class="problematic" id="id2">`</span></a>surprise’
+Source:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>Strogatz, S. H. (2018). Nonlinear dynamics and chaos with student solutions manual: </dt><dd><p>With applications to physics, biology, chemistry, and
+engineering. CRC press. Page 351</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="mat method">
+<dt class="sig sig-object mat" id="+otp.+lorenz63.+presets.Surprise.Surprise">
+<span class="sig-name descname"><span class="pre">Surprise</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+lorenz63.+presets.Surprise.Surprise" title="Permalink to this definition">¶</a></dt>
+<dd><p>SURPRISE Construct a surprise Lorenz ‘63 problem
+OBJ = SURPRISE() defines the Lorenz ‘63
+problem with corresponding parameters</p>
+<blockquote>
+<div><p>sigma = 10, rho = 100, and beta = 8/3;</p>
+</div></blockquote>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="allencahn.html">Allen Cahn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arenstorf.html">Arenstorf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ascherlineardae.html">Ascher Linear DAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bouncingball.html">Bouncing Ball</a></li>
+<li class="toctree-l1"><a class="reference internal" href="brusselator.html">Brusselator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cusp.html">CUSP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="e5.html">E5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hires.html">HIRES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inverterchain.html">Inverter Chain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kpr.html">KPR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lienard.html">Lienard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear.html">Linear</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Lorenz 63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lorenz96.html">Lorenz 96</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lotkavolterra.html">Lotka Volterra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nbody.html">NBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oregonator.html">Oregonator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pendulum.html">Pendulum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protherorobinson.html">Prothero Robinson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadratic.html">Quadratic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quasigeostrophic.html">Quasi Geostrophic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robertson.html">Robertson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sanzserna.html">Sanz Serna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transistoramplifier.html">Transistor Amplifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trigonometricdae.html">Trigonometric DAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vanderpol.html">Vanderpol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zlakinetics.html">Zla Kinetics</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../mat-modindex.html" title="MATLAB Module Index"
+             >matlab index</a> |</li>
+        <li class="right" >
+          <a href="lorenz96.html" title="Lorenz 96"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="linear.html" title="Linear"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Lorenz 63</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2023, Steven Roberts, Andrey A Popov, Arash Sarshar, Adrian Sandu.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
+    </div>
+  </body>
+</html>
