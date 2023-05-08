@@ -1,0 +1,19 @@
+Name: ODE Test Problems
+Version: 0.0.1
+Date: 2021-13-12
+depends: octave (>= 6.4.0)
+Author: Steven Roberts, Andrey A. Popov, Arash Sarshar, Adrian Sandu
+Maintainer: Steven Roberts
+Title: A MATLAB suite of initial value problems
+Description: ODE Test Problems (OTP) is an object-oriented MATLAB/GNU Octave package offering a broad range of ordinary
+ differential equations, partial differential equations, and differential algebraic equations which can be used to test
+ numerical methods such as time-steppers and data assimilation methods. It contains problems that are linear and
+ nonlinear, autonomous and nonautonomous, scalar and high-dimensional, and stiff and nonstiff. OTP also supports
+ partitioned systems for testing IMEX methods, multirate methods, and other partitioned schemes. Many problems come from
+ real-world applications in fields such as chemistry, astrophysics, meteorology, and electrical engineering. OTP's
+ interface provides a simple and standardized way to access problem parameters, the right-hand side function, the
+ Jacobian matrix, and other properties. Each problem is equipped with functions for computing the solution, plotting the
+ solution, and creating a movie.
+Categories: ODEs
+Url: https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems
+License: MIT

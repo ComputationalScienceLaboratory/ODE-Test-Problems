@@ -1,6 +1,6 @@
 classdef PendulumProblem < otp.Problem
     properties (SetAccess = private)
-        RhsMass
+       RHSMass
     end
     
     methods
@@ -11,7 +11,7 @@ classdef PendulumProblem < otp.Problem
         
         function [x, y] = convert2Cartesian(obj, y, includeOrigin)
             angles = y(1:end/2, :);
-            lengths = obj.Parameters.lengths(:);
+            lengths = obj.Parameters.Lengths(:);
             x = cumsum(lengths .* sin(angles), 1);
             y = cumsum(-lengths .* cos(angles), 1);
             
@@ -25,34 +25,39 @@ classdef PendulumProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            g = obj.Parameters.g;
-            lengths = obj.Parameters.lengths(:);
-            masses = obj.Parameters.masses(:);
+            g = obj.Parameters.Gravity;
+            lengths = obj.Parameters.Lengths;
+            masses = obj.Parameters.Masses;
             
-            numBobs = min(numel(lengths), numel(masses));
+            numLengths = length(lengths);
+            numMasses = length(masses);
+            
+            if obj.NumVars ~= 2 * numMasses
+                warning('OTP:inconsistentNumVars', ...
+                    'With %d masses, NumVars should be %d but is %d', ...
+                    numMasses, 2 * numMasses, obj.NumVars);
+            elseif obj.NumVars ~= 2 * numLengths
+                warning('OTP:inconsistentNumVars', ...
+                    'With %d lengths, NumVars should be %d but is %d', ...
+                    numLengths, 2 * numLengths, obj.NumVars);
+            end
+            
+            numBobs = min(numLengths, numMasses);
             lengths = lengths(1:numBobs);
             masses = masses(1:numBobs);
-            cumulativeMasses = cumsum(masses, 'reverse');
+            % OCTAVE FIX: reverse flag for cumsum is not supported
+            cumulativeMasses = flip(cumsum(flip(masses)));
             
             offDiagScaling = -1 ./ (lengths(1:end-1) .* lengths(2:end) .* masses(1:end-1));
             cDiag = [1 / (lengths(1)^2 * masses(1)); (masses(1:end-1) + masses(2:end)) ./ (lengths(2:end).^2 .* masses(1:end-1) .* masses(2:end))];
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.pendulum.f(t, y, lengths, cumulativeMasses, g, offDiagScaling, cDiag));
+            obj.RHS = otp.RHS(@(t, y) otp.pendulum.f(t, y, lengths, cumulativeMasses, g, offDiagScaling, cDiag));
             
             scaledMasses = lengths .* cumulativeMasses(max(1:numBobs, (1:numBobs).')) .* lengths.';
             
-            obj.RhsMass = otp.Rhs(@(t, y) otp.pendulum.fmass(t, y, lengths, cumulativeMasses, g, scaledMasses),...
-                otp.Rhs.FieldNames.Jacobian, @(t,y) otp.pendulum.jacmass(t, y, lengths, cumulativeMasses, g, scaledMasses), ...
-                otp.Rhs.FieldNames.Mass, @(t,y) otp.pendulum.mass(t, y, lengths, cumulativeMasses, g, scaledMasses));
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('g', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('lengths', 'vector', 'real', 'finite', 'positive') ...
-                .checkField('masses',  'vector', 'real', 'finite', 'positive');
+            obj.RHSMass = otp.RHS(@(t, y) otp.pendulum.fMass(t, y, lengths, cumulativeMasses, g, scaledMasses),...
+                'Jacobian', @(t,y) otp.pendulum.jacobianMass(t, y, lengths, cumulativeMasses, g, scaledMasses), ...
+                'Mass', @(t,y) otp.pendulum.mass(t, y, lengths, cumulativeMasses, g, scaledMasses));
         end
         
         function label = internalIndex2label(obj, index)
@@ -65,7 +70,7 @@ classdef PendulumProblem < otp.Problem
         end
         
         function sol = internalSolve(obj, varargin)
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
+            sol = internalSolve@otp.Problem(obj, 'Solver', otp.utils.Solver.Nonstiff, varargin{:});
         end
         
         function mov = internalMovie(obj, t, y, varargin)

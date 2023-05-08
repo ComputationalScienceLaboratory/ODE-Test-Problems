@@ -10,30 +10,18 @@ classdef LotkaVolterraProblem < otp.Problem
     methods (Access = protected)
         function onSettingsChanged(obj)
             
-            preyBirthRate     = obj.Parameters.preyBirthRate;
-            preyDeathRate     = obj.Parameters.preyDeathRate;
-            predatorDeathRate = obj.Parameters.predatorDeathRate; 
-            predatorBirthRate = obj.Parameters.predatorBirthRate; 
+            preyBirthRate     = obj.Parameters.PreyBirthRate;
+            preyDeathRate     = obj.Parameters.PreyDeathRate;
+            predatorDeathRate = obj.Parameters.PredatorDeathRate; 
+            predatorBirthRate = obj.Parameters.PredatorBirthRate; 
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.lotkavolterra.f(t, y, preyBirthRate, preyDeathRate, predatorDeathRate, predatorBirthRate), ...
-                otp.Rhs.FieldNames.Jacobian, ...
-                @(t, y) otp.lotkavolterra.jac(t, y, preyBirthRate, preyDeathRate, predatorDeathRate, predatorBirthRate), ...
-                otp.Rhs.FieldNames.Vectorized, 'on');
-            
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('preyBirthRate',     'scalar', 'real', 'finite', 'positive') ...
-                .checkField('preyDeathRate',     'scalar', 'real', 'finite', 'positive') ...
-                .checkField('predatorDeathRate', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('predatorBirthRate', 'scalar', 'real', 'finite', 'positive');
+            obj.RHS = otp.RHS(@(t, y) otp.lotkavolterra.f(t, y, preyBirthRate, preyDeathRate, predatorDeathRate, predatorBirthRate), ...
+                'Jacobian', ...
+                @(t, y) otp.lotkavolterra.jacobian(t, y, preyBirthRate, preyDeathRate, predatorDeathRate, predatorBirthRate), ...
+                'Vectorized', 'on');
             
         end
-        
+
         function label = internalIndex2label(~, index)
             
             if index == 1
@@ -46,7 +34,7 @@ classdef LotkaVolterraProblem < otp.Problem
         
         function sol = internalSolve(obj, varargin)
             
-            sol = internalSolve@otp.Problem(obj, 'Method', @ode45, varargin{:});
+            sol = internalSolve@otp.Problem(obj, 'Solver', otp.utils.Solver.Nonstiff, varargin{:});
             
         end
     end

@@ -14,7 +14,7 @@ classdef LineMovie < otp.utils.movie.FancyMovie
         end
         
         function drawFrameAxes(~, ~, gObjects, state)
-            gObjects.YData = state.yCur;
+            set(gObjects, 'YData', state.yCur);
         end
     end
 end

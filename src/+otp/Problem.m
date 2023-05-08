@@ -1,73 +1,95 @@
 classdef (Abstract) Problem < handle
     
-    properties (SetAccess = immutable)
-        Name % A human-readable representation of the problem
-    end
-    
-    properties (SetAccess = immutable, GetAccess = private)
-        ExpectedNumVars
+    properties (SetAccess = private)
+        % A human-readable representation of the problem
+        Name %MATLAB ONLY: (1,:) char
     end
     
     properties (SetAccess = protected)
-        Rhs
+        RHS %MATLAB ONLY: (1,1) otp.RHS = otp.RHS(@() [])
     end
     
     properties (Access = private)
-        Settings
+        ExpectedNumVars %MATLAB ONLY: {mustBeScalarOrEmpty, mustBeInteger, mustBePositive}
+        
+        % Determines if the Problem properties are still being set. Once set, it
+        % is ok to call onSettingsChanged.
+        Initialized = false
+        
+        % The following internal properties represent the state of the problem
+        % and have matching external properties. The external properties have to
+        % be dependent because they trigger onSettingsChanged and access Problem
+        % properties
+        
+        InternalTimeSpan
+        InternalY0
+        InternalParameters
     end
     
     properties (Dependent)
-        TimeSpan % The time interval of the problem
-        Y0 % The initial condition
-        Parameters % Additional variables to pass to the F function
-        NumVars % The dimension of the ODE
+        % The time interval of the problem
+        TimeSpan %MATLAB ONLY: (1,2) {otp.utils.validation.mustBeNumerical}
+        
+        % The initial condition
+        Y0 %MATLAB ONLY: (:,1) {otp.utils.validation.mustBeNumerical}
+        
+        % Additional variables to pass to the F function
+        Parameters %MATLAB ONLY: (1,1)
+        
+        % The dimension of the ODE
+        NumVars
     end
     
     methods
         function obj = Problem(name, expectedNumVars, timeSpan, y0, parameters)
             % Constructs a problem
-            
-            % Switch to class parameter validation when better supported
-            if ~ischar(name) || isempty(name)
-                error('The problem name must be a nonempty character array');
-            end
             obj.Name = name;
             obj.ExpectedNumVars = expectedNumVars;
-            obj.Settings = struct('timeSpan', timeSpan(:), 'y0', y0, 'parameters', parameters);
+            obj.TimeSpan = timeSpan;
+            obj.Y0 = y0;
+            obj.Initialized = true;
+            obj.Parameters = parameters;
         end
         
         function set.TimeSpan(obj, value)
-            obj.Settings.timeSpan = value(:);
+            obj.InternalTimeSpan = value;
+            if obj.Initialized
+                obj.onSettingsChanged();
+            end
         end
         
         function timeSpan = get.TimeSpan(obj)
-            timeSpan = obj.Settings.timeSpan;
+            timeSpan = obj.InternalTimeSpan;
         end
         
         function set.Y0(obj, value)
-            obj.Settings.y0 = value;
+            numVars = length(value);
+            if ~isempty(obj.ExpectedNumVars) && numVars ~= obj.ExpectedNumVars
+                error('OTP:invalidY0', ...
+                    'Expected Y0 to have %d components but has %d', ...
+                    obj.ExpectedNumVars, numVars);
+            end
+            obj.InternalY0 = value;
+            if obj.Initialized
+                obj.onSettingsChanged();
+            end
         end
         
         function y0 = get.Y0(obj)
-            y0 = obj.Settings.y0;
+            y0 = obj.InternalY0;
         end
         
         function set.Parameters(obj, value)
-            obj.Settings.parameters = value;
-        end
-        
-        function parameters = get.Parameters(obj)
-            parameters = obj.Settings.parameters;
-        end
-        
-        function set.Settings(obj, value)
-            obj.validateNewState(value.timeSpan, value.y0, value.parameters);
-            obj.Settings = value;
+            obj.InternalParameters = value;
             obj.onSettingsChanged();
         end
         
-        function dimension = get.NumVars(obj)
-            dimension = length(obj.Settings.y0);
+        function parameters = get.Parameters(obj)
+            parameters = obj.InternalParameters;
+        end
+        
+        function vars = get.NumVars(obj)
+            vars = length(obj.InternalY0);
         end
     end
     
@@ -105,7 +127,9 @@ classdef (Abstract) Problem < handle
         function label = index2label(obj, index)
             % Gets a human-readable label for a particular component of the ODE
             if ~isscalar(index) || mod(index, 1) || index < 1 || index > obj.NumVars
-                error('The index %d is not an integer between 1 and %d', index, obj.NumVars);
+                error('OTP:indexOutOfBounds', ...
+                    'The index %d is not an integer between 1 and %d', ...
+                    index, obj.NumVars);
             end
             label = obj.internalIndex2label(index);
         end
@@ -113,24 +137,22 @@ classdef (Abstract) Problem < handle
         function sol = solve(obj, varargin)
             sol = obj.internalSolve(varargin{:});
         end
+        
+        function y = solveExactly(obj, t)
+            if nargin < 2
+                t = obj.TimeSpan(2);
+            else
+                t = obj.parseTime(t);
+            end
+            y = obj.internalSolveExactly(t);
+        end
     end
     
     methods (Access = protected)
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            % Ensures the TimeSpan, Y0, and Parameters are valid
-            if length(newTimeSpan) ~= 2
-                error('TimeSpan must be a vector of two times');
-            elseif ~(isnumeric(newTimeSpan) || isa(newTimeSpan, 'sym'))
-                error('TimeSpan must be numeric');
-            elseif ~iscolumn(newY0)
-                error('Y0 must be a column vector');
-            elseif ~(isnumeric(newY0) || isa(newY0, 'sym'))
-                error('Y0 must be numeric');
-            elseif ~(isempty(obj.ExpectedNumVars) || length(newY0) == obj.ExpectedNumVars)
-                error('Expected Y0 to have %d components but has %d', obj.ExpectedNumVars, length(newY0));
-            elseif ~isstruct(newParameters)
-                error('Parameters must be a struct');
-            end
+        % This method is called when either TimeSpan, Y0, or parameters are changed. It should
+        % update F and other properties such as a Jacobian to reflect the changes.
+        function onSettingsChanged(obj)
+            otp.utils.compatibility.abstract(obj);
         end
         
         function fig = internalPlot(obj, t, y, varargin)
@@ -156,7 +178,8 @@ classdef (Abstract) Problem < handle
             
             [numLines, dim] = size(vars);
             if dim < otp.utils.PhysicalConstants.TwoD || dim > otp.utils.PhysicalConstants.ThreeD
-                error('Cannot plot a %dD phase space', dim);
+                error('OTP:invalidPhaseDimension', ...
+                    'Cannot plot a %dD phase space', dim);
             end
             
             fig = figure;
@@ -167,7 +190,9 @@ classdef (Abstract) Problem < handle
                 leg = {};
             else
                 labels = cell(dim, 1);
-                leg = @(i) strjoin(arrayfun(@obj.internalIndex2label, vars(i, :), 'UniformOutput', false), ' vs ');
+                % OCTAVE FIX: function handle from class not accessible in anonymous function
+                labelFun = @obj.internalIndex2label;
+                leg = @(i) strjoin(arrayfun(labelFun, vars(i, :), 'UniformOutput', false), ' vs ');
             end
             
             if dim == otp.utils.PhysicalConstants.TwoD
@@ -203,30 +228,38 @@ classdef (Abstract) Problem < handle
             p = inputParser;
             p.KeepUnmatched = true;
             % Filter name-value pairs not passed to odeset
-            p.addParameter('Method', @ode15s, @(m) isa(m, 'function_handle'));
+            p.addParameter('Solver', otp.utils.Solver.Stiff);
             p.parse(varargin{:});
             
             % odeset is case sensitive for structs so convert unmatched parameters to a cell array
             unmatched = namedargs2cell(p.Unmatched);
-            options = obj.Rhs.odeset(unmatched{:});
+            options = obj.RHS.odeset(unmatched{:});
             
-            sol = p.Results.Method(obj.Rhs.F, obj.TimeSpan, obj.Y0, options);
-            
-            if ~isfield(sol, 'ie')
-                return;
-            end
+            sol = feval(p.Results.Solver, obj.RHS.F, obj.TimeSpan, obj.Y0, options);
             
             problem = obj;
-            while sol.x(end) ~= problem.TimeSpan(end)
-                [isterminal, problem] = problem.Rhs.OnEvent(sol, problem);
+            while isfield(sol, 'ie') && sol.x(end) ~= problem.TimeSpan(end)
+                % OCTAVE BUG: sol.xe and sol.ye are transposed compared to MATLAB
+                [isterminal, problem] = problem.RHS.OnEvent(sol, problem);
                 
                 if isterminal
                     return;
                 end
                 
-                options = problem.Rhs.odeset(options);
-                sol = odextend(sol, problem.Rhs.F, problem.TimeSpan(end), problem.Y0, options);
+                options = problem.RHS.odeset(unmatched{:});
+                % OCTAVE FIX: odextend not supported
+                if exist('odextend', 'file')
+                    sol = odextend(sol, problem.RHS.F, problem.TimeSpan(end), problem.Y0, options);
+                else
+                    sol = otp.utils.compatibility.odextend(sol, problem.RHS.F, problem.TimeSpan(end), ...
+                        problem.Y0, options);
+                end
             end
+        end
+        
+        function y = internalSolveExactly(~, ~)
+            y = 'This problem does not provide an exact solution';
+            error('OTP:noExactSolution', y);
         end
     end
     
@@ -242,10 +275,10 @@ classdef (Abstract) Problem < handle
                 params = varargin(2:end);
             end
             
-            if ~(isvector(t) && isnumeric(t))
-                error('The times must be a vector of numbers');
-            elseif ~(ismatrix(y) && isnumeric(y))
-                error('The solution must be matrix of numbers');
+            t = obj.parseTime(t);
+            if ~(ismatrix(y) && otp.utils.validation.isNumerical(y))
+                error('OTP:invalidSolution', ...
+                    'The solution must be matrix of numbers');
             end
             
             steps = length(t);
@@ -254,15 +287,22 @@ classdef (Abstract) Problem < handle
             if m == steps && n == obj.NumVars && m ~= n
                 y = y.';
             elseif m ~= obj.NumVars
-                error('There are %d timesteps, but %d solution states', steps, m);
+                error('OTP:invalidSolution', ...
+                    'There are %d timesteps, but %d solution states', steps, m);
             elseif n ~= steps
-                error('Expected solution to have %d variables but has %d', obj.NumVars, n);
+                error('OTP:invalidSolution', ...
+                    'Expected solution to have %d variables but has %d', ...
+                    obj.NumVars, n);
             end
         end
-    end
-    
-    methods (Abstract, Access = protected)
-        % This method is called when either TimeSpan, Y0, or parameters are changed.  It should update F and other properties such as a Jacobian to reflect the changes.
-        onSettingsChanged(obj);
+        
+        function t = parseTime(~, t)
+            if ~isvector(t) || isempty(t) || ~otp.utils.validation.isNumerical(t)
+                error('OTP:invalidSolution', ...
+                    'The times must be a nonempty vector of numbers');
+            end
+            % Convert to row vector for consistency
+            t = t(:).';
+        end
     end
 end

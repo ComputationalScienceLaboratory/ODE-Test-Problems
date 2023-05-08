@@ -1,17 +1,9 @@
 classdef RandomTerrain < otp.bouncingball.BouncingBallProblem
-    % [Name]
-    %  Random Terrain
-    
-    % [Description]
-    %  Creates random terrain through the composition of sinusoidal
-    %  functions.
-    %
-    % [NoVars]
-    %  4
+    %RANDOMTERRAIN Creates random terrain through the composition of sinusoidal functions.
     %
     methods
         function obj = RandomTerrain
-            params.g = otp.utils.PhysicalConstants.EarthGravity;
+            params.Gravity = otp.utils.PhysicalConstants.EarthGravity;
             
             n = 32;
             
@@ -19,8 +11,8 @@ classdef RandomTerrain < otp.bouncingball.BouncingBallProblem
             periods = randn(n, 1);
             phases = randn(n, 1);
             
-            params.ground  = @(x) 0.05*x^2 + sum(magnitudes .* cos(periods * x + phases));
-            params.groundSlope = @(x) 0.1*x - sum(magnitudes .* periods .* sin(periods * x + phases));
+            params.Ground      = @(x) 0.05*x^2 + sum(magnitudes .* cos(periods * x + phases));
+            params.GroundSlope = @(x) 0.1*x - sum(magnitudes .* periods .* sin(periods * x + phases));
             
             y0 = [0; 5; 5; 0];
             tspan = [0; 50];

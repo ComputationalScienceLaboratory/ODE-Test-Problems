@@ -12,7 +12,8 @@ classdef Canonical < otp.quadratic.QuadraticProblem
             
             s = p.Results;
             
-            params.a = s.a;
+            params = otp.quadratic.QuadraticParameters;
+            params.A = s.a;
             params.B = s.B;
             params.C = s.C;
             y0 = 2*ones(size(s.a));

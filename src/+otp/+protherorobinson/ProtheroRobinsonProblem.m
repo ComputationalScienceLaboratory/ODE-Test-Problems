@@ -7,21 +7,21 @@ classdef ProtheroRobinsonProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            lambda = obj.Parameters.lambda;
-            phi = obj.Parameters.phi;
-            dphi = obj.Parameters.dphi;
+            lambda = obj.Parameters.Lambda;
+            phi = obj.Parameters.Phi;
+            dphi = obj.Parameters.DPhi;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.protherorobinson.f(t, y, lambda, phi, dphi), ...
-                otp.Rhs.FieldNames.Jacobian, otp.protherorobinson.jac(lambda, phi, dphi));
+            obj.RHS = otp.RHS(@(t, y) otp.protherorobinson.f(t, y, lambda, phi, dphi), ...
+                'Jacobian', otp.protherorobinson.jacobian(lambda, phi, dphi));
         end
         
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
+        function y = internalSolveExactly(obj, t)
+            if ~isequal(obj.Y0, obj.Parameters.Phi(obj.TimeSpan(1)))
+                error('OTP:noExactSolution', ...
+                    'An exact solution is unavailable for this initial condition');
+            end
             
-            otp.utils.StructParser(newParameters) ...
-                .checkField('lambda', 'finite', 'matrix', 'numeric') ...
-                .checkField('phi', 'function') ...
-                .checkField('dphi', 'function');
+            y = obj.Parameters.Phi(t);
         end
     end
 end

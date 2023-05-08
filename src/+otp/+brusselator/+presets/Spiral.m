@@ -1,22 +1,14 @@
 classdef Spiral < otp.brusselator.BrusselatorProblem
-    % [Name]
-    %  Spiral
-    %
-    % [Description]
-    %  Rapid decay into a fixed orbit
-    %
-    % [NoVars]
-    %  2
-    %
-    % [Citation]
-    %
+    %SPIRAL Brusselator preset with a phase plot that spirals into a stable orbit
+    %   See also otp.brusselator.BrusselatorProblem
     methods
         function obj = Spiral
-            params.a = 1;
-            params.b = 2;
+            params = otp.brusselator.BrusselatorParameters;
+            params.A = 1;
+            params.B = 2;
             
             y0 = [2; 1];
-            tspan = [0 75];
+            tspan = [0, 75];
             
             obj = obj@otp.brusselator.BrusselatorProblem(tspan, y0, params);
         end

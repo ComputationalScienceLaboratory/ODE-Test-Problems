@@ -1,4 +1,15 @@
 classdef TransistorAmplifierProblem < otp.Problem
+    %TRANSISTORAMPLIFIERPROBLEM
+    %
+    % See: 
+    %    Wanner, G., & Hairer, E. (1996). 
+    %    Solving ordinary differential equations II (Vol. 375). 
+    %    Springer Berlin Heidelberg.
+    %
+    % This is a modification of the problem presented in the above to account for a coupled TA.
+    % See Also:
+    %    https://archimede.dm.uniba.it/~testset/problems/transamp.php
+
     methods
         function obj = TransistorAmplifierProblem(timeSpan, y0, parameters)
             obj@otp.Problem('Transistor Amplifier', 8, timeSpan, y0, parameters);
@@ -11,25 +22,14 @@ classdef TransistorAmplifierProblem < otp.Problem
             R = obj.Parameters.R;
             Ub = obj.Parameters.Ub;
             UF = obj.Parameters.UF;
-            alpha = obj.Parameters.alpha;
-            beta = obj.Parameters.beta;
+            alpha = obj.Parameters.Alpha;
+            beta = obj.Parameters.Beta;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.transistoramplifier.f(t, y, C, R, Ub, UF, alpha, beta), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.transistoramplifier.jac(t, y, C, R, Ub, UF, alpha, beta), ...
-                otp.Rhs.FieldNames.Mass, otp.transistoramplifier.mass([], [], C, R, Ub, UF, alpha, beta), ...
-                otp.Rhs.FieldNames.MassSingular, 'yes');
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('C', 'real', 'finite', 'nonnegative') ...
-                .checkField('R', 'real', 'finite', 'nonnegative') ...
-                .checkField('Ub', 'scalar', 'real', 'finite', 'nonnegative') ...
-                .checkField('UF', 'scalar', 'real', 'finite', 'nonnegative') ...
-                .checkField('alpha', 'scalar', 'real', 'finite', 'nonnegative') ...
-                .checkField('beta', 'scalar', 'real', 'finite', 'nonnegative');
+            obj.RHS = otp.RHS(@(t, y) otp.transistoramplifier.f(t, y, C, R, Ub, UF, alpha, beta), ...
+                'Jacobian', @(t, y) otp.transistoramplifier.jacobian(t, y, C, R, Ub, UF, alpha, beta), ...
+                'Mass', otp.transistoramplifier.mass([], [], C, R, Ub, UF, alpha, beta), ...
+                'MassSingular', 'yes', ...
+                'Vectorized', 'on');
         end
     end
 end

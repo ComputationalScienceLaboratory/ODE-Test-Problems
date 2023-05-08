@@ -1,4 +1,5 @@
 classdef AllenCahnProblem < otp.Problem
+    %ALLENCAHNPROBLEM
     
     methods
         function obj = AllenCahnProblem(timeSpan, y0, parameters)
@@ -8,16 +9,22 @@ classdef AllenCahnProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            n = obj.Parameters.n;
-            alpha = obj.Parameters.alpha;
-            beta = obj.Parameters.beta;
-            forcing = obj.Parameters.forcing;
+            n = obj.Parameters.Size;
+            alpha = obj.Parameters.Alpha;
+            beta = obj.Parameters.Beta;
+            forcing = obj.Parameters.Forcing;
+            
+            if obj.NumVars ~= n^2
+                warning('OTP:inconsistentNumVars', ...
+                    'NumVars is %d, but there are %d grid points', ...
+                    obj.NumVars, n^2);
+            end
             
             domain = [0, 1; 0, 1];
             L = otp.utils.pde.laplacian([n n], domain, [1, 1], 'NN');
             
-            if isempty(forcing)
-                f = @(t, y) otp.allencahn.fnoforce(t, y, L, alpha, beta, forcing);
+            if ~isa(forcing, 'function_handle')
+                f = @(t, y) otp.allencahn.fConstForce(t, y, L, alpha, beta, forcing);
             else
                 [x, y] = meshgrid(linspace(0, 1, n), linspace(0, 1, n));
                 x = x(:);
@@ -26,19 +33,9 @@ classdef AllenCahnProblem < otp.Problem
                 f = @(t, y) otp.allencahn.f(t, y, L, alpha, beta, ft);
             end
             
-            obj.Rhs = otp.Rhs(f, ...
-                otp.Rhs.FieldNames.Jacobian, @(t, u) otp.allencahn.jac(t, u, L, alpha, beta, forcing));
+            obj.RHS = otp.RHS(f, ...
+                'Jacobian', @(t, u) otp.allencahn.jacobian(t, u, L, alpha, beta, forcing));
             
-        end
-        
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, ...
-                newTimeSpan, newY0, newParameters)
-            
-            otp.utils.StructParser(newParameters) ...
-                .checkField('alpha', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('beta', 'scalar', 'real', 'finite', 'positive') ...
-                .checkField('forcing', @(f) isempty(f) || isa(f, 'function_handle'));
         end
     end
 end

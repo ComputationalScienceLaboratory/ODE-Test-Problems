@@ -1,16 +1,12 @@
 classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
     
-    properties (SetAccess = immutable, GetAccess = protected)
+    properties (Access = protected)
         Dim
     end
     
     methods
         function obj = CometMovie(dim, varargin)
-            if dim < otp.utils.PhysicalConstants.TwoD || dim > otp.utils.PhysicalConstants.ThreeD
-                error('Cannot make a %dD comet movie', dim);
-            end
-            
-            obj@otp.utils.movie.FancyMovie(varargin{:});
+            obj@otp.utils.movie.FancyMovie('View', dim, varargin{:});
             obj.Dim = dim;
         end
     end
@@ -18,6 +14,7 @@ classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
     methods (Access = protected)
         function gObjects = initAxes(obj, ax, state)
             numComets = obj.getNumComets(state);
+            % OCTAVE BUG: animatedline not supported
             gObjects.lines = arrayfun(@(~) animatedline(ax), 1:numComets);
             gObjects.heads = line(ax, zeros(numComets, 1), 0, 0, 'Marker', 'o', 'LineStyle', 'none');
             for i = 1:numComets
@@ -54,14 +51,16 @@ classdef (Abstract) CometMovie < otp.utils.movie.FancyMovie
             numComets = state.numVars;
         end
         
-        function z = getZPoints(~, ~, ~)
-            z = '3D trajectory not supported';
-            error(z);
+        function x = getXPoints(obj, cometIdx, state)
+            x = otp.utils.compatibility.abstract(obj, cometIdx, state);
         end
-    end
-    
-    methods (Access = protected, Abstract)
-        x = getXPoints(obj, cometIdx, state);
-        y = getYPoints(obj, cometIdx, state);
+        
+        function y = getYPoints(obj, cometIdx, state)
+            y = otp.utils.compatibility.abstract(obj, cometIdx, state);           
+        end
+        
+        function z = getZPoints(obj, cometIdx, state)
+            z = otp.utils.compatibility.abstract(obj, cometIdx, state);           
+        end
     end
 end

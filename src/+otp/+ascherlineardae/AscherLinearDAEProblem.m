@@ -1,9 +1,6 @@
 classdef AscherLinearDAEProblem < otp.Problem
-    %Index-1 DAE problem
-    % Problem description and fortran implementation can be found in
-    % Ascher, Uri. "On symmetric schemes and differential-algebraic equations."
-    % SIAM journal on scientific and statistical computing 10.5 (1989): 937-949.
-    
+    %ASCHERLINEARDAEPROBLEM This is an Index-1 DAE problem
+    %
     methods
         function obj = AscherLinearDAEProblem(timeSpan, y0, parameters)
             obj@otp.Problem('Ascher Linear DAE', 2, timeSpan, y0, parameters);
@@ -12,20 +9,29 @@ classdef AscherLinearDAEProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            beta = obj.Parameters.beta;
+            beta = obj.Parameters.Beta;
             
-            obj.Rhs = otp.Rhs(@(t, y) otp.ascherlineardae.f(t, y, beta), ...
-                otp.Rhs.FieldNames.Jacobian, @(t, y) otp.ascherlineardae.jac(t, y, beta), ...
-                otp.Rhs.FieldNames.Mass, @(t) otp.ascherlineardae.mass(t, [], beta), ...
-                otp.Rhs.FieldNames.MStateDependence, 'none', ...
-                otp.Rhs.FieldNames.MassSingular, 'yes');
+            obj.RHS = otp.RHS(@(t, y) otp.ascherlineardae.f(t, y, beta), ...
+                'Jacobian', @(t, y) otp.ascherlineardae.jacobian(t, y, beta), ...
+                'Mass', @(t) otp.ascherlineardae.mass(t, [], beta), ...
+                'MStateDependence', 'none', ...
+                'MassSingular', 'yes');
         end
         
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
+        function y = internalSolveExactly(obj, t)
+            beta = obj.Parameters.Beta;
+            if ~isequal(obj.Y0, [1; beta])
+                error('OTP:noExactSolution', ...
+                    'An exact solution is unavailable for this initial condition');
+            end
             
-            otp.utils.StructParser(newParameters) ...
-                .checkField('beta', 'scalar', 'real', 'finite');
+            y = [t .* sin(t) + (1 + beta * t) .* exp(-t); ...
+                beta * exp(-t) + sin(t)];
+        end
+        
+        function sol = internalSolve(obj, varargin)
+            sol = internalSolve@otp.Problem(obj, ...
+                'Solver', otp.utils.Solver.StiffNonConstantMass, varargin{:});
         end
     end
 end

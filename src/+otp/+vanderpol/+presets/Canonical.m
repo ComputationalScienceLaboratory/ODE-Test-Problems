@@ -6,9 +6,10 @@ classdef Canonical < otp.vanderpol.VanderpolProblem
             end
             tspan = [0, 100];
             y0 = [2; 0];
-            params.epsilon = epsilon;
+
+            params = otp.vanderpol.VanderpolParameters;
+            params.Epsilon = epsilon;
             obj = obj@otp.vanderpol.VanderpolProblem(tspan, y0, params);            
         end
     end
 end
-

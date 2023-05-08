@@ -1,7 +1,7 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
   <configuration name="ODE Test Problems" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>ODE Test Problems</param.appname>
-    <param.authnamewatermark>Steven Roberts, Andrey Popov, Ardian Sandu</param.authnamewatermark>
+    <param.authnamewatermark>Steven Roberts, Andrey A. Popov, Arash Sarshar, Ardian Sandu</param.authnamewatermark>
     <param.email />
     <param.company>Computational Science Laboratory</param.company>
     <param.summary>A MATLAB suite of initial value problems</param.summary>
@@ -78,10 +78,10 @@
       <param.additional.sw.linux.url />
     </unset>
     <fileset.rootdir>
-      <file>${PROJECT_ROOT}/src</file>
+      <file>${PROJECT_ROOT}/build</file>
     </fileset.rootdir>
     <fileset.rootfiles>
-      <file>${PROJECT_ROOT}/src/+otp</file>
+      <file>${PROJECT_ROOT}/build/+otp</file>
     </fileset.rootfiles>
     <fileset.depfun.included />
     <fileset.depfun.excluded />

@@ -3,7 +3,7 @@ classdef (Abstract) Movie < handle
         DefaultFramerate = 60
     end
     
-    properties (SetAccess = immutable, GetAccess = private)
+    properties (Access = private)
         Config
         Recorder
     end
@@ -25,11 +25,11 @@ classdef (Abstract) Movie < handle
             obj.Config = p.Results;
             switch obj.Config.Save
                 case true
-                    obj.Recorder = otp.utils.movie.recorder.MemoryVideoRecorder;
+                    obj.Recorder = otp.utils.movie.recorder.MemoryRecorder;
                 case false
-                    obj.Recorder = otp.utils.movie.recorder.NullVideoRecorder;
+                    obj.Recorder = otp.utils.movie.recorder.NullRecorder;
                 otherwise
-                    obj.Recorder = otp.utils.movie.recorder.FileVideoRecorder(obj.Config.Save);
+                    obj.Recorder = otp.utils.movie.recorder.FileRecorder(obj.Config.Save);
             end
             obj.FrameRate = obj.Config.FrameRate;
         end
@@ -46,7 +46,9 @@ classdef (Abstract) Movie < handle
             totalSteps = length(t);
             [state.numVars, state.totalSteps] = size(y);
             if length(t) ~= state.totalSteps
-                error('Expected y to have %d columns but has %d', length(t), state.totalSteps);
+                error('OTP:invalidSolution', ...
+                    'Expected y to have %d columns but has %d', ...
+                    length(t), state.totalSteps);
             end
             
             state.t = t;
@@ -100,9 +102,14 @@ classdef (Abstract) Movie < handle
         end
     end
     
-    methods (Access = protected, Abstract)
-        init(obj, fig, state);
-        drawFrame(obj, fig, state);
+    methods (Access = protected)
+        function init(obj, fig, state)
+            otp.utils.compatibility.abstract(obj, fig, state);
+        end
+        
+        function drawFrame(obj, fig, state)
+            otp.utils.compatibility.abstract(obj, fig, state);
+        end
     end
 end
 

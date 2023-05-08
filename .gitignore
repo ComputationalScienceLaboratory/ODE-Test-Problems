@@ -1,3 +1,6 @@
 *.asv
 *.m~
 *.mltbx
+build/
+
+.DS_Store

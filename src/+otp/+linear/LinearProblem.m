@@ -1,6 +1,6 @@
 classdef LinearProblem < otp.Problem
     properties (SetAccess = private)
-        RhsPartitions
+       RHSPartitions
     end
     
     properties (Dependent)
@@ -13,36 +13,37 @@ classdef LinearProblem < otp.Problem
         end
         
         function p = get.NumPartitions(obj)
-            p = length(obj.Parameters.A);
+            p = length(obj.Parameters.Lambda);
         end
     end
     
     methods (Access = private)
-        function Asum = computeASum(obj)
-            Asum = obj.Parameters.A{1};
+        function lambdaSum = computeASum(obj)
+            lambdaSum = obj.Parameters.Lambda{1};
             for i = 2:obj.NumPartitions
-                Asum = Asum + obj.Parameters.A{i};
+                lambdaSum = lambdaSum + obj.Parameters.Lambda{i};
             end
         end
         
-        function rhs = createRhs(~, A)
-            rhs = otp.Rhs(@(~, y) A * y, ...
-                otp.Rhs.FieldNames.Jacobian, A, ...
-                otp.Rhs.FieldNames.JacobianVectorProduct, @(~, ~, v) A * v, ...
-                otp.Rhs.FieldNames.JacobianAdjointVectorProduct, @(~, ~, v) A' * v);
+        function rhs = createRHS(~, lambda)
+            rhs = otp.RHS(@(~, y) lambda * y, ...
+                'Jacobian', lambda, ...
+                'JacobianVectorProduct', @(~, ~, v) lambda * v, ...
+                'JacobianAdjointVectorProduct', @(~, ~, v) lambda' * v);
         end
     end
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            obj.Rhs = obj.createRhs(obj.computeASum());
-            obj.RhsPartitions = cellfun(@obj.createRhs, obj.Parameters.A);
+            obj.RHS = obj.createRHS(obj.computeASum());
+            % OCTAVE FIX: class arrays are not supported so a cell array must be use
+            obj.RHSPartitions = cellfun(@obj.createRHS, obj.Parameters.Lambda, 'UniformOutput', false);
         end
         
-        function validateNewState(obj, newTimeSpan, newY0, newParameters)
-            validateNewState@otp.Problem(obj, newTimeSpan, newY0, newParameters)
-            otp.utils.StructParser(newParameters).checkField('A', 'cell', ...
-                @(A) all(cellfun(@(m) ismatrix(m) && isnumeric(m), A)));
+        function y = internalSolveExactly(obj, t)
+            for i = length(t):-1:1
+                y(:, i) = expm((t(i) - obj.TimeSpan(1)) * obj.RHS.Jacobian) * obj.Y0;
+            end
         end
     end
 end
