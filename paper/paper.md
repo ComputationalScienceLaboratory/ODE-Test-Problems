@@ -7,26 +7,29 @@ tags:
 - Octave
 - Matlab
 - Initial Value Problems
+- Ordinary Differential Equations
 
 authors:
   - name: Steven Roberts
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0002-7225-2501
     corresponding: true # (This is how to denote the corresponding author)
     equal-contrib: true
-    affiliation: "1, 2" # (Multiple affiliations must be quoted)
+    affiliation: "1" # (Multiple affiliations must be quoted)
   - name: Andrey A. Popov
     equal-contrib: true # (This is how you can denote equal contributions between multiple authors)
+    orcid: 0000-0002-7726-6224
     affiliation: 2
   - name: Arash Sarshar
     affiliation: 3
+    orcid: 0000-0002-6633-8915
   - name: Adrian Sandu
     affiliation: 3
 affiliations:
- - name: Lyman Spitzer, Jr. Fellow, Princeton University, USA
+ - name: Lawrence Livermore National Laboratory
    index: 1
- - name: Institution Name, Country
+ - name: Oden Institute for Computational Engineering & Sciences, The University of Texas at Austin
    index: 2
- - name: Virginia Tech
+ - name: Department of Computer Science and Applications, Virginia Tech
    index: 3
 
 date: 01 May 2023
@@ -42,7 +45,7 @@ ODE Test Problems (`OTP`) is an object-oriented OCTAVE/MATLAB package offering a
 
 # Statement of need
 
-Test problems are essential for developing and evaluating numerical methods for solving differential equations. `OTP` includes an broad assortment of test problems that have been extensively used in the literature to investigate numerical methods. These problems range from simple linear equations to complex chaotic systems of nonlinear differential equations. It can be used to evaluate the accuracy, stability, and convergence of numerical methods by comparing the numerical solutions obtained by different methods to reference or known exact solutions. Many of the existing test problems are quipped with parameters and derivative functions that can be used in data assimilation and parameter estimation research projects. Another important application of this packages is to investigate how numerical methods behave in the presence of oscillations and chaos. 
+Test problems are essential for developing and evaluating numerical methods for solving differential equations. `OTP` includes a broad assortment of test problems that have been extensively used in the literature to investigate numerical methods. These problems range from simple linear equations to complex chaotic systems of nonlinear differential equations. It can be used to evaluate the accuracy, stability, and convergence of numerical methods by comparing the numerical solutions obtained by different methods to reference or known exact solutions. Many of the existing test problems are quipped with parameters and derivative functions that can be used in data assimilation and parameter estimation research projects. Another important application of this packages is to investigate how numerical methods behave in the presence of oscillations and chaos. Since its launch, `OTP` has been  used in research by the scientific computing community [@glandon2022linearly,@glandon2020biorthogonal,@cooper2021augmented]. 
 
 # Formulation
 
