@@ -46,7 +46,7 @@ ODE Test Problems (`OTP`) is an object-oriented OCTAVE/MATLAB package offering a
 
 # Statement of need
 
-Test problems are essential for developing and evaluating numerical methods for solving differential equations [@Enright1975Mar; @SODERLIND2006244]. `OTP` includes a broad assortment of test problems that have been extensively used in the literature to investigate numerical methods. These problems range from simple linear equations to complex chaotic systems of nonlinear differential equations. The package can be used to evaluate the accuracy, stability, and convergence of numerical methods by comparing the numerical solutions obtained by different methods to reference or known exact solutions. Many of the existing test problems are quipped with parameters and derivative functions that can be used in data assimilation and parameter estimation research projects. Another important application of this packages is to investigate how numerical methods behave in the presence of oscillations and chaos. Since its launch, `OTP` has been used  [@glandon2022linearly; @glandon2020biorthogonal; @cooper2021augmented; @roberts2021parallel] and referenced [@fish2023adaptive, @subrahmanya2021ensemble] by the scientific computing community. 
+Test problems are essential for developing and evaluating numerical methods for solving differential equations [@thompson1987collection; @Enright1975Mar; @SODERLIND2006244]. `OTP` includes a broad assortment of test problems that have been extensively used in the literature to investigate numerical methods. These problems range from simple linear equations to complex chaotic systems of nonlinear differential equations. The package can be used to evaluate the accuracy, stability, and convergence of numerical methods by comparing the numerical solutions obtained by different methods to reference or known exact solutions. Many of the existing test problems are quipped with parameters and derivative functions that can be used in data assimilation and parameter estimation research projects. Another important application of this packages is to investigate how numerical methods behave in the presence of oscillations and chaos. Since its launch, `OTP` has been used  [@glandon2022linearly; @glandon2020biorthogonal; @cooper2021augmented; @roberts2021parallel] and referenced [@fish2023adaptive, @subrahmanya2021ensemble] by the scientific computing community. 
 
 A number of existing test problem packages are available in Julia [@rackauckas2017differentialequations] and fortran with R interface [@MAZZIA20124119].  While there are some initial value test problems written in Matlab for a variety of scientific applications, they are currently dispersed and not organized into a centralized package with a uniform API.  A well designed collection of test problems for Octave with Matlab compatibility would greatly facilitate numerical method comparison and benchmarking across various scientific fields, ultimately leading to the development of more precise and efficient computational methods.
 
@@ -56,10 +56,10 @@ All test problems in `OTP` are considered as a first-order  differential-algebra
 
 $$
     \mathbf{M}\;Y'(t) = \mathbf{F}(t,Y), \qquad
-    Y(0)  = Y0,
+    Y(0)  = Y_0,
 $$
 
-where $Y(t)$ is the time-dependent solution to the problem, $F(t,Y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. $\mathbf{M}$ is the mass-matrix for the differential-algebraic system and when the test problem is an ordinary differential equation, $\mathbf{M}$ is the Identity matrix. The initial condition $Y0$ specifies the value of $Y$ at the initial time $t = 0$.
+where $Y(t)$ is the time-dependent solution to the problem, $F(t,Y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. $\mathbf{M}$ is the mass-matrix for the differential-algebraic system and when the test problem is an ordinary differential equation, $\mathbf{M}$ is the Identity matrix. The initial condition $Y_0$ specifies the value of $Y$ at the initial time $t = 0$.
 
 
 # Features
