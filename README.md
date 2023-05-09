@@ -1,5 +1,12 @@
 # ODE Test Problems
 
+Use this button to run a tutorial for `ODE Test Problems` in a stand-alone Jupyter Notebook environment: 
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ComputationalScienceLaboratory/ODE-Test-Problems.git/octave-notebook?labpath=notebooks%2Fquick-start.ipynb)
+
+
+## About this package
+
 ODE Test Problems (OTP) is an object-oriented MATLAB/GNU Octave package offering
 a broad range of ordinary differential equations, partial differential
 equations, and differential algebraic equations which can be used to test
@@ -55,7 +62,4 @@ options = odeset('Jacobian', problem.RHS.Jacobian);
 
 % Plot the phase space with a custom title
 problem.plotPhaseSpace(t, y, 'Title', 'The Circle of Life');
-
-% Create a movie and write to file
-mov = problem.movie(t, y, 'Save', 'lotka-volterra.avi');
 ```
