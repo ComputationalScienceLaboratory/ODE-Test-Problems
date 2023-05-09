@@ -1,0 +1,3 @@
+dependencies:
+  - octave
+  - octave_kernel
