@@ -1,8 +1,9 @@
+# ODE Test Problems
+
 Use this button to run a tutorial for `ODE Test Problems` in a stand-alone Jupyter Notebook environment: 
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ComputationalScienceLaboratory/ODE-Test-Problems.git/octave-notebook?labpath=notebooks%2Fquick-start.ipynb)
-
-# ODE Test Problems
+---
 
 ODE Test Problems (OTP) is an object-oriented MATLAB/GNU Octave package offering
 a broad range of ordinary differential equations, partial differential
