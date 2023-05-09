@@ -1,13 +1,6 @@
 Use this button to run a tutorial for `ODE Test Problems` in a stand-alone Jupyter Notebook environment: 
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ComputationalScienceLaboratory/ODE-Test-Problems.git/HEAD?labpath=%2Fnotebooks%2Fquick-start.ipynb)
-# ODE-Test Problems on binder
-
-
-
-And this will use a meta kernel
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/elswit/otp-binder.git/HEAD?labpath=quick-start.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ComputationalScienceLaboratory/ODE-Test-Problems.git/octave-notebook?labpath=notebooks%2Fquick-start.ipynb)
 
 # ODE Test Problems
 
