@@ -46,9 +46,9 @@ ODE Test Problems (`OTP`) is an object-oriented OCTAVE/MATLAB package offering a
 
 # Statement of need
 
-Test problems are essential for developing and evaluating numerical methods for solving differential equations [@Enright1975Mar; @SODERLIND2006244]. `OTP` includes a broad assortment of test problems that have been extensively used in the literature to investigate numerical methods. These problems range from simple linear equations to complex chaotic systems of nonlinear differential equations. The package can be used to evaluate the accuracy, stability, and convergence of numerical methods by comparing the numerical solutions obtained by different methods to reference or known exact solutions. Many of the existing test problems are quipped with parameters and derivative functions that can be used in data assimilation and parameter estimation research projects. Another important application of this packages is to investigate how numerical methods behave in the presence of oscillations and chaos. Since its launch, `OTP` has been used (see [@glandon2022linearly; @glandon2020biorthogonal; @cooper2021augmented; @roberts2021parallel]) and referenced [@fish2023adaptive, @subrahmanya2021ensemble] by the scientific computing community. 
+Test problems are essential for developing and evaluating numerical methods for solving differential equations [@Enright1975Mar; @SODERLIND2006244]. `OTP` includes a broad assortment of test problems that have been extensively used in the literature to investigate numerical methods. These problems range from simple linear equations to complex chaotic systems of nonlinear differential equations. The package can be used to evaluate the accuracy, stability, and convergence of numerical methods by comparing the numerical solutions obtained by different methods to reference or known exact solutions. Many of the existing test problems are quipped with parameters and derivative functions that can be used in data assimilation and parameter estimation research projects. Another important application of this packages is to investigate how numerical methods behave in the presence of oscillations and chaos. Since its launch, `OTP` has been used  [@glandon2022linearly; @glandon2020biorthogonal; @cooper2021augmented; @roberts2021parallel] and referenced [@fish2023adaptive, @subrahmanya2021ensemble] by the scientific computing community. 
 
- While some initial value test problems written in Matlab exist for various scientific applications, they are currently dispersed and not organized into a centralized package.  An organized and centralized collection of test problems would greatly facilitate the comparison and benchmarking of numerical methods across different scientific fields, ultimately contributing to the development of more accurate and efficient computational methods.
+A number of existing test problem packages are available in Julia [@rackauckas2017differentialequations] and fortran with R interface [@MAZZIA20124119].  While there are some initial value test problems written in Matlab for a variety of scientific applications, they are currently dispersed and not organized into a centralized package with a uniform API.  A well designed collection of test problems for Octave with Matlab compatibility would greatly facilitate numerical method comparison and benchmarking across various scientific fields, ultimately leading to the development of more precise and efficient computational methods.
 
 # Formulation
 
@@ -113,10 +113,11 @@ problem.movie(sol);
 sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
               odeset('Jacobian', problem.RHS.Jacobian));
 ```
- ## Adding new test problems 
+
+## Adding new test problems 
 
 # Acknowledgments
 
-We'd like to thank Drs. M. Narayanamurthi and S. R. Glandon as well as A. Subrahmanya , B. Regmi, R. Tuggle, R. Gomillion, and the rest of the Computational Science Lab at Virginia Tech for their feedback and support of this project.
+We would like to thank Drs. M. Narayanamurthi and S. R. Glandon as well as A. Subrahmanya , B. Regmi, R. Tuggle, R. Gomillion, and the rest of the Computational Science Lab at Virginia Tech for their feedback and support of this project.
 
 # References
