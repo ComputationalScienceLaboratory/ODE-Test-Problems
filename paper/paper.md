@@ -114,7 +114,6 @@ sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
               odeset('Jacobian', problem.RHS.Jacobian));
 ```
 
-## Adding new test problems 
 
 # Acknowledgments
 
