@@ -20,30 +20,36 @@ classdef RangAngermannProblem < otp.Problem
                     'NumVars is %d, but there are %d grid points', ...
                     obj.NumVars, n^2);
             end
+
+            %full domain
+            nfull = n + 2;
             
-            domainx = [0, 1];
-            domainy = [0, 1];
-            domain = [domainx; domainy];
-            L = otp.utils.pde.laplacian([n+2 n+2], domain, [1, 1], 'DD');
-            Dx = otp.utils.pde.Dd([n+2 n+2], domainx, 1, 2, 'D');
-            Dy = otp.utils.pde.Dd([n+2 n+2], domainy, 2, 2, 'D');
+            hx = 1/(n + 3);
+            hy = 1/(n + 3);
+            Ddx = spdiags(repmat([-1 1 0]/(hx), nfull, 1), [-1, 0, 1], nfull, nfull);
+            Dx = kron(speye(nfull), Ddx);
 
-            xb = linspace(0, 1, n + 2);
-            yb = linspace(0, 1, n + 2);
+            Ddy = spdiags(repmat([-1 1 0]/(hy), nfull, 1), [-1, 0, 1], nfull, nfull);
+            Dy = kron(Ddy, speye(nfull));
 
-            [x, y] = meshgrid(xb, yb);
+            Ldx = spdiags(repmat([1 -2 1]/(hx^2), nfull, 1), [-1, 0, 1], nfull, nfull);
+            Ldy = spdiags(repmat([1 -2 1]/(hy^2), nfull, 1), [-1, 0, 1], nfull, nfull);
+
+
+            L = kron(speye(nfull), Ldx) + kron(Ldy, speye(nfull));
+
+            xb = linspace(0, 1, nfull);
+            yb = linspace(0, 1, nfull);
+
+            [y, x] = meshgrid(xb, yb);
 
             xsmall = x(2:(end - 1), 2:(end - 1));
             ysmall = y(2:(end - 1), 2:(end - 1));
 
-            hx = 1/(n + 3);
-            hy = 1/(n + 3);
-            domainxsmall = [hx, 1 - hx];
-            domainysmall = [hy, 1 - hy];
-            domainsmall = [domainxsmall; domainysmall];
-            Lsmall = otp.utils.pde.laplacian([n, n], domainsmall, [1, 1], 'DD');
-            Dxsmall = otp.utils.pde.Dd([n, n], domainxsmall, 1, 2, 'D');
-            Dysmall = otp.utils.pde.Dd([n, n], domainysmall, 2, 2, 'D');
+            Lsmall = kron(speye(n), Ldx(2:(end - 1), 2:(end - 1))) ...
+                + kron(Ldy(2:(end - 1), 2:(end - 1)), speye(n));
+            Dxsmall = kron(speye(n), Ddx(2:(end - 1), 2:(end - 1)));
+            Dysmall = kron(Ddy(2:(end - 1), 2:(end - 1)), speye(n));
 
             Md = [ones(n^2, 1); zeros(n^2, 1)];
             M = spdiags(Md, 0, 2*(n^2), 2*(n^2));

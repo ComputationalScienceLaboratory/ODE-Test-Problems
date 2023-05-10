@@ -19,11 +19,13 @@ Lv = L*v;
 Dxu = Dx*u;
 Dyu = Dy*u;
 
+xDxu = reshape(x, [], 1).*Dxu;
+yDyu = reshape(y, [], 1).*Dyu;
 
 f1 = reshape(forcingu(t, x, y), [], 1);
 f2 = reshape(forcingv(t, x, y), [], 1);
 
-dudt = f1 + Lu + Lv - reshape(x, [], 1).*Dxu - reshape(y, [], 1).*Dyu + u - v;
+dudt = f1 + Lu + Lv - xDxu - yDyu + u - v;
 valg = f2 + Lu + Lv - u.^2 - v.^2;
 
 dudt = reshape(dudt, n + 2, n + 2);

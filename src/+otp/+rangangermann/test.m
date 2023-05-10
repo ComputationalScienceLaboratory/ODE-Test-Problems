@@ -4,14 +4,14 @@ tend = 1;
 
 model = otp.rangangermann.presets.Canonical('Size', n);
 sol = ode15s(model.RHS.F, [0, tend], model.Y0, ...
-    odeset('Mass', model.RHS.Mass, 'MassSingular','yes', 'RelTol', 1e-9));
+    odeset('Mass', model.RHS.Mass, 'MassSingular','yes', 'RelTol', 1e-3, 'Jacobian', model.RHS.Jacobian));
 uv = sol.y(:, end);
 
 
 xb = linspace(0, 1, n + 2);
 yb = linspace(0, 1, n + 2);
 
-[x, y] = meshgrid(xb, yb);
+[y, x] = meshgrid(xb, yb);
 
 exactu = @(t, x, y) (2*x + y).*sin(t);
 exactv = @(t, x, y) (x + 3*y).*cos(t);
@@ -42,7 +42,7 @@ for i = 1:numel(sol.x)
 
 end
 
-%f = model.RHS.F;
+f = model.RHS.F;
 
 % Japprox = model.RHS.Jacobian(0, uv);
 % 
@@ -58,15 +58,12 @@ end
 % end
 % 
 % imagesc(J - Japprox); colorbar
+% 
+% return
 
 
 usmall = uv(1:(end/2));
 vsmall = uv((end/2 + 1):end);
-
-xb = linspace(0, 1, n + 2);
-yb = linspace(0, 1, n + 2);
-
-[x, y] = meshgrid(xb, yb);
 
 xsmall = reshape(x(2:(end - 1), 2:(end - 1)), [], 1);
 ysmall = reshape(y(2:(end - 1), 2:(end - 1)), [], 1);

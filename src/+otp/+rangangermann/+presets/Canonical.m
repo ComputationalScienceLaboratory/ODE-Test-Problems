@@ -26,7 +26,7 @@ classdef Canonical < otp.rangangermann.RangAngermannProblem
 
             x = linspace(0, 1, n + 2);
             y = linspace(0, 1, n + 2);
-            [xfull, yfull] = meshgrid(x, y);
+            [yfull, xfull] = meshgrid(x, y);
 
             x = xfull(2:(end-1), 2:(end-1));
             y = yfull(2:(end-1), 2:(end-1));
