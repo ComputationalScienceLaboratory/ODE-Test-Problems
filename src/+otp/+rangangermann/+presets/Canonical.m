@@ -5,22 +5,25 @@ classdef Canonical < otp.rangangermann.RangAngermannProblem
         function obj = Canonical(varargin)
             
             p = inputParser;
-            p.addParameter('Size', 32);
+            p.addParameter('Size', 256);
 
+            % exact solution
             exactu = @(t, x, y) (2*x + y).*sin(t);
             exactv = @(t, x, y) (x + 3*y).*cos(t);
 
             p.parse(varargin{:});
             
             s = p.Results;
-            
             n = s.Size;
 
             params = otp.rangangermann.RangAngermannParameters;
             params.Size = n;
+            % the forcing functions are based on the excact solution
             params.ForcingU = @(t, x, y) (2*x + y).*cos(t) + 2*x.*sin(t) + y.*sin(t) ...
                 - exactu(t, x, y) + exactv(t, x, y);
             params.ForcingV = @(t, x, y) exactu(t, x, y).^2 + exactv(t, x, y).^2;
+
+            % the boundary conditions are the exact solutions
             params.BoundaryConditionsU = exactu;
             params.BoundaryConditionsV = exactv;
 
