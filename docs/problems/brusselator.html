@@ -1,53 +1,111 @@
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-
-    <title>Brusselator &#8212; ODE Test Problems 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
-    
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brusselator &mdash; ODE Test Problems 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="CUSP" href="cusp.html" />
     <link rel="prev" title="Bouncing Ball" href="bouncingball.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../mat-modindex.html" title="MATLAB Module Index"
-             >matlab index</a> |</li>
-        <li class="right" >
-          <a href="cusp.html" title="CUSP"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="bouncingball.html" title="Bouncing Ball"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Brusselator</a></li> 
-      </ul>
-    </div>  
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ODE Test Problems
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="allencahn.html">Allen Cahn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arenstorf.html">Arenstorf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ascherlineardae.html">Ascher Linear DAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bouncingball.html">Bouncing Ball</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Brusselator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-+otp.+brusselator.+presets">Presets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cusp.html">CUSP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="e5.html">E5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hires.html">HIRES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inverterchain.html">Inverter Chain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kpr.html">KPR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lienard.html">Lienard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linear.html">Linear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lorenz63.html">Lorenz 63</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lorenz96.html">Lorenz 96</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lotkavolterra.html">Lotka Volterra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nbody.html">NBody</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oregonator.html">Oregonator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pendulum.html">Pendulum</a></li>
+<li class="toctree-l1"><a class="reference internal" href="protherorobinson.html">Prothero Robinson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadratic.html">Quadratic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quasigeostrophic.html">Quasi Geostrophic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robertson.html">Robertson</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sanzserna.html">Sanz Serna</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transistoramplifier.html">Transistor Amplifier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trigonometricdae.html">Trigonometric DAE</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vanderpol.html">Vanderpol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="zlakinetics.html">Zla Kinetics</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ODE Test Problems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Brusselator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/problems/brusselator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="module-+otp.+brusselator">
-<span id="brusselator"></span><h1>Brusselator<a class="headerlink" href="#module-+otp.+brusselator" title="Permalink to this heading">¶</a></h1>
+<span id="brusselator"></span><h1>Brusselator<a class="headerlink" href="#module-+otp.+brusselator" title="Permalink to this heading"></a></h1>
 <dl class="mat class">
 <dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorProblem">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.</span></span><span class="sig-name descname"><span class="pre">BrusselatorProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.</span></span><span class="sig-name descname"><span class="pre">BrusselatorProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.Problem</span></code></p>
 <p>BRUSSELATORPROBLEM A two-variable model for an autocatalytic reaction
 The Brusselator chemical reaction is given by</p>
@@ -81,21 +139,21 @@ Biology, vol. 30, no. 2, Elsevier BV, Feb. 1971, pp. 267–284. <a class="refere
 <p>See also otp.brusselator.BrusselatorParameters, otp.Problem</p>
 <dl class="mat attribute">
 <dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorProblem.RHSLinear">
-<span class="sig-name descname"><span class="pre">RHSLinear</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.RHSLinear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">RHSLinear</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.RHSLinear" title="Permalink to this definition"></a></dt>
 <dd><p>RHSLINEAR Right-hand side containing the linear terms [-(b + 1)X; bX]
 See also otp.brusselator.BrusselatorProblem.RHSNonlinear, otp.RHS</p>
 </dd></dl>
 
 <dl class="mat attribute">
 <dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorProblem.RHSNonlinear">
-<span class="sig-name descname"><span class="pre">RHSNonlinear</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.RHSNonlinear" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">RHSNonlinear</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.RHSNonlinear" title="Permalink to this definition"></a></dt>
 <dd><p>RHSNONLINEAR Right-hand side containing the nonlinear terms [1 + aX²Y; -aX²Y]
 See also otp.brusselator.BrusselatorProblem.RHSLinear, otp.RHS</p>
 </dd></dl>
 
 <dl class="mat method">
 <dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorProblem.BrusselatorProblem">
-<span class="sig-name descname"><span class="pre">BrusselatorProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.BrusselatorProblem" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">BrusselatorProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+brusselator.BrusselatorProblem.BrusselatorProblem" title="Permalink to this definition"></a></dt>
 <dd><p>BRUSSELATORPROBLEM Create a Brusselator problem object
 OBJ = BrusselatorProblem(TIMESPAN, Y0, PARAMETERS) constructs a BRUSSELATORPROBLEM with time span
 TIMESPAN, initial condition Y0, and parameters PARAMETERS. PARAMETERS should be of type
@@ -106,21 +164,21 @@ otp.brusselator.BrusselatorParameters.</p>
 </dd></dl>
 
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
 <dl class="mat class">
 <dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorParameters">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.</span></span><span class="sig-name descname"><span class="pre">BrusselatorParameters</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorParameters" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.</span></span><span class="sig-name descname"><span class="pre">BrusselatorParameters</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorParameters" title="Permalink to this definition"></a></dt>
 <dd><p>BRUSSELATORPARAMETERS Parameters for the Brusselator problem
 See also otp.brusselator.BrusselatorProblem</p>
 <dl class="mat attribute">
 <dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorParameters.A">
-<span class="sig-name descname"><span class="pre">A</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorParameters.A" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">A</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorParameters.A" title="Permalink to this definition"></a></dt>
 <dd><p>A concentration of excess reactant A in the Brusselator reaction</p>
 </dd></dl>
 
 <dl class="mat attribute">
 <dt class="sig sig-object mat" id="+otp.+brusselator.BrusselatorParameters.B">
-<span class="sig-name descname"><span class="pre">B</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorParameters.B" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">B</span></span><a class="headerlink" href="#+otp.+brusselator.BrusselatorParameters.B" title="Permalink to this definition"></a></dt>
 <dd><p>B concentration of excess reactant B in the Brusselator reaction</p>
 </dd></dl>
 
@@ -128,10 +186,10 @@ See also otp.brusselator.BrusselatorProblem</p>
 
 </section>
 <section id="module-+otp.+brusselator.+presets">
-<span id="presets"></span><h2>Presets<a class="headerlink" href="#module-+otp.+brusselator.+presets" title="Permalink to this heading">¶</a></h2>
+<span id="presets"></span><h2>Presets<a class="headerlink" href="#module-+otp.+brusselator.+presets" title="Permalink to this heading"></a></h2>
 <dl class="mat class">
 <dt class="sig sig-object mat" id="+otp.+brusselator.+presets.Canonical">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.presets.</span></span><span class="sig-name descname"><span class="pre">Canonical</span></span><a class="headerlink" href="#+otp.+brusselator.+presets.Canonical" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.presets.</span></span><span class="sig-name descname"><span class="pre">Canonical</span></span><a class="headerlink" href="#+otp.+brusselator.+presets.Canonical" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.brusselator.presets.Periodic</span></code></p>
 <p>CANONICAL Default Brusselator preset with a periodic solution
 See also otp.brusselator.presets.Periodic, otp.brusselator.BrusselatorProblem</p>
@@ -139,7 +197,7 @@ See also otp.brusselator.presets.Periodic, otp.brusselator.BrusselatorProblem</p
 
 <dl class="mat class">
 <dt class="sig sig-object mat" id="+otp.+brusselator.+presets.Decay">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.presets.</span></span><span class="sig-name descname"><span class="pre">Decay</span></span><a class="headerlink" href="#+otp.+brusselator.+presets.Decay" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.presets.</span></span><span class="sig-name descname"><span class="pre">Decay</span></span><a class="headerlink" href="#+otp.+brusselator.+presets.Decay" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.brusselator.BrusselatorProblem</span></code></p>
 <p>DECAY Brusselator preset with a solution that decays towards a steady state
 See also otp.brusselator.BrusselatorProblem</p>
@@ -147,7 +205,7 @@ See also otp.brusselator.BrusselatorProblem</p>
 
 <dl class="mat class">
 <dt class="sig sig-object mat" id="+otp.+brusselator.+presets.Periodic">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.presets.</span></span><span class="sig-name descname"><span class="pre">Periodic</span></span><a class="headerlink" href="#+otp.+brusselator.+presets.Periodic" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.presets.</span></span><span class="sig-name descname"><span class="pre">Periodic</span></span><a class="headerlink" href="#+otp.+brusselator.+presets.Periodic" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.brusselator.BrusselatorProblem</span></code></p>
 <p>PERIODIC Brusselator preset with a periodic solution
 See also otp.brusselator.BrusselatorProblem</p>
@@ -155,7 +213,7 @@ See also otp.brusselator.BrusselatorProblem</p>
 
 <dl class="mat class">
 <dt class="sig sig-object mat" id="+otp.+brusselator.+presets.Spiral">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.presets.</span></span><span class="sig-name descname"><span class="pre">Spiral</span></span><a class="headerlink" href="#+otp.+brusselator.+presets.Spiral" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.brusselator.presets.</span></span><span class="sig-name descname"><span class="pre">Spiral</span></span><a class="headerlink" href="#+otp.+brusselator.+presets.Spiral" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.brusselator.BrusselatorProblem</span></code></p>
 <p>SPIRAL Brusselator preset with a phase plot that spirals into a stable orbit
 See also otp.brusselator.BrusselatorProblem</p>
@@ -165,79 +223,34 @@ See also otp.brusselator.BrusselatorProblem</p>
 </section>
 
 
-            <div class="clearer"></div>
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h3><a href="../index.html">Table of Contents</a></h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="allencahn.html">Allen Cahn</a></li>
-<li class="toctree-l1"><a class="reference internal" href="arenstorf.html">Arenstorf</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ascherlineardae.html">Ascher Linear DAE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="bouncingball.html">Bouncing Ball</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Brusselator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cusp.html">CUSP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="e5.html">E5</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hires.html">HIRES</a></li>
-<li class="toctree-l1"><a class="reference internal" href="inverterchain.html">Inverter Chain</a></li>
-<li class="toctree-l1"><a class="reference internal" href="kpr.html">KPR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lienard.html">Lienard</a></li>
-<li class="toctree-l1"><a class="reference internal" href="linear.html">Linear</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lorenz63.html">Lorenz 63</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lorenz96.html">Lorenz 96</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lotkavolterra.html">Lotka Volterra</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nbody.html">NBody</a></li>
-<li class="toctree-l1"><a class="reference internal" href="oregonator.html">Oregonator</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pendulum.html">Pendulum</a></li>
-<li class="toctree-l1"><a class="reference internal" href="protherorobinson.html">Prothero Robinson</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quadratic.html">Quadratic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quasigeostrophic.html">Quasi Geostrophic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="robertson.html">Robertson</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sanzserna.html">Sanz Serna</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transistoramplifier.html">Transistor Amplifier</a></li>
-<li class="toctree-l1"><a class="reference internal" href="trigonometricdae.html">Trigonometric DAE</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vanderpol.html">Vanderpol</a></li>
-<li class="toctree-l1"><a class="reference internal" href="zlakinetics.html">Zla Kinetics</a></li>
-</ul>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="bouncingball.html" class="btn btn-neutral float-left" title="Bouncing Ball" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cusp.html" class="btn btn-neutral float-right" title="CUSP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Steven Roberts, Andrey A Popov, Arash Sarshar, Adrian Sandu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../mat-modindex.html" title="MATLAB Module Index"
-             >matlab index</a> |</li>
-        <li class="right" >
-          <a href="cusp.html" title="CUSP"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="bouncingball.html" title="Bouncing Ball"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Brusselator</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2023, Steven Roberts, Andrey A Popov, Arash Sarshar, Adrian Sandu.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
-    </div>
-  </body>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>

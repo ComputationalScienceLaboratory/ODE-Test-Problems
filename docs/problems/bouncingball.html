@@ -1,123 +1,57 @@
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-
-    <title>Bouncing Ball &#8212; ODE Test Problems 0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
-    
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bouncing Ball &mdash; ODE Test Problems 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Brusselator" href="brusselator.html" />
     <link rel="prev" title="Ascher Linear DAE" href="ascherlineardae.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../mat-modindex.html" title="MATLAB Module Index"
-             >matlab index</a> |</li>
-        <li class="right" >
-          <a href="brusselator.html" title="Brusselator"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="ascherlineardae.html" title="Ascher Linear DAE"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Bouncing Ball</a></li> 
-      </ul>
-    </div>  
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <section id="module-+otp.+bouncingball">
-<span id="bouncing-ball"></span><h1>Bouncing Ball<a class="headerlink" href="#module-+otp.+bouncingball" title="Permalink to this heading">¶</a></h1>
-<dl class="mat class">
-<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallProblem">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.</span></span><span class="sig-name descname"><span class="pre">BouncingBallProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallProblem" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.Problem</span></code></p>
-</dd></dl>
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-<section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h2>
-<dl class="mat class">
-<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallParameters">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.</span></span><span class="sig-name descname"><span class="pre">BouncingBallParameters</span></span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallParameters" title="Permalink to this definition">¶</a></dt>
-<dd><p>BOUNCINGBALLPARAMETERS</p>
-<dl class="mat attribute">
-<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallParameters.Gravity">
-<span class="sig-name descname"><span class="pre">Gravity</span></span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallParameters.Gravity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gravity defines the magnitude of acceleration towards the ground</p>
-</dd></dl>
-
-<dl class="mat attribute">
-<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallParameters.Ground">
-<span class="sig-name descname"><span class="pre">Ground</span></span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallParameters.Ground" title="Permalink to this definition">¶</a></dt>
-<dd><p>Ground is a function defining the ground in terms of space</p>
-</dd></dl>
-
-<dl class="mat attribute">
-<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallParameters.GroundSlope">
-<span class="sig-name descname"><span class="pre">GroundSlope</span></span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallParameters.GroundSlope" title="Permalink to this definition">¶</a></dt>
-<dd><p>GroundSlope is the slope (derivative) of the ground</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-+otp.+bouncingball.+presets">
-<span id="presets"></span><h2>Presets<a class="headerlink" href="#module-+otp.+bouncingball.+presets" title="Permalink to this heading">¶</a></h2>
-<dl class="mat class">
-<dt class="sig sig-object mat" id="+otp.+bouncingball.+presets.Canonical">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.presets.</span></span><span class="sig-name descname"><span class="pre">Canonical</span></span><a class="headerlink" href="#+otp.+bouncingball.+presets.Canonical" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.bouncingball.BouncingBallProblem</span></code></p>
-<p>CANONICAL The ball has no horizontal velocity, and bounces on a perfectly flat surface.</p>
-</dd></dl>
-
-<dl class="mat class">
-<dt class="sig sig-object mat" id="+otp.+bouncingball.+presets.Parabola">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.presets.</span></span><span class="sig-name descname"><span class="pre">Parabola</span></span><a class="headerlink" href="#+otp.+bouncingball.+presets.Parabola" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.bouncingball.BouncingBallProblem</span></code></p>
-<p>PARABOLA The ball bounces on a parabola, starting slightly off-center as to create
-an interesting trajectory.</p>
-</dd></dl>
-
-<dl class="mat class">
-<dt class="sig sig-object mat" id="+otp.+bouncingball.+presets.RandomTerrain">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.presets.</span></span><span class="sig-name descname"><span class="pre">RandomTerrain</span></span><a class="headerlink" href="#+otp.+bouncingball.+presets.RandomTerrain" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.bouncingball.BouncingBallProblem</span></code></p>
-<p>RANDOMTERRAIN Creates random terrain through the composition of sinusoidal functions.</p>
-</dd></dl>
-
-</section>
-</section>
-
-
-            <div class="clearer"></div>
-          </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h3><a href="../index.html">Table of Contents</a></h3>
-<ul class="current">
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ODE Test Problems
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="allencahn.html">Allen Cahn</a></li>
 <li class="toctree-l1"><a class="reference internal" href="arenstorf.html">Arenstorf</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ascherlineardae.html">Ascher Linear DAE</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Bouncing Ball</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Bouncing Ball</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-+otp.+bouncingball.+presets">Presets</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="brusselator.html">Brusselator</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cusp.html">CUSP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="e5.html">E5</a></li>
@@ -143,42 +77,121 @@ an interesting trajectory.</p>
 <li class="toctree-l1"><a class="reference internal" href="zlakinetics.html">Zla Kinetics</a></li>
 </ul>
 
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
-      <div class="clearer"></div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ODE Test Problems</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Bouncing Ball</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/problems/bouncingball.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-+otp.+bouncingball">
+<span id="bouncing-ball"></span><h1>Bouncing Ball<a class="headerlink" href="#module-+otp.+bouncingball" title="Permalink to this heading"></a></h1>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallProblem">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.</span></span><span class="sig-name descname"><span class="pre">BouncingBallProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeSpan</span></em>, <em class="sig-param"><span class="pre">y0</span></em>, <em class="sig-param"><span class="pre">parameters</span></em><span class="sig-paren">)</span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallProblem" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.Problem</span></code></p>
+</dd></dl>
+
+<section id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h2>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallParameters">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.</span></span><span class="sig-name descname"><span class="pre">BouncingBallParameters</span></span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallParameters" title="Permalink to this definition"></a></dt>
+<dd><p>BOUNCINGBALLPARAMETERS</p>
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallParameters.Gravity">
+<span class="sig-name descname"><span class="pre">Gravity</span></span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallParameters.Gravity" title="Permalink to this definition"></a></dt>
+<dd><p>Gravity defines the magnitude of acceleration towards the ground</p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallParameters.Ground">
+<span class="sig-name descname"><span class="pre">Ground</span></span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallParameters.Ground" title="Permalink to this definition"></a></dt>
+<dd><p>Ground is a function defining the ground in terms of space</p>
+</dd></dl>
+
+<dl class="mat attribute">
+<dt class="sig sig-object mat" id="+otp.+bouncingball.BouncingBallParameters.GroundSlope">
+<span class="sig-name descname"><span class="pre">GroundSlope</span></span><a class="headerlink" href="#+otp.+bouncingball.BouncingBallParameters.GroundSlope" title="Permalink to this definition"></a></dt>
+<dd><p>GroundSlope is the slope (derivative) of the ground</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-+otp.+bouncingball.+presets">
+<span id="presets"></span><h2>Presets<a class="headerlink" href="#module-+otp.+bouncingball.+presets" title="Permalink to this heading"></a></h2>
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+bouncingball.+presets.Canonical">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.presets.</span></span><span class="sig-name descname"><span class="pre">Canonical</span></span><a class="headerlink" href="#+otp.+bouncingball.+presets.Canonical" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.bouncingball.BouncingBallProblem</span></code></p>
+<p>CANONICAL The ball has no horizontal velocity, and bounces on a perfectly flat surface.</p>
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+bouncingball.+presets.Parabola">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.presets.</span></span><span class="sig-name descname"><span class="pre">Parabola</span></span><a class="headerlink" href="#+otp.+bouncingball.+presets.Parabola" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.bouncingball.BouncingBallProblem</span></code></p>
+<p>PARABOLA The ball bounces on a parabola, starting slightly off-center as to create
+an interesting trajectory.</p>
+</dd></dl>
+
+<dl class="mat class">
+<dt class="sig sig-object mat" id="+otp.+bouncingball.+presets.RandomTerrain">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">otp.bouncingball.presets.</span></span><span class="sig-name descname"><span class="pre">RandomTerrain</span></span><a class="headerlink" href="#+otp.+bouncingball.+presets.RandomTerrain" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref mat mat-class docutils literal notranslate"><span class="pre">otp.bouncingball.BouncingBallProblem</span></code></p>
+<p>RANDOMTERRAIN Creates random terrain through the composition of sinusoidal functions.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ascherlineardae.html" class="btn btn-neutral float-left" title="Ascher Linear DAE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="brusselator.html" class="btn btn-neutral float-right" title="Brusselator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../mat-modindex.html" title="MATLAB Module Index"
-             >matlab index</a> |</li>
-        <li class="right" >
-          <a href="brusselator.html" title="Brusselator"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="ascherlineardae.html" title="Ascher Linear DAE"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">ODE Test Problems 0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Bouncing Ball</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2023, Steven Roberts, Andrey A Popov, Arash Sarshar, Adrian Sandu.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
-    </div>
-  </body>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Steven Roberts, Andrey A Popov, Arash Sarshar, Adrian Sandu.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>

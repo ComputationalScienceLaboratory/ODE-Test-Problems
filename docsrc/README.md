@@ -1,13 +1,9 @@
-How to build the documents:
+# Building the Documentation
 
+Install Python packages:
 
-
-Make sure you have [Sphinx installed](https://www.sphinx-doc.org/en/master/usage/installation.html)
-
-Then, make sure you have the Matlab plugin installed
 ```
-
-pip3 install -U sphinxcontrib-matlabdomain
+pip3 install -r requirements.txt
 ```
 
 To build the docs:

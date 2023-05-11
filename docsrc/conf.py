@@ -10,6 +10,7 @@ project = 'ODE Test Problems'
 copyright = '2023, Steven Roberts, Andrey A Popov, Arash Sarshar, Adrian Sandu'
 author = 'Steven Roberts, Andrey A Popov, Arash Sarshar, Adrian Sandu'
 release = '0.1'
+version = '0.0.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -28,27 +29,12 @@ matlab_keep_package_prefix = False
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-#html_theme = 'alabaster'
-html_theme = 'classic'
-html_static_path = ['_static']
-
-#html_sidebars = { '**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html'] }
-
-html_sidebars = { '**': ['globaltoc.html', 'searchbox.html'] }
-
+html_theme = 'sphinx_rtd_theme'
 
 ###
 # Configure the theme
 ###
 
 html_theme_options = {
-    "sidebarbgcolor": "#E5E1E6",
-    "sidebartextcolor": "#000000",
-    "sidebarlinkcolor": "#861F41",
-    "relbarbgcolor": "#000",
-    "linkcolor": "#861F41",
-    "visitedlinkcolor": "#861F41",
-    "headbgcolor": "#E5E1E6",
-    "headtextcolor": "#000"
 }
 
