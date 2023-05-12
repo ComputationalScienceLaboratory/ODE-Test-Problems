@@ -57,10 +57,10 @@ All test problems in `OTP` are considered as a first-order  differential-algebra
 
 $$
     \mathbf{M}\;Y'(t) = \mathbf{F}(t,Y), \qquad
-    Y(0)  = Y_0,
+    Y(t_0)  = Y_0,
 $$
 
-where $Y(t)$ is the time-dependent solution to the problem, $F(t,Y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. $\mathbf{M}$ is the mass-matrix for the differential-algebraic system and when the test problem is an ordinary differential equation, $\mathbf{M}$ is the Identity matrix. The initial condition $Y_0$ specifies the value of $Y$ at the initial time $t = 0$.
+where $Y(t)$ is the time-dependent solution to the problem, $F(t,Y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. $\mathbf{M}$ is the mass-matrix for the differential-algebraic system and when the test problem is an ordinary differential equation, $\mathbf{M}$ is the Identity matrix. The initial condition $Y_0$ specifies the value of $Y$ at the initial time $t = t_0$.
 
 
 # Features
