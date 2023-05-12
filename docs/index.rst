@@ -16,5 +16,5 @@ List of Problems
    :maxdepth: 1
    :glob:
 
-   problems/*
+   build/problems/*
 

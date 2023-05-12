@@ -5,6 +5,6 @@
 *.sh~
 *.rst~
 *.mltbx
-build/
+docs/build/
 
 .DS_Store

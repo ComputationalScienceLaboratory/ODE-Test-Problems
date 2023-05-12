@@ -19,7 +19,7 @@ extensions = [
 ]
 
 primary_domain = 'mat'
-matlab_src_dir = 'src'
+matlab_src_dir = '../src'
 matlab_keep_package_prefix = False
 
 autodoc_member_order = 'bysource'

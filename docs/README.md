@@ -1,15 +1,20 @@
 # Building the Documentation
 
-Install Python packages:
+OTP uses [Sphinx](https://www.sphinx-doc.org/) and
+[sphinxcontrib-matlabdomain](https://github.com/sphinx-contrib/matlabdomain) for documentation.
 
+To install the necessary dependencies, run
+
+```sh
+make install
 ```
-pip3 install -r requirements.txt
+
+To build the site, run
+```sh
+make
 ```
 
-To build the docs:
-
-From the main project directory, run
-
-```
-sh builddocs.sh
+You can launch the site locally with
+```sh
+make serve
 ```

@@ -7,7 +7,7 @@ for problem in cwd.glob('../src/+otp/*/*Problem.m'):
         problem_name = search("@otp\\.Problem\\('(.+)',",
                               stream.read()).groups()[0]
 
-    with cwd.joinpath(f'problems/{problem.stem}.rst').open('w') as stream:
+    with cwd.joinpath(f'build/problems/{problem.stem}.rst').open('w') as stream:
         stream.write(f'''
 {problem_name}
 ================================================================================
