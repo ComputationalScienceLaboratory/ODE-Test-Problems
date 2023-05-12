@@ -1,8 +1,7 @@
 from datetime import datetime
-from pathlib import Path
 from yaml import safe_load
 
-with Path('../DESCRIPTION').open() as stream:
+with open('../DESCRIPTION') as stream:
     otp = safe_load(stream)
 
 project = otp['Name']
