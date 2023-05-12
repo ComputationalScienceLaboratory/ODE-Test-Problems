@@ -1,6 +1,8 @@
 #! /bin/sh
 
-octave docsrc/autopopproblems.m
+#octave docsrc/autopopproblems.m
+
+python3 docsrc/auto_pop_problems.py
 
 
 rm -r docs/
