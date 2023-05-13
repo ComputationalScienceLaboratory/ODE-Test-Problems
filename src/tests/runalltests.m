@@ -1,15 +1,8 @@
-passedTotal = 0;
-failedTotal = 0;
 
-[passed, failed] = validateallpresets;
+% set warnings off
+warning off;
 
-passedTotal = passedTotal + passed;
-failedTotal = failedTotal + failed;
+fprintf('\n   Running all tests \n\n');
 
-[passed, failed] = validatederivatives;
-
-passedTotal = passedTotal + passed;
-failedTotal = failedTotal + failed;
-
-
-fprintf('\n\n      %d/%d Tests passed\n', passedTotal, passedTotal + failedTotal)
+validateallpresets;
+validateallderivatives;

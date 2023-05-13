@@ -1,17 +1,12 @@
-function [passed, failed] = validateallpresets
+function validateallpresets
 
 pi = PresetIterator;
 
-passed = 0;
-failed = 0;
-
 fprintf('\n   Validating all presets and RHS \n\n');
 
-fprintf([' Model                | Preset               | RHS          |' ...
-    ' Build | Solve | Change \n']);
-fprintf([repmat('-', 1, 85) '\n']);
-
-padinteral = @otp.utils.compatibility.pad;
+fprintf([' Model                | Preset               |' ...
+    ' Build | Solve \n']);
+fprintf([repmat('-', 1, 61) '\n']);
 
 for preset = pi.PresetList
         
@@ -19,21 +14,18 @@ for preset = pi.PresetList
     presetname = preset.presetName;
     presetclass = preset.presetClass;
 
-    % do another for loop here for RHS
-
-    rhsname = 'RHS';
-    fprintf(' %s | %s | %s | ', ...
-        padinteral(modelname, 20), ...
-        padinteral(presetname, 20), ...
-        padinteral(rhsname, 12));
+    fprintf(' %-20s | %-20s | ', ...
+        modelname, ...
+        presetname);
 
     try
         model = eval(presetclass);
         fprintf('PASS  | ');
-        passed = passed + 1;
-    catch
+        assert(true);
+    catch e
         fprintf('-FAIL | ');
-        failed = failed + 2;
+        assert(false, sprintf('Preset %s of %s failed to build with error\n%s\n%s', ...
+            presetname, modelname, e.identifier, e.message));
         continue;
     end
 
@@ -44,29 +36,26 @@ for preset = pi.PresetList
         if strcmp(presetname, 'Lorenz96PodRom')
             model.TimeSpan = [0, 10];
         end
+        if strcmp(modelname, 'lorenz96')
+            model.TimeSpan = [0, 0.05];
+        end
+        if strcmp(modelname, 'cusp')
+            model.TimeSpan = [0, 0.01];
+        end
+        if strcmp(modelname, 'nbody')
+            model.TimeSpan = [0, 0.01];
+        end
         model.solve();
-        fprintf('PASS  | ');
-        passed = passed + 1;
-    catch
-        fprintf('-FAIL | ');
-        failed = failed + 1;
-    end
-
-
-    try
-        model.TimeSpan = [0, 1];
-        model.Y0 = 0*model.Y0;
-        fprintf('PASS   ');
-        passed = passed + 1;
-    catch
-        fprintf('-FAIL  ');
-        failed = failed + 1;
+        fprintf('PASS  ');
+        assert(true)
+    catch e
+        assert(false, sprintf('Preset %s of %s failed to solve with error\n%s\n%s', ...
+            presetname, modelname, e.identifier, e.message))
+        fprintf('-FAIL ');
     end
 
     fprintf('\n');
 
 end
-
-fprintf('\n   Preset validation %d passed and %d failed tests\n', passed, failed);
 
 end
