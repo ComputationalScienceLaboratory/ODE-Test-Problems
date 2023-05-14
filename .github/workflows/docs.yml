@@ -3,7 +3,7 @@ name: Build Documentation for GitHub Pages
 on:
   workflow_dispatch:
   push:
-    branches: documentation-sphinx
+    branches: [$default-branch]
 
 permissions:
   contents: read
@@ -24,6 +24,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v4
         with:
+          python-version: 3.x
           cache: 'pip'
 
       - name: Install Python Packages
