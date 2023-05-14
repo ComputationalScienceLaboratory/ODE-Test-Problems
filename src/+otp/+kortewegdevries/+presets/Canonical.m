@@ -8,12 +8,12 @@ classdef Canonical < otp.kortewegdevries.KortewegdeVriesProblem
             nu = -1;
             alpha = -3;
             rho = 0;
-            Uinit = @(x) 6*(sech(x).^2);
+            uinit = @(x) 6*(sech(x).^2);
 
             p = inputParser;
             addParameter(p, 'Domain', Domain);
             addParameter(p, 'Nx', Nx);
-            addParameter(p, 'InitialCondition', Uinit);
+            addParameter(p, 'InitialCondition', uinit);
             addParameter(p, 'Theta', theta);
             addParameter(p, 'Alpha', alpha);
             addParameter(p, 'Nu', nu);
