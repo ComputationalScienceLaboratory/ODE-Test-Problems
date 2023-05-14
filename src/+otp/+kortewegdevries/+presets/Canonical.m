@@ -4,20 +4,20 @@ classdef Canonical < otp.kortewegdevries.KortewegdeVriesProblem
 
             Domain = [-10, 10];
             Nx = 200;
-            Theta = 0;
-            Nu = -1;
-            Alpha = -3;
-            Rho = 0;
+            theta = 0;
+            nu = -1;
+            alpha = -3;
+            rho = 0;
             Uinit = @(x) 6*(sech(x).^2);
 
             p = inputParser;
             addParameter(p, 'Domain', Domain);
             addParameter(p, 'Nx', Nx);
             addParameter(p, 'InitialCondition', Uinit);
-            addParameter(p, 'Theta', Theta);
-            addParameter(p, 'Alpha', Alpha);
-            addParameter(p, 'Nu', Nu);
-            addParameter(p, 'Rho', Rho);
+            addParameter(p, 'Theta', theta);
+            addParameter(p, 'Alpha', alpha);
+            addParameter(p, 'Nu', nu);
+            addParameter(p, 'Rho', rho);
 
             parse(p, varargin{:});
             
@@ -35,8 +35,7 @@ classdef Canonical < otp.kortewegdevries.KortewegdeVriesProblem
             %% Construct initial conditions
             
             X = linspace(params.Domain(1), params.Domain(2), params.Nx + 1).';
-            params.Grid = X(1:params.Nx);
-            u0 = params.InitialCondition(params.Grid);
+            u0 = params.InitialCondition(X(1:params.Nx));
             
             %% Do the rest
             

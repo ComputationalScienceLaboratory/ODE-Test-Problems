@@ -1,8 +1,11 @@
-function du = jacobianVectorProduct(t, u, v, Theta, Alpha, Nu, Rho, Dx, D3x)
+function Jvp = jacobianVectorProduct(~, u, v, theta, alpha, nu, rho, ~, Dx, D3x, ~, ~)
 
 u_x = Dx*u;
 v_x = Dx*v;
 
-du = (2*Alpha)*(Theta*(Dx*(u.*v)) + (1 - Theta)*(u_x.*v + u.*v_x)) + Rho*v_x + Nu*(D3x*v);
+Jvp = (2*alpha)*(theta*(Dx*(u.*v)) ...
+    + (1 - theta)*(u_x.*v + u.*v_x)) ...
+    + rho*v_x ...
+    + nu*(D3x*v);
 
 end
