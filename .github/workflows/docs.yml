@@ -3,7 +3,7 @@ name: Build Documentation for GitHub Pages
 on:
   workflow_dispatch:
   push:
-    branches: [$default-branch]
+    branches: documentation-sphinx
 
 permissions:
   contents: read
