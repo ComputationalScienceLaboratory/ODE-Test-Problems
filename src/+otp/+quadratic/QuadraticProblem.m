@@ -2,7 +2,7 @@ classdef QuadraticProblem < otp.Problem
     
     methods
         function obj = QuadraticProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Quadrati', [], timeSpan, y0, parameters);
+            obj@otp.Problem('Quadratic', [], timeSpan, y0, parameters);
         end
     end
     
