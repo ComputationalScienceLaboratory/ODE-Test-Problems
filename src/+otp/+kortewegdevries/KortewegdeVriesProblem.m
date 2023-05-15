@@ -3,14 +3,14 @@ classdef KortewegdeVriesProblem < otp.Problem
     %
     % u_t = a (th (u^2)_x + (1 - th)(2u) u_x) + r u_x + n u_xxx 
     %
-    % Ascher, Uri M. and Robert I. McLachlan. 
-    % “On Symplectic and Multisymplectic Schemes for the KdV Equation.” 
-    % Journal of Scientific Computing 25 (2005): 83-104.
+    %  Ascher, Uri M. and Robert I. McLachlan. 
+    %  "On Symplectic and Multisymplectic Schemes for the KdV Equation.” 
+    %  Journal of Scientific Computing 25 (2005): 83-104.
     %
-    % Robert M. Miura, Clifford S. Gardner, Martin D. Kruskal;
-    % Korteweg‐de Vries Equation and Generalizations. II. Existence of Conservation Laws and Constants of Motion. 
-    % J. Math. Phys. 1 August 1968; 9 (8): 1204–1209. 
-    % https://doi.org/10.1063/1.1664701
+    %  Robert M. Miura, Clifford S. Gardner, Martin D. Kruskal;
+    %  Korteweg‐de Vries Equation and Generalizations. II. Existence of Conservation Laws and Constants of Motion. 
+    %  J. Math. Phys. 1 August 1968; 9 (8): 1204–1209. 
+    %  https://doi.org/10.1063/1.1664701
 
     methods
         function obj = KortewegdeVriesProblem(timeSpan, y0, parameters)
@@ -22,7 +22,7 @@ classdef KortewegdeVriesProblem < otp.Problem
     end
     
     properties (SetAccess = private)
-        Grid
+        SpatialGrid
         DistanceFunction
         NumInvariants
         Invariant
@@ -77,7 +77,7 @@ classdef KortewegdeVriesProblem < otp.Problem
 
             %% Distance function, and invariants
             domain_size = xdomain(2) - xdomain(1);
-            obj.Grid = xgrid;
+            obj.SpatialGrid = xgrid;
             obj.DistanceFunction = @(i, j) otp.kortewegdevries.distanceFunction(i, j, xgrid, domain_size);
 
             obj.NumInvariants = 3;
