@@ -1,16 +1,14 @@
 classdef KortewegdeVriesProblem < otp.Problem
-    % Describes the evolution of waves on shallow water surfaces.
-    % This problem is discretized on a periodic domain.
+    % Describes the evolution of waves on shallow water surfaces. This problem is discretized on a periodic domain.
     %
     % u_t = a (th (u^2)_x + (1 - th)(2u) u_x) + r u_x + n u_xxx 
     %
-    % Ascher, Uri M. and Robert I. McLachlan. “On Symplectic and 
-    % Multisymplectic Schemes for the KdV Equation.” 
+    % Ascher, Uri M. and Robert I. McLachlan. 
+    % “On Symplectic and Multisymplectic Schemes for the KdV Equation.” 
     % Journal of Scientific Computing 25 (2005): 83-104.
     %
     % Robert M. Miura, Clifford S. Gardner, Martin D. Kruskal;
-    % Korteweg‐de Vries Equation and Generalizations. II. 
-    % Existence of Conservation Laws and Constants of Motion. 
+    % Korteweg‐de Vries Equation and Generalizations. II. Existence of Conservation Laws and Constants of Motion. 
     % J. Math. Phys. 1 August 1968; 9 (8): 1204–1209. 
     % https://doi.org/10.1063/1.1664701
 
@@ -31,15 +29,11 @@ classdef KortewegdeVriesProblem < otp.Problem
         JacobianInvariant
     end
     
-    methods (Static)
-      
-    end
-    
     methods (Access = protected)
         function onSettingsChanged(obj)
                         
             xdomain = obj.Parameters.Domain;
-            nx = obj.Parameters.Nx;
+            nx = obj.NumVars;
             theta = obj.Parameters.Theta;
             alpha = obj.Parameters.Alpha;
             nu = obj.Parameters.Nu;

@@ -25,8 +25,6 @@ classdef Canonical < otp.kortewegdevries.KortewegdeVriesProblem
             
             params = otp.kortewegdevries.KortewegdeVriesParameters;
             params.Domain = s.Domain;
-            params.Nx = s.Nx;
-            params.InitialCondition = s.InitialCondition;
             params.Theta = s.Theta;
             params.Alpha = s.Alpha;
             params.Nu = s.Nu;
@@ -34,8 +32,9 @@ classdef Canonical < otp.kortewegdevries.KortewegdeVriesProblem
             
             %% Construct initial conditions
             
-            X = linspace(params.Domain(1), params.Domain(2), params.Nx + 1).';
-            u0 = params.InitialCondition(X(1:params.Nx));
+            X = linspace(params.Domain(1), params.Domain(2), s.Nx + 1).';
+            validateInitialCondition(s.InitialCondition);
+            u0 = s.InitialCondition(X(1:s.Nx));
             
             %% Do the rest
             
@@ -45,3 +44,16 @@ classdef Canonical < otp.kortewegdevries.KortewegdeVriesProblem
         end
     end
 end
+
+function validateInitialCondition(f)
+
+if ~(isequal(class(f), 'function_handle') && (nargin(f) == 1))
+    error('OTP:InvalidInitialCondition', ...
+        ['Error setting property ''InitialCondition'' of class ''otp.kortewegdevries.KortewegdeVriesParameters''', ...
+        newline, ...
+        'Value must be a function_handle taking in one input.'])
+end
+
+end
+
+
