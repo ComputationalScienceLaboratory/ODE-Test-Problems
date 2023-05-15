@@ -14,7 +14,7 @@ classdef CUSPProblem < otp.Problem
     
     methods
         function obj = CUSPProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('CUSP Problem', [], timeSpan, y0, parameters);
+            obj@otp.Problem('CUSP', [], timeSpan, y0, parameters);
         end
     end
     
