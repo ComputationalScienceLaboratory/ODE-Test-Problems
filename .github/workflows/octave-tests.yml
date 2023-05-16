@@ -16,4 +16,5 @@ jobs:
           sudo apt install octave
       - name: Run OTP tests
         run: |
+          ls 
           octave --no-gui --eval "addpath(genpath('.')); runalltests"          
