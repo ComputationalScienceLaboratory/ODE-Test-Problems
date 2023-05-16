@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3t
+        uses: actions/checkout@v3
       - name: Install octave
         run: |
           sudo apt install octave
