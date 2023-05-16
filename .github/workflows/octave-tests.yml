@@ -1,0 +1,20 @@
+name: Octave CI
+
+on: [push]
+
+jobs:
+
+  octave-tests-run-all:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install octave
+        run: |
+          sudo apt install octave
+      - name: Run OTP tests
+        run: |
+          ls 
+          octave --no-gui --eval "cd src; addpath(genpath('.')); runalltests"          
