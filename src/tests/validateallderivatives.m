@@ -1,31 +1,22 @@
 function validateallderivatives
 
-pi = PresetIterator;
-
-
 fprintf('\n   Validating all model and preset derivatives \n\n');
 
 fprintf([' Model                | Preset               |' ...
     ' Jacobian | JVP   | JAVP \n']);
 fprintf([repmat('-', 1, 85) '\n']);
 
-for preset = pi.PresetList
+presets = getpresets();
+
+for preset = presets
         
-    modelname = preset.modelName;
-    presetname = preset.presetName;
-    presetclass = preset.presetClass;
+    problemname = preset.problem;
+    presetname = preset.name;
+    presetclass = preset.presetclass;
 
     fprintf(' %-20s | %-20s | ', ...
-        modelname, ...
+        problemname, ...
         presetname);
-
-    if strcmp(modelname, 'quasigeostrophic')
-        presetclass = sprintf('%s%s', presetclass, "('size', [16, 32])");
-    end
-
-    if strcmp(modelname, 'allencahn')
-        presetclass = sprintf('%s%s', presetclass, "('size', 16)");
-    end
 
     try
         model = eval(presetclass);
@@ -65,7 +56,7 @@ for preset = pi.PresetList
             err = norm(jtrue - japprox)/normj;
         end
 
-        assert(err < tol, sprintf('Jacobian of preset %s of %s is incorrect with error %.5e', presetname, modelname, err));
+        assert(err < tol, sprintf('Jacobian of preset %s of %s is incorrect with error %.5e', presetname, problemname, err));
         fprintf(' PASS    |')
     else
         fprintf('         |')
@@ -89,7 +80,7 @@ for preset = pi.PresetList
             err = norm(jvptrue - jvpapprox)/normj;
         end
 
-        assert(err < tol, sprintf('JVP of preset %s of %s is incorrect with error %.5e', presetname, modelname, err));
+        assert(err < tol, sprintf('JVP of preset %s of %s is incorrect with error %.5e', presetname, problemname, err));
         fprintf(' PASS  |')
     else
         fprintf('       |')
@@ -113,7 +104,7 @@ for preset = pi.PresetList
             err = norm(javptrue - javpapprox)/normj;
         end
 
-        assert(err < tol, sprintf('JAVP of preset %s of %s is incorrect with error %.5e', presetname, modelname, err));
+        assert(err < tol, sprintf('JAVP of preset %s of %s is incorrect with error %.5e', presetname, problemname, err));
         fprintf(' PASS ')
     else
         fprintf('      ')
