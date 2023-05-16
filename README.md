@@ -1,6 +1,6 @@
 # ODE Test Problems
 
-[![Octave CI](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/octave-tests.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/octave-tests.yml)
+[![Tests](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/octave-tests.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/octave-tests.yml) [![Docs](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/docs.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/docs.yml)
 
 ODE Test Problems (OTP) is an object-oriented MATLAB/GNU Octave package offering
 a broad range of ordinary differential equations, partial differential
