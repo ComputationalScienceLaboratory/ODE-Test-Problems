@@ -17,4 +17,4 @@ jobs:
       - name: Run OTP tests
         run: |
           ls 
-          octave --no-gui --eval "addpath(genpath('.')); runalltests"          
+          octave --no-gui --eval "addpath(genpath('./src')); runalltests"          
