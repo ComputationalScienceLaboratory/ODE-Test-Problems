@@ -150,7 +150,7 @@ recommend duplicating an existing problem package, then renaming and editing the
  [This is a minimal example of](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/tree/81cf4e473c34fe04d70280d0a78222a4c75fd775/src/%2Botp/%2Bnewtest) the completed test problem started in this tutorial. It implements the trivial ODE $y'(t) = 1,\, y(0) = 1$. 
 
 
-For an example of problems with implemented derivatives as part of the `RHS` structure, refer to the [Lorenz63 problem](src/+otp/+lorenz63). For an example of split right-hand-side PDE, see [the Brusselator problem](src/+otp/+brusselator).
+For an example of problems with implemented derivatives as part of the `RHS` structure, refer to the [Lorenz63 problem](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/src/+otp/+lorenz63). For an example of split right-hand-side PDE, see [the Brusselator problem]( https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/src/+otp/+brusselator).
 
  ## Style guidelines
 
