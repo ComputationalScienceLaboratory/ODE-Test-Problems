@@ -17,4 +17,5 @@ List of Problems
    :glob:
 
    build/problems/*
+   contrib
 
