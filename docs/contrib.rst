@@ -1,4 +1,4 @@
-Contributing to ``ODE Test Problems``
+Contributing to ODE Test Problems
 =====================================
 
 This guide provides instructions for submitting and formatting new code
@@ -284,5 +284,5 @@ should be written in camel case.
        ...
    end
 
-Documentation
+Creating Documentation
 -------------

@@ -17,5 +17,15 @@ List of Problems
    :glob:
 
    build/problems/*
+
+
+For Developers
+================
+
+.. toctree::
+   :maxdepth: 2
+   :glob:
+
+
    contrib
 

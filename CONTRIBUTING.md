@@ -234,6 +234,6 @@ end
 ```
 
 
-## Documentation
+## Creating Documentation
 
 
