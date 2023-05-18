@@ -1,6 +1,14 @@
-# Adding new problems to `OTP`
+# Contributing to `ODE Test Problems`
 
-To add a new test problem to `ODE Test Problems` follow these steps. 
+This guide provides instructions for submitting and formatting new code in `OTP`. 
+
+## Submitting Changes
+
+Changes to `OTP` should be proposed as a pull request and undergo a review process before being merged. New code must be free of warnings and errors and adhere to the style guidelines.
+
+## Creating a Problem
+
+Each problem defines a package under `+otp` that contains all files used by the problem. To add a new test problem follow these steps. 
 
 1. Check out the latest version of `OTP` from Github
 
@@ -37,7 +45,11 @@ end
 For more information about this formulation please refer to ()
 
 ## The problem class 
-The problem class is used to set up the problem object and default solvers and plotting methods. 
+
+A problem package must contain a class named `<Name>Problem.m` that is a subclass of `otp.Problem`. There are two
+methods that must be implemented: the constructor and `onSettingsChanged`. Optionally, one can override functions such as `internalPlot` and `internalSolve` to provide problem-specific defaults. Partitioned problems can add custom right-hand-side functions
+as class properties with private write access. The property name should start with `RHS`, e.g., `RHSStiff`.
+
 The template for a new class of problems called `SimpleProblem` looks like:
 
 ```Matlab
@@ -89,7 +101,8 @@ end
 
 ## The parameters class 
 
-Next, we wil create a class for the parameters of this test problem.
+A problem package must also contain a class named `<Name>Parameters.m`. It only needs to provide public properties for each of the problem parameters; no constructor or methods are needed. Note that property validation is currently not supported in Octave. Therefore, we use a custom comment syntax that is parsed by the installer to optionally include validation. The following is an example of a parameter class with property validation:
+
 
 ```Matlab
 
@@ -105,7 +118,11 @@ end
 
 ## Adding presets
 
-In the `+presets` subfolder add the `Canonical.m` preset and set up the specific initial condition and time span for this preset:
+Within a problem package, there should be a subpackage named `+presets`. This contains subclasses of `<Name>Problem`
+that specify the timespan, initial conditions, and parameters. Typically, only the constructor needs to be implemented
+in a preset class.
+
+In our example, we add the `Canonical.m` preset inside the  `+presets` subfolder:
 
 ```Matlab
 
@@ -127,9 +144,93 @@ end
 
 ```
 ## Copying the problem template 
+When creating a new problem, we
+recommend duplicating an existing problem package, then renaming and editing the contents as needed.
 
- [This](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/tree/81cf4e473c34fe04d70280d0a78222a4c75fd775/src/%2Botp/%2Bnewtest) is the completed test problem introduced in this document. It implements the trivial ODE $y'(t) = 1,\, y(0) = 1$. You can copy the files from this minimal example and change them accordingly.
+ [This is a minimal example of](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/tree/81cf4e473c34fe04d70280d0a78222a4c75fd775/src/%2Botp/%2Bnewtest) the completed test problem started in this tutorial. It implements the trivial ODE $y'(t) = 1,\, y(0) = 1$. 
 
-## (Optional) updating the documentation
+
+For an example of problems with implemented derivatives as part of the `RHS` structure, refer to the [Lorenz63 problem](src/+otp/+lorenz63). For an example of split right-hand-side PDE, see [the Brusselator problem](src/+otp/+brusselator).
+
+ ## Style guidelines
+
+In order for this project to maintain a consistent coding style, the following conventions should be used. These
+standards match those most commonly used in MATLAB's code and documentation.
+
+### Line Formatting
+
+Four spaces are used for indentation. A line should be kept to 120 characters or less.
+
+### Variables
+
+Variable names should be written in camel case.
+
+```matlab
+% Examples
+data = 4;
+maxEigenvalue = eigs(rand(4), 1);
+fun = @(t, y) y + sin(t);
+```
+
+### Functions
+
+Functions should be completely alphanumeric and written in camel case. No special character is used to distinguish
+between words.
+
+```matlab
+% Example
+function r = depthFirstSearch(tree)
+    ...
+end
+```
+
+### Structures
+
+Structures should have camel case property names.
+
+```matlab
+% Example
+car = struct('make', 'Ford', 'modelYear', 2020);
+```
+
+### Packages
+
+Package names should be completely lowercase and start with a plus symbol. No capitalization or special character is
+used to distinguish between words.
+
+```matlab
+% Example
+% Path: +otp/+utils/PhysicalConstants.m
+help otp.utils.PhysicalConstants
+```
+
+### Classes
+
+Class names and properties should be written in Pascal case. When the name contains an acronym, all letters should be
+capitalized. Methods should be written in camel case.
+
+```matlab
+% Examples
+classdef Employee
+    properties
+        FirstName
+        LastName
+        Salary
+    end
+
+    methods
+        function p = calculatePay(hours)
+            ...
+        end
+    end
+end
+
+classdef ODETestProblems
+    ...
+end
+```
+
+
+## Documentation
 
 
