@@ -23,7 +23,7 @@ sudo apt install octave python3
 pip install jupyterlab octave_kernel
 ```
 
-## Verify that Octave-Kernel is installed
+## Verify that the Octave kernel is installed
 
 Check to see if octave-kernel is in the list of jupyter kernels:
 
