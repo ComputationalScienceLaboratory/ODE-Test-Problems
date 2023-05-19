@@ -1,6 +1,6 @@
 # Running Octave Notebooks locally
 
-You will need an environment with `octave`, `jupyterlab`, and `octave_kernel` packages. Once successfully installed, run Jupyter and open the `quick-start.ipynb` notebook.
+You will need an environment with `octave`, `jupyterlab`, and `octave_kernel` packages. Follow these steps to install the required dependancies:
 
 ## Check out the repository 
 
