@@ -1,10 +1,13 @@
 # Running Octave Notebooks
 
-Check out the repo 
+Check out the repository 
+
 
 ## using Anaconda
 
-`conda env create -f environment.yml`
+```bash 
+conda env create -f environment.yml
+```
 
 ## using package manger and pip 
 
