@@ -23,9 +23,16 @@ sudo apt install octave python3
 pip install jupyterlab octave_kernel
 ```
 
-## Verify that the Octave kernel is installed
 
-Check to see if octave-kernel is in the list of jupyter kernels:
+## Verify the installation
+Make sure `Octave` is installed:
+``` octave --version```
+
+> GNU Octave, version 8.2.0
+> 
+
+
+and check to see if octave-kernel is in the list of jupyter kernels:
 
 ```
 jupyter kernelspec list
@@ -36,7 +43,6 @@ jupyter kernelspec list
 >   python3    /Users/use/.pyenv/versions/octave/share/jupyter/kernels/python3
   
  
-
 ## Run Jupyter 
 Run `jupyterlab` and open the `quick-start.ipynb` notebook. If asked for a kernel, select `octave`:
 
