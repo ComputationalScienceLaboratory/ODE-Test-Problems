@@ -16,14 +16,6 @@ conda env create -f environment.yml
 conda activate jupyter-octave
 ```
 
-## Or install using package managers and pip 
-Alternatively you can install `Octave` and `jupyter` seperately:
-```
-sudo apt install octave python3
-pip install jupyterlab octave_kernel
-```
-
-
 ## Verify the installation
 Make sure `Octave` is installed:
 ``` octave --version```
