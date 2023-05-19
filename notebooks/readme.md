@@ -11,7 +11,8 @@ cd ODE-Test-Problems/notebooks
 
 ```bash 
 conda env create -f environment.yml
-conda activate 
+conda activate jupyter-octave
+jupyterlab 
 ```
 
 ## Install using package managers and pip 
