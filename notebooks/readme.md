@@ -1,15 +1,20 @@
 # Running Octave Notebooks
 
-Check out the repository 
+## Check out the repository 
 
+```bash 
+git clone https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems.git
+cd ODE-Test-Problems/notebooks
+```
 
-## using Anaconda
+## Install using Anaconda
 
 ```bash 
 conda env create -f environment.yml
+conda activate 
 ```
 
-## using package manger and pip 
+## Install using package managers and pip 
 
 Install Octave
 
