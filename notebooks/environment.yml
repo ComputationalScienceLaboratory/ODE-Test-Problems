@@ -1,0 +1,9 @@
+name: jupyter-octave
+channels:
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - jupyterlab
+  - octave
+  - octave_kernel
