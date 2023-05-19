@@ -1,9 +1,9 @@
 name: jupyter-octave
 channels:
-  - anaconda
   - conda-forge
-  - defaults
 dependencies:
   - jupyterlab
+  - gnuplot
+  - ghostscript
   - octave
   - octave_kernel

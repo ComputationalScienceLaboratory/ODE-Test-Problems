@@ -36,6 +36,9 @@ jupyter kernelspec list
   
  
 ## Run Jupyter 
-Run `jupyterlab` and open the `quick-start.ipynb` notebook. If asked for a kernel, select `octave`:
+To interact with the notebook, run Jupyter :
 
-`jupyterlab`
+`jupyter lab`
+
+ and open the `quick-start.ipynb` notebook. If asked for a kernel, select `octave`.
+
