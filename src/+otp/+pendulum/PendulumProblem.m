@@ -11,7 +11,7 @@ classdef PendulumProblem < otp.Problem
         
         function [x, y] = convert2Cartesian(obj, y, includeOrigin)
             angles = y(1:end/2, :);
-            lengths = obj.Parameters.lengths(:);
+            lengths = obj.Parameters.Lengths(:);
             x = cumsum(lengths .* sin(angles), 1);
             y = cumsum(-lengths .* cos(angles), 1);
             

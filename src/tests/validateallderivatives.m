@@ -19,15 +19,15 @@ for preset = presets
         presetname);
 
     try
-        model = eval(presetclass);
+        problem = eval(presetclass);
     catch
         continue;
     end
 
     % setup
-    tc = model.TimeSpan(1);
-    y0 = model.Y0;
-    f = model.RHS.F;
+    tc = problem.TimeSpan(1);
+    y0 = problem.Y0;
+    f = problem.RHS.F;
 
     % OCTAVE FIX: the finite difference approximation is low accurate for octave
     % thus set the tolerance very high
@@ -41,9 +41,9 @@ for preset = presets
     jtrue = otp.utils.derivatives.jacobian(f, tc, y0);
 
     % Try to see if the Jacobian works
-    if ~isempty(model.RHS.Jacobian)
+    if ~isempty(problem.RHS.Jacobian)
         try
-            japprox = model.RHS.JacobianFunction(tc, y0);
+            japprox = problem.RHS.JacobianFunction(tc, y0);
         catch
             japprox = inf;
         end
@@ -64,9 +64,9 @@ for preset = presets
 
 
     % test jacobian vector products
-    if ~isempty(model.RHS.JacobianVectorProduct)
+    if ~isempty(problem.RHS.JacobianVectorProduct)
         try
-            jvpapprox = model.RHS.JacobianVectorProduct(tc, y0, y0);
+            jvpapprox = problem.RHS.JacobianVectorProduct(tc, y0, y0);
         catch
             jvpapprox = inf;
         end
@@ -87,10 +87,10 @@ for preset = presets
     end
 
     % test jacobian adjoint vector products
-    if ~isempty(model.RHS.JacobianAdjointVectorProduct)
+    if ~isempty(problem.RHS.JacobianAdjointVectorProduct)
 
         try
-            javpapprox = model.RHS.JacobianAdjointVectorProduct(tc, y0, y0);
+            javpapprox = problem.RHS.JacobianAdjointVectorProduct(tc, y0, y0);
         catch
             javpapprox = inf;
         end

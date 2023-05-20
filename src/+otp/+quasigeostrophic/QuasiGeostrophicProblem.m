@@ -151,7 +151,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
         
         function label = internalIndex2label(obj, index)
             
-            [i, j] = ind2sub([obj.Parameters.nx, obj.Parameters.ny], index);
+            [i, j] = ind2sub([obj.Parameters.Nx, obj.Parameters.Ny], index);
             
             label = sprintf('(%d, %d)', i, j);
             
