@@ -40,7 +40,7 @@ To interact with the notebook, run Jupyter and open the `quick-start.ipynb` note
 
 `jupyter lab quick-start.ipynb`
 
-If asked for a kernel, select `octave`.
+If asked for a kernel, select `octave`. You can also read the non-interactive github version of the [quick-start notebook](quick-start.ipynb).
 
 
 
