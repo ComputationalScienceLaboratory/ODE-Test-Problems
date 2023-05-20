@@ -18,4 +18,7 @@ if testgui
 end
 
 
+%% Problem specific tests
+problemtests.validateqg;
+
 end
