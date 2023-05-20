@@ -23,7 +23,7 @@ If there is a test problem, additional RHS property, or new functionality you
 would like added to OTP, we encourage you to let us know via a
 [GitHub issue](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
 We also accept pull requests that adhere to our
-[contributing guide](./docs/CONTRIBUTING.md).
+[contributing guide](./CONTRIBUTING.md).
 
 ## Installation
 

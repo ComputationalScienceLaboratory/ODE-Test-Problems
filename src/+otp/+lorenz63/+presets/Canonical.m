@@ -1,19 +1,21 @@
 classdef Canonical < otp.lorenz63.Lorenz63Problem
-    %CANONICAL This is the original problem presented in the literature.
-    % The initial condition is purposefully outside of the trapping region, but converges to it quite quickly.
-    %   Source:
+    % This is the original problem presented in the literature.
+    % The initial condition is purposefully outside of the attractor, but converges to it quite quickly.
+    % 
+    % References:
     %      Lorenz, E. N. (1963). Deterministic nonperiodic flow. Journal of atmospheric sciences, 20(2), 130-141.
     %
-    %   See also otp.lorenz63.Lorenz63Problem
+    % See also :class:`+otp.+lorenz63.Lorenz63Problem`
 
     methods
         function obj = Canonical(sigma, rho, beta)
-            %CANONICAL Construct a canonical Lorenz '63 problem
-            %   OBJ = CANONICAL(sigma, rho, beta) defines the Lorenz '63
-            %   problem with corresponding paramets
+            % Construct a Lorenz '63 problem
             %
-            %   OBJ = CANONICAL() sets the default values of the parameters
-            %   to sigma = 10, rho = 28, and beta = 8/3. The arguments can
+            %   problem = Canonical(sigma, rho, beta) defines the Lorenz '63
+            %   problem with corresponding parameters
+            %
+            %   problem = Canonical() sets the default values of the parameters
+            %   to Sigma = 10, Rho = 28, and Beta = 8/3. The arguments can
             %   be left empty or ignored to use these defaults.
     
             if nargin < 1 || isempty(sigma)

@@ -1,7 +1,7 @@
 classdef NBodyProblem < otp.Problem
     methods
         function obj = NBodyProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('N-Body Problem', [], timeSpan, y0, parameters);
+            obj@otp.Problem('N-Body', [], timeSpan, y0, parameters);
         end
     end
     

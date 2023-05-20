@@ -1,4 +1,4 @@
-classdef ZlaKineticsParameters
+classdef ZLAKineticsParameters
     %ZLAKINETICSPARAMETERS 
     %
     

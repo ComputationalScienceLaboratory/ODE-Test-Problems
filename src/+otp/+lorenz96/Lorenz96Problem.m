@@ -9,7 +9,7 @@ classdef Lorenz96Problem <  otp.Problem
     
     methods
         function obj = Lorenz96Problem(timeSpan, y0, parameters)
-            obj@ otp.Problem('Lorenz ''96', [], timeSpan, y0, parameters);
+            obj@otp.Problem('Lorenz 96', [], timeSpan, y0, parameters);
         end
     end
     
