@@ -1,10 +1,5 @@
 # ODE Test Problems
 
-Use this button to run a tutorial for `ODE Test Problems` in a stand-alone Jupyter Notebook environment: 
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ComputationalScienceLaboratory/ODE-Test-Problems.git/octave-notebook?labpath=notebooks%2Fquick-start.ipynb)
-
-
 ## About this package
 
 ODE Test Problems (OTP) is an object-oriented MATLAB/GNU Octave package offering
@@ -28,7 +23,7 @@ If there is a test problem, additional RHS property, or new functionality you
 would like added to OTP, we encourage you to let us know via a
 [GitHub issue](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
 We also accept pull requests that adhere to our
-[contributing guide](./docs/CONTRIBUTING.md).
+[contributing guide](./CONTRIBUTING.md).
 
 ## Installation
 

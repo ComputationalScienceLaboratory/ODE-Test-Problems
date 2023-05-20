@@ -26,7 +26,7 @@ classdef RobertsonProblem < otp.Problem
     methods
         %ROBERTSONPROBLEM Construct a Robertson problem
         function obj = RobertsonProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Robertson Problem', 3, timeSpan, y0, parameters);
+            obj@otp.Problem('Robertson', 3, timeSpan, y0, parameters);
         end
     end
     

@@ -1,6 +1,11 @@
 *.asv
 *.m~
+*.md~
+*.py~
+*.sh~
+*.rst~
 *.mltbx
 build/
+docs/build/
 
 .DS_Store

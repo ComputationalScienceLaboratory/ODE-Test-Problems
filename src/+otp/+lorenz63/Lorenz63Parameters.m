@@ -10,7 +10,7 @@ classdef Lorenz63Parameters
         % RHO represents the Rayleigh number
         Rho %MATLAB ONLY: (1, 1) {mustBeReal, mustBeFinite}
         
-        % BETA is some geometric factor
+        % BETA is a geometric factor
         Beta %MATLAB ONLY: (1, 1) {mustBeReal, mustBeFinite}
     end
 end
