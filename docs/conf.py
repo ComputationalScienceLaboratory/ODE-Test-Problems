@@ -24,3 +24,9 @@ matlab_keep_package_prefix = False
 autodoc_member_order = 'bysource'
 
 html_theme = 'sphinx_rtd_theme'
+
+html_theme_options = {
+    'style_nav_header_background': '#861F41'
+}
+
+html_logo = '../logo.svg'
