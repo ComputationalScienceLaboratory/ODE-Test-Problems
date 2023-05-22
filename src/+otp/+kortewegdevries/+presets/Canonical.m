@@ -10,7 +10,7 @@ classdef Canonical < otp.kortewegdevries.KortewegDeVriesProblem
             meshBC = [];
             order = 10;
 
-            u0 = 6*(sech(mesh).^2);
+            u0 = 6*(sech(mesh).^2).';
             
             BC = @(t, x) 0*x;
 
