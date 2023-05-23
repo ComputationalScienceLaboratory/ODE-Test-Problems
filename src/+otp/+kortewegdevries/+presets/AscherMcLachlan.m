@@ -10,7 +10,7 @@ classdef AscherMcLachlan < otp.kortewegdevries.KortewegDeVriesProblem
             meshBC = [];
             order = 14;
 
-            u0 = cospi(mesh).';
+            u0 = cos(pi*mesh).';
             
             BC = @(t, x) 0*x;
 
@@ -42,11 +42,7 @@ classdef AscherMcLachlan < otp.kortewegdevries.KortewegDeVriesProblem
             obj = obj@otp.kortewegdevries.KortewegDeVriesProblem(timespan, u0, params);
 
         end
-
-
     end
-
-
 end
 
 function h = hfunfull(x, y, L)
