@@ -1,4 +1,4 @@
-classdef Lorenz96PodRom < otp.quadratic.QuadraticProblem
+classdef Lorenz96PODROM < otp.quadratic.QuadraticProblem
     %LORENZ96PODROM a quadratic reduced order model of the L96 equations
     %
     % See
@@ -12,7 +12,7 @@ classdef Lorenz96PodRom < otp.quadratic.QuadraticProblem
     end
 
     methods
-        function obj = Lorenz96PodRom(r)
+        function obj = Lorenz96PODROM(r)
             % This represents roughly ten years
             tspan = [0, 720];
             
