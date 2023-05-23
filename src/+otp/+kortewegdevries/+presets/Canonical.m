@@ -1,14 +1,14 @@
 classdef Canonical < otp.kortewegdevries.KortewegDeVriesProblem
     methods
         function obj = Canonical
-            N = 200;
+            N = 150;
 
             L = 10;
 
             mesh = linspace(-L, L, N + 1);
             mesh = mesh(1:(end-1));
             meshBC = [];
-            order = 10;
+            order = 8;
 
             u0 = 6*(sech(mesh).^2).';
             
