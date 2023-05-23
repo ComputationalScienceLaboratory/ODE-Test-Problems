@@ -1,28 +1,28 @@
-classdef Canonical < otp.kortewegdevries.KortewegDeVriesProblem
+classdef AscherMcLachlan < otp.kortewegdevries.KortewegDeVriesProblem
     methods
-        function obj = Canonical
-            N = 250;
+        function obj = AscherMcLachlan
+            N = 200;
 
-            L = 10;
+            L = 1;
 
             mesh = linspace(-L, L, N + 1);
             mesh = mesh(1:(end-1));
             meshBC = [];
-            order = 12;
+            order = 14;
 
-            u0 = 6*(sech(mesh).^2).';
+            u0 = cospi(mesh).';
             
             BC = @(t, x) 0*x;
 
             theta = 0;
-            nu = -1;
-            alpha = -3;
-            rho = 0;
+            nu = -(2/3)*(10^-3);
+            alpha = -3/8;
+            rho = -1/10;
 
             hfun = @(x, y) hfunfull(x, y, L);
 
             dist = @(x, y) abs(hfun(x, y));
-            r = 0.2;
+            r = 2*2/N;
             weightfun = @(mesh, meshi) otp.utils.rbf.gaussian(dist(mesh, meshi)/r);
 
             params = otp.kortewegdevries.KortewegDeVriesParameters;
@@ -37,7 +37,7 @@ classdef Canonical < otp.kortewegdevries.KortewegDeVriesProblem
             params.Alpha = alpha;
             params.Rho = rho;
 
-            timespan = [0, 2];
+            timespan = [0, 5];
 
             obj = obj@otp.kortewegdevries.KortewegDeVriesProblem(timespan, u0, params);
 
