@@ -8,7 +8,7 @@ classdef Canonical < otp.kortewegdevries.KortewegDeVriesProblem
             mesh = linspace(-L, L, N + 1);
             mesh = mesh(1:(end-1));
             meshBC = [];
-            order = 8;
+            order = 6;
 
             u0 = 6*(sech(mesh).^2).';
             
