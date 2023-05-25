@@ -1,24 +1,25 @@
 function dfd = evalAB(A, B, f, fBC)
 
-nmesh = size(f, 2);
-nmeshbc = size(fBC, 2);
-
-nmeshfull = nmesh + nmeshbc;
-ndivterms = size(A, 1);
-
-ffull = [f, fBC];
-
-fdiff = reshape(-f + ffull.', 1, nmeshfull, nmesh);
-B = reshape(sum(B.*fdiff, 2), ndivterms, 1, nmesh);
-
-% OCTAVE FIX: find out if the function pagemldivide exists, and
-% if it does not, replace it with a compatible function
+% OCTAVE FIX: find out if the functions pagemtimes and pagemldivide exist, and
+% if they does not, replace them with a compatible function
 if exist('pagemldivide', 'builtin') == 0
     pmld = @otp.utils.compatibility.pagemldivide;
 else
     pmld = @pagemldivide;
 end
+if exist('pagemtimes', 'builtin') == 0
+    pmt = @otp.utils.compatibility.pagemtimes;
+else
+    pmt = @pagemtimes;
+end
 
-dfd = reshape(pmld(A, B), ndivterms, []);
+ndivterms = size(A, 1);
+
+ffull = [f, fBC];
+
+fdiff = permute(-f + ffull.', [3, 1, 2]);
+Bfdiff = (pmt(B, 'none', fdiff, 'transpose'));
+
+dfd = reshape(pmld(A, Bfdiff), ndivterms, []);
 
 end
