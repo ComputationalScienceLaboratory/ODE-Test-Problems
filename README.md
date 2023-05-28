@@ -1,6 +1,6 @@
 # ODE Test Problems
 
-[![Tests](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/octave-tests.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/octave-tests.yml) [![Docs](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/docs.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/docs.yml)
+## About this package
 
 ODE Test Problems (OTP) is an object-oriented MATLAB/GNU Octave package offering
 a broad range of ordinary differential equations, partial differential
@@ -59,5 +59,5 @@ options = odeset('Jacobian', problem.RHS.Jacobian);
 problem.plotPhaseSpace(t, y, 'Title', 'The Circle of Life');
 
 % Create a movie and write to file
-mov = problem.movie(t, y, 'Save', 'lotka-volterra.avi');
+mov = problem.movie(t, y);
 ```
