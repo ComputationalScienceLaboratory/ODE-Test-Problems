@@ -31,13 +31,20 @@ cd src/+opt/+newtest/
   *  The parameters class defines the parameters of the new problem
   *  A `Canonical.m` preset inside the `+presets` subfolder to set the initial condition and parameters in your case
 
+ ```bash
+    touch f.m
+    touch NewTestProblem.m
+    touch NewTestParameters.m
+    touch +presets/Canonical.m
+``` 
+
 ## The right-hand-side structure
 
-The right-hand-side structure providesvarious derivatives of the problem. They are implemented in separate function files. The right-hand-side function `f.m`, which is the time-derivative of the state `y` is defined as a function with at least two arguments `f(t,y)`. If the right-hand-side function needs other parameters they can also be passed to this function:
+The right-hand-side structure provides various derivatives of the problem. They are implemented in separate function files. The right-hand-side function `f.m`, which is the time-derivative of the state `y` is defined as a function with at least two arguments `f(t,y)`. If the right-hand-side function needs other parameters they can also be passed to this function:
 
 ```Matlab
 
-function dy = f(t, y, param1, ...)
+function dy = f(t, y, Param1, ...)
   dy  = ... 
 end
 
@@ -51,15 +58,15 @@ A problem package must contain a class named `<Name>Problem.m` that is a subclas
 methods that must be implemented: the constructor and `onSettingsChanged`. Optionally, one can override functions such as `internalPlot` and `internalSolve` to provide problem-specific defaults. Partitioned problems can add custom right-hand-side functions
 as class properties with private write access. The property name should start with `RHS`, e.g., `RHSStiff`.
 
-The template for a new class of problems called `SimpleProblem` looks like:
+The template for a new class of problems called `NewTest` looks like:
 
 ```Matlab
 
-classdef SimpleProblem < otp.Problem
+classdef NewTestProblem < otp.Problem
 
     methods
-        function obj = SimpleProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Simple Test Problem', [], timeSpan, y0, parameters);
+        function obj = NewTestProblem(timeSpan, y0, parameters)
+            obj@otp.Problem('New Test', [], timeSpan, y0, parameters);
         end
     end
     
@@ -70,11 +77,11 @@ classdef SimpleProblem < otp.Problem
             % We can assign them to individual variables 
             % to be used in function calls
 
-            param1 = obj.Parameters.param1; % ...
+            Param1 = obj.Parameters.Param1; % ...
 
 
             % set up the right-hand-side function wrapper
-            obj.RHS = otp.RHS(@(t, y) otp.newtest.f(t, y, param1), 1:obj.NumVars);
+            obj.RHS = otp.RHS(@(t, y) otp.newtest.f(t, y, Param1), 1:obj.NumVars);
         end
         
         % set up internal plot function
@@ -107,11 +114,11 @@ A problem package must also contain a class named `<Name>Parameters.m`. It only 
 
 ```Matlab
 
-classdef SimpleParameters
+classdef NewTestParameters
 
-    %SimpleParameters
+    %NewTestParameters
     properties
-        param1 %MATLAB ONLY: (1,1) {mustBeNumeric, mustBeReal, mustBeNonnegative}
+        Param1 %MATLAB ONLY: (1,1) {mustBeNumeric, mustBeReal, mustBeNonnegative}
     end
 end
 
@@ -123,21 +130,21 @@ Within a problem package, there should be a subpackage named `+presets`. This co
 that specify the timespan, initial conditions, and parameters. Typically, only the constructor needs to be implemented
 in a preset class.
 
-In our example, we add the `Canonical.m` preset inside the  `+presets` subfolder:
+In our example, we add the `Canonical.m` preset inside the  `+presets` subfolder containing:
 
 ```Matlab
 
-classdef Canonical < otp.newtest.SimpleProblem
+classdef Canonical < otp.newtest.NewTestProblem
 
     methods
         function obj = Canonical
-            params = otp.newtest.SimpleParameters;
-            params.param1 = ...
+            params = otp.newtest.NewTestParameters;
+            params.Param1 = ...
 
             y0 = ... 
             tspan = ...
 
-            obj = obj@otp.newtest.SimpleProblem(tspan, y0, params);
+            obj = obj@otp.newtest.NewTestProblem(tspan, y0, params);
         end
     end
 end

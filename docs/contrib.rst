@@ -1,4 +1,4 @@
-Contributing to ODE Test Problems
+Contributing to ``ODE Test Problems``
 =====================================
 
 This guide provides instructions for submitting and formatting new code
@@ -46,10 +46,17 @@ used by the problem. To add a new test problem follow these steps:
 -  A ``Canonical.m`` preset inside the ``+presets`` subfolder to set the
    initial condition and parameters in your case
 
+.. code:: bash
+
+      touch f.m
+      touch NewTestProblem.m
+      touch NewTestParameters.m
+      touch +presets/Canonical.m
+
 The right-hand-side structure
 -----------------------------
 
-The right-hand-side structure providesvarious derivatives of the
+The right-hand-side structure provides various derivatives of the
 problem. They are implemented in separate function files. The
 right-hand-side function ``f.m``, which is the time-derivative of the
 state ``y`` is defined as a function with at least two arguments
@@ -59,7 +66,7 @@ can also be passed to this function:
 .. code:: matlab
 
 
-   function dy = f(t, y, param1, ...)
+   function dy = f(t, y, Param1, ...)
      dy  = ... 
    end
 
@@ -77,17 +84,16 @@ provide problem-specific defaults. Partitioned problems can add custom
 right-hand-side functions as class properties with private write access.
 The property name should start with ``RHS``, e.g., ``RHSStiff``.
 
-The template for a new class of problems called ``SimpleProblem`` looks
-like:
+The template for a new class of problems called ``NewTest`` looks like:
 
 .. code:: matlab
 
 
-   classdef SimpleProblem < otp.Problem
+   classdef NewTestProblem < otp.Problem
 
        methods
-           function obj = SimpleProblem(timeSpan, y0, parameters)
-               obj@otp.Problem('Simple Test Problem', [], timeSpan, y0, parameters);
+           function obj = NewTestProblem(timeSpan, y0, parameters)
+               obj@otp.Problem('New Test', [], timeSpan, y0, parameters);
            end
        end
        
@@ -98,11 +104,11 @@ like:
                % We can assign them to individual variables 
                % to be used in function calls
 
-               param1 = obj.Parameters.param1; % ...
+               Param1 = obj.Parameters.Param1; % ...
 
 
                % set up the right-hand-side function wrapper
-               obj.RHS = otp.RHS(@(t, y) otp.newtest.f(t, y, param1), 1:obj.NumVars);
+               obj.RHS = otp.RHS(@(t, y) otp.newtest.f(t, y, Param1), 1:obj.NumVars);
            end
            
            % set up internal plot function
@@ -140,11 +146,11 @@ of a parameter class with property validation:
 .. code:: matlab
 
 
-   classdef SimpleParameters
+   classdef NewTestParameters
 
-       %SimpleParameters
+       %NewTestParameters
        properties
-           param1 %MATLAB ONLY: (1,1) {mustBeNumeric, mustBeReal, mustBeNonnegative}
+           Param1 %MATLAB ONLY: (1,1) {mustBeNumeric, mustBeReal, mustBeNonnegative}
        end
    end
 
@@ -157,22 +163,22 @@ the timespan, initial conditions, and parameters. Typically, only the
 constructor needs to be implemented in a preset class.
 
 In our example, we add the ``Canonical.m`` preset inside the
-``+presets`` subfolder:
+``+presets`` subfolder containing:
 
 .. code:: matlab
 
 
-   classdef Canonical < otp.newtest.SimpleProblem
+   classdef Canonical < otp.newtest.NewTestProblem
 
        methods
            function obj = Canonical
-               params = otp.newtest.SimpleParameters;
-               params.param1 = ...
+               params = otp.newtest.NewTestParameters;
+               params.Param1 = ...
 
                y0 = ... 
                tspan = ...
 
-               obj = obj@otp.newtest.SimpleProblem(tspan, y0, params);
+               obj = obj@otp.newtest.NewTestProblem(tspan, y0, params);
            end
        end
    end
@@ -285,4 +291,4 @@ should be written in camel case.
    end
 
 Creating Documentation
--------------
+----------------------
