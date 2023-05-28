@@ -58,6 +58,6 @@ options = odeset('Jacobian', problem.RHS.Jacobian);
 % Plot the phase space with a custom title
 problem.plotPhaseSpace(t, y, 'Title', 'The Circle of Life');
 
-% Create a movie and write to file
+% Create a movie 
 mov = problem.movie(t, y);
 ```
