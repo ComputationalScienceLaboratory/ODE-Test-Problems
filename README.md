@@ -1,27 +1,9 @@
 # ODE Test Problems
 
-ODE Test Problems (OTP) is an object-oriented MATLAB/GNU Octave package offering
-a broad range of ordinary differential equations, partial differential
-equations, and differential algebraic equations which can be used to test
-numerical methods such as time-steppers and data assimilation methods. It
-contains problems that are linear and nonlinear, autonomous and nonautonomous,
-scalar and high-dimensional, and stiff and nonstiff. OTP also supports
-partitioned systems for testing IMEX methods, multirate methods, and other
-partitioned schemes. Many problems come from real-world applications in fields
-such as chemistry, astrophysics, meteorology, and electrical engineering. OTP's
-interface provides a simple and standardized way to access problem parameters,
-the right-hand side function, the Jacobian matrix, and other properties. Each
-problem is equipped with functions for computing the solution, plotting the
-solution, and creating a movie.
+ODE Test Problems (`OTP`) is an object-oriented Matlab/Octave package offering a broad range of initial value problems in the form of ordinary and differential-algebraic equations that can be used to test numerical methods such as time integration or data assimilation.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems from fields such as chemistry, astrophysics, meteorology, and electrical engineering.  `OTP` also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are included when available. OTP is designed for ease of use---meaning that working with and modifying problems is simple and intuitive.
 
-Although OTP is currently under development, the public API is quite stable. We
+`OTP` is actively under development. We
 are currently writing full documentation in order to release version `1.0.0`.
-
-If there is a test problem, additional RHS property, or new functionality you
-would like added to OTP, we encourage you to let us know via a
-[GitHub issue](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
-We also accept pull requests that adhere to our
-[contributing guide](./docs/CONTRIBUTING.md).
 
 ## Installation
 
@@ -59,3 +41,17 @@ problem.plotPhaseSpace(t, y, 'Title', 'The Circle of Life');
 % Create a movie and write to file
 mov = problem.movie(t, y, 'Save', 'lotka-volterra.avi');
 ```
+
+## Further Reading
+
+`ODE Test Problems` documentation is maintained on [this page](https://computationalsciencelaboratory.github.io/ODE-Test-Problems).  
+
+New feature requests, and bug reports can be made through 
+[GitHub issues](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
+We also accept pull requests that adhere to our
+[contributing guide](CONTRIBUTING.md). 
+
+An interactive tutorial on the main features of `OTP` is available in a Jupyter notebook [in the repository](/notebooks)
+
+Further discussion of the main contributions of this open-source package can be found in our [paper](/paper/paper.md). 
+
