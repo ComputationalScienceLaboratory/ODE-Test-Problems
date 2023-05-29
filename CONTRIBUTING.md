@@ -38,7 +38,7 @@ cd src/+opt/+newtest/
     touch +presets/Canonical.m
 ``` 
 
-## The right-hand-side structure
+## The Right-hand-side Structure
 
 The right-hand-side structure provides various derivatives of the problem. They are implemented in separate function files. The right-hand-side function `f.m`, which is the time-derivative of the state `y` is defined as a function with at least two arguments `f(t,y)`. If the right-hand-side function needs other parameters they can also be passed to this function:
 
@@ -52,7 +52,7 @@ end
 
 For more information about this formulation please refer to our [paper](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/paper/paper.md).
 
-## The problem class 
+## The Problem Class 
 
 A problem package must contain a class named `<Name>Problem.m` that is a subclass of `otp.Problem`. There are two
 methods that must be implemented: the constructor and `onSettingsChanged`. Optionally, one can override functions such as `internalPlot` and `internalSolve` to provide problem-specific defaults. Partitioned problems can add custom right-hand-side functions
@@ -107,7 +107,7 @@ end
 
 ```
 
-## The parameters class 
+## The Parameters Class 
 
 A problem package must also contain a class named `<Name>Parameters.m`. It only needs to provide public properties for each of the problem parameters; no constructor or methods are needed. Note that property validation is currently not supported in Octave. Therefore, we use a custom comment syntax that is parsed by the installer to optionally include validation. The following is an example of a parameter class with property validation:
 
@@ -151,7 +151,7 @@ end
 
 
 ```
-## Copying the problem template 
+## Copying the Problem Template 
 
 When creating a new problem, we
 recommend duplicating an existing problem package, then renaming and editing the contents as needed.
@@ -162,7 +162,7 @@ recommend duplicating an existing problem package, then renaming and editing the
 An example of a more sophisticated problem with implemented Jacobians is the [Lorenz63 problem](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/src/+otp/+lorenz63). For an example of split right-hand-side PDE, see [the Brusselator problem]( https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/src/+otp/+brusselator).
 
 
-## Style guidelines
+## Style Guidelines
 
 In order for this project to maintain a consistent coding style, the following conventions should be used. These
 standards match those most commonly used in MATLAB's code and documentation.
