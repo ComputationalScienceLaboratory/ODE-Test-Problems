@@ -53,7 +53,7 @@ used by the problem. To add a new test problem follow these steps:
       touch NewTestParameters.m
       touch +presets/Canonical.m
 
-The right-hand-side structure
+The Right-hand-side Structure
 -----------------------------
 
 The right-hand-side structure provides various derivatives of the
@@ -73,7 +73,7 @@ can also be passed to this function:
 For more information about this formulation please refer to our
 `paper <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/paper/paper.md>`__.
 
-The problem class
+The Problem Class
 -----------------
 
 A problem package must contain a class named ``<Name>Problem.m`` that is
@@ -132,7 +132,7 @@ The template for a new class of problems called ``NewTest`` looks like:
        end
    end
 
-The parameters class
+The Parameters Class
 --------------------
 
 A problem package must also contain a class named
@@ -183,7 +183,7 @@ In our example, we add the ``Canonical.m`` preset inside the
        end
    end
 
-Copying the problem template
+Copying the Problem Template
 ----------------------------
 
 When creating a new problem, we recommend duplicating an existing
@@ -201,7 +201,7 @@ problem <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blo
 For an example of split right-hand-side PDE, see `the Brusselator
 problem <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/src/+otp/+brusselator>`__.
 
-Style guidelines
+Style Guidelines
 ----------------
 
 In order for this project to maintain a consistent coding style, the
