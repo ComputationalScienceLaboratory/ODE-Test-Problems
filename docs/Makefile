@@ -1,15 +1,17 @@
-.PHONY: html install serve clean
+.PHONY: html problems install serve clean
 
-html: clean
-	mkdir -p build/problems
-	python3 auto_pop_problems.py
+html: problems
 	sphinx-build . build/html
+
+problems: clean
+	mkdir -p build/problems
+	python3 generate_problem_rst.py
 
 install:
 	pip3 install -r requirements.txt
 
-serve: html
-	python3 -m http.server -d build/html
+serve:
+	sphinx-autobuild . build/html --watch ../src --pre-build 'make problems' --re-ignore 'build/*'
 
 clean:
 	rm -rf build
