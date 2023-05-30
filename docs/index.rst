@@ -1,5 +1,5 @@
 ODE Test Problems
-=================
+================================================================================
 
 TODO: put abstract here
 
@@ -9,6 +9,7 @@ TODO: put abstract here
 
    installation
    usage
+   structure
 
 .. toctree::
    :caption: Problems
