@@ -16,7 +16,8 @@ w(2:end) = w(2:end) + offDiag1 .* v(1:end-1);
 
 offDiag2 = cos(dAngles) .* offDiagScaling;
 C = spdiags([[offDiag2; 0], cDiag, [0; offDiag2]], -1:1, n, n);
-u = C \ w;
+% For scalar problems the following can be sparse when v=0, so we convert to full
+u = full(C \ w);
 accelerations = C * v;
 accelerations(1:end-1) = accelerations(1:end-1) - offDiag1 .* u(2:end);
 accelerations(2:end) = accelerations(2:end) + offDiag1 .* u(1:end-1);
