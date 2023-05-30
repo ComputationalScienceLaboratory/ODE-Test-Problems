@@ -14,6 +14,8 @@ extensions = [
     'sphinxcontrib.matlab',
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
+    'sphinx.ext.napoleon',
+    'sphinx_math_dollar',
     'sphinx_rtd_theme'
 ]
 
