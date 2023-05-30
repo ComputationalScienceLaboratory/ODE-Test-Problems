@@ -1,5 +1,6 @@
 # ODE Test Problems
 
+
 ODE Test Problems (`OTP`) is an object-oriented Matlab/Octave package offering a broad range of initial value problems in the form of ordinary and differential-algebraic equations that can be used to test numerical methods such as time integration or data assimilation.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems from fields such as chemistry, astrophysics, meteorology, and electrical engineering.  `OTP` also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are included when available. OTP is designed for ease of use---meaning that working with and modifying problems is simple and intuitive.
 
 `OTP` is actively under development. We
@@ -38,8 +39,8 @@ options = odeset('Jacobian', problem.RHS.Jacobian);
 % Plot the phase space with a custom title
 problem.plotPhaseSpace(t, y, 'Title', 'The Circle of Life');
 
-% Create a movie and write to file
-mov = problem.movie(t, y, 'Save', 'lotka-volterra.avi');
+% Create a movie 
+mov = problem.movie(t, y);
 ```
 
 ## Further Reading

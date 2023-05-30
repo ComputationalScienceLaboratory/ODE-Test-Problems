@@ -1,7 +1,7 @@
 function Jv = jacobianAdjointVectorProduct(~, y, v)
 
-y6 = y(6);
-y8 = y(8);
+y6 = conj(y(6));
+y8 = conj(y(8));
 
 v1 = v(1);
 v2 = v(2);

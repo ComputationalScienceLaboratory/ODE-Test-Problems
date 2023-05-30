@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+title: ODE Test Problems
+message: Please cite this software using the metadata from "preferred-citation".
+type: software
+authors:
+  - given-names: Steven
+    family-names: Roberts
+    orcid: 'https://orcid.org/0000-0002-7225-2501'
+  - given-names: Andrey A.
+    family-names: Popov
+    orcid: 'https://orcid.org/0000-0002-7726-6224'
+  - given-names: Arash
+    family-names: Sarshar
+    orcid: 'https://orcid.org/0000-0002-6633-8915'
+  - given-names: Adrian
+    family-names: Sandu
+    orcid: 'https://orcid.org/0000-0002-5380-0103'
+doi: 10.5281/zenodo.6653545
+repository-code: 'https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems'
+url: 'https://computationalsciencelaboratory.github.io/ODE-Test-Problems'
+license: MIT
+preferred-citation:
+  type: 'article'
+  authors:
+    - given-names: Steven
+      family-names: Roberts
+      orcid: 'https://orcid.org/0000-0002-7225-2501'
+    - given-names: Andrey A.
+      family-names: Popov
+      orcid: 'https://orcid.org/0000-0002-7726-6224'
+    - given-names: Adrian
+      family-names: Sandu
+      orcid: 'https://orcid.org/0000-0002-5380-0103'
+  title: 'ODE Test Problems: a MATLAB suite of initial value problems'
+  identifiers:
+    - type: other
+      value: "arXiv:1901.04098"
+      description: The ArXiv preprint of the paper

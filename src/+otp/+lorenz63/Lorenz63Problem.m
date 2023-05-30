@@ -1,5 +1,14 @@
 classdef Lorenz63Problem < otp.Problem
-    
+    % Three variable Lorenz '63 problem of the form
+    %
+    %  :math:`x' = \sigma(y - x)`,
+    %
+    %  :math:`y' = \rho x - y - xz`,
+    %
+    %  :math:`z' = xy - \beta z`,
+    %
+    % that exhibits chaotic behavior for certain values of the parameters.
+    %
     % For a full problem description take a look at the original formulation in
     %
     %  Lorenz, Edward N. "Deterministic nonperiodic flow."

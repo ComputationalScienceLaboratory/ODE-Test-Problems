@@ -1,4 +1,4 @@
-classdef QuasiGeostrophicRom < otp.quadratic.QuadraticProblem
+classdef QuasiGeostrophicROM < otp.quadratic.QuadraticProblem
     %QUASIGEOSTROPHICROM a quadratic reduced order model for the QG equations
     %
     % See:
@@ -7,7 +7,7 @@ classdef QuasiGeostrophicRom < otp.quadratic.QuadraticProblem
     %    SIAM Journal on Scientific Computing, 43(2), A1134-A1162.
     %
     methods
-        function obj = QuasiGeostrophicRom(r)
+        function obj = QuasiGeostrophicROM(r)
             tspan = [0, 80/(365.25*20.12)];
             
             if nargin < 1
