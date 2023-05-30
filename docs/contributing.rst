@@ -1,11 +1,12 @@
-Contributing to ``ODE Test Problems``
-=====================================
+******************
+Contributing Guide
+******************
 
 This guide provides instructions for submitting and formatting new code
 in ``OTP``.
 
 Submitting Changes
-------------------
+==================
 
 Changes to ``OTP`` should be proposed as a pull request and undergo a
 review process before being merged. New code must be free of warnings
@@ -13,7 +14,7 @@ and errors and adhere to the style guidelines (see also `The style
 guidelines <##%20Style%20guidelines>`__).
 
 Creating a Problem
-------------------
+==================
 
 Each problem defines a package under ``+otp`` that contains all files
 used by the problem. To add a new test problem follow these steps:
@@ -54,7 +55,7 @@ used by the problem. To add a new test problem follow these steps:
       touch +presets/Canonical.m
 
 The Right-hand-side Structure
------------------------------
+=============================
 
 The right-hand-side structure provides various derivatives of the
 problem. They are implemented in separate function files. The
@@ -74,7 +75,7 @@ For more information about this formulation please refer to our
 `paper <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/paper/paper.md>`__.
 
 The Problem Class
------------------
+=================
 
 A problem package must contain a class named ``<Name>Problem.m`` that is
 a subclass of ``otp.Problem``. There are two methods that must be
@@ -133,7 +134,7 @@ The template for a new class of problems called ``NewTest`` looks like:
    end
 
 The Parameters Class
---------------------
+====================
 
 A problem package must also contain a class named
 ``<Name>Parameters.m``. It only needs to provide public properties for
@@ -155,7 +156,7 @@ of a parameter class with property validation:
    end
 
 Adding presets
---------------
+==============
 
 Within a problem package, there should be a subpackage named
 ``+presets``. This contains subclasses of ``<Name>Problem`` that specify
@@ -184,7 +185,7 @@ In our example, we add the ``Canonical.m`` preset inside the
    end
 
 Copying the Problem Template
-----------------------------
+============================
 
 When creating a new problem, we recommend duplicating an existing
 problem package, then renaming and editing the contents as needed.
@@ -202,20 +203,20 @@ For an example of split right-hand-side PDE, see `the Brusselator
 problem <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/src/+otp/+brusselator>`__.
 
 Style Guidelines
-----------------
+================
 
 In order for this project to maintain a consistent coding style, the
 following conventions should be used. These standards match those most
 commonly used in MATLAB’s code and documentation.
 
 Line Formatting
-~~~~~~~~~~~~~~~
+---------------
 
 Four spaces are used for indentation. A line should be kept to 120
 characters or less.
 
 Variables
-~~~~~~~~~
+---------
 
 Variable names should be written in camel case.
 
@@ -227,7 +228,7 @@ Variable names should be written in camel case.
    fun = @(t, y) y + sin(t);
 
 Functions
-~~~~~~~~~
+---------
 
 Functions should be completely alphanumeric and written in camel case.
 No special character is used to distinguish between words.
@@ -240,7 +241,7 @@ No special character is used to distinguish between words.
    end
 
 Structures
-~~~~~~~~~~
+----------
 
 Structures should have camel case property names.
 
@@ -250,7 +251,7 @@ Structures should have camel case property names.
    car = struct('make', 'Ford', 'modelYear', 2020);
 
 Packages
-~~~~~~~~
+--------
 
 Package names should be completely lowercase and start with a plus
 symbol. No capitalization or special character is used to distinguish
@@ -263,7 +264,7 @@ between words.
    help otp.utils.PhysicalConstants
 
 Classes
-~~~~~~~
+-------
 
 Class names and properties should be written in Pascal case. When the
 name contains an acronym, all letters should be capitalized. Methods
@@ -291,4 +292,4 @@ should be written in camel case.
    end
 
 Creating Documentation
-----------------------
+======================
