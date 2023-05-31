@@ -2,7 +2,7 @@ name: Build Documentation for GitHub Pages
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches: [master]
 
 permissions:
