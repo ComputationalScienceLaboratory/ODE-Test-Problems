@@ -23,8 +23,8 @@ if tf
     vid_format = questdlg('Select Output format', ...
 	'Supported Formats:','Avi','Gif','Webm', 'Avi');
 
-    c        = strsplit(listAllExperiments{indx},'.');
-    filename = strcat('animations/', c{2},'-', c{4});
+    experiment        = strsplit(listAllExperiments{indx},'.');
+    filename = strcat('animations/', experiment{2},'-', experiment{4});
 
     problem.TimeSpan = [0,1];
     
@@ -69,7 +69,7 @@ if tf
             system(command);
             delete(strcat(filename,'.avi'));
         end
-        
+
     end
 
 
