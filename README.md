@@ -50,7 +50,7 @@ mov = problem.movie(t, y);
 New feature requests, and bug reports can be made through 
 [GitHub issues](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
 We also accept pull requests that adhere to our
-[contributing guide](CONTRIBUTING.md). 
+[contributing guide](docs/contrib.rst). 
 
 An interactive tutorial on the main features of `OTP` is available in a Jupyter notebook [in the repository](/notebooks)
 
