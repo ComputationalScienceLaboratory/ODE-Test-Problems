@@ -122,7 +122,7 @@ sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
 New feature requests, and bug reports can be made through 
 [GitHub issues](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
 We also accept pull requests that adhere to our
-[contributing guide](../CONTRIBUTING.md).
+[contributing guide](../docs/contrib.rst).
 
 
 
