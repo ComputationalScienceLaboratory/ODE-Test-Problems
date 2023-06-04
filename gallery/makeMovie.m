@@ -2,6 +2,11 @@ close all
 
 presets = getpresets();
 
+if ~ isfolder('animations')
+    mkdir('animations')
+end
+
+
 listAllExperiments = {};
 
 for preset = presets
@@ -25,13 +30,10 @@ if tf
 
     experiment        = strsplit(listAllExperiments{indx},'.');
     filename = strcat('animations/', experiment{2},'-', experiment{4});
-
-    problem.TimeSpan = [0,1];
-    
-    
+        
 
     if ~isempty(vid_format)
-        sol      = problem.solve('RelTol', 1e-6);
+        sol      = problem.solve('RelTol', 1e-8);
         mov      = problem.movie(sol, 'Save', filename);
     end
     
@@ -72,6 +74,7 @@ if tf
 
     end
 
+    
 
 end
 
