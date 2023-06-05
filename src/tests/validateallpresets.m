@@ -45,6 +45,9 @@ for preset = presets
         if strcmp(problemname, 'nbody')
             problem.TimeSpan = [0, 0.01];
         end
+        if strcmp(problemname, 'kortewegdevries')
+            problem.TimeSpan = [0, 0.01];
+        end
         problem.solve();
         fprintf('PASS  ');
         assert(true)
