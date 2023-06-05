@@ -16,6 +16,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.napoleon',
     'sphinx_math_dollar',
+    'sphinxcontrib.bibtex',
     'sphinx_rtd_theme'
 ]
 
@@ -27,5 +28,7 @@ autodoc_default_options = {
     'member-order': 'bysource',
     'show-inheritance': True
 }
+
+bibtex_bibfiles = ['references.bib']
 
 html_theme = 'sphinx_rtd_theme'

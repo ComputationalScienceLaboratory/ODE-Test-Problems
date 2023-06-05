@@ -19,9 +19,10 @@ TODO: put abstract here
    build/problems/*
 
 .. toctree::
-   :caption: For Developers
+   :caption: Additional Information
    :maxdepth: 1
 
    contributing
    GitHub <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems>
    License <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/LICENSE>
+   references

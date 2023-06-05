@@ -1,7 +1,7 @@
 classdef BrusselatorProblem < otp.Problem
     % A two-variable model for an autocatalytic reaction
     %
-    %   The Brusselator chemical reaction [LN71]_ is given by
+    %   The Brusselator chemical reaction :cite:p:`LN71` is given by
     %
     %   $$
     %   A &\to X \\
@@ -11,7 +11,7 @@ classdef BrusselatorProblem < otp.Problem
     %   $$
     %
     %   With the assumption that all reaction rates are one and the concentrations of $A$ and $B$ are constant
-    %   parameters, this system can be modeled by the following two differential equations [HNW93]_.
+    %   parameters, this system can be modeled by the following two differential equations :cite:p:`HNW93`.
     %
     %   $$
     %   X' &= 1 - (b + 1) X + a X^2 Y \\
@@ -29,15 +29,6 @@ classdef BrusselatorProblem < otp.Problem
     %       +---------------------+-----+
     %       | Stiff               | no  |
     %       +---------------------+-----+
-    %
-    %   References:
-    %       .. [HNW93] Hairer, E., et al. Solving Ordinary Differential Equations I. 2nd ed., Springer, 1993, pp.
-    %                  115–116. https://doi.org/10.1007/978-3-540-78862-1. Springer Series in Computational Mathematics,
-    %                  8.
-    %
-    %       .. [LN71] Lefever, R., and G. Nicolis. "Chemical Instabilities and Sustained Oscillations." Journal of
-    %                 Theoretical Biology, vol. 30, no. 2, Elsevier BV, Feb. 1971, pp. 267–284.
-    %                 https://doi.org/10.1016/0022-5193(71)90054-3.
     
     methods
         function obj = BrusselatorProblem(timeSpan, y0, parameters)
