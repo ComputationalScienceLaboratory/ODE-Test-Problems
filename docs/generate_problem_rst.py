@@ -13,7 +13,6 @@ for problem in cwd.glob('../src/+otp/*/*Problem.m'):
 ================================================================================
 .. automodule:: +otp.{problem.parent.name}
 .. autoclass:: {problem.stem}
-    :show-inheritance:
     :members:
 
 Parameters
@@ -29,6 +28,5 @@ Presets
         for preset in problem.parent.glob('+presets/*.m'):
             stream.write(f'''
 .. autoclass:: {preset.stem}
-    :show-inheritance:
     :members:
 ''')

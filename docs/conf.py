@@ -14,6 +14,9 @@ extensions = [
     'sphinxcontrib.matlab',
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
+    'sphinx.ext.napoleon',
+    'sphinx_math_dollar',
+    'sphinxcontrib.bibtex',
     'sphinx_rtd_theme'
 ]
 
@@ -21,6 +24,11 @@ primary_domain = 'mat'
 matlab_src_dir = '../src'
 matlab_keep_package_prefix = False
 
-autodoc_member_order = 'bysource'
+autodoc_default_options = {
+    'member-order': 'bysource',
+    'show-inheritance': True
+}
+
+bibtex_bibfiles = ['references.bib']
 
 html_theme = 'sphinx_rtd_theme'

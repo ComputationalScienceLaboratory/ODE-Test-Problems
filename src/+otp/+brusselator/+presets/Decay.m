@@ -1,6 +1,5 @@
 classdef Decay < otp.brusselator.BrusselatorProblem
-    %DECAY Brusselator preset with a solution that decays towards a steady state
-    %   See also otp.brusselator.BrusselatorProblem
+    % Brusselator preset with a solution that decays towards a steady state
     methods
         function obj = Decay
             params = otp.brusselator.BrusselatorParameters;
