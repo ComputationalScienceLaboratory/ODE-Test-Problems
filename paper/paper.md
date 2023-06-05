@@ -117,16 +117,10 @@ sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
 
 ## Getting help and Contributing
 
-`ODE Test Problems` documentation is maintained on [this page](https://computationalsciencelaboratory.github.io/ODE-Test-Problems).  
-
-New feature requests, and bug reports can be made through 
+`ODE Test Problems` documentation is maintained on [this page](https://computationalsciencelaboratory.github.io/ODE-Test-Problems).  New feature requests, and bug reports can be made through 
 [GitHub issues](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
 We also accept pull requests that adhere to our
-[contributing guide](../docs/contrib.rst).
-
-
-
-An interactive tutorial on the main features of `OTP` is available in a Jupyter notebook [in the repository](github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/notebooks)
+[contributing guide](../docs/contrib.rst). An interactive Jupyyter Notebook tutorial of the main features of `OTP` is available [in the GitHub repository](github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/notebooks).
 
 # Acknowledgments
 
