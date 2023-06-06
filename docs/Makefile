@@ -11,6 +11,10 @@ html: problems
 problems:
 	python3 generate_problem_rst.py
 
+problems: clean
+	mkdir -p build/problems
+	python3 generate_problem_rst.py
+
 install:
 	pip3 install -r requirements.txt
 
