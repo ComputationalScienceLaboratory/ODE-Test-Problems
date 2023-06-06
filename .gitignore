@@ -7,5 +7,6 @@
 *.mltbx
 build/
 docs/build/
+docs/problems/
 
 .DS_Store

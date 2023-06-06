@@ -16,7 +16,7 @@ TODO: put abstract here
    :maxdepth: 1
    :glob:
 
-   build/problems/*
+   problems/*
 
 .. toctree::
    :caption: Additional Information
