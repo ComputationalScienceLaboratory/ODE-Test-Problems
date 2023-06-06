@@ -1,6 +1,6 @@
 function presets = getpresets()
 
-entry = "+otp/";
+entry = "toolbox/+otp/";
 
 if isempty(dir(entry))
     entry = dir(which('otp.RHS'));

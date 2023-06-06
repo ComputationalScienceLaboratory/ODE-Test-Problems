@@ -7,7 +7,7 @@ problem_dir.mkdir(exist_ok=True)
 for file in problem_dir.glob('*'):
     file.unlink()
 
-for problem in cwd.glob('../src/+otp/*/*Problem.m'):
+for problem in cwd.glob('../toolbox/+otp/*/*Problem.m'):
     with problem.open() as stream:
         problem_name = search("@otp\\.Problem\\('(.+)',",
                               stream.read()).groups()[0]

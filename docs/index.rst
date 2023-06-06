@@ -24,5 +24,5 @@ TODO: put abstract here
 
    contributing
    GitHub <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems>
-   License <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/LICENSE>
+   License <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/license.txt>
    references
