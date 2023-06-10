@@ -11,15 +11,12 @@ html: problems
 problems:
 	python3 generate_problem_rst.py
 
-problems: clean
-	mkdir -p build/problems
-	python3 generate_problem_rst.py
-
 install:
 	pip3 install -r requirements.txt
 
 serve:
-	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) --watch ../src --pre-build 'make problems' --re-ignore '$(PROBLEMSDIR)/*'
+	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) --watch '../toolbox' --pre-build 'make problems' \
+	--re-ignore '$(PROBLEMSDIR)/*'
 
 clean:
 	rm -rf $(BUILDDIR) $(PROBLEMSDIR)
