@@ -1,7 +1,6 @@
-ODE Test Problems
-================================================================================
-
-TODO: put abstract here
+.. include:: ../README.md
+   :parser: myst_parser.sphinx_
+   :end-before: ## Installation
 
 .. toctree::
    :caption: Getting Started
@@ -9,7 +8,7 @@ TODO: put abstract here
 
    installation
    usage
-   structure
+   structure/index
 
 .. toctree::
    :caption: Problems

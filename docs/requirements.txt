@@ -5,4 +5,5 @@ sphinxcontrib-matlabdomain==0.18.0
 sphinxcontrib-napoleon==0.7
 sphinx-math-dollar==1.2.1
 sphinxcontrib-bibtex==2.5.0
+myst-parser==1.0.0
 pyyaml==6.0

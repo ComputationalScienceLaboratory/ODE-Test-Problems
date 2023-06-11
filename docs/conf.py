@@ -17,8 +17,11 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx_math_dollar',
     'sphinxcontrib.bibtex',
-    'sphinx_rtd_theme'
+    'sphinx_rtd_theme',
+    'myst_parser'
 ]
+
+exclude_patterns = ['README.md']
 
 primary_domain = 'mat'
 matlab_src_dir = '../toolbox'
