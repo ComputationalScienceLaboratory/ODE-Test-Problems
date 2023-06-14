@@ -1,15 +1,22 @@
-.PHONY: html install serve clean
+SPHINXOPTS ?= -b dirhtml
+SOURCEDIR = .
+BUILDDIR = build
+PROBLEMSDIR = problems
 
-html: clean
-	mkdir -p build/problems
-	python3 auto_pop_problems.py
-	sphinx-build . build/html
+.PHONY: html problems install serve clean
+
+html: problems
+	sphinx-build "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS)
+
+problems:
+	python3 generate_problem_rst.py
 
 install:
 	pip3 install -r requirements.txt
 
-serve: html
-	python3 -m http.server -d build/html
+serve:
+	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) --watch "../toolbox" --watch "../*.md" \
+	--pre-build "make problems" --re-ignore "$(PROBLEMSDIR)/*"
 
 clean:
-	rm -rf build
+	rm -rf $(BUILDDIR) $(PROBLEMSDIR)

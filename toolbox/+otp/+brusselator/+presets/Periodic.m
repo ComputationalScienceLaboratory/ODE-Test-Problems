@@ -1,6 +1,5 @@
 classdef Periodic < otp.brusselator.BrusselatorProblem
-    %PERIODIC Brusselator preset with a periodic solution
-    %   See also otp.brusselator.BrusselatorProblem
+    % Brusselator preset with a periodic solution
     methods
         function obj = Periodic
             params = otp.brusselator.BrusselatorParameters;

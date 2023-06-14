@@ -1,6 +1,5 @@
 classdef Spiral < otp.brusselator.BrusselatorProblem
-    %SPIRAL Brusselator preset with a phase plot that spirals into a stable orbit
-    %   See also otp.brusselator.BrusselatorProblem
+    % Brusselator preset with a phase plot that spirals into a stable orbit
     methods
         function obj = Spiral
             params = otp.brusselator.BrusselatorParameters;
