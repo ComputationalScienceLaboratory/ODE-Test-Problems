@@ -1,7 +1,7 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
   <configuration name="ODE Test Problems" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>ODE Test Problems</param.appname>
-    <param.authnamewatermark>Steven Roberts, Andrey A. Popov, Arash Sarshar, Ardian Sandu</param.authnamewatermark>
+    <param.authnamewatermark>Steven Roberts, Andrey A. Popov, Arash Sarshar, Adrian Sandu</param.authnamewatermark>
     <param.email />
     <param.company>Computational Science Laboratory</param.company>
     <param.summary>A MATLAB suite of initial value problems</param.summary>

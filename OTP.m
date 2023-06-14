@@ -24,7 +24,7 @@ classdef OTP
                 OTP.processFiles(OTP.SrcDir, OTP.BuildDir, ...
                     '\s*%\s*MATLAB ONLY:\s*', ' ');
                 matlab.addons.toolbox.packageToolbox( ...
-                    strcat(OTP.Name, '.prj'), OTP.packagePath());
+                    'toolboxPackaging.prj', OTP.packagePath());
             end
         end
         
