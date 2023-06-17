@@ -1,7 +1,7 @@
 # ODE Test Problems
 
 <p align="center">
-    <img width="25%" src="images/logo.png" alt="ODE Test Problems" title="ODE Test Problems">
+    <img width="30%" src="images/logo.png" alt="ODE Test Problems" title="ODE Test Problems">
 </p>
 
 ![Version](https://img.shields.io/github/v/release/ComputationalScienceLaboratory/ODE-Test-Problems?label=Version)
