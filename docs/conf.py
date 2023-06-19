@@ -35,3 +35,7 @@ autodoc_default_options = {
 bibtex_bibfiles = ['references.bib']
 
 html_theme = 'sphinx_rtd_theme'
+html_logo = '../images/logo.png'
+html_theme_options = {
+    'logo_only': True
+}
