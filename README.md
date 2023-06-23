@@ -2,7 +2,7 @@
 
 
 
-<table>
+<table border="0";>
 <tbody>
     <tr>
         <td> <img src="images/logo.png" width="5000" alt='ODE Test problems Logo' /></td>
