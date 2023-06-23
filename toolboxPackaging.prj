@@ -6,7 +6,7 @@
     <param.company>Computational Science Laboratory</param.company>
     <param.summary>A MATLAB suite of initial value problems</param.summary>
     <param.description />
-    <param.screenshot />
+    <param.screenshot>${PROJECT_ROOT}/images/logo.png</param.screenshot>
     <param.version>0.0.1</param.version>
     <param.output>${PROJECT_ROOT}/ODE Test Problems.mltbx</param.output>
     <param.products.name />
