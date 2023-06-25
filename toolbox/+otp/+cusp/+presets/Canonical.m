@@ -3,8 +3,24 @@ classdef Canonical < otp.cusp.CUSPProblem
     
     methods
         function obj = Canonical(varargin)
+            % Create the Canonical CUSP problem object.
+            %
+            % Parameters
+            % ----------
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
+            %
+            %    - ``N`` -- The number of cells in the spatial discretization.
+            %    - ``epsilon`` -- Value of $\varepsilon$.
+            %    - ``sigma`` -- Value of $\sigma$.
+            %
+            % Returns
+            % -------
+            % obj : CUSPProblem
+            %    The constructed problem.
+
             p = inputParser;
-            p.addParameter('Size', 32);
+            p.addParameter('N', 32);
             p.addParameter('epsilon', 1e-4);
             p.addParameter('sigma', 1/144);
             p.parse(varargin{:});

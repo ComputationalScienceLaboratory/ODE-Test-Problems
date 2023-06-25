@@ -78,7 +78,7 @@ classdef CUSPProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(:, 2)
             %    The initial conditions.
-            % parameters : BrusselatorParameters
+            % parameters : CUSPParameters
             %    The parameters.
             %
             % Returns
