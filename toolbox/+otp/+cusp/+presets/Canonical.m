@@ -1,7 +1,5 @@
 classdef Canonical < otp.cusp.CUSPProblem
-    %CANONICAL The classic problem with the classic coefficients
-    %
-    % See Hairer and Wanner, Solving ODEs II, p. 147
+    % The CUSP configuration from :cite:p:`HW96` (pp. 147-148).
     
     methods
         function obj = Canonical(varargin)
@@ -13,7 +11,6 @@ classdef Canonical < otp.cusp.CUSPProblem
             opts = p.Results;
             
             params = otp.cusp.CUSPParameters;
-            params.Size = opts.Size;
             params.Epsilon = opts.epsilon;
             params.Sigma = opts.sigma;
             
