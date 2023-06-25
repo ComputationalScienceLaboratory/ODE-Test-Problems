@@ -11,11 +11,11 @@ classdef BrusselatorProblem < otp.Problem
     % $$
     %
     % With the assumption that all reaction rates are one and the concentrations of $A$ and $B$ are constant parameters,
-    % this system can be modeled by the following two differential equations :cite:p:`HNW93`.
+    % this system can be modeled by the following two differential equations :cite:p:`HNW93` (pp. 115-116):
     %
     % $$
     % X' &= 1 - (b + 1) X + a X^2 Y \\
-    % Y' &= b X - a X^2 Y
+    % Y' &= b X - a X^2 Y.
     % $$
     %
     % Here, $X$ and $Y$ are concentrations of autocatylitic species of interest. Equations for species $D$ and $E$ are
@@ -30,6 +30,13 @@ classdef BrusselatorProblem < otp.Problem
     % +---------------------+-----+
     % | Stiff               | no  |
     % +---------------------+-----+
+    %
+    % Example
+    % -------
+    % >>> problem = otp.brusselator.presets.Canonical;
+    % >>> problem.TimeSpan(end) = 15;
+    % >>> sol = problem.solve();
+    % >>> problem.plotPhaseSpace(sol);
     
     methods
         function obj = BrusselatorProblem(timeSpan, y0, parameters)
