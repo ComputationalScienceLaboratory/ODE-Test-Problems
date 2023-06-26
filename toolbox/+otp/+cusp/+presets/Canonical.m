@@ -30,8 +30,8 @@ classdef Canonical < otp.cusp.CUSPProblem
             params.Epsilon = opts.epsilon;
             params.Sigma = opts.sigma;
             
-            ang = 2 * pi / opts.Size * (1:opts.Size).';
-            y0 = zeros(opts.Size, 1);
+            ang = 2 * pi / opts.N * (1:opts.N).';
+            y0 = zeros(opts.N, 1);
             a0 = -2*cos(ang);
             b0 = 2*sin(ang);
 
