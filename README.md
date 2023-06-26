@@ -1,18 +1,24 @@
 # ODE Test Problems
 
-<p align="center">
-    <img width="30%" src="images/logo.png" alt="ODE Test Problems" title="ODE Test Problems">
-</p>
+
+
+<table border="0";>
+<tbody>
+    <tr>
+        <td> <img src="images/logo.png" width="5000" alt='ODE Test problems Logo' /></td>
+        <td>
+            <p> ODE Test Problems (<code>OTP</code>) is an object-oriented Matlab/Octave package offering a broad range of initial value problems in the form of ordinary and differential-algebraic equations that can be used to test numerical methods such as time integration or data assimilation.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems in fields such as chemistry, astrophysics, meteorology, and electrical engineering.  <code>OTP</code>  also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are included when available. <code>OTP</code> is designed for ease of use &#8212;meaning that working with and modifying problems is simple and intuitive. 
+            <code>OTP</code> is actively under development. We
+            are currently writing full documentation in order to release version <code>1.0.0</code>. </p>
+        </td>
+    </tr>
+</tbody>
+</table>
 
 ![Version](https://img.shields.io/github/v/release/ComputationalScienceLaboratory/ODE-Test-Problems?label=Version)
 ![GitHub](https://img.shields.io/github/license/ComputationalScienceLaboratory/ODE-Test-Problems)
 [![Tests](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/tests.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/tests.yml)
 [![Build Documentation](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/docs.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/docs.yml)
-
-ODE Test Problems (`OTP`) is an object-oriented Matlab/Octave package offering a broad range of initial value problems in the form of ordinary and differential-algebraic equations that can be used to test numerical methods such as time integration or data assimilation.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems from fields such as chemistry, astrophysics, meteorology, and electrical engineering.  `OTP` also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are included when available. OTP is designed for ease of use---meaning that working with and modifying problems is simple and intuitive.
-
-`OTP` is actively under development. We
-are currently writing full documentation in order to release version `1.0.0`.
 
 ## Installation
 
