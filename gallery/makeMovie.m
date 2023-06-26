@@ -1,82 +1,64 @@
 close all
 
-presets = getpresets();
+problemName  = 'bouncingball';
+presetName   = 'RandomTerrain';
+outputFormat = 'webm';
+targetTime   =  40;
+size = [400,400];
 
-if ~ isfolder('animations')
-    mkdir('animations')
-end
+
+set(0,'DefaultAxesXMinorTick','on','DefaultAxesYMinorTick','on')
+set(0,'DefaultAxesLineWidth', 2,'DefaultAxesFontName','Times',...
+    'DefaultAxesFontSize',20,'DefaultAxesBox','on')
+% set(0,'DefaultLineLineWidth',4,'DefaultLineMarkerSize',8)
+
+ffmpegPath   = {'/opt/homebrew/bin/ffmpeg'};
 
 
-listAllExperiments = {};
+mkdir('animations')
+filename = strcat('animations/', problemName,'-', presetName);
 
-for preset = presets
-    listAllExperiments{end+1} = preset.presetclass;
-end
 
-% select test problem and preset
-[indx,tf] = listdlg('PromptString', ...
-    {'Select a test problem',...
-    'Only one problem can be selected at a time.',''},...
-    'ListSize',[250,500], ...
-    'InitialValue', 22, ...
-    'OKString','Select', ... 
-    'SelectionMode','single','ListString',listAllExperiments);
+string   = strcat(['otp.', problemName,'.presets.', presetName] );
+problem  = eval(string);
+problem.TimeSpan = [0,30];
 
-if tf
-    eval(strcat(['problem =', listAllExperiments{indx}]));
+% 
 
-    vid_format = questdlg('Select Output format', ...
-	'Supported Formats:','Avi','Gif','Webm', 'Avi');
+sol      = problem.solve('RelTol', 1e-8);
+mov      = problem.movie(sol, 'Save', filename, ...
+                         'TargetDuration',targetTime, ...
+                         'Size', size, ...
+                         'FrameRate', 15, ...
+                         'view', [0,90]);
 
-    experiment        = strsplit(listAllExperiments{indx},'.');
-    filename = strcat('animations/', experiment{2},'-', experiment{4});
+
+% convert vido format if neccessary 
+switch outputFormat
+    case 'avi'
         
+    case 'gif'
 
-    if ~isempty(vid_format)
-        sol      = problem.solve('RelTol', 1e-8);
-        mov      = problem.movie(sol, 'Save', filename);
-    end
-    
+        args     = strcat(['-i ' ...
+        filename,'.avi ' ...
+        filename,'.gif']);
 
-    % convert vido format if neccessary 
-    switch vid_format
-        case 'Avi'
-            
-        case 'Gif'
-    
-            args     = strcat(['-i ' ...
-            filename,'.avi ' ...
-            filename,'.gif']);
+    case 'webm'
 
-        case 'Webm'
-    
-            args     = strcat(['-i ' ...
-            filename,'.avi ' ...
-            '-c:v libvpx -crf 10 -b:v 1M -c:a libvorbis '...
-            filename,'.webm']);
-
-    end
-
-    if ~strcmp(vid_format,'Avi') && ~isempty(vid_format)
-
-        prompt = {'Ffmpeg is required for video conversion'};
-        dlgtitle = 'Enter path to ffmpeg:';
-        dims = [1 35];
-        definput = {'/opt/homebrew/bin/ffmpeg'};
-        ffmpeg = inputdlg(prompt,dlgtitle,dims,definput);
-
-        if ~isempty(ffmpeg)
-
-            command = strjoin(strcat([ffmpeg,' ' , args]));
-            system(command);
-            delete(strcat(filename,'.avi'));
-        end
-
-    end
-
-    
+        args     = strcat(['-i ' ...
+        filename,'.avi ' ...
+        '-c:v libvpx -crf 10 -b:v 1M -c:a libvorbis '...
+        filename,'.webm']);
 
 end
+
+command = strjoin(strcat([ffmpegPath,' ' , args]));
+system(command);        
+
+
+
+    
+
 
 
 
