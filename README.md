@@ -66,6 +66,11 @@ New feature requests, and bug reports can be made through
 We also accept pull requests that adhere to our
 [contributing guide](docs/contrib.rst). 
 
+
+An interactive tutorial on the main features of `OTP` is available in a Jupyter notebook [in the repository](/notebooks)
+
+Further discussion of the main contributions of this open-source package can be found in our [paper](/paper/paper.md). 
+
 <table align="center" border="0" cellpadding="1" cellspacing="1" style="width:300px;">
 	<caption>A test</caption>
 	<tbody>
@@ -74,13 +79,8 @@ We also accept pull requests that adhere to our
 			<td> <img src="gallery/animations/pendulum-Canonical.gif" width="300" alt='ODE Test problems Logo' /> &nbsp;</td>
 		</tr>
 		<tr>
-			<td> <img src="gallery/animations/bouncingBall-RandomTerrain.gif" width="300" alt='ODE Test problems Logo' /> &nbsp;</td>
+			<td> <img src="gallery/animations/bouncingball-RandomTerrain.gif" width="300" alt='ODE Test problems Logo' /> &nbsp;</td>
 			<td> <img src="gallery/animations/lorenz63-Canonical.gif" width="300" alt='ODE Test problems Logo' /> &nbsp;</td>
 		</tr>
 	</tbody>
 </table>
-
-An interactive tutorial on the main features of `OTP` is available in a Jupyter notebook [in the repository](/notebooks)
-
-Further discussion of the main contributions of this open-source package can be found in our [paper](/paper/paper.md). 
-
