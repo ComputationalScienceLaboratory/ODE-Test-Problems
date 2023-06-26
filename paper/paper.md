@@ -115,6 +115,12 @@ sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
               odeset('Jacobian', problem.RHS.Jacobian));
 ```
 
+## Getting help and Contributing
+
+`ODE Test Problems` documentation is maintained on [this page](https://computationalsciencelaboratory.github.io/ODE-Test-Problems).  New feature requests, and bug reports can be made through 
+[GitHub issues](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
+We also accept pull requests that adhere to our
+[contributing guide](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/docs/contrib.rst). An interactive Jupyter Notebook tutorial of the main features of `OTP` is available [in the GitHub repository](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/tree/master/notebooks).
 
 # Acknowledgments
 

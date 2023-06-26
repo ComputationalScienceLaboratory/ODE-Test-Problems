@@ -14,13 +14,28 @@ extensions = [
     'sphinxcontrib.matlab',
     'sphinx.ext.autodoc',
     'sphinx.ext.mathjax',
-    'sphinx_rtd_theme'
+    'sphinx.ext.napoleon',
+    'sphinx_math_dollar',
+    'sphinxcontrib.bibtex',
+    'sphinx_rtd_theme',
+    'myst_parser'
 ]
 
+exclude_patterns = ['README.md']
+
 primary_domain = 'mat'
-matlab_src_dir = '../src'
+matlab_src_dir = '../toolbox'
 matlab_keep_package_prefix = False
 
-autodoc_member_order = 'bysource'
+autodoc_default_options = {
+    'member-order': 'bysource',
+    'show-inheritance': True
+}
+
+bibtex_bibfiles = ['references.bib']
 
 html_theme = 'sphinx_rtd_theme'
+html_logo = '../images/logo.png'
+html_theme_options = {
+    'logo_only': True
+}

@@ -2,7 +2,7 @@ classdef OTP
     properties (Access = private, Constant)
         Octave = exist('OCTAVE_VERSION', 'builtin') > 0
         Name = 'ODE Test Problems';
-        SrcDir = 'src';
+        SrcDir = 'toolbox';
         BuildDir = 'build';
     end
     
@@ -18,13 +18,13 @@ classdef OTP
                 OTP.processFiles(OTP.SrcDir, fullfile(OTP.BuildDir, 'inst'), ...
                     {}, {});
                 copyfile('DESCRIPTION', OTP.BuildDir);
-                copyfile('LICENSE', fullfile(OTP.BuildDir, 'COPYING'));
+                copyfile('license.txt', fullfile(OTP.BuildDir, 'COPYING'));
                 zip(OTP.packagePath(), OTP.BuildDir);
             else
                 OTP.processFiles(OTP.SrcDir, OTP.BuildDir, ...
                     '\s*%\s*MATLAB ONLY:\s*', ' ');
                 matlab.addons.toolbox.packageToolbox( ...
-                    strcat(OTP.Name, '.prj'), OTP.packagePath());
+                    'toolboxPackaging.prj', OTP.packagePath());
             end
         end
         

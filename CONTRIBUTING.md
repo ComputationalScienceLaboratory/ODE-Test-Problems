@@ -1,4 +1,4 @@
-# Contributing to `ODE Test Problems`
+# Contributing Guide
 
 This guide provides instructions for submitting and formatting new code in `OTP`. 
 
@@ -156,7 +156,7 @@ end
 When creating a new problem, we
 recommend duplicating an existing problem package, then renaming and editing the contents as needed.
 
- [This is a minimal example of](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/tree/81cf4e473c34fe04d70280d0a78222a4c75fd775/src/%2Botp/%2Bnewtest) the completed test problem started in this tutorial. It implements the trivial ODE $y'(t) = 1,\, y(0) = 1$ and can be used as a template to implement simple test problems.
+ [This is a minimal example of](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/tree/81cf4e473c34fe04d70280d0a78222a4c75fd775/src/%2Botp/%2Bnewtest) the completed test problem started in this tutorial. It implements the trivial ODE $y'(t) = 1, y(0) = 1$ and can be used as a template to implement simple test problems.
 
 
 An example of a more sophisticated problem with implemented Jacobians is the [Lorenz63 problem](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/src/+otp/+lorenz63). For an example of split right-hand-side PDE, see [the Brusselator problem]( https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/src/+otp/+brusselator).
@@ -242,5 +242,4 @@ end
 
 
 ## Creating Documentation
-
 

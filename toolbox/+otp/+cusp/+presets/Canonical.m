@@ -1,19 +1,32 @@
 classdef Canonical < otp.cusp.CUSPProblem
-    %CANONICAL The classic problem with the classic coefficients
-    %
-    % See Hairer and Wanner, Solving ODEs II, p. 147
+    % The CUSP configuration from :cite:p:`HW96` (pp. 147-148).
     
     methods
         function obj = Canonical(varargin)
+            % Create the Canonical CUSP problem object.
+            %
+            % Parameters
+            % ----------
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
+            %
+            %    - ``N`` -- The number of cells in the spatial discretization.
+            %    - ``epsilon`` -- Value of $\varepsilon$.
+            %    - ``sigma`` -- Value of $\sigma$.
+            %
+            % Returns
+            % -------
+            % obj : CUSPProblem
+            %    The constructed problem.
+
             p = inputParser;
-            p.addParameter('Size', 32);
+            p.addParameter('N', 32);
             p.addParameter('epsilon', 1e-4);
             p.addParameter('sigma', 1/144);
             p.parse(varargin{:});
             opts = p.Results;
             
             params = otp.cusp.CUSPParameters;
-            params.Size = opts.Size;
             params.Epsilon = opts.epsilon;
             params.Sigma = opts.sigma;
             

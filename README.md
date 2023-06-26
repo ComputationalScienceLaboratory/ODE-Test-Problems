@@ -61,7 +61,7 @@ mov = problem.movie(t, y);
 
 `ODE Test Problems` documentation is maintained on [this page](https://computationalsciencelaboratory.github.io/ODE-Test-Problems).  
 
-New feature requests and bug reports can be made through 
+New feature requests, and bug reports can be made through 
 [GitHub issues](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
 We also accept pull requests that adhere to our
 [contributing guide](docs/contrib.rst). 

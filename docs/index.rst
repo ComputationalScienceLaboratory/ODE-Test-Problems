@@ -1,31 +1,31 @@
-.. ODE Test Problems documentation master file, created by
-   sphinx-quickstart on Fri May  5 17:31:12 2023.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 ODE Test Problems
-=============================================
+================================================================================
 
-PUT SOMETHING HERE
-
-
-List of Problems
-================
+.. include:: ../README.md
+   :parser: myst_parser.sphinx_
+   :start-after: </p>
+   :end-before: ## Installation
 
 .. toctree::
+   :caption: Getting Started
+   :maxdepth: 1
+
+   installation
+   usage
+   structure/index
+
+.. toctree::
+   :caption: Problems
    :maxdepth: 1
    :glob:
 
-   build/problems/*
-
-
-For Developers
-================
+   problems/*
 
 .. toctree::
-   :maxdepth: 2
-   :glob:
+   :caption: Additional Information
+   :maxdepth: 1
 
-
-   contrib
-
+   contributing
+   GitHub <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems>
+   License <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/license.txt>
+   references
