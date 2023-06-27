@@ -1,7 +1,7 @@
 close all
 
-problemName  = 'bouncingball';
-presetName   = 'RandomTerrain';
+problemName  = 'qu';
+presetName   = 'Canonical';
 outputFormat = 'gif';
 targetTime   =  40;
 size = [400,400];
@@ -41,7 +41,8 @@ switch outputFormat
 
         args     = strcat(['-i ' ...
         filename,'.avi ' ...
-        ' -vf "fps=10,scale=400:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 1 '...
+        ' -vf "fps=10,scale=400:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0' ...
+        ' '...
         filename,'.gif']);
 
 
