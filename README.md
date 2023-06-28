@@ -75,7 +75,7 @@ Further discussion of the main contributions of this open-source package can be 
 	<caption>A test</caption>
 	<tbody>
 		<tr>
-			<td> <img src="gallery/animations/kpr-Canonical.gif" width="300" alt='KPR problem' loop=infinite  />  &nbsp;</td>
+			<td> <img src="gallery/animations/nbody-OuterSolarSystem.gif" width="300" alt='KPR problem' loop=infinite  />  &nbsp;</td>
 			<td> <img src="gallery/animations/pendulum-Canonical.gif" width="300" alt='Pendulum problem' loop=infinite  /> &nbsp;</td>
 		</tr>
 		<tr>
