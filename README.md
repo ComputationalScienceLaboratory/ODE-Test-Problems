@@ -76,11 +76,11 @@ Further discussion of the main contributions of this open-source package can be 
 	<tbody>
 		<tr>
 			<td> <img src="gallery/animations/nbody-OuterSolarSystem.gif" width="300" alt='KPR problem' loop=infinite  />  &nbsp;</td>
-			<td> <img src="gallery/animations/pendulum-Canonical.gif" width="300" alt='Pendulum problem' loop=infinite  /> &nbsp;</td>
+			<td> <img src="gallery/animations/lorenz63-Canonical.gif" width="300" alt='Pendulum problem' loop=infinite  /> &nbsp;</td>
 		</tr>
 		<tr>
 			<td> <img src="gallery/animations/bouncingball-RandomTerrain.gif" width="300" alt='Bouncing ball problem' loop=infinite  /> &nbsp;</td>
-			<td> <img src="gallery/animations/lorenz63-Canonical.gif" width="300" alt='Lorenz63 problem' loop=infinite  /> &nbsp;</td>
+			<td> <img src="gallery/animations/pendulum-Canonical.gif" width="300" alt='Lorenz63 problem' loop=infinite  /> &nbsp;</td>
 		</tr>
 	</tbody>
 </table>
