@@ -4,7 +4,6 @@ on:
   pull_request:
     branches: [paper/**]
   push:
-    branches: [master]
     paths: [paper/**]
 
 jobs:
