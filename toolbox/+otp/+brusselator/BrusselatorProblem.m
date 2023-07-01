@@ -64,14 +64,14 @@ classdef BrusselatorProblem < otp.Problem
         %
         % See Also
         % --------
-        % :attr:`RHSNonlinear`
+        % RHSNonlinear
         RHSLinear
         
         % Right-hand side containing the nonlinear terms $[1 + a X^2 Y; -a X^2 Y]$.
         %
         % See Also
         % --------
-        % :attr:`RHSLinear`
+        % RHSLinear
         RHSNonlinear
     end
     

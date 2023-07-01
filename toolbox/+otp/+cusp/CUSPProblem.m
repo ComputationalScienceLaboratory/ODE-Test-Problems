@@ -41,7 +41,7 @@ classdef CUSPProblem < otp.Problem
         %
         % See Also
         % --------
-        % :attr:`RHSNonstiff`
+        % RHSNonstiff
        RHSStiff
 
         % Right-hand side containing the reaction terms not scaled by $\varepsilon^{-1}$.
@@ -50,21 +50,21 @@ classdef CUSPProblem < otp.Problem
         %
         % See Also
         % --------
-        % :attr:`RHSStiff`
+        % RHSStiff
        RHSNonstiff
 
         % Linear right-hand side containing the diffusion terms.
         %
         % See Also
         % --------
-        % :attr:`RHSReaction`
+        % RHSReaction
        RHSDiffusion
 
        % Right-hand side containing the reaction terms.
        %
        % See Also
        % --------
-       % :attr:`RHSDiffusion`
+       % RHSDiffusion
        RHSReaction
     end
     
