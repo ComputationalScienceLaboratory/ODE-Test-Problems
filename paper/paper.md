@@ -43,7 +43,7 @@ ODE Test Problems (OTP) is an object-oriented Octave/MATLAB package offering a b
 
 > One of the pioneering developments in the history of numerical methods for differential equations is the use of standardized test problems. These have been useful in identifying reliable and accurate software.
 >
-> -- John C. Butcher [@butcher2021series]
+> —John C. Butcher [@butcher2021series]
 
 Test problems are essential for developing and evaluating numerical methods for solving differential equations [@thompson1987collection; @Enright1975Mar; @SODERLIND2006244]. OTP includes a broad assortment of test problems that have been extensively used in the literature to investigate numerical methods. These problems range from simple linear equations to complex chaotic systems of nonlinear differential equations. The package can be used to evaluate the accuracy, stability, and convergence of numerical methods by comparing the numerical solutions obtained by different methods to reference or known exact solutions. Many of the existing test problems are quipped with parameters and derivative functions that can be used in data assimilation and parameter estimation research projects. Another important application of this packages is to investigate how numerical methods behave in the presence of oscillations and chaos. Since its launch, OTP has been used and cited by the scientific computing community[@glandon2022linearly; @glandon2020biorthogonal; @cooper2021augmented; @fish2023adaptive, @subrahmanya2021ensemble].
 
@@ -58,7 +58,7 @@ $$
   y(t_0) = y_0,
 $$
 
-where $y(t)$ is the time-dependent solution to the problem, $f(t, y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. $M$ is the mass-matrix for the differential-algebraic system and when the test problem is an ordinary differential equation, $M$ is the Identity matrix. The initial condition $Y_0$ specifies the value of $Y$ at the initial time $t = t_0$.
+where $y(t)$ is the time-dependent solution to the problem, $f(t, y)$ is the right-hand-side function representing the time-derivative, and $t$ is the independent variable. $M$ is the mass-matrix for the differential-algebraic system and when the test problem is an ordinary differential equation, $M$ is the Identity matrix. The initial condition $y_0$ specifies the value of $y$ at the initial time $t = t_0$.
 
 
 # Features
@@ -110,12 +110,12 @@ OTP uses appropriate internal solvers to integrate each problem. However, if you
 
 ```Matlab
 sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
-              odeset('Jacobian', problem.RHS.Jacobian));
+             odeset('Jacobian', problem.RHS.Jacobian));
 ```
 
 ## Getting help and Contributing
 
-`ODE Test Problems` documentation is maintained on [this page](https://computationalsciencelaboratory.github.io/ODE-Test-Problems).  New feature requests, and bug reports can be made through 
+ODE Test Problems documentation is maintained on [this page](https://computationalsciencelaboratory.github.io/ODE-Test-Problems).  New feature requests, and bug reports can be made through 
 [GitHub issues](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues).
 We also accept pull requests that adhere to our
 [contributing guide](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/docs/contrib.rst). An interactive Jupyter Notebook tutorial of the main features of OTP is available [in the GitHub repository](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/tree/master/notebooks).
