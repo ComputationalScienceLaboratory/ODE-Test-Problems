@@ -22,14 +22,34 @@
 
 ## Installation
 
-OTP can be installed as a local MATLAB toolbox or Octave package by running
+### MATLAB
+
+1. Download the latest [OTP toolbox file](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/releases/latest/download/OTP.mltbx).
+2. Open the toolbox file from MATLAB and follow the installer. See [MATLAB's instructions](https://www.mathworks.com/help/matlab/matlab_env/get-add-ons.html) for additional details.
+
+### Octave
+
+In Octave, run
+
+```matlab
+pkg install 'https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/releases/latest/download/OTP.zip'
+```
+
+then load the package with
+
+```matlab
+pkg load 'ode test problems'
+```
+
+### From Source
+
+For local development, OTP can be installed by running
 
 ```matlab
 OTP.install
 ```
 
-from the root directory of the project. If no longer needed, it can be
-uninstalled with `OTP.uninstall`.
+from the root directory of the project. If no longer needed, it can be uninstalled with `OTP.uninstall`.
 
 ## Example
 
