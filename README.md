@@ -1,7 +1,9 @@
 # ODE Test Problems
 
 
- <img src="images/logo.png" width="200" alt='ODE Test problems Logo' /> <img src="gallery/animations/nbody-OuterSolarSystem.gif" width="200" alt='KPR problem' loop=infinite  /> <img src="gallery/animations/lorenz63-Canonical.gif" width="200" alt='Pendulum problem' loop=infinite /> <img src="gallery/animations/bouncingball-RandomTerrain.gif" width="200" alt='Bouncing ball problem' loop=infinite  />  <img src="gallery/animations/pendulum-Canonical.gif" width="200" alt='Lorenz63 problem' loop=infinite  />  <img src="gallery/animations/kpr-Canonical.gif" width="200" alt='Lorenz63 problem' loop=infinite  />
+ <img src="images/logo.png" width="200" alt='ODE Test problems Logo' /> <img src="gallery/animations/nbody-OuterSolarSystem.gif" width="200" alt='KPR problem' loop=infinite  /> <img src="gallery/animations/lorenz63-Canonical.gif" width="200" alt='Pendulum problem' loop=infinite /> 
+ 
+ <img src="gallery/animations/bouncingball-RandomTerrain.gif" width="200" alt='Bouncing ball problem' loop=infinite  />  <img src="gallery/animations/pendulum-Canonical.gif" width="200" alt='Lorenz63 problem' loop=infinite  />  <img src="gallery/animations/kpr-Canonical.gif" width="200" alt='Lorenz63 problem' loop=infinite  />
  
  
  
