@@ -1,19 +1,14 @@
 # ODE Test Problems
 
 
+ <img src="images/logo.png" width="200" alt='ODE Test problems Logo' /> <img src="gallery/animations/nbody-OuterSolarSystem.gif" width="200" alt='KPR problem' loop=infinite  /> <img src="gallery/animations/lorenz63-Canonical.gif" width="200" alt='Pendulum problem' loop=infinite /> 
+ 
+ <img src="gallery/animations/bouncingball-RandomTerrain.gif" width="200" alt='Bouncing ball problem' loop=infinite  />  <img src="gallery/animations/pendulum-Canonical.gif" width="200" alt='Lorenz63 problem' loop=infinite  />  <img src="gallery/animations/kpr-Canonical.gif" width="200" alt='Lorenz63 problem' loop=infinite  />
+ 
+ 
+ 
+ ODE Test Problems (<code>OTP</code>) is an object-oriented Matlab/Octave package offering a broad range of initial value problems in the form of ordinary and differential-algebraic equations that can be used to test numerical methods such as time integration or data assimilation.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems in fields such as chemistry, astrophysics, meteorology, and electrical engineering.  <code>OTP</code>  also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are included when available. <code>OTP</code> is designed for ease of use &#8212;meaning that working with and modifying problems is simple and intuitive. <code>OTP</code> is actively under development. We are currently writing full documentation in order to release version <code>1.0.0</code>. </p>
 
-<table border="0";>
-<tbody>
-    <tr>
-        <td> <img src="images/logo.png" width="5000" alt='ODE Test problems Logo' /></td>
-        <td>
-            <p> ODE Test Problems (<code>OTP</code>) is an object-oriented Matlab/Octave package offering a broad range of initial value problems in the form of ordinary and differential-algebraic equations that can be used to test numerical methods such as time integration or data assimilation.  It includes problems that are linear and nonlinear, homogeneous and nonhomogeneous, autonomous and nonautonomous, scalar and high-dimensional, stiff and nonstiff, and chaotic and nonchaotic.  Many are real-world problems in fields such as chemistry, astrophysics, meteorology, and electrical engineering.  <code>OTP</code>  also supports partitioned ODEs for testing split, multirate, and other multimethods.  Functions for plotting solutions and creating movies are available for all problems, and exact solutions are included when available. <code>OTP</code> is designed for ease of use &#8212;meaning that working with and modifying problems is simple and intuitive. 
-            <code>OTP</code> is actively under development. We
-            are currently writing full documentation in order to release version <code>1.0.0</code>. </p>
-        </td>
-    </tr>
-</tbody>
-</table>
 
 ![Version](https://img.shields.io/github/v/release/ComputationalScienceLaboratory/ODE-Test-Problems?label=Version)
 ![GitHub](https://img.shields.io/github/license/ComputationalScienceLaboratory/ODE-Test-Problems)
@@ -70,17 +65,3 @@ We also accept pull requests that adhere to our
 An interactive tutorial on the main features of `OTP` is available in a Jupyter notebook [in the repository](/notebooks)
 
 Further discussion of the main contributions of this open-source package can be found in our [paper](/paper/paper.md). 
-
-<table align="center" border="0" cellpadding="1" cellspacing="1" style="width:300px;">
-	<caption>A test</caption>
-	<tbody>
-		<tr>
-			<td> <img src="gallery/animations/nbody-OuterSolarSystem.gif" width="300" alt='KPR problem' loop=infinite  />  &nbsp;</td>
-			<td> <img src="gallery/animations/lorenz63-Canonical.gif" width="300" alt='Pendulum problem' loop=infinite  /> &nbsp;</td>
-		</tr>
-		<tr>
-			<td> <img src="gallery/animations/bouncingball-RandomTerrain.gif" width="300" alt='Bouncing ball problem' loop=infinite  /> &nbsp;</td>
-			<td> <img src="gallery/animations/pendulum-Canonical.gif" width="300" alt='Lorenz63 problem' loop=infinite  /> &nbsp;</td>
-		</tr>
-	</tbody>
-</table>
