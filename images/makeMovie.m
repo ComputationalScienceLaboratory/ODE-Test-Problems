@@ -1,16 +1,15 @@
 close all
 
-problemName  = 'qu';
+problemName  = 'kpr';
 presetName   = 'Canonical';
 outputFormat = 'gif';
-targetTime   =  40;
-size = [400,400];
+targetTime   =  10;
+size         = [400,400];
 
 
 set(0,'DefaultAxesXMinorTick','on','DefaultAxesYMinorTick','on')
 set(0,'DefaultAxesLineWidth', 2,'DefaultAxesFontName','Times',...
     'DefaultAxesFontSize',20,'DefaultAxesBox','on')
-% set(0,'DefaultLineLineWidth',4,'DefaultLineMarkerSize',8)
 
 ffmpegPath   = {'/opt/homebrew/bin/ffmpeg'};
 
