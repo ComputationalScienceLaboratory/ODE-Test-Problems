@@ -1,6 +1,23 @@
 classdef Canonical < otp.protherorobinson.ProtheroRobinsonProblem
+
     methods
         function obj = Canonical(lambda, phi, dphi)
+            % Create the Canonical Prothero Robinson problem object.
+            %
+            % Parameters
+            % ----------
+            % 
+            % lambda
+            %       The eigenvalue of the problem
+            % phi
+            %       The perturbation function $\phi(t)$
+            % dphi
+            %       The perturbation derivative function $\phi^{\prime}(t)$
+            %
+            % Returns
+            % -------
+            % obj : ProtheroRobinsonProblem
+            %    The constructed problem
             if nargin < 1 || isempty(lambda)
                 lambda = -1;
             end

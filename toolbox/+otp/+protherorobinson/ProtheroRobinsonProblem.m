@@ -1,4 +1,33 @@
 classdef ProtheroRobinsonProblem < otp.Problem
+    % 
+    % The Prothero-Robinson problem :cite:p:`PR74` is the linear ODE
+    % 
+    % $$y' = \lambda (y - \phi(t)) + \phi^{\prime}(t). $$
+    %
+    % It is mainly used for stability analysis of numerical time-stepping schemes. 
+    % The exact solution is trivialy $y(t) = \phi(t)$ and therefore any 
+    % errors introduced by the numerical scheme can be measured easily.
+    % The parameter $\lambda$ controls the stifness of the problem.
+    %
+    % Notes
+    % -----
+    % +---------------------+-------------------------+
+    % | Type                | ODE                     |
+    % +---------------------+-------------------------+
+    % | Number of Variables | 1                       |
+    % +---------------------+-------------------------+
+    % | Stiff               | yes                     |
+    % +---------------------+-------------------------+
+    %
+    % Example
+    % -------
+    %
+    % 
+    % >>> p = otp.protherorobinson.presets.Canonical(-10);
+    % >>> sol = p.solve();
+    % >>> norm(p.solveExactly(sol.x) - sol.y)
+    % 
+
     methods
         function obj = ProtheroRobinsonProblem(timeSpan, y0, parameters)
             obj@otp.Problem('Prothero-Robinson', [], timeSpan, y0, parameters);
