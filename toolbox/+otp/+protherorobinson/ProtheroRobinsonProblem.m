@@ -4,7 +4,7 @@ classdef ProtheroRobinsonProblem < otp.Problem
     % 
     % $$y' = \lambda (y - \phi(t)) + \phi^{\prime}(t). $$
     %
-    % It is used mainly for stability analysis of numerical time-stepping schemes. 
+    % It is mainly used for stability analysis of numerical time-stepping schemes. 
     % The exact solution is trivialy $y(t) = \phi(t)$ and therefore any 
     % errors introduced by the numerical scheme can be measured easily.
     % The parameter $\lambda$ controls the stifness of the problem.
@@ -12,7 +12,7 @@ classdef ProtheroRobinsonProblem < otp.Problem
     % Notes
     % -----
     % +---------------------+-------------------------+
-    % | Type                | DOE                     |
+    % | Type                | ODE                     |
     % +---------------------+-------------------------+
     % | Number of Variables | 1                       |
     % +---------------------+-------------------------+
