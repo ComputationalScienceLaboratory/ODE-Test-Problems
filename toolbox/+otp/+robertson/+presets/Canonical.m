@@ -1,5 +1,5 @@
 classdef Canonical < otp.robertson.RobertsonProblem
-    % The classic problem with the classic coeeficients
+    % The classic problem with the classic coeeficients $K_1 = 4e-2, K2 = 3e7, K3 = 1e4$.
     methods
         function obj = Canonical
             params = otp.robertson.RobertsonParameters;
