@@ -6,8 +6,8 @@ classdef RHS
     %
     % $$M(t, y) y' = f(t, y)$$
     %
-    % The mass matrix $M(t, y)$ is permitted to be singular in which case we have a differential-algebraic equation.
-    % ``RHS`` includes most of the properties available in
+    % The mass matrix $M(t, y)$ is permitted to be singular in which case the problem is a differential-algebraic
+    % equation. ``RHS`` includes most of the properties available in
     % `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_ so that it can easily be used with built-in ODE
     % solvers.
     %
@@ -238,7 +238,7 @@ classdef RHS
         % y : numeric(:, 1)
         %    The state at which the Hessian is evaluated.
         % u, v : numeric(:, 1)
-        %    A vector applied to the Hessian.
+        %    The vectors applied to the Hessian.
         %
         % Returns
         % -------
