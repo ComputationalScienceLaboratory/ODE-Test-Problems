@@ -4,7 +4,7 @@ classdef ProtheroRobinsonProblem < otp.Problem
     % $$y' = \lambda (y - \phi(t)) + \phi'(t).$$
     %
     % This simple problem is used to test for order reduction and S-stability of time-stepping schemes. With initial
-    % condition $y_0 = \phi(t_0)$, the exact solution is $y(t) = \phi(t)$ independent of $\lambda$. Therefore, any
+    % condition $y(t_0) = \phi(t_0)$, the exact solution is $y(t) = \phi(t)$ independent of $\lambda$. Therefore, any
     % errors introduced by the numerical scheme can be measured easily.
     %
     % Notes
