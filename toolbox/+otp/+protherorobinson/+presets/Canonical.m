@@ -1,11 +1,10 @@
 classdef Canonical < otp.protherorobinson.ProtheroRobinsonProblem
-    % The Prothero–Robinson configuration from :cite:p:`PR74` (p. 159) based on :cite:p:`SLH70` (p. 272). It uses
+    % The Prothero–Robinson configuration from :cite:p:`PR74` (p. 159) based on :cite:p:`SLH70` (p. 272). It uses time
+    % span $t \in [0, 15]$, initial condition $y(0) = \phi(0)$, and parameters
     %
     % $$
-    % t &\in [0, 15] \\
-    % y(0) &= \phi(0) \\
-    % \lambda &= -200 \\
-    % \phi(t) &= 10 - (10 + t) e^{-t}
+    % \lambda &= -200, \\
+    % \phi(t) &= 10 - (10 + t) e^{-t}.
     % $$
 
     methods
