@@ -1,23 +1,44 @@
 classdef Lorenz63Problem < otp.Problem
-    % Three variable Lorenz '63 problem of the form
+    % Three variable Lorenz '63 problem of the form,
     %
-    %  :math:`x' = \sigma(y - x)`,
-    %
-    %  :math:`y' = \rho x - y - xz`,
-    %
-    %  :math:`z' = xy - \beta z`,
+    % $$
+    % x' = \sigma(y - x),\\
+    % y' = \rho x - y - xz,\\
+    % z' = xy - \beta z,
+    % $$
     %
     % that exhibits chaotic behavior for certain values of the parameters.
     %
-    % For a full problem description take a look at the original formulation in
+    % Here $x$ roughyl corresponds to the rate of convention of a fluid,
+    % $y$ corresponds to temperature variation in one orthogonal direction,
+    % and $z$ is temerature variation in the other direction.
     %
-    %  Lorenz, Edward N. "Deterministic nonperiodic flow."
-    %  Journal of the atmospheric sciences 20, no. 2 (1963): 130-141.
     %
-    % For a more detailed description also take a look at
+    % For a full problem description take a look at the original
+    % formulation in :cite:p:`lorenz63`, and for a more detailed look at
+    % the behavior of the problem, look at :cite:p:`lorenz63strogatz`
     %
-    %  Strogatz, Steven H. Nonlinear dynamics and chaos: with applications to
-    %  physics, biology, chemistry, and engineering. Westview press, 2014.
+    % Notes
+    % -----
+    % +---------------------+-----------------------------------------+
+    % | Type                | ODE                                     |
+    % +---------------------+-----------------------------------------+
+    % | Number of Variables | 3                                       |
+    % +---------------------+-----------------------------------------+
+    % | Stiff               | no                                      |
+    % +---------------------+-----------------------------------------+
+    % | Chaotic             | typically, depending on parameters      |
+    % +---------------------+-----------------------------------------+
+    %
+    % Example
+    % -------
+    % >>> problem = otp.lorenz63.presets.Canonical;
+    % >>> sol = problem.solve('MaxStep', 1e-3);
+    % >>> problem.plotPhaseSpace(sol);
+    %
+    % See also
+    % --------
+    % :doc:`Lorenz '96 Problem </problems/Lorenz96Problem>`
     
     methods
         function obj = Lorenz63Problem(timeSpan, y0, parameters)
