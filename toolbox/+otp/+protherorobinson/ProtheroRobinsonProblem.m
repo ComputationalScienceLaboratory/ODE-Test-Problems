@@ -1,4 +1,6 @@
 classdef ProtheroRobinsonProblem < otp.Problem
+    % The prototypical test problem for analyzing order reduction due to stiffness.
+    %
     % The Prothero–Robinson problem :cite:p:`PR74` is the linear ODE
     % 
     % $$y' = \lambda (y - \phi(t)) + \phi'(t).$$
