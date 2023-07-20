@@ -1,5 +1,7 @@
 classdef RobertsonProblem < otp.Problem
-    % The Robertson Problem is  a simple, stiff chemical reaction that
+    % A simple, stiff chemical reaction.
+    % 
+    % The Robertson Problem :cite:p:`R67` is a simple, stiff chemical reaction that
     % models the concentrations of chemical species A, B, and C 
     % involved in the reactions
     % $$
@@ -9,7 +11,7 @@ classdef RobertsonProblem < otp.Problem
     % &B + C \rightarrow A + C  &~~\text{at rate}~~  &K3.
     % \end{align*}
     % $$
-    % These correspond to the ODE system :cite:p:`R67`
+    % These correspond to the ODE system 
     % 
     % $$ 
     % \begin{align*}
@@ -21,31 +23,26 @@ classdef RobertsonProblem < otp.Problem
     % The reaction rates $K_1, K_2,$ and $K_3$ often range from slow to very fast
     % which makes the problem challenging. This has made it a popular test for
     % implicit time-stepping schemes.
-    %
-    %
     % 
     % Notes
     % -----
-    % +---------------------+-------------------------+
-    % | Type                | ODE                     |
-    % +---------------------+-------------------------+
-    % | Number of Variables | 3                       |
-    % +---------------------+-------------------------+
-    % | Stiff               | yes                     |
-    % +---------------------+-------------------------+
+    % +---------------------+------------------------------------------------+
+    % | Type                | ODE                                            |
+    % +---------------------+------------------------------------------------+
+    % | Number of Variables | 3                                              |
+    % +---------------------+------------------------------------------------+
+    % | Stiff               | typically, depending on $K_1, K_2$ and $K_3$   |
+    % +---------------------+------------------------------------------------+
     %
-    % 
     % Example
     % -------
     %
-    % 
     % >>> p = otp.robertson.presets.Canonical;
     % >>> problem.Parameters.K1 = 100;
     % >>> problem.Parameters.K2 = 1000;
     % >>> problem.Parameters.K3 = 1000;
     % >>> sol = p.solve();
     % >>> p.plot(sol)
-    % 
 
     properties (Access = private, Constant)
         NumComps = 3
