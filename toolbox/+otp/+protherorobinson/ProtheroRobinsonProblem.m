@@ -1,36 +1,48 @@
 classdef ProtheroRobinsonProblem < otp.Problem
-    % 
-    % The Prothero-Robinson problem :cite:p:`PR74` is the linear ODE
-    % 
-    % $$y' = \lambda (y - \phi(t)) + \phi^{\prime}(t). $$
+    % The prototypical test problem for analyzing order reduction due to stiffness.
     %
-    % It is mainly used for stability analysis of numerical time-stepping schemes. 
-    % The exact solution is trivialy $y(t) = \phi(t)$ and therefore any 
+    % The Prothero–Robinson problem :cite:p:`PR74` is the linear ODE
+    % 
+    % $$y' = \lambda (y - \phi(t)) + \phi'(t).$$
+    %
+    % This simple problem is used to test for order reduction and S-stability of time-stepping schemes. With initial
+    % condition $y(t_0) = \phi(t_0)$, the exact solution is $y(t) = \phi(t)$ independent of $\lambda$. Therefore, any
     % errors introduced by the numerical scheme can be measured easily.
-    % The parameter $\lambda$ controls the stifness of the problem.
     %
     % Notes
     % -----
-    % +---------------------+-------------------------+
-    % | Type                | ODE                     |
-    % +---------------------+-------------------------+
-    % | Number of Variables | 1                       |
-    % +---------------------+-------------------------+
-    % | Stiff               | yes                     |
-    % +---------------------+-------------------------+
+    % +---------------------+-----------------------------------+
+    % | Type                | ODE                               |
+    % +---------------------+-----------------------------------+
+    % | Number of Variables | 1                                 |
+    % +---------------------+-----------------------------------+
+    % | Stiff               | typically, depending on $\lambda$ |
+    % +---------------------+-----------------------------------+
     %
     % Example
     % -------
-    %
-    % 
     % >>> p = otp.protherorobinson.presets.Canonical(-10);
     % >>> sol = p.solve();
     % >>> norm(p.solveExactly(sol.x) - sol.y)
-    % 
 
     methods
         function obj = ProtheroRobinsonProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Prothero-Robinson', [], timeSpan, y0, parameters);
+            % Create a Prothero–Robinson problem object.
+            %
+            % Parameters
+            % ----------
+            % timeSpan : numeric(1, 2)
+            %    The start and final time.
+            % y0 : numeric(:, 2)
+            %    The initial conditions.
+            % parameters : ProtheroRobinsonParameters
+            %    The parameters.
+            %
+            % Returns
+            % -------
+            % obj : ProtheroRobinsonProblem
+            %    The constructed problem.
+            obj@otp.Problem('Prothero–Robinson', [], timeSpan, y0, parameters);
         end
     end
     
@@ -46,8 +58,7 @@ classdef ProtheroRobinsonProblem < otp.Problem
         
         function y = internalSolveExactly(obj, t)
             if ~isequal(obj.Y0, obj.Parameters.Phi(obj.TimeSpan(1)))
-                error('OTP:noExactSolution', ...
-                    'An exact solution is unavailable for this initial condition');
+                error('OTP:noExactSolution', 'An exact solution is unavailable for this initial condition');
             end
             
             y = obj.Parameters.Phi(t);

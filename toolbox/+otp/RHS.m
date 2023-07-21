@@ -1,36 +1,304 @@
 classdef RHS
+    % The right-hand side and related properties of a differential equation.
+    %
+    % This immutable class contains properties required by time integrators and other numerical methods to describe the
+    % following differential equation:
+    %
+    % $$M(t, y) y' = f(t, y)$$
+    %
+    % The mass matrix $M(t, y)$ is permitted to be singular in which case the problem is a differential-algebraic
+    % equation. ``RHS`` includes most of the properties available in
+    % `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_ so that it can easily be used with built-in ODE
+    % solvers.
+    %
+    % Examples
+    % --------
+    % >>> rhs = otp.RHS(@(t, y) [y(2) + t; y(1) * y(2)], ...
+    % ...     'Jacobian', @(~, y) [0, 1; y(2), y(1)], ...
+    % ...     'Mass', [1, 2; 3, 4]);
+    % >>> sol = ode23s(rhs.F, [0, 1], [1, -1], rhs.odeset());
+    % >>> sol.y(:, end)
+    % ans =
+    % <BLANKLINE>
+    %    1.0770
+    %   -1.4465
+    %
+    % >>> rhs = otp.RHS(@(~, y) y);
+    % >>> rhs2 = 2 * rhs + 1;
+    % >>> rhs2.F(0, 1)
+    % ans = 3
+    %
+    % See Also
+    % --------
+    % odeset : https://www.mathworks.com/help/matlab/ref/odeset.html
+
     properties (SetAccess = private)
+        % The function handle for $f$ in the differential equation $M(t, y) y' = f(t, y)$.
+        %
+        % Parameters
+        % ----------
+        % t : numeric
+        %    The time at which $f$ is evaluated.
+        % y : numeric(:, 1) or numeric(:, :)
+        %    The state at which $f$ is evaluated. If :attr:`Vectorized` in ``'on'``, it can be a matrix where each
+        %    column is a state.
+        %
+        % Returns
+        % -------
+        % f : numeric(:, 1) or numeric(:, :)
+        %    The evaluation of $f$ with each column corresponding to a column of $y$.
         F
-        
-        Events
-        InitialSlope
+
+        % The partial derivative of $f$ with respect to $y$.
+        %
+        % This follows the same specifications as in `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_.
+        % If set, it is a matrix if it is independent of t and y or a function handle. In either case, it provides a
+        % square matrix in which element $(i,j)$ is $\frac{\partial f_i(t, y)}{\partial y_j}$. If ``Jacobian`` is a
+        % function handle, it has the following signature:
+        %
+        % Parameters
+        % ----------
+        % t : numeric
+        %    The time at which the Jacobian is evaluated.
+        % y : numeric(:, 1)
+        %    The state at which the Jacobian is evaluated.
+        %
+        % Returns
+        % -------
+        % jacobian : numeric(:, :)
+        %    The evaluation of the Jacobian.
+        %
+        % See Also
+        % --------
+        % JacobianMatrix
+        % JacobianFunction
         Jacobian
+
+        % The sparsity pattern of the Jacobian matrix.
+        %
+        % This follows the same specifications as in `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_.
         JPattern
+
+        % The mass matrix $M(t, y)$.
+        %
+        % This follows the same specifications as in `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_.
+        %
+        % See Also
+        % --------
+        % MassMatrix
+        % MassFunction
         Mass
+
+        % Whether the mass matrix is singular, i.e., the problem is a differential-algebraic equation.
+        %
+        % This follows the same specifications as in `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_.
         MassSingular
+
+        % State dependence of the mass matrix.
+        %
+        % This follows the same specifications as in `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_.
         MStateDependence
+
+        % The sparsity pattern of $\frac{\partial}{\partial y} M(t, y) v$.
+        %
+        % This follows the same specifications as in `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_.
         MvPattern
+
+        % A vector of solution components which should be nonnegative.
+        %
+        % This follows the same specifications as in `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_.
         NonNegative
+
+        % Whether $f$ can be evaluated at multiple states.
+        %
+        % This follows the same specifications as in `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_.
+        %
+        % Warning
+        % -------
+        % In Octave, this is always unset because it is not used by built in solvers and causes an error for ``ode15s``.
         Vectorized
-        
-        JacobianVectorProduct
-        JacobianAdjointVectorProduct
-        PartialDerivativeParameters
-        PartialDerivativeTime
-        HessianVectorProduct
-        HessianAdjointVectorProduct
+
+        % A function which detects events and determines whether to terminate the integration.
+        %
+        % This follows the same specifications as in `odeset <https://www.mathworks.com/help/matlab/ref/odeset.html>`_.
+        Events
+
+        % Response to a terminal event occuring.
+        %
+        % If set, it is a function handle with the following signature:
+        %
+        % Parameters
+        % ----------
+        % sol : struct
+        %    The solution generated by an ODE solver once an event occurs.
+        % problem : Problem
+        %    The problem for which the event occured. This should not be modified by the function.
+        %
+        % Returns
+        % -------
+        % terminal : logical
+        %    ``true`` if the integration should stop and ``false`` if it can continue.
+        % newProblem : Problem
+        %    A new Problem to use after the event, possibly with the time span, initial conditions, or parameters
+        %    updated.
+        %
+        % Warning
+        % -------
+        % With Octave solvers, event data in ``sol`` is transposed compared to MATLAB. Therefore, we recommend accessing
+        % the state at which the event occured with ``sol.y(:, end)`` as opposed to ``sol.ye(:, end)``.
         OnEvent
+        
+        % The action of the Jacobian multiplying a vector.
+        %
+        % This offers an alternative approach to access the Jacobian when constructing or storing it as a matrix is
+        % impractical. If set, it is a function handle with the following signature:
+        %
+        % Parameters
+        % ----------
+        % t : numeric
+        %    The time at which the Jacobian is evaluated.
+        % y : numeric(:, 1)
+        %    The state at which the Jacobian is evaluated.
+        % v : numeric(:, 1)
+        %    The vector multiplying the Jacobian.
+        %
+        % Returns
+        % -------
+        % jvp : numeric(:, 1)
+        %    A vector in which element $i$ is $\sum_j \frac{\partial f_i(t, y)}{\partial y_j} v_j$.
+        JacobianVectorProduct
+        
+        % The action of the adjoint (conjugate transpose) of the Jacobian multiplying a vector.
+        %
+        % This is often useful for sensitivity analysis and data assimilation. If set, it is a function handle with the
+        % following signature:
+        %
+        % Parameters
+        % ----------
+        % t : numeric
+        %    The time at which the Jacobian is evaluated.
+        % y : numeric(:, 1)
+        %    The state at which the Jacobian is evaluated.
+        % v : numeric(:, 1)
+        %    The vector multiplying the adjoint of the Jacobian.
+        %
+        % Returns
+        % -------
+        % javp : numeric(:, 1)
+        %    A vector in which element $i$ is $\sum_j \frac{\partial \overline{f_j(t, y)}}{\partial y_i} v_j$.
+        JacobianAdjointVectorProduct
+
+        % The partial derivative of $f$ with respect to parameters.
+        %
+        % If set, it is a function handle with the following signature:
+        %
+        % Parameters
+        % ----------
+        % t : numeric
+        %    The time at which the derivative is evaluated.
+        % y : numeric(:, 1)
+        %    The state at which the derivative is evaluated.
+        %
+        % Returns
+        % -------
+        % pdp : numeric(:, :)
+        %    A matrix in which element $(i, j)$ is $\frac{\partial f_i(t, y; p)}{\partial p_j}$.
+        PartialDerivativeParameters
+
+        % The partial derivative of $f$ with respect to $t$.
+        %
+        % This property is often required by Rosenbrock methods when solving nonautonomous problems. If set, it is a
+        % function handle with the following signature:
+        %
+        % Parameters
+        % ----------
+        % t : numeric
+        %    The time at which the derivative is evaluated.
+        % y : numeric(:, 1)
+        %    The state at which the derivative is evaluated.
+        %
+        % Returns
+        % -------
+        % pdt : numeric(:, 1)
+        %    A vector in which element $i$ is $\frac{\partial f_i(t, y)}{\partial t}$.
+        %
+        % Note
+        % ----
+        % This is not the total derivative with respect to $t$.
+        PartialDerivativeTime
+
+        % The action of the Hessian, a bilinear operator involving second derivatives of $f$, on two vectors.
+        %
+        % If set, it is a function handle with the following signature:
+        %
+        % Parameters
+        % ----------
+        % t : numeric
+        %    The time at which the Hessian is evaluated.
+        % y : numeric(:, 1)
+        %    The state at which the Hessian is evaluated.
+        % u, v : numeric(:, 1)
+        %    The vectors applied to the Hessian.
+        %
+        % Returns
+        % -------
+        % hvp : numeric(:, 1)
+        %    A vector in which element $i$ is
+        %    $\sum_{j,k} \frac{\partial^2 f_i(t, y)}{\partial y_j \partial y_k} u_j v_k$.
+        HessianVectorProduct
+
+        % The action of a vector on the partial derivative of :attr:`JacobianAdjointVectorProduct` with respect to $y$.
+        %
+        % If set, it is a function handle with the following signature:
+        %
+        % Parameters
+        % ----------
+        % t : numeric
+        %    The time at which the Hessian is evaluated.
+        % y : numeric(:, 1)
+        %    The state at which the Hessian is evaluated.
+        % u, v : numeric(:, 1)
+        %    The vectors applied to the adjoint of the Hessian.
+        %
+        % Returns
+        % -------
+        % havp : numeric(:, 1)
+        %    A vector in which element $i$ is
+        %    $\sum_{j,k} \frac{\partial^2 \overline{f_j(t, y)}}{\partial y_i \partial y_k} u_j v_k$.
+        HessianAdjointVectorProduct
     end
     
     properties (Dependent)
+        % A dependent property which retruns :attr:`Jacobian` if it is a matrix and ``[]`` if it is a function handle.
         JacobianMatrix
+
+        % A dependent property which wraps :attr:`Jacobian` in a function handle if necessary.
         JacobianFunction
+
+        % A dependent property which retruns :attr:`Mass` if it is a matrix and ``[]`` if it is a function handle.
         MassMatrix
+
+        % A dependent property which wraps :attr:`Mass` in a function handle if necessary.
         MassFunction
     end
 
     methods
         function obj = RHS(F, varargin)
+            % Create a right-hand side object.
+            %
+            % Parameters
+            % ----------
+            % F : function_handle
+            %    The function handle for $f$ in the differential equation $M(t, y) y' = f(t, y)$.
+            % varargin
+            %    A variable number of name-value pairs. A name can be any property of :class:`RHS`, and the subsequent
+            %    value initializes that property.
+            %
+            % Warning
+            % -------
+            % In Octave, the value for :attr:`Vectorized` is ignored because it is not used by built in solvers and
+            % causes an error for ``ode15s``.
+
             obj.F = F;
             extras = struct(varargin{:});
             fields = fieldnames(extras);
@@ -111,9 +379,20 @@ classdef RHS
         end
         
         function opts = odeset(obj, varargin)
+            % Convert an ``RHS`` to a struct which can be used by built-in ODE solvers.
+            %
+            % Parameters
+            % ----------
+            % varargin
+            %    Additional name-value pairs which have precedence over the values in this class.
+            %
+            % Returns
+            % -------
+            % opts : struct
+            %    An options strucutre containing the subset of properties compatible with built-in ODE solvers.
+
             opts = odeset( ...
                 'Events', obj.Events, ...
-                'InitialSlope', obj.InitialSlope, ...
                 'Jacobian', obj.Jacobian, ...
                 'JPattern', obj.JPattern, ...
                 'Mass', obj.Mass, ...
@@ -172,16 +451,9 @@ classdef RHS
                 vectorized = obj2.Vectorized;
             end
             
-            % Events and NonNegative practically cannot be supported and are
-            % always unset.
-            
-            % JPattern is problematic to compute for division operators due to
-            % singular patterns
-            
-            % Mass matrices introduce several difficulties. When singular, it
-            % makes it infeasible to update InitialSlope, and therefore, it is
-            % always unset. To avoid issues with two RHS' having different mass
-            % matrices, only the primary RHS is used.
+            % Events and NonNegative practically cannot be supported and are always unset.
+            % JPattern is problematic to compute for division operators due to singular patterns
+            % To avoid issues with two RHS' having different mass matrices, only the primary RHS is used.
             
             newRHS = otp.RHS(f, ...
                 'Mass', primaryRHS.Mass, ...

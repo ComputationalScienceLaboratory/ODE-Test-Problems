@@ -1,5 +1,3 @@
-function j = jacobian(lambda, ~, ~)
-
-j = lambda;
+function lambda = jacobian(lambda, ~, ~)
 
 end
