@@ -15,8 +15,8 @@ classdef Lorenz63Problem < otp.Problem
     %
     %
     % For a full problem description take a look at the original
-    % formulation in :cite:p:`lorenz63`, and for a more detailed look at
-    % the behavior of the problem, look at :cite:p:`lorenz63strogatz`
+    % formulation in :cite:p:`Lor63`, and for a more detailed look at
+    % the behavior of the problem, look at :cite:p:`Str18`.
     %
     % Notes
     % -----

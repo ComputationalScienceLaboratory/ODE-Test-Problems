@@ -1,17 +1,10 @@
 classdef LimitCycle < otp.lorenz63.Lorenz63Problem
-    %LIMITCYCLE A non-chaotic set of parameters for the problem to showcase potential periodic behavior.
-    %    Source:
-    %      Strogatz, S. H. (2018). Nonlinear dynamics and chaos with student solutions manual: 
-    %          With applications to physics, biology, chemistry, and
-    %          engineering. CRC press. Page 341
-    %
+    % Lorenz '63 preset limit cycle---a non-chaotic preset---from :cite:p:`Str18` 
+    % which uses time span $t \in [0, 60]$, $\sigma = 10$, $\rho = 350$, 
+    % $\beta = 8/3$, and intial conditions $y_0 = [0, 1, 0]^T$.
+    
     methods
         function obj = LimitCycle
-            %LIMITCYCLE Construct a limit cycle Lorenz '63 problem
-            %   OBJ = LIMITCYCLE() defines the Lorenz '63
-            %   problem with corresponding parameters
-            %     sigma = 10, rho = 350, and beta = 8/3;
-            %
             sigma = 10;
             rho   = 350;
             beta  = 8/3;
