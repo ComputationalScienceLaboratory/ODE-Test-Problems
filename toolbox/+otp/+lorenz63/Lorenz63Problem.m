@@ -1,26 +1,58 @@
 classdef Lorenz63Problem < otp.Problem
-    % Three variable Lorenz '63 problem of the form
+    % A simple continuous chaotic system.
+    % 
+    % The three variable Lorenz '63 problem :cite:p:`Lor63` of the form,
     %
-    %  :math:`x' = \sigma(y - x)`,
+    % $$
+    % x' &= \sigma(y - x),\\
+    % y' &= \rho x - y - xz,\\
+    % z' &= xy - \beta z,
+    % $$
     %
-    %  :math:`y' = \rho x - y - xz`,
+    % exhibits chaotic behavior for certain values of the parameters.
+    % Here $x$ roughly corresponds to the rate of convection of a fluid,
+    % $y$ corresponds to temperature variation in one direction,
+    % and $z$ is temerature variation in the other direction.
     %
-    %  :math:`z' = xy - \beta z`,
+    % For a full problem description see :cite:p:`Str18`.
     %
-    % that exhibits chaotic behavior for certain values of the parameters.
+    % Notes
+    % -----
+    % +---------------------+-----------------------------------------------------------+
+    % | Type                | ODE                                                       |
+    % +---------------------+-----------------------------------------------------------+
+    % | Number of Variables | 3                                                         |
+    % +---------------------+-----------------------------------------------------------+
+    % | Stiff               | not typically, depending on $\sigma$, $\rho$, and $\beta$ |
+    % +---------------------+-----------------------------------------------------------+
     %
-    % For a full problem description take a look at the original formulation in
+    % Example
+    % -------
+    % >>> problem = otp.lorenz63.presets.Canonical;
+    % >>> sol = problem.solve('MaxStep', 1e-3);
+    % >>> problem.plotPhaseSpace(sol);
     %
-    %  Lorenz, Edward N. "Deterministic nonperiodic flow."
-    %  Journal of the atmospheric sciences 20, no. 2 (1963): 130-141.
-    %
-    % For a more detailed description also take a look at
-    %
-    %  Strogatz, Steven H. Nonlinear dynamics and chaos: with applications to
-    %  physics, biology, chemistry, and engineering. Westview press, 2014.
+    % See also
+    % --------
+    % :doc:`Lorenz '96 Problem </problems/Lorenz96Problem>`
     
     methods
         function obj = Lorenz63Problem(timeSpan, y0, parameters)
+            % Create a Lorenz '63 problem object.
+            %
+            % Parameters
+            % ----------
+            % timeSpan : numeric(1, 2)
+            %    The start and final time.
+            % y0 : numeric(3, 1)
+            %    The initial conditions.
+            % parameters : Lorenz63Parameters
+            %    The parameters.
+            %
+            % Returns
+            % -------
+            % obj : Lorenz63Problem
+            %    The constructed problem.
             obj@otp.Problem('Lorenz Equations', 3, timeSpan, y0, parameters);
         end
     end

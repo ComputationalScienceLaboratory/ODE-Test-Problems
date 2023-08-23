@@ -1,40 +1,38 @@
 classdef Canonical < otp.lorenz63.Lorenz63Problem
-    % This is the original problem presented in the literature.
-    % The initial condition is purposefully outside of the attractor, but converges to it quite quickly.
-    % 
-    % References:
-    %      Lorenz, E. N. (1963). Deterministic nonperiodic flow. Journal of atmospheric sciences, 20(2), 130-141.
-    %
-    % See also :class:`+otp.+lorenz63.Lorenz63Problem`
+    % Original Lorenz '63 preset presented in :cite:p:`Lor63`
+    % which uses time span $t \in [0, 60]$, $\sigma = 10$, $\rho = 28$, 
+    % $\beta = 8/3$, and intial conditions $y_0 = [0, 1, 0]^T$.
 
     methods
-        function obj = Canonical(sigma, rho, beta)
-            % Construct a Lorenz '63 problem
+        function obj = Canonical(varargin)
+            % Create the Canonical Lorenz '63 problem object.
             %
-            %   problem = Canonical(sigma, rho, beta) defines the Lorenz '63
-            %   problem with corresponding parameters
+            % Parameters
+            % ----------
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
             %
-            %   problem = Canonical() sets the default values of the parameters
-            %   to Sigma = 10, Rho = 28, and Beta = 8/3. The arguments can
-            %   be left empty or ignored to use these defaults.
-    
-            if nargin < 1 || isempty(sigma)
-                sigma = 10;
-            end
-            
-            if nargin < 2 || isempty(rho)
-                rho = 28;
-            end
-            
-            if nargin < 3 || isempty(beta)
-                beta = 8/3;
-            end
+            %    - ``sigma`` – Value of $\sigma$.
+            %    - ``rho`` – Value of $\rho$.
+            %    - ``beta`` – Value of $\beta$.
+            %
+            % Returns
+            % -------
+            % obj : Lorenz63Problem
+            %    The constructed problem.
+
+            p = inputParser;
+            p.addParameter('sigma', 10);
+            p.addParameter('rho', 28);
+            p.addParameter('beta', 8/3);
+            p.parse(varargin{:});
+            opts = p.Results;
 
             params = otp.lorenz63.Lorenz63Parameters;
             
-            params.Sigma = sigma;
-            params.Rho   = rho;
-            params.Beta  = beta;
+            params.Sigma = opts.sigma;
+            params.Rho   = opts.rho;
+            params.Beta  = opts.beta;
             
             y0    = [0; 1; 0];
             tspan = [0 60];
