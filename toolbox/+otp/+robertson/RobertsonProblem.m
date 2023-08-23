@@ -1,7 +1,7 @@
 classdef RobertsonProblem < otp.Problem
     % A simple, stiff chemical reaction.
     % 
-    % The Robertson Problem :cite:p:`Rob67` is a simple, stiff chemical reaction that
+    % The Robertson problem :cite:p:`Rob67` is a simple, stiff chemical reaction that
     % models the concentrations of chemical species $A$, $B$, and $C$ 
     % involved in the reactions
     % $$
