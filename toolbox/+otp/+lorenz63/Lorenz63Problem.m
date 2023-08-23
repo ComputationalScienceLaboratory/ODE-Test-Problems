@@ -4,9 +4,9 @@ classdef Lorenz63Problem < otp.Problem
     % The three variable Lorenz '63 problem :cite:p:`Lor63` of the form,
     %
     % $$
-    % x' = \sigma(y - x),\\
-    % y' = \rho x - y - xz,\\
-    % z' = xy - \beta z,
+    % x' &= \sigma(y - x),\\
+    % y' &= \rho x - y - xz,\\
+    % z' &= xy - \beta z,
     % $$
     %
     % that exhibits chaotic behavior for certain values of the parameters.
