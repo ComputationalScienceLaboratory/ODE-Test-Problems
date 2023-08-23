@@ -11,7 +11,7 @@ classdef RobertsonProblem < otp.Problem
     % &B + C \rightarrow A + C  &~~\text{at rate}~~  &K_3.
     % \end{align*}
     % $$
-    % These correspond to the ODE system 
+    % These correspond to the ODE system, 
     % 
     % $$ 
     % \begin{align*}
@@ -31,7 +31,7 @@ classdef RobertsonProblem < otp.Problem
     % +---------------------+------------------------------------------------+
     % | Number of Variables | 3                                              |
     % +---------------------+------------------------------------------------+
-    % | Stiff               | typically, depending on $K_1, K_2,$ and $K_3$   |
+    % | Stiff               | typically, depending on $K_1, K_2,$ and $K_3$  |
     % +---------------------+------------------------------------------------+
     %
     % Example
