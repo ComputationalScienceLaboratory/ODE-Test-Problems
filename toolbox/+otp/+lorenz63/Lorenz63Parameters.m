@@ -1,5 +1,5 @@
 classdef Lorenz63Parameters
-    %User-configurable parameters for the Lorenz '63 problem
+    % Parameters for the Lorenz '63 problem.
 
     properties
         % A representation of the Prandtl number.

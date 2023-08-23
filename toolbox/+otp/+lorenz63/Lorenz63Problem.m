@@ -9,11 +9,10 @@ classdef Lorenz63Problem < otp.Problem
     % z' &= xy - \beta z,
     % $$
     %
-    % that exhibits chaotic behavior for certain values of the parameters.
+    % exhibits chaotic behavior for certain values of the parameters.
     % Here $x$ roughly corresponds to the rate of convection of a fluid,
     % $y$ corresponds to temperature variation in one direction,
     % and $z$ is temerature variation in the other direction.
-    %
     %
     % For a full problem description see :cite:p:`Str18`.
     %
@@ -39,7 +38,7 @@ classdef Lorenz63Problem < otp.Problem
     
     methods
         function obj = Lorenz63Problem(timeSpan, y0, parameters)
-            % Create a Lorenz Equations problem object.
+            % Create a Lorenz '63 problem object.
             %
             % Parameters
             % ----------
