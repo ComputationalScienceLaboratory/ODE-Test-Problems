@@ -2,13 +2,13 @@ classdef RobertsonProblem < otp.Problem
     % A simple, stiff chemical reaction.
     % 
     % The Robertson Problem :cite:p:`R67` is a simple, stiff chemical reaction that
-    % models the concentrations of chemical species A, B, and C 
+    % models the concentrations of chemical species $A, B,$ and $C$ 
     % involved in the reactions
     % $$
     % \begin{align*}
-    % &A  \rightarrow B      &~~\text{at rate}~~ &K1, \\
-    % &B + B \rightarrow C + B  &~~\text{at rate}~~  &K2, \\
-    % &B + C \rightarrow A + C  &~~\text{at rate}~~  &K3.
+    % &A  \rightarrow B      &~~\text{at rate}~~ &K_1, \\
+    % &B + B \rightarrow C + B  &~~\text{at rate}~~  &K_2, \\
+    % &B + C \rightarrow A + C  &~~\text{at rate}~~  &K_3.
     % \end{align*}
     % $$
     % These correspond to the ODE system 
@@ -31,18 +31,18 @@ classdef RobertsonProblem < otp.Problem
     % +---------------------+------------------------------------------------+
     % | Number of Variables | 3                                              |
     % +---------------------+------------------------------------------------+
-    % | Stiff               | typically, depending on $K_1, K_2$ and $K_3$   |
+    % | Stiff               | typically, depending on $K_1, K_2,$ and $K_3$   |
     % +---------------------+------------------------------------------------+
     %
     % Example
     % -------
     %
-    % >>> p = otp.robertson.presets.Canonical;
+    % >>> problem = otp.robertson.presets.Canonical;
     % >>> problem.Parameters.K1 = 100;
     % >>> problem.Parameters.K2 = 1000;
     % >>> problem.Parameters.K3 = 1000;
-    % >>> sol = p.solve();
-    % >>> p.plot(sol)
+    % >>> sol = problem.solve();
+    % >>> problem.plot(sol)
 
     properties (Access = private, Constant)
         NumComps = 3
