@@ -1,5 +1,5 @@
 classdef Canonical < otp.robertson.RobertsonProblem
-    % The Robertson problem with the classic coefficients $K_1 = 4\times 10^{-2}, K_2 = 3\times 10^7, K_3 = 10^4$. This preset is
+    % The Robertson problem with the classic coefficients $K_1 = 4\times 10^{-2}$, $K_2 = 3\times 10^7$, $K_3 = 10^4$. This preset is
     % referred to as "ROBER" in :cite:p:`HW96` (pg 144).
     methods
         function obj = Canonical

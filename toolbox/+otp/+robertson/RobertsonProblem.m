@@ -1,8 +1,8 @@
 classdef RobertsonProblem < otp.Problem
     % A simple, stiff chemical reaction.
     % 
-    % The Robertson Problem :cite:p:`R67` is a simple, stiff chemical reaction that
-    % models the concentrations of chemical species $A, B,$ and $C$ 
+    % The Robertson Problem :cite:p:`Rob67` is a simple, stiff chemical reaction that
+    % models the concentrations of chemical species $A$, $B$, and $C$ 
     % involved in the reactions
     % $$
     % \begin{align*}
@@ -20,19 +20,19 @@ classdef RobertsonProblem < otp.Problem
     % y_3' &= K_2 y_2^2.
     % \end{align*}
     % $$
-    % The reaction rates $K_1, K_2,$ and $K_3$ often range from slow to very fast
+    % The reaction rates $K_1$, $K_2$, and $K_3$ often range from slow to very fast
     % which makes the problem challenging. This has made it a popular test for
     % implicit time-stepping schemes.
     % 
     % Notes
     % -----
-    % +---------------------+------------------------------------------------+
-    % | Type                | ODE                                            |
-    % +---------------------+------------------------------------------------+
-    % | Number of Variables | 3                                              |
-    % +---------------------+------------------------------------------------+
-    % | Stiff               | typically, depending on $K_1, K_2,$ and $K_3$  |
-    % +---------------------+------------------------------------------------+
+    % +---------------------+-------------------------------------------------+
+    % | Type                | ODE                                             |
+    % +---------------------+-------------------------------------------------+
+    % | Number of Variables | 3                                               |
+    % +---------------------+-------------------------------------------------+
+    % | Stiff               | typically, depending on $K_1$, $K_2$, and $K_3$ |
+    % +---------------------+-------------------------------------------------+
     %
     % Example
     % -------
