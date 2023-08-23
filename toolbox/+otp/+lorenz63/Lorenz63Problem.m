@@ -1,5 +1,7 @@
 classdef Lorenz63Problem < otp.Problem
-    % Three variable Lorenz '63 problem of the form,
+    % A simple continuous chaotic system.
+    % 
+    % The three variable Lorenz '63 problem :cite:p:`Lor63` of the form,
     %
     % $$
     % x' = \sigma(y - x),\\
@@ -8,15 +10,12 @@ classdef Lorenz63Problem < otp.Problem
     % $$
     %
     % that exhibits chaotic behavior for certain values of the parameters.
-    %
-    % Here $x$ roughyl corresponds to the rate of convention of a fluid,
-    % $y$ corresponds to temperature variation in one orthogonal direction,
+    % Here $x$ roughly corresponds to the rate of convection of a fluid,
+    % $y$ corresponds to temperature variation in one direction,
     % and $z$ is temerature variation in the other direction.
     %
     %
-    % For a full problem description take a look at the original
-    % formulation in :cite:p:`Lor63`, and for a more detailed look at
-    % the behavior of the problem, look at :cite:p:`Str18`.
+    % For a full problem description see :cite:p:`Str18`.
     %
     % Notes
     % -----
@@ -40,6 +39,21 @@ classdef Lorenz63Problem < otp.Problem
     
     methods
         function obj = Lorenz63Problem(timeSpan, y0, parameters)
+            % Create a Lorenz Equations problem object.
+            %
+            % Parameters
+            % ----------
+            % timeSpan : numeric(1, 2)
+            %    The start and final time.
+            % y0 : numeric(3, 1)
+            %    The initial conditions.
+            % parameters : Lorenz63Parameters
+            %    The parameters.
+            %
+            % Returns
+            % -------
+            % obj : Lorenz63Problem
+            %    The constructed problem.
             obj@otp.Problem('Lorenz Equations', 3, timeSpan, y0, parameters);
         end
     end

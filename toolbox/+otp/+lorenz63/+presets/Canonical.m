@@ -1,5 +1,5 @@
 classdef Canonical < otp.lorenz63.Lorenz63Problem
-    % Original Lorenz '63 preset presented in :cite:p:`Lor63` .
+    % Original Lorenz '63 preset presented in :cite:p:`Lor63`
     % which uses time span $t \in [0, 60]$, $\sigma = 10$, $\rho = 28$, 
     % $\beta = 8/3$, and intial conditions $y_0 = [0, 1, 0]^T$.
 
