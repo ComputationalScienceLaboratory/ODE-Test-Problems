@@ -1,14 +1,10 @@
-classdef Canonical < otp.robertson.RobertsonProblem
-    % The original configuration :cite:p:`Rob67` with $t \in [0, 40]$, $y_0 = [1, 0, 0]^T$, and parameters
-    %
-    % $$
-    % K_1 &= 4\times 10^{-2}, \\
-    % K_2 &= 3\times 10^7, \\
-    % K_3 &= 10^4.
-    % $$
+classdef ROBER < otp.robertson.RobertsonProblem
+    % The Robertson configuration from :cite:p:`HW96` (p. 144). This differs from :class:`Canonical` only in the time
+    % span which is extended to $[0, 10^{11}]$. This presents a challenge for numerical integrators to preserve solution
+    % positivity.
     methods
-        function obj = Canonical
-            % Create the Canonical Robertson problem object.
+        function obj = ROBER
+            % Create the ROBER Robertson problem object.
             %
             % Parameters
             % ----------
@@ -24,7 +20,7 @@ classdef Canonical < otp.robertson.RobertsonProblem
             params.K3 = 1e4;
             
             y0 = [1; 0; 0];
-            tspan = [0, 40];
+            tspan = [0; 1e11];
             
             obj = obj@otp.robertson.RobertsonProblem(tspan, y0, params);
         end
