@@ -1,8 +1,69 @@
 classdef AscherLinearDAEProblem < otp.Problem
-    %ASCHERLINEARDAEPROBLEM This is an Index-1 DAE problem
+    % A simple linear differential algebraic problem.
+    %
+    % The Ascher linear DAE Problem :cite:p:`Asc89` is given by $M(t) y' = A(t) y + q(t) $ with
+    %
+    % $$
+    % M=\left(\begin{array}{cc}
+    % 1 & -t \\
+    % 0 & 0
+    % \end{array}\right), \quad A=\left(\begin{array}{cc}
+    % -1 & 1+t \\
+    % \beta & -1-\beta t
+    % \end{array}\right), \quad {q}=\left(\begin{array}{c}
+    % 0 \\
+    % \sin t
+    % \end{array}\right), 
+    % $$
+    %
+    % with $t \in [0,1]$, and $y_0 = [1, \beta]^T$.  The exact solution
+    % is given by 
+    %
+    % $$
+    % y = \begin{pmatrix}
+    % t \sin(t) + (1 + \beta  t) e^{-t}\\
+    % \beta  e^{-t} + \sin(t)
+    % \end{pmatrix}.
+    % $$
+    %
+    % Due to its stiffness and time-dependant mass
+    % matrix and righ-hand-side function, this simple DAE problem can 
+    % become challenging to solve. This problem is used in :cite:p:`Asc89` 
+    % to study convergence of implcit solvers. 
+    %
+    % Notes
+    % -----
+    % +---------------------+-----------------------------------------+
+    % | Type                | DAE                                     |
+    % +---------------------+-----------------------------------------+
+    % | Number of Variables | 2                                       |
+    % +---------------------+-----------------------------------------+
+    % | Stiff               | typically, depending on $\beta$         |
+    % +---------------------+-----------------------------------------+
+    %
+    % Example
+    % -------
+    % >>> problem = otp.ascherlineardae.presets.Canonical;
+    % >>> sol = problem.solve();
+    % >>> problem.plotPhaseSpace(sol);
     %
     methods
         function obj = AscherLinearDAEProblem(timeSpan, y0, parameters)
+            % Create an Ascher linear DAE problem object.
+            %
+            % Parameters
+            % ----------
+            % timeSpan : numeric(1, 2)
+            %    The start and final time.
+            % y0 : numeric(2, 1)
+            %    The initial conditions.
+            % parameters : BrusselatorParameters
+            %    The parameters.
+            %
+            % Returns
+            % -------
+            % obj : BrusselatorProblem
+            %    The constructed problem.
             obj@otp.Problem('Ascher Linear DAE', 2, timeSpan, y0, parameters);
         end
     end
@@ -35,4 +96,3 @@ classdef AscherLinearDAEProblem < otp.Problem
         end
     end
 end
-
