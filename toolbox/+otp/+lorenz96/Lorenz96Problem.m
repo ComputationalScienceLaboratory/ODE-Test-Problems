@@ -1,7 +1,35 @@
 classdef Lorenz96Problem <  otp.Problem
-    %LORENZ96PROBLEM  The Lorenz 96 model is a classic model for testing data assimilation techniques.
-    % 
-    % See also otp.loren96.Lorenz96Parameters
+    % A chaotic system modeling the transfer of some quantity along some
+    % longitude.
+    %
+    %
+    % The $N$ variable dynamics :cite:p:`Lor96` are represented by the equation,
+    %
+    % $$
+    % y_i' = -y_{i-1}\left(y_{i-2} - y_{i+1}\right) - y_i + f(t),\quad i \in \mathbb{Z}_N,
+    % $$
+    %
+    % that exhibits chaotic behavior for certain values of the forcing function $f$.
+    %
+    % Notes
+    % -----
+    % +---------------------+-----------------------------------------------------------+
+    % | Type                | ODE                                                       |
+    % +---------------------+-----------------------------------------------------------+
+    % | Number of Variables | $N$                                                       |
+    % +---------------------+-----------------------------------------------------------+
+    % | Stiff               | no                                                        |
+    % +---------------------+-----------------------------------------------------------+
+    %
+    % Example
+    % -------
+    % >>> problem = otp.lorenz96.presets.Canonical('Forcing', @(t) 8 + 4*sin(t));
+    % >>> sol = problem.solve();
+    % >>> problem.plotPhaseSpace(sol);
+    %
+    % See also
+    % --------
+    % :doc:`Lorenz '63 Problem </problems/Lorenz63Problem>`
     
     properties (SetAccess = private)
         DistanceFunction
@@ -9,6 +37,21 @@ classdef Lorenz96Problem <  otp.Problem
     
     methods
         function obj = Lorenz96Problem(timeSpan, y0, parameters)
+            % Create a Lorenz '96 problem object.
+            %
+            % Parameters
+            % ----------
+            % timeSpan : numeric(1, 2)
+            %    The start and final time.
+            % y0 : numeric(N, 1)
+            %    The initial conditions.
+            % parameters : Lorenz96Parameters
+            %    The parameters.
+            %
+            % Returns
+            % -------
+            % obj : Lorenz96Problem
+            %    The constructed problem.
             obj@otp.Problem('Lorenz 96', [], timeSpan, y0, parameters);
         end
     end
@@ -37,7 +80,7 @@ classdef Lorenz96Problem <  otp.Problem
                 'Vectorized', 'on');
             
             % We also provide a canonical distance function as is standard for
-            % localisation in Data Assimilation. This is heavily tied to this
+            % localization in Data Assimilation. This is heavily tied to this
             % problem.
             
             obj.DistanceFunction = @(t, y, i, j) otp.lorenz96.distanceFunction(t, y, i, j);

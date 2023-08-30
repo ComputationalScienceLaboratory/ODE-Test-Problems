@@ -1,12 +1,23 @@
 classdef Canonical < otp.lorenz96.Lorenz96Problem
-    %CANONICAL This is the original problem presented in the literature.
-    %  The initial condition is a slight perturbation of a critical point.
-    %
-    % See:
-    %     Lorenz, E. N. (1996, September). Predictability: A problem partly solved. 
-    %     In Proc. Seminar on predictability (Vol. 1, No. 1).
+    % Original Lorenz '96 preset presented in :cite:p:`Lor96`
+    % which uses time span $t \in [0, 720]$, $N = 40$, $F=8$, and initial
+    % conditions of $y_i = 8$ for all $i$ except for $y_20=8.008$. 
+
     methods
         function obj = Canonical(varargin)
+            % Create a Canonial problem object.
+            %
+            % Parameters
+            % ----------
+            % Size : numeric(1, 1)
+            %    The size of the problem as a positive integer.
+            % Forcing : numeric(N, 1)
+            %    The forcing as a vector of N constants.
+            %
+            % Returns
+            % -------
+            % obj : Canonial
+            %    The constructed problem.
 
             p = inputParser;
             p.addParameter('Size', 40, @isscalar);
