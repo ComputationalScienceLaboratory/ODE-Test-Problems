@@ -1,10 +1,7 @@
 classdef Canonical < otp.ascherlineardae.AscherLinearDAEProblem
-    %CANONICAL The problem formulation of the linear DAE from the literature
-    %
-    % See
-    %    Ascher, Uri. "On symmetric schemes and differential-algebraic equations."
-    %    SIAM journal on scientific and statistical computing 10.5 (1989): 937-949.
-    
+    % The original problem defined by Uri Ascher in :cite:p:`Asc89` with 
+    % $\beta = 0.5$
+    % 
     methods
         function obj = Canonical(beta)
             tspan = [0.0; 1];
