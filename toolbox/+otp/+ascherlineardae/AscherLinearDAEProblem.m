@@ -2,35 +2,33 @@ classdef AscherLinearDAEProblem < otp.Problem
     % A simple linear differential algebraic problem.
     %
     % The Ascher linear DAE Problem :cite:p:`Asc89` is an index-1 differential agebraic 
-    % equation given by $M(t) y' = A(t) y + q(t) $ where
+    % equation given by
     %
     % $$
-    % M=\left(\begin{array}{cc}
+    % \begin{bmatrix}
     % 1 & -t \\
     % 0 & 0
-    % \end{array}\right), \quad A=\left(\begin{array}{cc}
+    % \end{bmatrix} \begin{bmatrix} y'(t) \\ z'(t) \end{bmatrix} = \left[ \begin{array}{cc}
     % -1 & 1+t \\
     % \beta & -1-\beta t
-    % \end{array}\right), \quad {q}=\left(\begin{array}{c}
+    % \end{array}\right] \begin{bmatrix} y(t) \\ z(t) \end{bmatrix} + \begin{bmatrix}
     % 0 \\
     % \sin t
-    % \end{array}\right), 
+    % \end{bmatrix}.
     % $$
     %
-    % defined on timespan $t \in [0,1]$, and initial condition $y_0 = [1, \beta]^T$. The exact solution
-    % is given by 
+    %  The problem has the following closed-form solution when the initial condition $y(0) = 1 , z(0) = \beta$ is used:
     %
     % $$
-    % y = \begin{pmatrix}
+    % \begin{bmatrix} y(t)\\ z(t) \end{bmatrix} = \begin{bmatrix}
     % t \sin(t) + (1 + \beta  t) e^{-t}\\
     % \beta  e^{-t} + \sin(t)
-    % \end{pmatrix}.
+    % \end{bmatrix}.
     % $$
-    %
-    % Due to its stiffness and time-dependant mass
-    % matrix, this simple DAE problem can 
-    % become challenging to solve. This problem is introduced in :cite:p:`Asc89` 
-    % to study the convergence of implcit solvers applied to DAEs.
+    % This DAE problem 
+    % can be used to investigate
+    % the convergence of implcit time-stepping methods due to its stiffness and time-dependant mass
+    % matrix.
     %
     % Notes
     % -----
@@ -39,14 +37,15 @@ classdef AscherLinearDAEProblem < otp.Problem
     % +---------------------+-----------------------------------------+
     % | Number of Variables | 2                                       |
     % +---------------------+-----------------------------------------+
-    % | Stiff               | typically, depending on $\beta$         |
+    % | Stiff               | possibly, depending on $\beta$          |
     % +---------------------+-----------------------------------------+
     %
     % Example
     % -------
-    % >>> problem = otp.ascherlineardae.presets.Canonical(0.1);
-    % >>> sol = problem.solve('MaxStep',1e-5);
-    % >>> problem.plotPhaseSpace(sol);
+    % >>> problem = otp.ascherlineardae.presets.Canonical('Beta', 50);
+    % >>> t = linspace(0,1,100);
+    % >>> sol = problem.solveExcatly(t);
+    % >>> problem.plot(sol);
 
     properties (Access = private, Constant)
         NumComps = 2
@@ -65,11 +64,6 @@ classdef AscherLinearDAEProblem < otp.Problem
             %    The initial conditions.
             % parameters : AscherLinearDAEParameters
             %    The parameters.
-            %
-            % Returns
-            % -------
-            % obj : AscherLinearDAEProblem
-            %    The constructed problem.
             obj@otp.Problem('Ascher Linear DAE', 2, timeSpan, y0, parameters);
         end
     end
@@ -85,7 +79,8 @@ classdef AscherLinearDAEProblem < otp.Problem
                 'MassSingular', 'yes');
         end
         
-        function y = internalSolveExactly(obj, t)
+        function sol = internalSolveExactly(obj, t)
+            sol = [];
             beta = obj.Parameters.Beta;
             if ~isequal(obj.Y0, [1; beta])
                 error('OTP:noExactSolution', ...
@@ -94,6 +89,8 @@ classdef AscherLinearDAEProblem < otp.Problem
             
             y = [t .* sin(t) + (1 + beta * t) .* exp(-t); ...
                 beta * exp(-t) + sin(t)];
+            sol.x = t;
+            sol.y = y;
         end
         
         function sol = internalSolve(obj, varargin)
