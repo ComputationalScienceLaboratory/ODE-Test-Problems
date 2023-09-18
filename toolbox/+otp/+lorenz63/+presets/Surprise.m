@@ -4,15 +4,7 @@ classdef Surprise < otp.lorenz63.Lorenz63Problem
 
     methods
         function obj = Surprise
-
-            sigma = 10;
-            rho   = 100;
-            beta  = 8/3;
-
-            params = otp.lorenz63.Lorenz63Parameters;
-            params.Sigma = sigma;
-            params.Rho   = rho;
-            params.Beta  = beta;
+            params = otp.lorenz63.Lorenz63Parameters('sigma', 10, 'rho', 100, 'beta', 8/3);
             
             % Hand-picked initial conditions with the canonical timespan
             

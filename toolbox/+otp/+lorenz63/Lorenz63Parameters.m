@@ -1,4 +1,4 @@
-classdef Lorenz63Parameters
+classdef Lorenz63Parameters < otp.Parameters
     % Parameters for the Lorenz '63 problem.
 
     properties
@@ -10,5 +10,11 @@ classdef Lorenz63Parameters
         
         % A geometric factor.
         Beta %MATLAB ONLY: (1, 1) {mustBeReal, mustBeFinite}
+    end
+
+    methods
+        function obj = Lorenz63Parameters(varargin)
+            obj = obj@otp.Parameters(varargin{:});
+        end
     end
 end

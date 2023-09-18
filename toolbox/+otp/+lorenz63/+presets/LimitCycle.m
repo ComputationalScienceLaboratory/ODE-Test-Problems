@@ -5,14 +5,7 @@ classdef LimitCycle < otp.lorenz63.Lorenz63Problem
     
     methods
         function obj = LimitCycle
-            sigma = 10;
-            rho   = 350;
-            beta  = 8/3;
-    
-            params = otp.lorenz63.Lorenz63Parameters;
-            params.Sigma = sigma;
-            params.Rho   = rho;
-            params.Beta  = beta;
+            params = otp.lorenz63.Lorenz63Parameters('sigma', 10, 'rho', 350, 'beta', 8/3);
             
             % We use Lorenz's initial conditions and timespan as Strogatz
             % does not specify those in his book.

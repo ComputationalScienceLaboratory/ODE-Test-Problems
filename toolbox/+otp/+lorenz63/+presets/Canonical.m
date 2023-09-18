@@ -20,22 +20,10 @@ classdef Canonical < otp.lorenz63.Lorenz63Problem
             % -------
             % obj : Lorenz63Problem
             %    The constructed problem.
-
-            p = inputParser;
-            p.addParameter('sigma', 10);
-            p.addParameter('rho', 28);
-            p.addParameter('beta', 8/3);
-            p.parse(varargin{:});
-            opts = p.Results;
-
-            params = otp.lorenz63.Lorenz63Parameters;
-            
-            params.Sigma = opts.sigma;
-            params.Rho   = opts.rho;
-            params.Beta  = opts.beta;
             
             y0    = [0; 1; 0];
             tspan = [0 60];
+            params = otp.lorenz63.Lorenz63Parameters('sigma', 10, 'rho', 28, 'beta', 8/3, varargin{:});
             
             obj = obj@otp.lorenz63.Lorenz63Problem(tspan, y0, params);            
         end
