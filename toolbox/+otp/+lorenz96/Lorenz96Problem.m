@@ -1,22 +1,23 @@
 classdef Lorenz96Problem <  otp.Problem
-    % A chaotic system modeling the transfer of some quantity along some
-    % longitude.
-    %
-    %
+    % A chaotic system modeling nonlinear transfer of a dimensionless
+    % qauntity along a cyclic one dimensional domain.
+    % 
     % The $N$ variable dynamics :cite:p:`Lor96` are represented by the equation,
     %
     % $$
-    % y_i' = -y_{i-1}\left(y_{i-2} - y_{i+1}\right) - y_i + f(t),\quad i \in \mathbb{Z}_N,
+    % y_i' = -y_{i-1}\left(y_{i-2} - y_{i+1}\right) - y_i + f(t), \quad i = 1, \dots, N,
     % $$
-    %
-    % that exhibits chaotic behavior for certain values of the forcing function $f$.
+    % 
+    % where $y_0 = y_N$, $y_{-1} = y_{N - 1}$, and $y_{N + 1} = y_2$, exhibits 
+    % chaotic behavior for certain pairs of values of the dimension $N$ and
+    % forcing function $f$.
     %
     % Notes
     % -----
     % +---------------------+-----------------------------------------------------------+
     % | Type                | ODE                                                       |
     % +---------------------+-----------------------------------------------------------+
-    % | Number of Variables | $N$                                                       |
+    % | Number of Variables | $N$ for any postive integer four or greater               |
     % +---------------------+-----------------------------------------------------------+
     % | Stiff               | no                                                        |
     % +---------------------+-----------------------------------------------------------+
@@ -25,7 +26,7 @@ classdef Lorenz96Problem <  otp.Problem
     % -------
     % >>> problem = otp.lorenz96.presets.Canonical('Forcing', @(t) 8 + 4*sin(t));
     % >>> sol = problem.solve();
-    % >>> problem.plotPhaseSpace(sol);
+    % >>> problem.movie(sol);
     %
     % See also
     % --------
@@ -43,15 +44,11 @@ classdef Lorenz96Problem <  otp.Problem
             % ----------
             % timeSpan : numeric(1, 2)
             %    The start and final time.
-            % y0 : numeric(N, 1)
+            % y0 : numeric(:, 1)
             %    The initial conditions.
             % parameters : Lorenz96Parameters
             %    The parameters.
             %
-            % Returns
-            % -------
-            % obj : Lorenz96Problem
-            %    The constructed problem.
             obj@otp.Problem('Lorenz 96', [], timeSpan, y0, parameters);
         end
     end

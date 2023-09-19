@@ -1,9 +1,16 @@
 classdef PopovSandu < otp.lorenz96.Lorenz96Problem
     % A preset that has a cyclic forcing function that is different for
     % every variable. This preset was created for :cite:p:`PS19`.
-    % This preset uses time span $t \in [0, 720]$, $N = 40$, $F=8$, 
-    % four partitions, a forcing period of one time unit, and initial
-    % conditions of $y_i = 8$ for all $i$ except for $y_20=8.008$. 
+    % This preset uses time span $t \in [0, 720]$, $N = 40$, and initial
+    % conditions of $y_i = 8$ for all $i$ except for $y_{20}=8.008$. 
+    % The forcing, as a function of time is given by
+    %
+    % $$
+    % f(t) = 8 + 4\cos(2 \pi \omega (t+\text{mod}(i - 1, q)/q))
+    % $$
+    %
+    % where by default $q=4$ is the number of partitions, and $\omega = 1$
+    % is a forcing period of one time unit.
     
     methods
         function obj = PopovSandu(varargin)
@@ -11,19 +18,13 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
             %
             % Parameters
             % ----------
-            % Size : numeric(1, 1)
-            %    The size of the problem as a positive integer.
-            % Partitions : numeric(1, 1)
-            %    The number of partitions into which to divide the
-            %    variables.
-            % ForcingPeriod : numeric(1, 1)
-            %    The period of the forcing function in radians per unit
-            %    time.
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
             %
-            % Returns
-            % -------
-            % obj : PopovSandu
-            %    The constructed problem.
+            %    - ``Size`` – The size of the problem as a positive integer.
+            %    - ``Partitions`` – The number of partitions into which to divide the variables.
+            %    - ``ForcingPeriod`` – The period of the forcing function in radians per unit time.
+            %
             
             p = inputParser;
             

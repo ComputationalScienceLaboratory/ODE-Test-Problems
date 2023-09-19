@@ -1,7 +1,7 @@
 classdef Canonical < otp.lorenz96.Lorenz96Problem
     % Original Lorenz '96 preset presented in :cite:p:`Lor96`
     % which uses time span $t \in [0, 720]$, $N = 40$, $F=8$, and initial
-    % conditions of $y_i = 8$ for all $i$ except for $y_20=8.008$. 
+    % conditions of $y_i = 8$ for all $i$ except for $y_{20}=8.008$. 
 
     methods
         function obj = Canonical(varargin)
@@ -9,15 +9,13 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             %
             % Parameters
             % ----------
-            % Size : numeric(1, 1)
-            %    The size of the problem as a positive integer.
-            % Forcing : numeric(N, 1)
-            %    The forcing as a vector of N constants.
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
             %
-            % Returns
-            % -------
-            % obj : Canonial
-            %    The constructed problem.
+            %    - ``Size`` – The size of the problem as a positive integer.
+            %    - ``Forcing`` – The forcing as a scalar, vector of N constants, or as a
+            %    function.
+            %
 
             p = inputParser;
             p.addParameter('Size', 40, @isscalar);
