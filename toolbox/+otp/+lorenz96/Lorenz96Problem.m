@@ -1,6 +1,6 @@
 classdef Lorenz96Problem <  otp.Problem
     % A chaotic system modeling nonlinear transfer of a dimensionless
-    % qauntity along a cyclic one dimensional domain.
+    % quantity along a cyclic one dimensional domain.
     % 
     % The $N$ variable dynamics :cite:p:`Lor96` are represented by the equation,
     %

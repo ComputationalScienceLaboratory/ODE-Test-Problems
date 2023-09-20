@@ -2,7 +2,7 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
     % A preset that has a cyclic forcing function that is different for
     % every variable. This preset was created for :cite:p:`PS19`.
     % This preset uses time span $t \in [0, 720]$, $N = 40$, and initial
-    % conditions of $y_i = 8$ for all $i$ except for $y_{20}=8.008$. 
+    % conditions of $y_i = 8$ for all $i$ except for $y_{\lfloor N/2 \rfloor}=8.008$. 
     % The forcing, as a function of time is given by
     %
     % $$

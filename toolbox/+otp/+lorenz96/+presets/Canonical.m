@@ -1,7 +1,7 @@
 classdef Canonical < otp.lorenz96.Lorenz96Problem
     % Original Lorenz '96 preset presented in :cite:p:`Lor96`
     % which uses time span $t \in [0, 720]$, $N = 40$, $F=8$, and initial
-    % conditions of $y_i = 8$ for all $i$ except for $y_{20}=8.008$. 
+    % conditions of $y_i = 8$ for all $i$ except for $y_{\lfloor N/2 \rfloor}=8.008$. 
 
     methods
         function obj = Canonical(varargin)
