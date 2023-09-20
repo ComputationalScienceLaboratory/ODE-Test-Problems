@@ -16,10 +16,6 @@ classdef Canonical < otp.lorenz63.Lorenz63Problem
             %    - ``rho`` – Value of $\rho$.
             %    - ``beta`` – Value of $\beta$.
             %
-            % Returns
-            % -------
-            % obj : Lorenz63Problem
-            %    The constructed problem.
 
             p = inputParser;
             p.addParameter('sigma', 10);

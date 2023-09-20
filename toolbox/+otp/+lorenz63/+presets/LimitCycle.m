@@ -5,6 +5,9 @@ classdef LimitCycle < otp.lorenz63.Lorenz63Problem
     
     methods
         function obj = LimitCycle
+            % Create the LimitCycle Lorenz '63 problem object.
+            %
+            
             sigma = 10;
             rho   = 350;
             beta  = 8/3;

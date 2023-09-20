@@ -4,6 +4,8 @@ classdef Surprise < otp.lorenz63.Lorenz63Problem
 
     methods
         function obj = Surprise
+            % Create the Surprise Lorenz '63 problem object.
+            %
 
             sigma = 10;
             rho   = 100;
