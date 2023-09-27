@@ -2,13 +2,8 @@ function validateqg
 
 fprintf(' Testing Quasi-Geostrophic Equations\n');
 
-try
-    model = otp.quasigeostrophic.presets.PopovMouIliescuSandu('size', [16, 32]);
-    model.TimeSpan = [0, 0.109];
-catch
-    % if it failed to build, other tests would show it.
-    return;
-end
+model = otp.quasigeostrophic.presets.PopovMouIliescuSandu('size', [16, 32]);
+model.TimeSpan = [0, 0.109];
 
 [~] = otp.utils.Solver.Nonstiff(model.RHSADLES.F, model.TimeSpan, model.Y0);
 fprintf('  Alternate ADLES RHS passed\n');

@@ -18,11 +18,7 @@ for preset = presets
         problemname, ...
         presetname);
 
-    try
-        problem = eval(presetclass);
-    catch
-        continue;
-    end
+    problem = eval(presetclass);
 
     try
         problem.TimeSpan = [0, 1e-3];
@@ -56,7 +52,8 @@ for preset = presets
     end
 
     try
-        problem.plot(sol);
+        fig = problem.plot(sol);
+        close(fig);
         fprintf('PASS | ');
     catch e
         assert(false, sprintf('Preset %s of %s failed to plot with error\n%s\n%s', ...
