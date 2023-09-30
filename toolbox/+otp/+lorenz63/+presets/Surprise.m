@@ -1,9 +1,11 @@
 classdef Surprise < otp.lorenz63.Lorenz63Problem
     % Lorenz '63 preset 'surprise' from :cite:p:`Str18` which uses time span $t \in [0, 60]$, 
-    % $\sigma = 10$, $\rho = 100$, $\beta = 8/3$, and intial conditions $y_0 = [2, 1, 1]^T$.
+    % $σ = 10$, $ρ = 100$, $β = 8/3$, and intial conditions $y_0 = [2, 1, 1]^T$.
 
     methods
         function obj = Surprise
+            % Create the Surprise Lorenz '63 problem object.
+            %
 
             sigma = 10;
             rho   = 100;

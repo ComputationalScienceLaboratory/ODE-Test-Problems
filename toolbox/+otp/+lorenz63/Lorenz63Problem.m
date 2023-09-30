@@ -4,9 +4,9 @@ classdef Lorenz63Problem < otp.Problem
     % The three variable Lorenz '63 problem :cite:p:`Lor63` of the form,
     %
     % $$
-    % x' &= \sigma(y - x),\\
-    % y' &= \rho x - y - xz,\\
-    % z' &= xy - \beta z,
+    % x' &= σ(y - x),\\
+    % y' &= ρx - y - xz,\\
+    % z' &= xy - βz,
     % $$
     %
     % exhibits chaotic behavior for certain values of the parameters.
@@ -23,7 +23,7 @@ classdef Lorenz63Problem < otp.Problem
     % +---------------------+-----------------------------------------------------------+
     % | Number of Variables | 3                                                         |
     % +---------------------+-----------------------------------------------------------+
-    % | Stiff               | not typically, depending on $\sigma$, $\rho$, and $\beta$ |
+    % | Stiff               | not typically, depending on $σ$, $ρ$, and $β$             |
     % +---------------------+-----------------------------------------------------------+
     %
     % Example
