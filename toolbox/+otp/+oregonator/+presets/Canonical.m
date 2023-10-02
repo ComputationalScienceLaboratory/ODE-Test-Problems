@@ -15,6 +15,13 @@ classdef Canonical < otp.oregonator.OregonatorProblem
             %
             % Parameters
             % ----------
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
+            %
+            %    - ``f`` – Value of $f$.
+            %    - ``q`` – Value of $q$.
+            %    - ``s`` – Value of $s$.
+            %    - ``w`` – Value of $w$.
             %
             % Returns
             % -------
