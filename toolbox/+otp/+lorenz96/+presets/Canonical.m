@@ -13,8 +13,7 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             %    A variable number of name-value pairs. The accepted names are
             %
             %    - ``Size`` – The size of the problem as a positive integer.
-            %    - ``Forcing`` – The forcing as a scalar, vector of N constants, or as a
-            %    function.
+            %    - ``Forcing`` – The forcing as a scalar, vector of N constants, or as a function.
             %
 
             p = inputParser;
