@@ -1,7 +1,7 @@
 classdef Petzold < otp.ascherlineardae.AscherLinearDAEProblem
-    % The Petzold DAE example :cite:p:`Pet86` as a variant of the 
-    % Ascher linear DAE problem
-    % which uses timespan $t \in [0, 1]$  and  $\beta = 0 $.
+    % The Petzold DAE example :cite:p:`Pet86` as a special case of the 
+    % Ascher linear DAE problem.
+    % This preset uses timespan $t \in [0, 1]$  and  $\beta = 0 $ with the initial condition $[y_0, z_0]^T = [1, 0]^T $.
     % 
     methods
         function obj = Petzold

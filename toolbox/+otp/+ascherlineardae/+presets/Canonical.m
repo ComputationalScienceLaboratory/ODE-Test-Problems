@@ -1,6 +1,6 @@
 classdef Canonical < otp.ascherlineardae.AscherLinearDAEProblem
     % The problem defined by Uri Ascher in :cite:p:`Asc89` (sec. 2) 
-    % which uses timespan $t \in [0, 1]$  and  $\beta = 1 $.
+    % which uses timespan $t \in [0, 1]$  and intial condition $[y_0, z_0]^T = [1, \beta]^T  $.
     % 
     methods
         function obj = Canonical(varargin)

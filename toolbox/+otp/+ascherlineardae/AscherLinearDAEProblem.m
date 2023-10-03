@@ -1,7 +1,7 @@
 classdef AscherLinearDAEProblem < otp.Problem
-    % A simple linear differential algebraic problem.
+    % A linear differential-algebraic problem with time-dependant mass matrix.
     %
-    % The Ascher linear DAE Problem :cite:p:`Asc89` is an index-1 differential agebraic 
+    % The Ascher linear DAE Problem :cite:p:`Asc89` is an index-1 differential-agebraic 
     % equation given by
     %
     % $$
@@ -17,7 +17,7 @@ classdef AscherLinearDAEProblem < otp.Problem
     % \end{bmatrix}.
     % $$
     %
-    %  The problem has the following closed-form solution when the initial condition $y(0) = 1 , z(0) = \beta$ is used:
+    % When the initial condition $y(0) = 1 , z(0) = \beta$ is used, the problem has the following closed-form solution:
     %
     % $$
     % \begin{bmatrix} y(t)\\ z(t) \end{bmatrix} = \begin{bmatrix}
@@ -43,14 +43,9 @@ classdef AscherLinearDAEProblem < otp.Problem
     % Example
     % -------
     % >>> problem = otp.ascherlineardae.presets.Canonical('Beta', 50);
-    % >>> t = linspace(0,1,100);
-    % >>> sol = problem.solveExcatly(t);
-    % >>> problem.plot(sol);
-
-    properties (Access = private, Constant)
-        NumComps = 2
-        VarNames = 'yz'
-    end
+    % >>> t = linspace(0,1);
+    % >>> sol = problem.solveExactly(t);
+    % >>> problem.plot(t, sol);
 
     methods
         function obj = AscherLinearDAEProblem(timeSpan, y0, parameters)
@@ -61,7 +56,7 @@ classdef AscherLinearDAEProblem < otp.Problem
             % timeSpan : numeric(1, 2)
             %    The start and final time.
             % y0 : numeric(2, 1)
-            %    The initial conditions.
+            %    The initial condition.
             % parameters : AscherLinearDAEParameters
             %    The parameters.
             obj@otp.Problem('Ascher Linear DAE', 2, timeSpan, y0, parameters);
@@ -78,9 +73,16 @@ classdef AscherLinearDAEProblem < otp.Problem
                 'MStateDependence', 'none', ...
                 'MassSingular', 'yes');
         end
-        
-        function sol = internalSolveExactly(obj, t)
-            sol = [];
+
+        function label = internalIndex2label(~, index)
+            if index == 1
+                label = 'Differential Variable';
+            else
+                label = 'Algebraic Variable';
+            end
+        end
+
+        function y = internalSolveExactly(obj, t)
             beta = obj.Parameters.Beta;
             if ~isequal(obj.Y0, [1; beta])
                 error('OTP:noExactSolution', ...
@@ -89,8 +91,6 @@ classdef AscherLinearDAEProblem < otp.Problem
             
             y = [t .* sin(t) + (1 + beta * t) .* exp(-t); ...
                 beta * exp(-t) + sin(t)];
-            sol.x = t;
-            sol.y = y;
         end
         
         function sol = internalSolve(obj, varargin)
