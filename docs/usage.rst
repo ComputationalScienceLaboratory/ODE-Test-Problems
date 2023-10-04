@@ -1,40 +1,23 @@
 Usage
 ================================================================================
 
-
-
-All test problems in OTP are considered as a first-order
-differential-algebraic equation of the form:
-
-.. math::
-
-
-     M(t, y)\;y'(t) = f(t, y), \qquad
-     y(t_0) = y_0,
-
-where :math:`y(t)` is the time-dependent solution to the problem,
-:math:`f(t, y)` is the right-hand-side function representing the
-time-derivative, and :math:`t` is the independent variable. :math:`M` is
-the mass-matrix for the differential-algebraic system and when the test
-problem is an ordinary differential equation, :math:`M` is the Identity
-matrix. The initial condition :math:`y_0` specifies the value of
-:math:`y` at the initial time :math:`t = t_0`.
-
-
-Any problem in OTP can be initialized using the *problem name* and a
+Any problem in OTP can be initialized using a *problem name* and a
 *preset* that defines a set of specific parameters and initial
 conditions. The ``Canonical`` preset is available for all problems.
+
+.. code:: matlab
+
+   % Create a lorenz63 problem object
+   problem = otp.lorenz63.presets.Canonical;
+
 
 Solving test problems
 ---------------------
 
-Problems can be solved by calling the ``solve()`` method. It is possible
+Problems can be solved by calling the ``solve()`` method. It is also possible
 to pass optional parameters to the solver.
 
 .. code:: matlab
-
-   % Create a problem object
-   problem = otp.lorenz63.presets.Canonical;
 
    % Solve the problem
    sol = problem.solve('RelTol', 1e-10);
@@ -51,9 +34,8 @@ The ``problem`` object contains a number of useful properties including:
 -  ``TimeSpan``: Timespan of the integration
 -  ``Y0``: Initial condition of the problem
 
-The complete list of test problems implemented in OTP and the
-documentation for the package can be found
-`here <https://computationalsciencelaboratory.github.io/ODE-Test-Problems/>`__.
+The complete list of test problems implemented in OTP can be found in the
+`documentation <https://computationalsciencelaboratory.github.io/ODE-Test-Problems/>`__.
 
 Visualizing solutions
 ---------------------
@@ -90,11 +72,30 @@ the solver. As an example, to use the *Implicit* time-stepping method
    sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
                 odeset('Jacobian', problem.RHS.Jacobian));
 
+Mathematical formulation
+-----------------------------
+
+All test problems in OTP are considered as a first-order
+differential-algebraic equation of the form:
+
+.. math::
+
+
+     M(t, y)\;y'(t) = f(t, y), \qquad
+     y(t_0) = y_0,
+
+where :math:`y(t)` is the time-dependent solution to the problem,
+:math:`f(t, y)` is the right-hand-side function representing the
+time-derivative, and :math:`t` is the independent variable. :math:`M` is
+the mass-matrix for the differential-algebraic system and when the test
+problem is an ordinary differential equation, :math:`M` is the Identity
+matrix. The initial condition :math:`y_0` specifies the value of
+:math:`y` at the initial time :math:`t = t_0`.
+
+
 Getting help and Contributing
 -----------------------------
 
-ODE Test Problems documentation is maintained on `this
-page <https://computationalsciencelaboratory.github.io/ODE-Test-Problems>`__.
 New feature requests, and bug reports can be made through `GitHub
 issues <https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/issues>`__.
 We also accept pull requests that adhere to our `contributing
