@@ -1,7 +1,7 @@
 classdef AscherLinearDAEParameters
-    %ASCHERLINEARDAEPARAMETERS 
+    % Parameters for Ascher Linear DAE problem 
     properties
-        %Beta is an arbitrary scalar parameter
-        Beta %MATLAB ONLY: (1,1) {mustBeNumeric} = 0.5
+        % A scalar parameter $β$ in the linear model. It affects the stifness of the problem.
+        Beta %MATLAB ONLY: (1,1) {mustBeNumeric} = 1
     end
 end
