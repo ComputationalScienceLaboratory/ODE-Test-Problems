@@ -1,6 +1,6 @@
 classdef Canonical < otp.ascherlineardae.AscherLinearDAEProblem
-    % The problem defined by Uri Ascher in :cite:p:`Asc89` (sec. 2) 
-    % which uses timespan $t \in [0, 1]$  and intial condition $[y_0, z_0]^T = [1, \beta]^T  $.
+    % The problem defined by Uri Ascher in :cite:p:`Asc89` (sec. 2) which uses time span $t \in [0, 1]$ and intial 
+    % condition $[y_0, z_0]^T = [1, β]^T$.
     % 
     methods
         function obj = Canonical(varargin)
@@ -11,7 +11,7 @@ classdef Canonical < otp.ascherlineardae.AscherLinearDAEProblem
             % varargin
             %    A variable number of name-value pairs. The accepted names are
             %
-            %    - ``Beta`` – The parameter of the Ascher linear DAE problem.
+            %    - ``Beta`` – Value of $β$.
             
             p = inputParser;
             p.addParameter('beta', 1);

@@ -1,8 +1,7 @@
 classdef AscherLinearDAEProblem < otp.Problem
     % A linear differential-algebraic problem with time-dependant mass matrix.
     %
-    % The Ascher linear DAE Problem :cite:p:`Asc89` is an index-1 differential-agebraic 
-    % equation given by
+    % The Ascher linear DAE Problem :cite:p:`Asc89` is an index-1 differential-agebraic equation given by
     %
     % $$
     % \begin{bmatrix}
@@ -10,25 +9,23 @@ classdef AscherLinearDAEProblem < otp.Problem
     % 0 & 0
     % \end{bmatrix} \begin{bmatrix} y'(t) \\ z'(t) \end{bmatrix} = \left[ \begin{array}{cc}
     % -1 & 1+t \\
-    % \beta & -1-\beta t
+    % β & -1-β t
     % \end{array}\right] \begin{bmatrix} y(t) \\ z(t) \end{bmatrix} + \begin{bmatrix}
     % 0 \\
-    % \sin t
+    % \sin(t)
     % \end{bmatrix}.
     % $$
     %
-    % When the initial condition $y(0) = 1 , z(0) = \beta$ is used, the problem has the following closed-form solution:
+    % When the initial condition $y(0) = 1 , z(0) = β$ is used, the problem has the following closed-form solution:
     %
     % $$
     % \begin{bmatrix} y(t)\\ z(t) \end{bmatrix} = \begin{bmatrix}
-    % t \sin(t) + (1 + \beta  t) e^{-t}\\
-    % \beta  e^{-t} + \sin(t)
+    % t \sin(t) + (1 + β  t) e^{-t}\\
+    % β  e^{-t} + \sin(t)
     % \end{bmatrix}.
     % $$
-    % This DAE problem 
-    % can be used to investigate
-    % the convergence of implcit time-stepping methods due to its stiffness and time-dependant mass
-    % matrix.
+    % This DAE problem can be used to investigate the convergence of implcit time-stepping methods due to its stiffness
+    % and time-dependant mass matrix.
     %
     % Notes
     % -----
@@ -37,13 +34,13 @@ classdef AscherLinearDAEProblem < otp.Problem
     % +---------------------+-----------------------------------------+
     % | Number of Variables | 2                                       |
     % +---------------------+-----------------------------------------+
-    % | Stiff               | possibly, depending on $\beta$          |
+    % | Stiff               | possibly, depending on $β$              |
     % +---------------------+-----------------------------------------+
     %
     % Example
     % -------
     % >>> problem = otp.ascherlineardae.presets.Canonical('Beta', 50);
-    % >>> t = linspace(0,1);
+    % >>> t = linspace(0, 1);
     % >>> sol = problem.solveExactly(t);
     % >>> problem.plot(t, sol);
 
@@ -76,9 +73,9 @@ classdef AscherLinearDAEProblem < otp.Problem
 
         function label = internalIndex2label(~, index)
             if index == 1
-                label = 'Differential Variable';
+                label = 'Differential';
             else
-                label = 'Algebraic Variable';
+                label = 'Algebraic';
             end
         end
 
