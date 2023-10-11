@@ -12,31 +12,24 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             % varargin
             %    A variable number of name-value pairs. The accepted names are
             %
-            %    - ``Size`` – The size of the problem as a positive integer.
+            %    - ``N`` – The size of the problem as a positive integer.
             %    - ``Forcing`` – The forcing as a scalar, vector of N constants, or as a function.
             %
 
             p = inputParser;
-            p.addParameter('Size', 40, @isscalar);
-            p.addParameter('Forcing', 8);
-
+            p.addParameter('N', 40);
             p.parse(varargin{:});
-            
-            s = p.Results;
-            
-            n = s.Size;
-            
-            params = otp.lorenz96.Lorenz96Parameters;
-            params.F = s.Forcing;
+            n = p.Results.N;
             
             % We initialise the Lorenz96 model as in (Lorenz & Emanuel 1998)
-            
             y0 = 8*ones(n, 1);
-            
             y0(floor(n/2)) = 8.008;
             
             % roughly ten years in system time
             tspan = [0, 720];
+
+            unmatched = namedargs2cell(p.Unmatched);
+            params = otp.lorenz96.Lorenz96Parameters('F', 8, unmatched{:});
             
             obj = obj@otp.lorenz96.Lorenz96Problem(tspan, y0, params);
             
