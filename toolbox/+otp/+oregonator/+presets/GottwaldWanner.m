@@ -25,11 +25,7 @@ classdef GottwaldWanner < otp.oregonator.OregonatorProblem
 
             tspan = [0, 302.85805];
             y0 = [4; 1.331391; 2.852348];
-            params = otp.oregonator.OregonatorParameters;
-            params.F = 1;
-            params.Q = 8.375e-6;
-            params.S = 77.27;
-            params.W = 0.1610;
+            params = otp.oregonator.OregonatorParameters('F', 1, 'Q', 8.375e-6, 'S', 77.27, 'W', 0.1610);
             
             obj = obj@otp.oregonator.OregonatorProblem(tspan, y0, params);
         end
