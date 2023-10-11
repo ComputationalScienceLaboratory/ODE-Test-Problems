@@ -8,4 +8,6 @@ TODO
    :maxdepth: 1
    :glob:
    
-   *
+   problem
+   rhs
+   parameters

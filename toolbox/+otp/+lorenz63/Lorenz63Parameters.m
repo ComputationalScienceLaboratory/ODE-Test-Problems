@@ -14,6 +14,14 @@ classdef Lorenz63Parameters < otp.Parameters
 
     methods
         function obj = Lorenz63Parameters(varargin)
+            % Create a Lorenz '63 parameters object.
+            %
+            % Parameters
+            % ----------
+            % varargin
+            %    A variable number of name-value pairs. A name can be any property of this class, and the subsequent
+            %    value initializes that property.
+
             obj = obj@otp.Parameters(varargin{:});
         end
     end
