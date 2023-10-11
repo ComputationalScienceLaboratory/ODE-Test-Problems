@@ -5,10 +5,9 @@ classdef Stiff < otp.ascherlineardae.AscherLinearDAEProblem
     methods
         function obj = Stiff
             % Create the stiff example of the Ascher linear DAE problem object.
-            params      = otp.ascherlineardae.AscherLinearDAEParameters;
-            params.Beta = 100;
-            
-            y0    = [1; params.Beta];
+
+            params = otp.ascherlineardae.AscherLinearDAEParameters('Beta', 100);
+            y0 = [1; params.Beta];
             tspan = [0.0; 1.0];
             
             obj = obj@otp.ascherlineardae.AscherLinearDAEProblem(tspan, y0, params);

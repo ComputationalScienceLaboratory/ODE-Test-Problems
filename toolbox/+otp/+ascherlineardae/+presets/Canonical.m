@@ -13,15 +13,8 @@ classdef Canonical < otp.ascherlineardae.AscherLinearDAEProblem
             %
             %    - ``Beta`` – Value of $β$.
             
-            p = inputParser;
-            p.addParameter('beta', 1);
-            p.parse(varargin{:});
-            opts = p.Results;
-            
-            params      = otp.ascherlineardae.AscherLinearDAEParameters;
-            params.Beta = opts.beta;
-            
-            y0    = [1; params.Beta];
+            params = otp.ascherlineardae.AscherLinearDAEParameters('Beta', 1, varargin{:});
+            y0 = [1; params.Beta];
             tspan = [0.0; 1.0];
             
             obj = obj@otp.ascherlineardae.AscherLinearDAEProblem(tspan, y0, params);
