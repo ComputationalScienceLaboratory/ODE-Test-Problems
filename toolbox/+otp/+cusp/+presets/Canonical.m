@@ -30,22 +30,19 @@ classdef Canonical < otp.cusp.CUSPProblem
 
             p = inputParser;
             p.addParameter('N', 32);
-            p.addParameter('epsilon', 1e-4);
-            p.addParameter('sigma', 1/144);
             p.parse(varargin{:});
-            opts = p.Results;
+            n = p.Results.N;
             
-            params = otp.cusp.CUSPParameters;
-            params.Epsilon = opts.epsilon;
-            params.Sigma = opts.sigma;
-            
-            ang = 2 * pi / opts.N * (1:opts.N).';
-            y0 = zeros(opts.N, 1);
+            ang = 2 * pi / n * (1:n).';
+            y0 = zeros(n, 1);
             a0 = -2*cos(ang);
             b0 = 2*sin(ang);
 
             u0 = [y0; a0; b0];
             tspan = [0; 1.1];
+
+            unmatched = namedargs2cell(p.Unmatched);
+            params = otp.cusp.CUSPParameters('Epsilon', 1e-4, 'Sigma', 1/144, unmatched{:});
             
             obj = obj@otp.cusp.CUSPProblem(tspan, u0, params);
         end
