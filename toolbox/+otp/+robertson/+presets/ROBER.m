@@ -6,21 +6,14 @@ classdef ROBER < otp.robertson.RobertsonProblem
         function obj = ROBER
             % Create the ROBER Robertson problem object.
             %
-            % Parameters
-            % ----------
-            %
             % Returns
             % -------
             % obj : RobertsonProblem
             %    The constructed problem.
             
-            params = otp.robertson.RobertsonParameters;
-            params.K1 = 0.04;
-            params.K2 = 3e7;
-            params.K3 = 1e4;
-            
             y0 = [1; 0; 0];
             tspan = [0; 1e11];
+            params = otp.robertson.RobertsonParameters('K1', 0.04, 'K2', 3e7, 'K3', 1e4);
             
             obj = obj@otp.robertson.RobertsonProblem(tspan, y0, params);
         end

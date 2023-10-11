@@ -7,24 +7,26 @@ classdef Canonical < otp.robertson.RobertsonProblem
     % K_3 &= 10^4.
     % $$
     methods
-        function obj = Canonical
+        function obj = Canonical(varargin)
             % Create the Canonical Robertson problem object.
             %
             % Parameters
             % ----------
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
+            %
+            %    - ``K1`` – Value of $K_1$.
+            %    - ``K2`` – Value of $K_2$.
+            %    - ``K3`` – Value of $K_3$.
             %
             % Returns
             % -------
             % obj : RobertsonProblem
             %    The constructed problem.
             
-            params = otp.robertson.RobertsonParameters;
-            params.K1 = 0.04;
-            params.K2 = 3e7;
-            params.K3 = 1e4;
-            
             y0 = [1; 0; 0];
             tspan = [0, 40];
+            params = otp.robertson.RobertsonParameters('K1', 0.04, 'K2', 3e7, 'K3', 1e4, varargin{:});
             
             obj = obj@otp.robertson.RobertsonProblem(tspan, y0, params);
         end
