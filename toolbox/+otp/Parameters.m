@@ -1,7 +1,7 @@
 classdef Parameters
     % A superclass for the parameters of a differential equation.
     %
-    % Subclasses of this class specify mutable properties associated with a :class:`otp.Problem`.
+    % Subclasses of this class specify mutable properties associated with an :class:`otp.Problem`.
     %
     % See Also
     % --------
