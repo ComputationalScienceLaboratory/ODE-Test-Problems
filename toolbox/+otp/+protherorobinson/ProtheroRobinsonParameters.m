@@ -1,13 +1,13 @@
 classdef ProtheroRobinsonParameters < otp.Parameters
     % Parameters for the Prothero–Robinson problem.
     properties
-        % The stiffness parameter and eigenvalue of the Jacobian $\lambda$.
+        % The stiffness parameter and eigenvalue of the Jacobian $λ$.
         Lambda %MATLAB ONLY: (1,1) {mustBeFinite} = -1
 
-        % The function $\phi(t)$.
+        % The function $φ(t)$.
         Phi %MATLAB ONLY: {mustBeA(Phi, 'function_handle')} = @sin
 
-        % The time derivative of $\phi(t)$.
+        % The time derivative of $φ(t)$.
         DPhi %MATLAB ONLY: {mustBeA(DPhi, 'function_handle')} = @cos
     end
 

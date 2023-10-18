@@ -1,10 +1,10 @@
 classdef Canonical < otp.protherorobinson.ProtheroRobinsonProblem
     % The Prothero–Robinson configuration from :cite:p:`PR74` (p. 159) based on :cite:p:`SLH70` (p. 272). It uses time
-    % span $t \in [0, 15]$, initial condition $y(0) = \phi(0)$, and parameters
+    % span $t \in [0, 15]$, initial condition $y(0) = φ(0)$, and parameters
     %
     % $$
-    % \lambda &= -200, \\
-    % \phi(t) &= 10 - (10 + t) e^{-t}.
+    % λ &= -200, \\
+    % φ(t) &= 10 - (10 + t) e^{-t}.
     % $$
 
     methods
@@ -16,9 +16,9 @@ classdef Canonical < otp.protherorobinson.ProtheroRobinsonProblem
             % varargin
             %    A variable number of name-value pairs. The accepted names are
             %
-            %    - ``Lambda`` – The stiffness parameter and eigenvalue of the Jacobian $\lambda$.
+            %    - ``Lambda`` – The stiffness parameter and eigenvalue of the Jacobian $λ$.
             %    - ``Phi`` – The exact solution.
-            %    - ``DPhi`` – The time derivative of $\phi(t)$.
+            %    - ``DPhi`` – The time derivative of $φ(t)$.
             %
             % Returns
             % -------
