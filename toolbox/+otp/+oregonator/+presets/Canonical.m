@@ -28,21 +28,9 @@ classdef Canonical < otp.oregonator.OregonatorProblem
             % obj : Canonical
             %    The constructed problem.
 
-            p = inputParser;
-            p.addParameter('f', 1);
-            p.addParameter('q', 8.375e-6);
-            p.addParameter('s', 77.27);
-            p.addParameter('w', 0.1610);
-            p.parse(varargin{:});
-            opts = p.Results;
-
             tspan = [0, 360];
             y0 = [1; 2; 3];
-            params = otp.oregonator.OregonatorParameters;
-            params.F = 1;
-            params.Q = 8.375e-6;
-            params.S = 77.27;
-            params.W = 0.1610;
+            params = otp.oregonator.OregonatorParameters('F', 1, 'Q', 8.375e-6, 'S', 77.27, 'W', 0.1610, varargin{:});
             
             obj = obj@otp.oregonator.OregonatorProblem(tspan, y0, params);
         end

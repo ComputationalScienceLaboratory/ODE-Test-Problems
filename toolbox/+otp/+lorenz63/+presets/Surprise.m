@@ -5,21 +5,11 @@ classdef Surprise < otp.lorenz63.Lorenz63Problem
     methods
         function obj = Surprise
             % Create the Surprise Lorenz '63 problem object.
-            %
-
-            sigma = 10;
-            rho   = 100;
-            beta  = 8/3;
-
-            params = otp.lorenz63.Lorenz63Parameters;
-            params.Sigma = sigma;
-            params.Rho   = rho;
-            params.Beta  = beta;
             
             % Hand-picked initial conditions with the canonical timespan
-            
             y0    = [2; 1; 1];
             tspan = [0 60];
+            params = otp.lorenz63.Lorenz63Parameters('Sigma', 10, 'Rho', 100, 'Beta', 8/3);
             
             obj = obj@otp.lorenz63.Lorenz63Problem(tspan, y0, params);
         end

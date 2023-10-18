@@ -8,7 +8,7 @@ classdef Canonical < otp.cusp.CUSPProblem
     % b_i(0) &= 2 \sin\left( \frac{2 i \pi}{N} \right), \\
     % $$
     %
-    % for $i = 1, \dots, N$. The parameters are $\varepsilon = 10^{-4}$ and $\sigma = \frac{1}{144}$.
+    % for $i = 1, \dots, N$. The parameters are $ε = 10^{-4}$ and $σ = \frac{1}{144}$.
     
     methods
         function obj = Canonical(varargin)
@@ -20,8 +20,8 @@ classdef Canonical < otp.cusp.CUSPProblem
             %    A variable number of name-value pairs. The accepted names are
             %
             %    - ``N`` – The number of cells in the spatial discretization.
-            %    - ``epsilon`` – Value of $\varepsilon$.
-            %    - ``sigma`` – Value of $\sigma$.
+            %    - ``epsilon`` – Value of $ε$.
+            %    - ``sigma`` – Value of $σ$.
             %
             % Returns
             % -------
@@ -30,22 +30,19 @@ classdef Canonical < otp.cusp.CUSPProblem
 
             p = inputParser;
             p.addParameter('N', 32);
-            p.addParameter('epsilon', 1e-4);
-            p.addParameter('sigma', 1/144);
             p.parse(varargin{:});
-            opts = p.Results;
+            n = p.Results.N;
             
-            params = otp.cusp.CUSPParameters;
-            params.Epsilon = opts.epsilon;
-            params.Sigma = opts.sigma;
-            
-            ang = 2 * pi / opts.N * (1:opts.N).';
-            y0 = zeros(opts.N, 1);
-            a0 = -2*cos(ang);
-            b0 = 2*sin(ang);
+            ang = 2 * pi * (1:n).' / n;
+            y0 = zeros(n, 1);
+            a0 = -2 * cos(ang);
+            b0 = 2 * sin(ang);
 
             u0 = [y0; a0; b0];
             tspan = [0; 1.1];
+
+            unmatched = namedargs2cell(p.Unmatched);
+            params = otp.cusp.CUSPParameters('Epsilon', 1e-4, 'Sigma', 1/144, unmatched{:});
             
             obj = obj@otp.cusp.CUSPProblem(tspan, u0, params);
         end

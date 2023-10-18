@@ -6,22 +6,13 @@ classdef LimitCycle < otp.lorenz63.Lorenz63Problem
     methods
         function obj = LimitCycle
             % Create the LimitCycle Lorenz '63 problem object.
-            %
-
-            sigma = 10;
-            rho   = 350;
-            beta  = 8/3;
-    
-            params = otp.lorenz63.Lorenz63Parameters;
-            params.Sigma = sigma;
-            params.Rho   = rho;
-            params.Beta  = beta;
             
             % We use Lorenz's initial conditions and timespan as Strogatz
             % does not specify those in his book.
             
             y0    = [0; 1; 0];
             tspan = [0 60];
+            params = otp.lorenz63.Lorenz63Parameters('Sigma', 10, 'Rho', 350, 'Beta', 8/3);
             
             obj = obj@otp.lorenz63.Lorenz63Problem(tspan, y0, params);            
         end

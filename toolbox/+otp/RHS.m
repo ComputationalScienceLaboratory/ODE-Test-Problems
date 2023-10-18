@@ -291,7 +291,7 @@ classdef RHS
             % F : function_handle
             %    The function handle for $f$ in the differential equation $M(t, y) y' = f(t, y)$.
             % varargin
-            %    A variable number of name-value pairs. A name can be any property of :class:`RHS`, and the subsequent
+            %    A variable number of name-value pairs. A name can be any property of this class, and the subsequent
             %    value initializes that property.
             %
             % Warning
