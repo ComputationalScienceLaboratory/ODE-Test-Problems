@@ -8,7 +8,7 @@ if nargin < 2 || isempty(testmovies)
     testmovies = true;
 end
 
-fprintf('\n   Validating all model and preset derivatives \n\n');
+fprintf('\n   Validating all model and preset plots and movies \n\n');
 
 fprintf([' Model                | Preset               |' ...
     ' Plot  | Phase | Movie\n']);

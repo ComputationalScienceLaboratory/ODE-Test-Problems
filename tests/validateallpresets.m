@@ -33,8 +33,8 @@ for preset = presets
         if strcmp(problemname, 'quasigeostrophic')
             problem.TimeSpan = [0, 0.0109];
         end
-        if strcmp(presetname, 'Lorenz96PodRom')
-            problem.TimeSpan = [0, 10];
+        if strcmp(presetname, 'Lorenz96PODROM')
+            problem.TimeSpan = [0, 0.1];
         end
         if strcmp(problemname, 'lorenz96')
             problem.TimeSpan = [0, 0.05];
