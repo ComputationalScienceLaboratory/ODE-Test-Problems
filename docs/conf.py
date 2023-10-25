@@ -18,6 +18,7 @@ extensions = [
     'sphinx_math_dollar',
     'sphinxcontrib.bibtex',
     'sphinx_rtd_theme',
+    'sphinxcontrib.video',
     'myst_parser'
 ]
 
