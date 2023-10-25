@@ -2,7 +2,7 @@ function runalltests(varargin)
 
 
 p = inputParser;
-addParameter(p, 'TestPlots', false);
+addParameter(p, 'TestPlots', true);
 addParameter(p, 'TestMovies', false);
 
 parse(p, varargin{:});
