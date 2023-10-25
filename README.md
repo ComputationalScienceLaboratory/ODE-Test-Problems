@@ -15,9 +15,11 @@
 [![Tests](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/tests.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/tests.yml)
 [![Build Documentation](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/docs.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/docs.yml)
 
- <img src="images/animations/nbody-OuterSolarSystem.gif" width="200" alt='KPR problem' loop=infinite  /> <img src="images/animations/lorenz63-Canonical.gif" width="200" alt='Pendulum problem' loop=infinite /> <img src="images/animations/bouncingball-RandomTerrain.gif" width="200" alt='Bouncing ball problem' loop=infinite  />  <img src="images/animations/pendulum-Canonical.gif" width="200" alt='Lorenz63 problem' loop=infinite  /> 
- <!-- <img src="images/animations/kpr-Canonical.gif" width="200" alt='Lorenz63 problem' loop=infinite  /> -->
  
+
+https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/assets/5168326/e5496fee-46c0-4fb0-a42b-eb2e98374b4c
+
+
 ## Installation
 
 OTP can be installed as a local MATLAB toolbox or Octave package by running
