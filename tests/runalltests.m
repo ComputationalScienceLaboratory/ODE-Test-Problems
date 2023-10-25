@@ -1,8 +1,16 @@
-function runalltests(testgui)
+function runalltests(varargin)
 
-if nargin < 1
-    testgui = false;
-end
+
+p = inputParser;
+addParameter(p, 'TestPlots', false);
+addParameter(p, 'TestMovies', false);
+
+parse(p, varargin{:});
+
+s = p.Results;
+
+testplots  = s.TestPlots;
+testmovies = s.TestMovies;
 
 
 % set warnings off
@@ -13,8 +21,8 @@ fprintf('\n   Running all tests \n\n');
 validateallpresets;
 validateallderivatives;
 
-if testgui
-    validateallplots;
+if testplots || testmovies
+    validateallplots(testplots, testmovies);
 end
 
 

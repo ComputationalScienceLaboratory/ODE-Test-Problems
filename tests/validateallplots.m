@@ -1,9 +1,17 @@
-function validateallplots
+function validateallplots(testplots, testmovies)
+
+if nargin < 1 || isempty(testplots)
+    testplots = true;
+end
+
+if nargin < 2 || isempty(testmovies)
+    testmovies = true;
+end
 
 fprintf('\n   Validating all model and preset derivatives \n\n');
 
 fprintf([' Model                | Preset               |' ...
-    ' Plot | Phase | Movie\n']);
+    ' Plot  | Phase | Movie\n']);
 fprintf([repmat('-', 1, 85) '\n']);
 
 presets = getpresets();
@@ -51,37 +59,43 @@ for preset = presets
         continue;
     end
 
-    try
-        fig = problem.plot(sol);
-        close(fig);
-        fprintf('PASS | ');
-    catch e
-        assert(false, sprintf('Preset %s of %s failed to plot with error\n%s\n%s', ...
-            presetname, problemname, e.identifier, e.message))
-        fprintf('-FAIL ');
-    end
-
-    if problem.NumVars > 1
+    if testplots
         try
-            problem.plotPhaseSpace(sol);
+            fig = problem.plot(sol);
+            close(fig);
             fprintf('PASS  | ');
         catch e
-            assert(false, sprintf('Preset %s of %s failed to plot phase space with error\n%s\n%s', ...
+            assert(false, sprintf('Preset %s of %s failed to plot with error\n%s\n%s', ...
+                presetname, problemname, e.identifier, e.message))
+            fprintf('-FAIL | ');
+        end
+
+        if problem.NumVars > 1
+            try
+                problem.plotPhaseSpace(sol);
+                fprintf('PASS  | ');
+            catch e
+                assert(false, sprintf('Preset %s of %s failed to plot phase space with error\n%s\n%s', ...
+                    presetname, problemname, e.identifier, e.message))
+                fprintf('-FAIL | ');
+            end
+        else
+            fprintf('      | ');
+        end
+    else
+         fprintf('      | ');
+         fprintf('      | ');
+    end
+
+    if testmovies
+        try
+            problem.movie(sol);
+            fprintf('PASS  ');
+        catch e
+            assert(false, sprintf('Preset %s of %s failed to create movie with error\n%s\n%s', ...
                 presetname, problemname, e.identifier, e.message))
             fprintf('-FAIL ');
         end
-    else
-        fprintf('      ');
-    end
-
-
-    try
-        problem.movie(sol);
-        fprintf('PASS  ');
-    catch e
-        assert(false, sprintf('Preset %s of %s failed to create movie with error\n%s\n%s', ...
-            presetname, problemname, e.identifier, e.message))
-        fprintf('-FAIL ');
     end
 
 
