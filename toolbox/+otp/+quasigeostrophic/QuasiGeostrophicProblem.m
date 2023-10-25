@@ -1,5 +1,57 @@
 classdef QuasiGeostrophicProblem < otp.Problem
-    
+    % A chaotic PDE modeling the flow of a fluid on the earth.
+    %
+    % The governing partial differential equation that is discretized is,
+    %
+    % $$
+    % Δψ_t = -J(ψ,ω) - {Ro}^{-1} ψ_x -{Re}^{-1} Δω - {Ro}^{-1} F, \\
+    % $$
+    % where the Jacobian term is a quadratic function,
+    % $$
+    % J(ψ,ω) \equiv ψ_x ω_y - ψ_y ω_x,
+    % $$
+    % the relationship between the vorticity $ω$ and the stream function $ψ$ is
+    % $$
+    % ω = -Δψ,
+    % $$
+    % the term $Δ$ is the two dimensional Laplacian over the
+    % discretization, $Ro$ is the Rossby number, $Re$ is the Reynolds
+    % number, and $F$ is a forcing term.
+    % The spatial domain is fixed to $x ∈ [0, 1]$ and $y ∈ [0, 2]$, and
+    % the boundary conditions of the PDE are assumed to be zero dirichlet
+    % everywhere.
+    %
+    % A second order finite difference approximation is performed on the
+    % grid to create the first derivative operators and the Laplacian
+    % operator. The Jacobian is discretized using the Arakawa approximation
+    % CITEME 
+    % $$
+    % J(ψ,ω) = \frac{1}{3}[ψ_x ω_y - ψ_y ω_x + (ψ ω_y)_x - (ψ ω_x)_y + (ψ_x ω)_y - (ψ_y ω)_x],
+    % $$
+    % in order for the system to not become unstable.
+    %
+    % The Poisson equation is solved by the eigenvalue sylvester method for
+    % computational efficiency.
+    %
+    % A ADLES MORE HERE.
+    %
+    % Notes
+    % -----
+    % +---------------------+-----------------------------------------------------------+
+    % | Type                | ODE                                                       |
+    % +---------------------+-----------------------------------------------------------+
+    % | Number of Variables | $nx \times ny$                                            |
+    % +---------------------+-----------------------------------------------------------+
+    % | Stiff               | not typically, depending on $Re$, $Ro$, $Nx$, and $Ny$    |
+    % +---------------------+-----------------------------------------------------------+
+    %
+    % Example
+    % -------
+    % >>> problem = otp.quasigeostrophic.presets.PopovMouSanduIliescu;
+    % >>> sol = problem.solve();
+    % >>> problem.movie(sol);
+    %
+
     methods
         function obj = QuasiGeostrophicProblem(timeSpan, y0, parameters)
             
@@ -19,10 +71,18 @@ classdef QuasiGeostrophicProblem < otp.Problem
     
     methods (Static)
         
-        function u = resize(u, newsize)
-            % resize uses interpolation to resize states
-            
-            s = size(u);
+        function psi = resize(psi, newsize)
+            % Resizes the state onto a new grid by performing interpolation
+            %
+            % Parameters
+            % ----------
+            % psi : numeric(nx, ny)
+            %     the old state on the $x \times y$ grid.
+            % newsize : numeric(1, 2)
+            %      the new size as a two-tuple $[nx, ny]$ indicating the new state of the system.
+            %
+
+            s = size(psi);
 
             X = linspace(0, 1, s(1) + 2);
             Y = linspace(0, 2, s(2) + 2).';
@@ -34,7 +94,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             Xnew = Xnew(2:end-1);
             Ynew = Ynew(2:end-1);
 
-            u = interp2(Y, X, u, Ynew, Xnew);
+            psi = interp2(Y, X, psi, Ynew, Xnew);
             
         end
       

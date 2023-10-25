@@ -1,8 +1,32 @@
-classdef PopovMouIliescuSandu < otp.quasigeostrophic.QuasiGeostrophicProblem
+classdef PopovMouSanduIliescu < otp.quasigeostrophic.QuasiGeostrophicProblem
+    % A preset for the Quasi-geostrophic equations created for
+    % CITE ME HERE.
+    %
+    % The initial condition is given by an internal file and was created by
+    % integrating the canonical preset until time $t=100$.
+    %
+    % The value of the Reynolds number is $Re= 450$, the Rossby number is
+    % $Ro=0.0036$, and the spatial discretization is $63$ interior units in
+    % the $x$ direction and $127$ interior units in the $y$ direction.
+    %
+    % The timespan starts at $t=100$ and ends at $t=100.0109$, which is
+    % roughly equivalent to one day in model time.
+    
     methods
-        function obj = PopovMouIliescuSandu(varargin)
+        function obj = PopovMouSanduIliescu(varargin)
+            % Create the PopovMouSanduIliescu Quasi-geostrophic problem object.
+            %
+            % Parameters
+            % ----------
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
+            %
+            %    - ``ReynoldsNumber`` – Value of $Re$.
+            %    - ``RossbyNumber`` – Value of $Ro$.
+            %    - ``Size`` – Two-tuple of the spatial discretization, $[nx, ny]$.
+            %
             
-            defaultsize = [255, 511];
+            defaultsize = [63, 127];
 
             Re = 450;
             Ro = 0.0036;
@@ -40,9 +64,9 @@ classdef PopovMouIliescuSandu < otp.quasigeostrophic.QuasiGeostrophicProblem
             
             %% Do the rest
             
-            sixHours = 6*80/176251.2;
+            oneday = 24*80/176251.2;
             
-            tspan = [100, 100 + sixHours];
+            tspan = [100, 100 + oneday];
             
             obj = obj@otp.quasigeostrophic.QuasiGeostrophicProblem(tspan, ...
                 psi0, params);
