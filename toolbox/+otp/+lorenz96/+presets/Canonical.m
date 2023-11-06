@@ -1,11 +1,10 @@
 classdef Canonical < otp.lorenz96.Lorenz96Problem
-    % Original Lorenz '96 preset presented in :cite:p:`Lor96`
-    % which uses time span $t \in [0, 720]$, $N = 40$, $F=8$, and initial
-    % conditions of $y_i = 8$ for all $i$ except for $y_{\lfloor N/2 \rfloor}=8.008$. 
+    % Original Lorenz '96 preset presented in :cite:p:`Lor96` which uses time span $t ∈ [0, 720]$, $N = 40$, $F=8$, and
+    % initial conditions of $y_i = 8$ for all $i$ except for $y_{⌊N/2⌋}=8.008$. 
 
     methods
         function obj = Canonical(varargin)
-            % Create a Canonial problem object.
+            % Create the Canonical Lorenz '96 problem object.
             %
             % Parameters
             % ----------
@@ -14,7 +13,6 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             %
             %    - ``N`` – The size of the problem as a positive integer.
             %    - ``Forcing`` – The forcing as a scalar, vector of N constants, or as a function.
-            %
 
             p = inputParser;
             p.addParameter('N', 40);
@@ -32,7 +30,6 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             params = otp.lorenz96.Lorenz96Parameters('F', 8, unmatched{:});
             
             obj = obj@otp.lorenz96.Lorenz96Problem(tspan, y0, params);
-            
         end
     end
 end

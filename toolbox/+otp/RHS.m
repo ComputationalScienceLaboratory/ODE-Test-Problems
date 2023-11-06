@@ -30,6 +30,8 @@ classdef RHS
     %
     % See Also
     % --------
+    % otp.Problem.RHS
+    %
     % odeset : https://www.mathworks.com/help/matlab/ref/odeset.html
 
     properties (SetAccess = private)

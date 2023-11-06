@@ -55,11 +55,7 @@ classdef OregonatorProblem < otp.Problem
             %    The initial conditions.
             % parameters : OregonatorParameters
             %    The parameters.
-            %
-            % Returns
-            % -------
-            % obj : OregonatorProblem
-            %    The constructed problem.
+            
             obj@otp.Problem('Oregonator', 3, timeSpan, y0, parameters);
         end
     end

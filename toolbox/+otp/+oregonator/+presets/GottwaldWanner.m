@@ -1,10 +1,10 @@
 classdef GottwaldWanner < otp.oregonator.OregonatorProblem
-    % The Oregonator configuration from :cite:p:`GW82` which uses time span $t \in [0, 302.85805]$, initial condition
+    % The Oregonator configuration from :cite:p:`GW82` which uses time span $t ∈ [0, 302.85805]$, initial condition
     % $y_0 = [4, 1.331391, 2.852348]^T$, and parameters
     %
     % $$
     % f &= 1, \\
-    % q &= 8.375 \cdot 10^{-6}, \\
+    % q &= 8.375 \times 10^{-6}, \\
     % s &= 77.27, \\
     % w &= 0.1610.
     % $$
@@ -13,15 +13,7 @@ classdef GottwaldWanner < otp.oregonator.OregonatorProblem
 
     methods
         function obj = GottwaldWanner
-            % Create the GottwaldWanner problem object.
-            %
-            % Parameters
-            % ----------
-            %
-            % Returns
-            % -------
-            % obj : GottwaldWanner
-            %    The constructed problem.
+            % Create the GottwaldWanner Oregonator problem object.
 
             tspan = [0, 302.85805];
             y0 = [4; 1.331391; 2.852348];

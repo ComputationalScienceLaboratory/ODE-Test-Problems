@@ -1,14 +1,14 @@
 classdef Canonical < otp.cusp.CUSPProblem
-    % The CUSP configuration from :cite:p:`HW96` (pp. 147-148) which uses time span $t \in [0, 1.1]$, $N = 32$ grid
-    % cells, and initial conditions
+    % The CUSP configuration from :cite:p:`HW96` (pp. 147-148) which uses time span $t ∈ [0, 1.1]$, $N = 32$ grid cells,
+    % and initial conditions
     %
     % $$
     % y_i(0) &= 0 ,\\
-    % a_i(0) &= -2 \cos\left( \frac{2 i \pi}{N} \right), \\
-    % b_i(0) &= 2 \sin\left( \frac{2 i \pi}{N} \right), \\
+    % a_i(0) &= -2 \cos\left( \frac{2 i π}{N} \right), \\
+    % b_i(0) &= 2 \sin\left( \frac{2 i π}{N} \right), \\
     % $$
     %
-    % for $i = 1, \dots, N$. The parameters are $ε = 10^{-4}$ and $σ = \frac{1}{144}$.
+    % for $i = 1, …, N$. The parameters are $ε = 10^{-4}$ and $σ = \frac{1}{144}$.
     
     methods
         function obj = Canonical(varargin)
@@ -22,11 +22,6 @@ classdef Canonical < otp.cusp.CUSPProblem
             %    - ``N`` – The number of cells in the spatial discretization.
             %    - ``epsilon`` – Value of $ε$.
             %    - ``sigma`` – Value of $σ$.
-            %
-            % Returns
-            % -------
-            % obj : CUSPProblem
-            %    The constructed problem.
 
             p = inputParser;
             p.addParameter('N', 32);
