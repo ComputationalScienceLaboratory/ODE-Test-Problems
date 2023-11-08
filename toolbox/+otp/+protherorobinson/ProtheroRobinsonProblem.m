@@ -3,21 +3,21 @@ classdef ProtheroRobinsonProblem < otp.Problem
     %
     % The Prothero–Robinson problem :cite:p:`PR74` is the linear ODE
     % 
-    % $$y' = \lambda (y - \phi(t)) + \phi'(t).$$
+    % $$y' = λ (y - φ(t)) + φ'(t).$$
     %
     % This simple problem is used to test for order reduction and S-stability of time-stepping schemes. With initial
-    % condition $y(t_0) = \phi(t_0)$, the exact solution is $y(t) = \phi(t)$ independent of $\lambda$. Therefore, any
+    % condition $y(t_0) = φ(t_0)$, the exact solution is $y(t) = φ(t)$ independent of $λ$. Therefore, any
     % errors introduced by the numerical scheme can be measured easily.
     %
     % Notes
     % -----
-    % +---------------------+-----------------------------------+
-    % | Type                | ODE                               |
-    % +---------------------+-----------------------------------+
-    % | Number of Variables | 1                                 |
-    % +---------------------+-----------------------------------+
-    % | Stiff               | typically, depending on $\lambda$ |
-    % +---------------------+-----------------------------------+
+    % +---------------------+-----------------------------+
+    % | Type                | ODE                         |
+    % +---------------------+-----------------------------+
+    % | Number of Variables | 1                           |
+    % +---------------------+-----------------------------+
+    % | Stiff               | typically, depending on $λ$ |
+    % +---------------------+-----------------------------+
     %
     % Example
     % -------
@@ -37,11 +37,7 @@ classdef ProtheroRobinsonProblem < otp.Problem
             %    The initial conditions.
             % parameters : ProtheroRobinsonParameters
             %    The parameters.
-            %
-            % Returns
-            % -------
-            % obj : ProtheroRobinsonProblem
-            %    The constructed problem.
+            
             obj@otp.Problem('Prothero–Robinson', [], timeSpan, y0, parameters);
         end
     end

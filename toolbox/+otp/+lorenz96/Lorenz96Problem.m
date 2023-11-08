@@ -1,26 +1,24 @@
 classdef Lorenz96Problem <  otp.Problem
-    % A chaotic system modeling nonlinear transfer of a dimensionless
-    % quantity along a cyclic one dimensional domain.
+    % A chaotic system modeling nonlinear transfer of a dimensionless quantity along a cyclic one dimensional domain.
     % 
     % The $N$ variable dynamics :cite:p:`Lor96` are represented by the equation,
     %
     % $$
-    % y_i' = -y_{i-1}\left(y_{i-2} - y_{i+1}\right) - y_i + f(t), \quad i = 1, \dots, N,
+    % y_i' = -y_{i-1} (y_{i-2} - y_{i+1}) - y_i + f(t), \qquad i = 1, …, N,
     % $$
     % 
-    % where $y_0 = y_N$, $y_{-1} = y_{N - 1}$, and $y_{N + 1} = y_2$, exhibits 
-    % chaotic behavior for certain pairs of values of the dimension $N$ and
-    % forcing function $f$.
+    % where $y_0 = y_N$, $y_{-1} = y_{N - 1}$, and $y_{N + 1} = y_2$, exhibits chaotic behavior for certain pairs of
+    % values of the dimension $N$ and forcing function $f$.
     %
     % Notes
     % -----
-    % +---------------------+-----------------------------------------------------------+
-    % | Type                | ODE                                                       |
-    % +---------------------+-----------------------------------------------------------+
-    % | Number of Variables | $N$ for any postive integer four or greater               |
-    % +---------------------+-----------------------------------------------------------+
-    % | Stiff               | no                                                        |
-    % +---------------------+-----------------------------------------------------------+
+    % +---------------------+---------------------------------------------+
+    % | Type                | ODE                                         |
+    % +---------------------+---------------------------------------------+
+    % | Number of Variables | $N$ for any postive integer four or greater |
+    % +---------------------+---------------------------------------------+
+    % | Stiff               | no                                          |
+    % +---------------------+---------------------------------------------+
     %
     % Example
     % -------
@@ -28,9 +26,9 @@ classdef Lorenz96Problem <  otp.Problem
     % >>> sol = problem.solve();
     % >>> problem.movie(sol);
     %
-    % See also
+    % See Also
     % --------
-    % :doc:`Lorenz '63 Problem </problems/Lorenz63Problem>`
+    % otp.lorenz63.Lorenz63Problem
     
     properties (SetAccess = private)
         DistanceFunction
@@ -48,7 +46,7 @@ classdef Lorenz96Problem <  otp.Problem
             %    The initial conditions.
             % parameters : Lorenz96Parameters
             %    The parameters.
-            %
+
             obj@otp.Problem('Lorenz 96', [], timeSpan, y0, parameters);
         end
     end

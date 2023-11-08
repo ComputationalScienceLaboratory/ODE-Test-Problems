@@ -1,5 +1,5 @@
 classdef AscherLinearDAEProblem < otp.Problem
-    % A linear differential-algebraic problem with time-dependant mass matrix.
+    % A linear differential-algebraic problem with a time-dependant mass matrix.
     %
     % The Ascher linear DAE Problem :cite:p:`Asc89` is an index-1 differential-agebraic equation given by
     %
@@ -7,10 +7,10 @@ classdef AscherLinearDAEProblem < otp.Problem
     % \begin{bmatrix}
     % 1 & -t \\
     % 0 & 0
-    % \end{bmatrix} \begin{bmatrix} y'(t) \\ z'(t) \end{bmatrix} = \left[ \begin{array}{cc}
+    % \end{bmatrix} \begin{bmatrix} y'(t) \\ z'(t) \end{bmatrix} = \begin{bmatrix}
     % -1 & 1+t \\
     % β & -1-β t
-    % \end{array}\right] \begin{bmatrix} y(t) \\ z(t) \end{bmatrix} + \begin{bmatrix}
+    % \end{bmatrix} \begin{bmatrix} y(t) \\ z(t) \end{bmatrix} + \begin{bmatrix}
     % 0 \\
     % \sin(t)
     % \end{bmatrix}.
@@ -20,10 +20,11 @@ classdef AscherLinearDAEProblem < otp.Problem
     %
     % $$
     % \begin{bmatrix} y(t)\\ z(t) \end{bmatrix} = \begin{bmatrix}
-    % t \sin(t) + (1 + β  t) e^{-t}\\
-    % β  e^{-t} + \sin(t)
+    % t \sin(t) + (1 + β t) e^{-t}\\
+    % β e^{-t} + \sin(t)
     % \end{bmatrix}.
     % $$
+    %
     % This DAE problem can be used to investigate the convergence of implcit time-stepping methods due to its stiffness
     % and time-dependant mass matrix.
     %
