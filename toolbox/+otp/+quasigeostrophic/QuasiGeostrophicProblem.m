@@ -4,18 +4,19 @@ classdef QuasiGeostrophicProblem < otp.Problem
     % The governing partial differential equation that is discretized is,
     %
     % $$
-    % Δψ_t = -J(ψ,ω) - {Ro}^{-1} ψ_x -{Re}^{-1} Δω - {Ro}^{-1} F, \\
+    % Δψ_t = -J(ψ,ω) - {Ro}^{-1} \partial_x ψ -{Re}^{-1} Δω - {Ro}^{-1} F,
     % $$
     % where the Jacobian term is a quadratic function,
     % $$
-    % J(ψ,ω) \equiv ψ_x ω_y - ψ_y ω_x,
+    % J(ψ,ω) \equiv \partial_x ψ \partial_x ω - \partial_x ψ \partial_x ω,
     % $$
     % the relationship between the vorticity $ω$ and the stream function $ψ$ is
     % $$
     % ω = -Δψ,
     % $$
     % the term $Δ$ is the two dimensional Laplacian over the
-    % discretization, $Ro$ is the Rossby number, $Re$ is the Reynolds
+    % discretization, the terms $\partial_x$ and $\partial_y$ are the first derivatives
+    % in the $x$ and $y$ directions respectively, $Ro$ is the Rossby number, $Re$ is the Reynolds
     % number, and $F$ is a forcing term.
     % The spatial domain is fixed to $x ∈ [0, 1]$ and $y ∈ [0, 2]$, and
     % the boundary conditions of the PDE are assumed to be zero dirichlet
@@ -23,7 +24,23 @@ classdef QuasiGeostrophicProblem < otp.Problem
     %
     % A second order finite difference approximation is performed on the
     % grid to create the first derivative operators and the Laplacian
-    % operator. The Jacobian is discretized using the Arakawa approximation
+    % operator.
+    % 
+    % The Laplacian is defined using the 5-point stencil
+    % $$
+    % Δ = \begin{bmatrix} &  1 & \\ 1 & -4 & 1\\ &  1 & \end{bmatrix},
+    % $$
+    % which is scaled with respect to the square of the step size in each
+    % respective direction.
+    % The first derivatives,
+    % $$
+    % \partial_x &= \begin{bmatrix} & 0 & \\ 1/2 & 0 & 1/2\\ & 0 & \end{bmatrix},\\
+    % \partial_y &= \begin{bmatrix} & 1/2 & \\ 0 & 0 & 0\\ & 1/2 & \end{bmatrix},
+    % $$
+    % are the standard second order central finite difference operators in 
+    % the $x$ and $y$ directions.
+    % 
+    % The Jacobian is discretized using the Arakawa approximation
     % CITEME 
     % $$
     % J(ψ,ω) = \frac{1}{3}[ψ_x ω_y - ψ_y ω_x + (ψ ω_y)_x - (ψ ω_x)_y + (ψ_x ω)_y - (ψ_y ω)_x],
