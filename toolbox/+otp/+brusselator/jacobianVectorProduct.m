@@ -1,7 +1,7 @@
 function jx = jacobianVectorProduct(~, y, x, a, b)
 
-v1 = 2 * a * y(1, :).*y(2, :);
-v2 = a * y(1, :).^2;
+v1 = 2 * y(1, :) .* y(2, :);
+v2 = y(1, :).^2;
 
 jx = [
     (v1 - b - 1).*x(1, :) + v2.*x(2, :);
