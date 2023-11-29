@@ -34,7 +34,7 @@ classdef (Abstract) Problem < handle
         Y0 %MATLAB ONLY: (:,1) {otp.utils.validation.mustBeNumerical}
         
         % Additional variables to pass to the F function
-        Parameters %MATLAB ONLY: (1,1)
+        Parameters %MATLAB ONLY: (1,1) otp.Parameters
         
         % The dimension of the ODE
         NumVars

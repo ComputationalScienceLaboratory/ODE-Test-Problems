@@ -4,27 +4,24 @@ classdef Lorenz63Problem < otp.Problem
     % The three variable Lorenz '63 problem :cite:p:`Lor63` of the form,
     %
     % $$
-    % x' &= \sigma(y - x),\\
-    % y' &= \rho x - y - xz,\\
-    % z' &= xy - \beta z,
+    % x' &= σ(y - x),\\
+    % y' &= ρx - y - xz,\\
+    % z' &= xy - βz,
     % $$
     %
-    % exhibits chaotic behavior for certain values of the parameters.
-    % Here $x$ roughly corresponds to the rate of convection of a fluid,
-    % $y$ corresponds to temperature variation in one direction,
-    % and $z$ is temerature variation in the other direction.
-    %
-    % For a full problem description see :cite:p:`Str18`.
+    % exhibits chaotic behavior for certain values of the parameters. Here $x$ roughly corresponds to the rate of
+    % convection of a fluid, $y$ corresponds to temperature variation in one direction, and $z$ is temerature variation
+    % in the other direction. For a full problem description see :cite:p:`Str18`.
     %
     % Notes
     % -----
-    % +---------------------+-----------------------------------------------------------+
-    % | Type                | ODE                                                       |
-    % +---------------------+-----------------------------------------------------------+
-    % | Number of Variables | 3                                                         |
-    % +---------------------+-----------------------------------------------------------+
-    % | Stiff               | not typically, depending on $\sigma$, $\rho$, and $\beta$ |
-    % +---------------------+-----------------------------------------------------------+
+    % +---------------------+-----------------------------------------------+
+    % | Type                | ODE                                           |
+    % +---------------------+-----------------------------------------------+
+    % | Number of Variables | 3                                             |
+    % +---------------------+-----------------------------------------------+
+    % | Stiff               | not typically, depending on $σ$, $ρ$, and $β$ |
+    % +---------------------+-----------------------------------------------+
     %
     % Example
     % -------
@@ -32,9 +29,9 @@ classdef Lorenz63Problem < otp.Problem
     % >>> sol = problem.solve('MaxStep', 1e-3);
     % >>> problem.plotPhaseSpace(sol);
     %
-    % See also
+    % See Also
     % --------
-    % :doc:`Lorenz '96 Problem </problems/Lorenz96Problem>`
+    % otp.lorenz96.Lorenz96Problem
     
     methods
         function obj = Lorenz63Problem(timeSpan, y0, parameters)
@@ -48,11 +45,7 @@ classdef Lorenz63Problem < otp.Problem
             %    The initial conditions.
             % parameters : Lorenz63Parameters
             %    The parameters.
-            %
-            % Returns
-            % -------
-            % obj : Lorenz63Problem
-            %    The constructed problem.
+
             obj@otp.Problem('Lorenz Equations', 3, timeSpan, y0, parameters);
         end
     end
@@ -64,12 +57,16 @@ classdef Lorenz63Problem < otp.Problem
             beta  = obj.Parameters.Beta;
             
             obj.RHS = otp.RHS(@(t, y) otp.lorenz63.f(t, y, sigma, rho, beta), ...
-                'Jacobian',                     @(t, y) otp.lorenz63.jacobian(t, y, sigma, rho, beta), ...
-                'JacobianVectorProduct',        @(t, y, v) otp.lorenz63.jacobianVectorProduct(t, y, v, sigma, rho, beta), ...
-                'JacobianAdjointVectorProduct', @(t, y, v) otp.lorenz63.jacobianAdjointVectorProduct(t, y, v, sigma, rho, beta), ...
-                'PartialDerivativeParameters',  @(t, y) otp.lorenz63.partialDerivativeParameters(t, y, sigma, rho, beta), ...
-                'HessianVectorProduct',         @(t, y, u, v) otp.lorenz63.hessianVectorProduct(t, y, u, v, sigma, rho, beta), ...
-                'HessianAdjointVectorProduct',  @(t, y, u, v) otp.lorenz63.hessianAdjointVectorProduct(t, y, u, v, sigma, rho, beta), ...
+                'Jacobian', @(t, y) otp.lorenz63.jacobian(t, y, sigma, rho, beta), ...
+                'JacobianVectorProduct', @(t, y, v) otp.lorenz63.jacobianVectorProduct(t, y, v, sigma, rho, beta), ...
+                'JacobianAdjointVectorProduct', ...
+                @(t, y, v) otp.lorenz63.jacobianAdjointVectorProduct(t, y, v, sigma, rho, beta), ...
+                'PartialDerivativeParameters', ...
+                @(t, y) otp.lorenz63.partialDerivativeParameters(t, y, sigma, rho, beta), ...
+                'HessianVectorProduct', ...
+                @(t, y, u, v) otp.lorenz63.hessianVectorProduct(t, y, u, v, sigma, rho, beta), ...
+                'HessianAdjointVectorProduct', ...
+                @(t, y, u, v) otp.lorenz63.hessianAdjointVectorProduct(t, y, u, v, sigma, rho, beta), ...
                 'Vectorized', 'on');
         end
         

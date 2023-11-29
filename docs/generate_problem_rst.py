@@ -30,7 +30,7 @@ Presets
 .. automodule:: +otp.{problem.parent.name}.+presets
 ''')
 
-        for preset in problem.parent.glob('+presets/*.m'):
+        for preset in sorted(problem.parent.glob('+presets/*.m')):
             stream.write(f'''
 .. autoclass:: {preset.stem}
     :members:
