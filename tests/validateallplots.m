@@ -26,32 +26,9 @@ for preset = presets
         problemname, ...
         presetname);
 
-    problem = eval(presetclass);
+    problem = evalpreset(presetclass, problemname, presetname, ...
+        'DefaultTimeSpan', [0, 1e-3]);
 
-    problem.TimeSpan = [0, 1e-3];
-
-
-    if strcmp(problemname, 'quasigeostrophic')
-        problem.TimeSpan = [0, 0.0109];
-    end
-    if strcmp(presetname, 'Lorenz96PODROM')
-        problem.TimeSpan = [0, 10];
-    end
-    if strcmp(problemname, 'lorenz96')
-        problem.TimeSpan = [0, 0.05];
-    end
-    if strcmp(problemname, 'cusp')
-        problem.TimeSpan = [0, 0.01];
-    end
-    if strcmp(problemname, 'bouncingball')
-        problem.TimeSpan = [0, 1];
-    end
-    if strcmp(problemname, 'lorenz63')
-        problem.TimeSpan = [0, 0.12];
-    end
-    if strcmp(problemname, 'nbody')
-        problem.TimeSpan = [0, 0.01];
-    end
     sol = problem.solve();
 
     if testplots

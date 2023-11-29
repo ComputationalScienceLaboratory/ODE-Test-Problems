@@ -18,8 +18,7 @@ for preset = presets
         problemname, ...
         presetname);
 
-    problem = eval(presetclass);
-
+    problem = evalpreset(presetclass, problemname, presetname);
 
     % setup
     tc = problem.TimeSpan(1);
