@@ -39,11 +39,7 @@ for preset = presets
 
     % Try to see if the Jacobian works
     if ~isempty(problem.RHS.Jacobian)
-        try
-            japprox = problem.RHS.JacobianFunction(tc, y0);
-        catch
-            japprox = inf;
-        end
+        japprox = problem.RHS.JacobianFunction(tc, y0);
         japprox = full(japprox);
 
         normj = norm(jtrue);
@@ -62,11 +58,7 @@ for preset = presets
 
     % test jacobian vector products
     if ~isempty(problem.RHS.JacobianVectorProduct)
-        try
-            jvpapprox = problem.RHS.JacobianVectorProduct(tc, y0, y0);
-        catch
-            jvpapprox = inf;
-        end
+        jvpapprox = problem.RHS.JacobianVectorProduct(tc, y0, y0);
 
         jvptrue = jtrue*y0;
 
@@ -85,12 +77,7 @@ for preset = presets
 
     % test jacobian adjoint vector products
     if ~isempty(problem.RHS.JacobianAdjointVectorProduct)
-
-        try
-            javpapprox = problem.RHS.JacobianAdjointVectorProduct(tc, y0, y0);
-        catch
-            javpapprox = inf;
-        end
+        javpapprox = problem.RHS.JacobianAdjointVectorProduct(tc, y0, y0);
 
         javptrue = jtrue'*y0;
 

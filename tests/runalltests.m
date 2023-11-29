@@ -12,10 +12,6 @@ s = p.Results;
 testplots  = s.TestPlots;
 testmovies = s.TestMovies;
 
-
-% set warnings off
-warning off;
-
 fprintf('\n   Running all tests \n\n');
 
 validateallpresets;

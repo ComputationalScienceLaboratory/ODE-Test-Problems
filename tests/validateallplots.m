@@ -17,7 +17,7 @@ fprintf([repmat('-', 1, 85) '\n']);
 presets = getpresets();
 
 for preset = presets
-        
+
     problemname = preset.problem;
     presetname = preset.name;
     presetclass = preset.presetclass;
@@ -28,74 +28,51 @@ for preset = presets
 
     problem = eval(presetclass);
 
-    try
-        problem.TimeSpan = [0, 1e-3];
+    problem.TimeSpan = [0, 1e-3];
 
 
-        if strcmp(problemname, 'quasigeostrophic')
-            problem.TimeSpan = [0, 0.0109];
-        end
-        if strcmp(presetname, 'Lorenz96PodRom')
-            problem.TimeSpan = [0, 10];
-        end
-        if strcmp(problemname, 'lorenz96')
-            problem.TimeSpan = [0, 0.05];
-        end
-        if strcmp(problemname, 'cusp')
-            problem.TimeSpan = [0, 0.01];
-        end
-        if strcmp(problemname, 'bouncingball')
-            problem.TimeSpan = [0, 1];
-        end
-        if strcmp(problemname, 'lorenz63')
-            problem.TimeSpan = [0, 0.12];
-        end
-        if strcmp(problemname, 'nbody')
-            problem.TimeSpan = [0, 0.01];
-        end
-        sol = problem.solve();
-        assert(true)
-    catch
-        continue;
+    if strcmp(problemname, 'quasigeostrophic')
+        problem.TimeSpan = [0, 0.0109];
     end
+    if strcmp(presetname, 'Lorenz96PODROM')
+        problem.TimeSpan = [0, 10];
+    end
+    if strcmp(problemname, 'lorenz96')
+        problem.TimeSpan = [0, 0.05];
+    end
+    if strcmp(problemname, 'cusp')
+        problem.TimeSpan = [0, 0.01];
+    end
+    if strcmp(problemname, 'bouncingball')
+        problem.TimeSpan = [0, 1];
+    end
+    if strcmp(problemname, 'lorenz63')
+        problem.TimeSpan = [0, 0.12];
+    end
+    if strcmp(problemname, 'nbody')
+        problem.TimeSpan = [0, 0.01];
+    end
+    sol = problem.solve();
 
     if testplots
-        try
-            fig = problem.plot(sol);
-            close(fig);
-            fprintf('PASS  | ');
-        catch e
-            assert(false, sprintf('Preset %s of %s failed to plot with error\n%s\n%s', ...
-                presetname, problemname, e.identifier, e.message))
-            fprintf('-FAIL | ');
-        end
+        fig = problem.plot(sol);
+        close(fig);
+        fprintf('PASS  | ');
 
         if problem.NumVars > 1
-            try
-                problem.plotPhaseSpace(sol);
-                fprintf('PASS  | ');
-            catch e
-                assert(false, sprintf('Preset %s of %s failed to plot phase space with error\n%s\n%s', ...
-                    presetname, problemname, e.identifier, e.message))
-                fprintf('-FAIL | ');
-            end
+            problem.plotPhaseSpace(sol);
+            fprintf('PASS  | ');
         else
             fprintf('      | ');
         end
     else
-         fprintf('      | ');
-         fprintf('      | ');
+        fprintf('      | ');
+        fprintf('      | ');
     end
 
     if testmovies
-        try
-            problem.movie(sol);
-            fprintf('PASS  ');
-        catch e
-            assert(false, sprintf('Preset %s of %s failed to create movie with error\n%s\n%s', ...
-                presetname, problemname, e.identifier, e.message))
-            fprintf('-FAIL ');
-        end
+        problem.movie(sol);
+        fprintf('PASS  ');
     end
 
 
