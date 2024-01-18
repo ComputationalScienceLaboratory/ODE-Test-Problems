@@ -1,12 +1,12 @@
 Getting Started
 ================================================================================
-This guide shows you how to create, solve and plot different test problems in ODE Test Problems (OTP).
+This guide shows you how to create, solve and visualize different problems in ODE Test Problems (``OTP``).
 
 Mathematical formulation
 -----------------------------
 
-All test problems in OTP are considered as a first-order
-differential-algebraic equation of the form:
+All test problems in ``OTP`` are considered as a first-order
+differential-algebraic equation of the form
 
 .. math::
 
@@ -15,9 +15,9 @@ differential-algebraic equation of the form:
      y(t_0) = y_0,
 
 where :math:`y(t)` is the time-dependent solution to the problem,
-:math:`f(t, y)` is the right-hand-side function representing the
-time-derivative, and :math:`t` is the independent variable. :math:`M` is
-the mass-matrix for the differential-algebraic system and when the test
+:math:`f(t, y)` is the right-hand-side function corresponding to the
+time-derivative of the system, and :math:`t` is the independent variable. :math:`M(t,y)` is
+the mass-matrix for the differential-algebraic system. When the test
 problem is an ordinary differential equation, :math:`M` is the Identity
 matrix. The initial condition :math:`y_0` specifies the value of
 :math:`y` at the initial time :math:`t = t_0`.
@@ -26,25 +26,22 @@ matrix. The initial condition :math:`y_0` specifies the value of
 Creating problems
 ---------------------
 
-Any problem in OTP can be initialized using a *problem name* and a
+Any problem in ``OTP`` can be initialized using a *problem name* and a
 *preset* that defines a set of specific parameters and initial
 conditions. The ``Canonical`` preset is available for all problems.
 
-.. code:: matlab
 
-   % Create a lorenz63 problem object
-   problem = otp.lorenz63.presets.Canonical
 
-.. code:: console
-
-  Canonical with properties:
-
-          Name: 'Lorenz Equations'
-           RHS: [1×1 otp.RHS]
-      TimeSpan: [0 60]
-            Y0: [3×1 double]
-    Parameters: [1×1 otp.lorenz63.Lorenz63Parameters]
-       NumVars: 3
+   >>> problem = otp.lorenz63.presets.Canonical
+   <BLANKLINE>
+   Canonical with properties:
+   <BLANKLINE>
+         Name: 'Lorenz Equations'
+         RHS: [1×1 otp.RHS]
+         TimeSpan: [0 60]
+         Y0: [3×1 double]
+         Parameters: [1×1 otp.lorenz63.Lorenz63Parameters]
+         NumVars: 3
 
 The ``problem`` object contains a number of useful properties including:
 
@@ -61,8 +58,7 @@ The ``problem`` object contains a number of useful properties including:
 Solving problems
 ---------------------
 
-Problems can be solved by calling the ``solve()`` method. It is also possible
-to pass optional parameters to the solver.
+Problems can be solved by calling the ``solve()`` method. 
 
  
    >>> sol = problem.solve()
@@ -78,6 +74,9 @@ to pass optional parameters to the solver.
          idata: [1×1 struct]
 
 ``sol.x`` contains the time points at which the solver has calculated the solution and ``sol.y`` contains the solution at these times. 
+Optional parameters can be passed to the ``solve()`` method to control the behaviour of the solver. For example:
+
+   >>> sol = problem.solve('MaxStep', 1e-6, 'RelTol', 1e-3 , 'AbsTol', 1e-6);
 
 Visualizing solutions
 ---------------------
@@ -99,6 +98,11 @@ also supports animations for the computed solution.
    % Create a movie of the solution 
    problem.movie(sol);
 
+.. video:: ../_static/Lorenz-Original-Canonical.webm
+      :loop: 
+      :width: 200
+
+
 
 Changing the parameters
 ------------------------
@@ -110,21 +114,18 @@ Changing the parameters
 
    % Solve the problem again
    sol = problem.solve('MaxStep' , 1e-4);
-   problem.plotPhaseSpace(sol)
+   problem.movie(sol);
 
-.. video:: /_static/Lorenz-Rho-10.webm
-      :autoplay:
-      :loop:
+.. video:: ../_static/Lorenz-Alternate-Canonical.webm
+      :loop: 
       :width: 200
-      :nocontrols:
-
 Changing the solver
 -------------------
 
 OTP uses appropriate internal solvers to integrate each problem.
 However, if you are researching time-stepping methods you can plug-in
 your specific solver to any test problem by passing the right-hand-side
-function, time span, initial condition and other optional parameters to
+function, time span, initial condition and other parameters to
 the solver. As an example, to use the *Implicit* time-stepping method
 ``ode23s``:
 
@@ -132,3 +133,4 @@ the solver. As an example, to use the *Implicit* time-stepping method
 
    sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
                 odeset('Jacobian', problem.RHS.Jacobian));
+
