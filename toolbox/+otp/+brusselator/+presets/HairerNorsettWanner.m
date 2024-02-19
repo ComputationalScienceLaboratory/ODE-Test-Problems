@@ -3,7 +3,7 @@ classdef HairerNorsettWanner < otp.brusselator.BrusselatorProblem
     % $A = 1$ and $B = 3$ yield a periodic solution.
     
     methods
-        function obj = HairerNorsettWanner()   
+        function obj = HairerNorsettWanner()
             % Create the HairerNorsettWanner Brusselator problem object.
             
             y0 = [1.5; 3];
