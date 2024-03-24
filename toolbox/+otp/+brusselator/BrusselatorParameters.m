@@ -1,10 +1,12 @@
 classdef BrusselatorParameters < otp.Parameters
     % Parameters for the Brusselator problem.
+    
     properties
         % The concentration of excess reactant $\ce{A}$ in the Brusselator reaction.
-        A %MATLAB ONLY: (1,1) {mustBeNumeric}
+        A %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
+
         % The concentration of excess reactant $\ce{B}$ in the Brusselator reaction.
-        B %MATLAB ONLY: (1,1) {mustBeNumeric}
+        B %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
     end
 
     methods
