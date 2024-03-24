@@ -17,7 +17,7 @@ classdef OregonatorParameters < otp.Parameters
 
     methods
         function obj = OregonatorParameters(varargin)
-            % Create a Oregonator parameters object.
+            % Create an Oregonator parameters object.
             %
             % Parameters
             % ----------

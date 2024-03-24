@@ -14,7 +14,7 @@ classdef PendulumParameters < otp.Parameters
 
     methods
         function obj = PendulumParameters(varargin)
-            % Create an pendulum parameters object.
+            % Create a pendulum parameters object.
             %
             % Parameters
             % ----------

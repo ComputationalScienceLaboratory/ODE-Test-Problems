@@ -23,7 +23,7 @@ classdef QuasiGeostrophicParameters < otp.Parameters
 
     methods
         function obj = QuasiGeostrophicParameters(varargin)
-            % Create an quasi-geostrophic parameters object.
+            % Create a quasi-geostrophic parameters object.
             %
             % Parameters
             % ----------

@@ -17,7 +17,7 @@ classdef LotkaVolterraParameters < otp.Parameters
 
     methods
         function obj = LotkaVolterraParameters(varargin)
-            % Create an Lotka–Volterra parameters object.
+            % Create a Lotka–Volterra parameters object.
             %
             % Parameters
             % ----------

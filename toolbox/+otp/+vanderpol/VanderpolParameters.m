@@ -8,7 +8,7 @@ classdef VanderpolParameters< otp.Parameters
 
     methods
         function obj = VanderpolParameters(varargin)
-            % Create n Van der Pol parameters object.
+            % Create a Van der Pol parameters object.
             %
             % Parameters
             % ----------

@@ -23,7 +23,7 @@ classdef LienardParameters < otp.Parameters
 
     methods
         function obj = LienardParameters(varargin)
-            % Create an Lienard parameters object.
+            % Create a Lienard parameters object.
             %
             % Parameters
             % ----------

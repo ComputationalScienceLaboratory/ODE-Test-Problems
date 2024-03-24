@@ -8,7 +8,7 @@ classdef LinearParameters < otp.Parameters
 
     methods
         function obj = AllenCahnParameters(varargin)
-            % Create an linear parameters object.
+            % Create a linear parameters object.
             %
             % Parameters
             % ----------
