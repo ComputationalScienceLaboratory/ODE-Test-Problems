@@ -1,7 +1,7 @@
 function validateallpresets
 
 fprintf('\n   Validating all presets and RHS \n\n');
-fprintf([' Model                   | Preset               | Build | Solve \n']);
+fprintf(' Model                   | Preset               | Build | Solve \n');
 fprintf([repmat('-', 1, 64) '\n']);
 
 presets = getpresets();

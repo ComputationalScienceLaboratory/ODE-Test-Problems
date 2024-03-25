@@ -3,7 +3,7 @@ classdef AllenCahnParameters < otp.Parameters
     
     properties
         %Size is the dimension of the problem
-        Size %MATLAB ONLY: (1,1) {mustBeInteger, mustBePositive}
+        Size %MATLAB ONLY: (1,1) {mustBeInteger, mustBePositive} = 1
 
         %Alpha is non-negative diffusion constant
         Alpha %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}

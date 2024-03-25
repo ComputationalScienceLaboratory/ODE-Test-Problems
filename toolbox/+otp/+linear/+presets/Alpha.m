@@ -4,9 +4,9 @@ classdef Alpha < otp.linear.LinearProblem
     methods
         function obj = Alpha(varargin)
             p = inputParser();
-            p.addParameter('Alpha', 45);
+            p.addParameter('Alpha', 0);
             p.addParameter('N', 10);
-            p.addParameter('Range', [1e-4, 1e4]);
+            p.addParameter('Range', [1e-3, 1e3]);
             p.addParameter('Sparse', true);
             p.parse(varargin{:});
             results = p.Results;

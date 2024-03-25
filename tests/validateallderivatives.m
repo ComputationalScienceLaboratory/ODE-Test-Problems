@@ -2,7 +2,7 @@ function validateallderivatives
 
 fprintf('\n   Validating all model and preset derivatives \n\n');
 
-fprintf([' Model                   | Preset               | Jacobian | JVP   | JAVP \n']);
+fprintf(' Model                   | Preset               | Jacobian | JVP   | JAVP \n');
 fprintf([repmat('-', 1, 88) '\n']);
 
 presets = getpresets();
