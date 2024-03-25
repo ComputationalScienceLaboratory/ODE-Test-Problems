@@ -16,7 +16,7 @@ classdef Canonical < otp.brusselator.BrusselatorProblem
             
             y0 = [0; 0];
             tspan = [0, 20];
-            params = otp.brusselator.BrusselatorParameters('A', 1, 'B', 3, varargin{:});            
+            params = otp.brusselator.BrusselatorParameters('A', 1, 'B', 3, varargin{:});         
             obj = obj@otp.brusselator.BrusselatorProblem(tspan, y0, params);
         end
     end

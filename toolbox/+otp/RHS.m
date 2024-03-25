@@ -302,12 +302,12 @@ classdef RHS
             % causes an error for ``ode15s``.
 
             obj.F = F;
-            extras = struct(varargin{:});
-            fields = fieldnames(extras);
+            if mod(nargin, 2) == 0
+                error('OTP:invalidArgument', 'Arguments to RHS should be F followed by name-value pairs');
+            end
             
-            for i = 1:length(fields)
-                f = fields{i};
-                obj.(f) = extras.(f);
+            for i = 1:2:(nargin - 1)
+                obj.(varargin{i}) = varargin{i + 1};
             end
             
             % OCTAVE FIX: ode15s throws an error when the Vectorized option is set. It seems no

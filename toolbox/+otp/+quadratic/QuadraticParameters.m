@@ -13,7 +13,7 @@ classdef QuadraticParameters < otp.Parameters
     end
 
     methods
-        function obj = AllenCahnParameters(varargin)
+        function obj = QuadraticParameters(varargin)
             % Create an Allen–Cahn parameters object.
             %
             % Parameters

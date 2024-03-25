@@ -24,6 +24,7 @@ classdef Canonical < otp.cusp.CUSPProblem
             %    - ``sigma`` – Value of $σ$.
 
             p = inputParser;
+            p.KeepUnmatched = true;
             p.addParameter('N', 32);
             p.parse(varargin{:});
             n = p.Results.N;

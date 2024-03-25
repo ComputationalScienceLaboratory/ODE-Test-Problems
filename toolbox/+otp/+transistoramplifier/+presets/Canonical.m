@@ -1,15 +1,16 @@
 classdef Canonical < otp.transistoramplifier.TransistorAmplifierProblem
     methods
-        function obj = Canonical
+        function obj = Canonical(varargin)
             tspan = [0.0, 0.2];
 
-            params = otp.transistoramplifier.TransistorAmplifierParameters;
-            params.C = (1:5)*1e-6;
-            params.R = [1000, 9000*ones(1,9)];
-            params.Ub = 6;
-            params.UF = 0.026;
-            params.Alpha = 0.99;
-            params.Beta = 1e-6;
+            params = otp.transistoramplifier.TransistorAmplifierParameters( ...
+                'C', (1:5)*1e-6, ...
+                'R', [1000, 9000*ones(1,9)], ...
+                'Ub', 6, ...
+                'UF', 0.026, ...
+                'Alpha', 0.99, ...
+                'Beta', 1e-6, ...
+                varargin{:});
 
             y02 = params.Ub/(params.R(3)/params.R(2) +1);
             y05 = params.Ub/(params.R(7)/params.R(6) +1);
