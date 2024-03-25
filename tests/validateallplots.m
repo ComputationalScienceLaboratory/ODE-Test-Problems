@@ -10,9 +10,8 @@ end
 
 fprintf('\n   Validating all model and preset plots and movies \n\n');
 
-fprintf([' Model                | Preset               |' ...
-    ' Plot  | Phase | Movie\n']);
-fprintf([repmat('-', 1, 85) '\n']);
+fprintf([' Model                   | Preset               | Plot  | Phase | Movie\n']);
+fprintf([repmat('-', 1, 88) '\n']);
 
 presets = getpresets();
 
@@ -22,7 +21,7 @@ for preset = presets
     presetname = preset.name;
     presetclass = preset.presetclass;
 
-    fprintf(' %-20s | %-20s | ', ...
+    fprintf(' %-23s | %-20s | ', ...
         problemname, ...
         presetname);
 

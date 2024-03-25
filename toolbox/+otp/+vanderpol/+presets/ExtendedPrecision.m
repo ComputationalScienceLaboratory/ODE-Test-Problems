@@ -1,4 +1,4 @@
-classdef ExtendedPrecision < otp.vanderpol.VanderpolProblem
+classdef ExtendedPrecision < otp.vanderpol.VanDerPolProblem
     methods
         function obj = ExtendedPrecision(epsilon)
             if nargin < 1
@@ -30,9 +30,9 @@ classdef ExtendedPrecision < otp.vanderpol.VanderpolProblem
             y0 = [2; z0];
             tspan = [0, 0.5];            
             
-            params = otp.vanderpol.VanderpolParameters;
+            params = otp.vanderpol.VanDerPolParameters;
             params.Epsilon = epsilon;
-            obj = obj@otp.vanderpol.VanderpolProblem(tspan, y0, params);
+            obj = obj@otp.vanderpol.VanDerPolProblem(tspan, y0, params);
             
         end
     end

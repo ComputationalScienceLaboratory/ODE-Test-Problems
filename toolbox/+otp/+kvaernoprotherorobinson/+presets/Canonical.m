@@ -1,4 +1,4 @@
-classdef Canonical < otp.kpr.KPRProblem
+classdef Canonical < otp.kvaernoprotherorobinson.KvaernoProtheroRobinsonProblem
     methods
         function obj = Canonical(lambdaF, lambdaS, xi, alpha)
             if nargin < 1 || isempty(lambdaF)
@@ -17,11 +17,11 @@ classdef Canonical < otp.kpr.KPRProblem
             y0 = [2; sqrt(3)];
             tspan = [0, 2.5 * pi];
             
-            params = otp.kpr.KPRParameters;
+            params = otp.kvaernoprotherorobinson.KvaernoProtheroRobinsonParameters;
             params.Omega = 20;
             params.Lambda = [lambdaF, (1-xi) / alpha * (lambdaF - lambdaS); ...
                 -alpha * xi * (lambdaF - lambdaS), lambdaS];
-            obj = obj@otp.kpr.KPRProblem(tspan, y0, params);
+            obj = obj@otp.kvaernoprotherorobinson.KvaernoProtheroRobinsonProblem(tspan, y0, params);
         end
     end
 end

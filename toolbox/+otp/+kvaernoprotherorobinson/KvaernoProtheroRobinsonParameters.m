@@ -1,14 +1,15 @@
-classdef VanderpolParameters< otp.Parameters
-    % Parameters for the Van der Pol problem.
+classdef KvaernoProtheroRobinsonParameters < otp.Parameters
+    % Parameters for the KPR problem.
     
     properties
-        %EPSILON is a weakly-enforced parameter on the constraint.
-        Epsilon %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
+        Lambda %MATLAB ONLY: (2,2) {otp.utils.validation.mustBeNumerical}
+        
+        Omega %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
     end
 
     methods
-        function obj = VanderpolParameters(varargin)
-            % Create a Van der Pol parameters object.
+        function obj = KvaernoProtheroRobinsonParameters(varargin)
+            % Create a KPR parameters object.
             %
             % Parameters
             % ----------
