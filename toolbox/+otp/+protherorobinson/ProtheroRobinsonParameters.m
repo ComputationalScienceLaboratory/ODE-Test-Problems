@@ -1,5 +1,6 @@
 classdef ProtheroRobinsonParameters < otp.Parameters
     % Parameters for the Prothero–Robinson problem.
+    
     properties
         % The stiffness parameter and eigenvalue of the Jacobian $λ$.
         Lambda %MATLAB ONLY: (1,1) {mustBeFinite} = -1

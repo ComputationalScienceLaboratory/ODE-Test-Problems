@@ -7,20 +7,20 @@ classdef QuasiGeostrophicROM < otp.quadratic.QuadraticProblem
     %    SIAM Journal on Scientific Computing, 43(2), A1134-A1162.
     %
     methods
-        function obj = QuasiGeostrophicROM(r)
-            tspan = [0, 80/(365.25*20.12)];
-            
-            if nargin < 1
-                r = 50;
-            end   
+        function obj = QuasiGeostrophicROM(varargin)
+            p = inputParser();
+            p.addParameter('R', 50);
+            p.parse(varargin{:});
+            r = p.Results.R;
             
             s = load('PMISr100sp.mat');
             
-            params = otp.quadratic.QuadraticParameters;
-            params.A = double(s.b(1:r));
-            params.B = double(s.A(1:r, 1:r));
-            params.C = double(s.B(1:r, 1:r, 1:r));
+            tspan = [0, 80/(365.25*20.12)];
             y0 = double(s.a0(1:r));
+            params = otp.quadratic.QuadraticParameters( ...
+                'A', double(s.b(1:r)), ...
+                'B', double(s.A(1:r, 1:r)), ...
+                'C', double(s.B(1:r, 1:r, 1:r)));
             
             obj = obj@otp.quadratic.QuadraticProblem(tspan, y0, params);
         end

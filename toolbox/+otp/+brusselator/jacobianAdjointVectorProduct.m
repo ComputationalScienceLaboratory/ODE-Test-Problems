@@ -1,4 +1,4 @@
-function jx = jacobianAdjointVectorProduct(~, y, x, a, b)
+function jx = jacobianAdjointVectorProduct(~, y, x, ~, b)
 
 v1 = 2 * y(1, :).*y(2, :);
 v2 = y(1, :).^2;

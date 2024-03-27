@@ -1,12 +1,15 @@
 classdef RobertsonParameters < otp.Parameters
     % Parameters for the Robertson problem.
+
     properties
         % The reaction rate $k_1$.
-        K1 %MATLAB ONLY: (1, 1) {mustBeReal, mustBeNonnegative}
+        K1 %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
+
         % The reaction rate $k_2$.
-        K2 %MATLAB ONLY: (1, 1) {mustBeReal, mustBeNonnegative}
+        K2 %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
+
         % The reaction rate $k_3$.
-        K3 %MATLAB ONLY: (1, 1) {mustBeReal, mustBeNonnegative}
+        K3 %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
     end
 
     methods

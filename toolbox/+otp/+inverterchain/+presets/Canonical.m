@@ -1,20 +1,18 @@
 classdef Canonical < otp.inverterchain.InverterChainProblem
     methods
-        function obj = Canonical(numMosfets)
-            if nargin < 1 || isempty(numMosfets)
-                numMosfets = 50;
-            end
-            
-            params = otp.inverterchain.InverterChainParameters;
-            params.U0 = 0; % V
-            params.UIn = @uIn;
-            params.UOp = 5; % V
-            params.UT = 1; % V
-            params.Gamma = 1;
+        function obj = Canonical(varargin)
+            p = inputParser;
+            p.KeepUnmatched = true;
+            p.addParameter('N', 50);
+            p.parse(varargin{:});
+            numMosfets = p.Results.N;
             
             y0 = zeros(numMosfets, 1);
-            
             tspan = [0, round(24 + 0.6 * numMosfets)]; %ns
+
+            unmatched = namedargs2cell(p.Unmatched);
+            params = otp.inverterchain.InverterChainParameters('U0', 0, 'UIn', @uIn, 'UOp', 5, 'UT', 1, 'Gamma', 1, ...
+                unmatched{:});
             
             obj = obj@otp.inverterchain.InverterChainProblem(tspan, y0, params);
             

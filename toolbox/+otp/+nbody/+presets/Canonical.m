@@ -1,2 +1,15 @@
-classdef Canonical < otp.nbody.presets.SunEarth
+classdef Canonical < otp.nbody.NBodyProblem
+    methods
+        function obj = Canonical(varargin)     
+            y0 = [-2; 0; 2; 0; 0; -1; 0; 1];
+            tspan = [0, 30];
+            params = otp.nbody.NBodyParameters( ...
+                'SpatialDim', otp.utils.PhysicalConstants.TwoD, ...
+                'Masses', [10; 10], ...
+                'GravitationalConstant', 1, ...
+                'SofteningLength', 0, ...
+                varargin{:});
+            obj = obj@otp.nbody.NBodyProblem(tspan, y0, params);
+        end
+    end
 end

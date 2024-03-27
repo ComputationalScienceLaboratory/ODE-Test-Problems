@@ -9,7 +9,7 @@ classdef LienardProblem < otp.Problem
     %
     methods
         function obj = LienardProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Lienard System', 2, timeSpan, y0, parameters);
+            obj@otp.Problem('Liénard System', 2, timeSpan, y0, parameters);
         end
     end
     

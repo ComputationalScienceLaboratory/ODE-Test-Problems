@@ -1,19 +1,24 @@
 classdef Canonical < otp.pendulum.PendulumProblem
     methods
-        function obj = Canonical(numBobs)
-            if nargin < 1 || isempty(numBobs)
-                numBobs = 1;
-            end
+        function obj = Canonical(varargin)
+            p = inputParser();
+            p.KeepUnmatched = true;
+            p.addParameter('NumBobs', 1);
+            p.parse(varargin{:});
+            numBobs = p.Results.NumBobs;
             
-            params.Gravity = otp.utils.PhysicalConstants.EarthGravity;
-            
-            vecOnes = ones(numBobs, 1);
-            params.Lengths = vecOnes;
-            params.Masses  = vecOnes;
-            
-            y0 = [pi/2*vecOnes; zeros(numBobs, 1)];
             tspan = [0, 10];
-            
+
+            vecOnes = ones(numBobs, 1);
+            y0 = [pi/2*vecOnes; zeros(numBobs, 1)];
+
+            unmatched = namedargs2cell(p.Unmatched);
+            params = otp.pendulum.PendulumParameters( ...
+                'Gravity', otp.utils.PhysicalConstants.EarthGravity, ...
+                'Lengths', vecOnes, ...
+                'Masses', vecOnes, ...
+                unmatched{:});
+
             obj = obj@otp.pendulum.PendulumProblem(tspan, y0, params);
         end
     end

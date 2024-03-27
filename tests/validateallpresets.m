@@ -1,9 +1,8 @@
 function validateallpresets
 
 fprintf('\n   Validating all presets and RHS \n\n');
-fprintf([' Model                | Preset               |' ...
-    ' Build | Solve \n']);
-fprintf([repmat('-', 1, 61) '\n']);
+fprintf(' Model                   | Preset               | Build | Solve \n');
+fprintf([repmat('-', 1, 64) '\n']);
 
 presets = getpresets();
 
@@ -13,7 +12,7 @@ for preset = presets
     presetname = preset.name;
     presetclass = preset.presetclass;
 
-    fprintf(' %-20s | %-20s | ', ...
+    fprintf(' %-23s | %-20s | ', ...
         problemname, ...
         presetname);
 

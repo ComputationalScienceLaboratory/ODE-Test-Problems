@@ -31,11 +31,11 @@ problemname = problemname(2:end);
 presetclass = sprintf('otp.%s.presets.%s', problemname, presetname);
 
 if strcmp(problemname, 'quasigeostrophic')
-    presetclass = sprintf('%s%s', presetclass, "('size', [16, 32])");
+    presetclass = sprintf('%s%s', presetclass, "('Nx', 16, 'Ny', 32)");
 end
 
 if strcmp(problemname, 'allencahn')
-    presetclass = sprintf('%s%s', presetclass, "('size', 16)");
+    presetclass = sprintf('%s%s', presetclass, "('Size', 16)");
 end
 
 end

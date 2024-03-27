@@ -1,14 +1,15 @@
-classdef ArenstorfParameters < otp.Parameters
-    % Parameters for the Arenstorf problem.
+classdef KvaernoProtheroRobinsonParameters < otp.Parameters
+    % Parameters for the KPR problem.
     
     properties
-        % The mass of one body, while the other body has mass $\mu' = 1 - \mu$.
-        Mu %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
+        Lambda %MATLAB ONLY: (2,2) {otp.utils.validation.mustBeNumerical}
+        
+        Omega %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
     end
 
     methods
-        function obj = ArenstorfParameters(varargin)
-            % Create an Arenstorf parameters object.
+        function obj = KvaernoProtheroRobinsonParameters(varargin)
+            % Create a KPR parameters object.
             %
             % Parameters
             % ----------

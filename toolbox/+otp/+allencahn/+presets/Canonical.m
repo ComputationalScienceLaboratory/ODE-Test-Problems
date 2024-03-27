@@ -3,32 +3,13 @@ classdef Canonical < otp.allencahn.AllenCahnProblem
     
     methods
         function obj = Canonical(varargin)
+            params = otp.allencahn.AllenCahnParameters('Size', 64, 'Alpha', 0.1, 'Beta', 1, 'Forcing', 0, varargin{:});
             
-            p = inputParser;
-            p.addParameter('Size', 64);
-            p.addParameter('alpha', 0.1);
-            p.addParameter('beta', 1);                        
-
-            p.parse(varargin{:});
-            
-            s = p.Results;
-            
-            n = s.Size;
-            
-
-            params = otp.allencahn.AllenCahnParameters;
-            params.Size = n;
-            params.Alpha = s.alpha;
-            params.Beta = s.beta;
-            params.Forcing = 0;
-            
-            x = linspace(0, 1, n);
+            x = linspace(0, 1, params.Size);
             [xs, ys] = meshgrid(x, x);
 
-            u0 = reshape(0.4 + 0.1*(xs + ys) + 0.1*sin(10*xs)*sin(20*ys), n^2, 1);
-
+            u0 = reshape(0.4 + 0.1*(xs + ys) + 0.1*sin(10*xs)*sin(20*ys), [], 1);
             tspan = [0, 0.2];
-            
             obj = obj@otp.allencahn.AllenCahnProblem(tspan, u0, params);
         end
     end

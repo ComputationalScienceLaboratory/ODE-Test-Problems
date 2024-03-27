@@ -2,28 +2,28 @@ classdef Alpha < otp.linear.LinearProblem
     %ALPHA
     %
     methods
-        function obj = Alpha(alpha, numVars, magnitudeRange)
-            if nargin < 1 || isempty(alpha)
-                alpha = 0;
-            end
-            if nargin < 2 || isempty(numVars)
-                numVars = 1;
-            end
-            if nargin < 3 || isempty(magnitudeRange)
-                magnitudeRange = [1e-4, 1e4];
-            end
-            
-            z = logspace(log10(magnitudeRange(1)), log10(magnitudeRange(end)), numVars) ...
-                * (1i * sind(alpha) - cosd(alpha));
+        function obj = Alpha(varargin)
+            p = inputParser();
+            p.addParameter('Alpha', 0);
+            p.addParameter('N', 10);
+            p.addParameter('Range', [1e-3, 1e3]);
+            p.addParameter('Sparse', true);
+            p.parse(varargin{:});
+            results = p.Results;
 
-            params = otp.linear.LinearParameters;
-            if numVars == 1
-                params.Lambda = {z};
+            z = logspace(log10(results.Range(1)), log10(results.Range(end)), results.N) ...
+                * (1i * sind(results.Alpha) - cosd(results.Alpha));
+
+            if results.Sparse
+                lambda = spdiags(z.', 0, results.N, results.N);
             else
-                params.Lambda = {spdiags(z.', 0, numVars, numVars)};
+                lambda = diag(z);
             end
-            
-            obj = obj@otp.linear.LinearProblem([0, 1], ones(numVars, 1), params);
+
+            tspan = [0, 1];
+            y0 = ones(results.N, 1);
+            params = otp.linear.LinearParameters('Lambda', {lambda});
+            obj = obj@otp.linear.LinearProblem(tspan, y0, params);
         end
     end
 end

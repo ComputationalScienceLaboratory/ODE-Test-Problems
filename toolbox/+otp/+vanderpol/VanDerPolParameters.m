@@ -1,17 +1,14 @@
-classdef CUSPParameters < otp.Parameters
-    % Parameters for the CUSP problem.
-
+classdef VanDerPolParameters< otp.Parameters
+    % Parameters for the Van der Pol problem.
+    
     properties
-        % The stiffness parameter $ε$ for the "cusp catastrophe" model.
+        %EPSILON is a weakly-enforced parameter on the constraint.
         Epsilon %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
-
-        % The diffusion coefficient $σ$ for all three variables.
-        Sigma %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
     end
 
     methods
-        function obj = CUSPParameters(varargin)
-            % Create a CUSP parameters object.
+        function obj = VanDerPolParameters(varargin)
+            % Create a Van der Pol parameters object.
             %
             % Parameters
             % ----------
@@ -23,4 +20,3 @@ classdef CUSPParameters < otp.Parameters
         end
     end
 end
-

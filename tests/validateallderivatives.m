@@ -2,9 +2,8 @@ function validateallderivatives
 
 fprintf('\n   Validating all model and preset derivatives \n\n');
 
-fprintf([' Model                | Preset               |' ...
-    ' Jacobian | JVP   | JAVP \n']);
-fprintf([repmat('-', 1, 85) '\n']);
+fprintf(' Model                   | Preset               | Jacobian | JVP   | JAVP \n');
+fprintf([repmat('-', 1, 88) '\n']);
 
 presets = getpresets();
 
@@ -14,7 +13,7 @@ for preset = presets
     presetname = preset.name;
     presetclass = preset.presetclass;
 
-    fprintf(' %-20s | %-20s | ', ...
+    fprintf(' %-23s | %-20s | ', ...
         problemname, ...
         presetname);
 
