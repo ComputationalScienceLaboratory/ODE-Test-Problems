@@ -1,30 +1,36 @@
 classdef OTP
     properties (Access = private, Constant)
         Octave = exist('OCTAVE_VERSION', 'builtin') > 0
-        Name = 'ODE Test Problems';
-        SrcDir = 'toolbox';
-        BuildDir = 'build';
+        Name = 'ODE Test Problems'
+        SrcDir = 'toolbox'
+        BuildDir = 'build'
+        ProjectFile = 'toolboxPackaging.prj'
+        DescriptionFile = 'DESCRIPTION'
     end
     
     methods (Static)
         function clean()
             [~] = rmdir(OTP.BuildDir, 's');
         end
+
+        function updateVersion(newVersion)
+            versionRegex = '\d+\.\d+\.\d+';
+            OTP.replaceInFile(['(<param.version>)', versionRegex, '(</param.version>)'], ['$1', newVersion, '$2'], ...
+                OTP.ProjectFile);
+            OTP.replaceInFile(['(Version: )', versionRegex], ['$1', newVersion], OTP.DescriptionFile);
+        end
         
         function build()
             OTP.clean();
             
             if OTP.Octave
-                OTP.processFiles(OTP.SrcDir, fullfile(OTP.BuildDir, 'inst'), ...
-                    {}, {});
-                copyfile('DESCRIPTION', OTP.BuildDir);
+                OTP.processFiles({}, {}, OTP.SrcDir, fullfile(OTP.BuildDir, 'inst'));
+                copyfile(OTP.DescriptionFile, OTP.BuildDir);
                 copyfile('license.txt', fullfile(OTP.BuildDir, 'COPYING'));
                 zip(OTP.packagePath(), OTP.BuildDir);
             else
-                OTP.processFiles(OTP.SrcDir, OTP.BuildDir, ...
-                    '\s*%\s*MATLAB ONLY:\s*', ' ');
-                matlab.addons.toolbox.packageToolbox( ...
-                    'toolboxPackaging.prj', OTP.packagePath());
+                OTP.processFiles('\s*%\s*MATLAB ONLY:\s*', ' ', OTP.SrcDir, OTP.BuildDir);
+                matlab.addons.toolbox.packageToolbox('toolboxPackaging.prj', OTP.packagePath());
             end
         end
         
@@ -54,7 +60,7 @@ classdef OTP
     end
     
     methods (Static, Access = private)
-        function processFiles(src, dest, str, replacement)
+        function processFiles(str, replacement, src, dest)
             list = dir(src);
             mkdir(dest);
             
@@ -66,18 +72,25 @@ classdef OTP
                 if ~item.isdir
                     [~, ~, ext] = fileparts(item.name);
                     if strcmp(ext, '.m')
-                        content = regexprep(fileread(newSrc), str, replacement);
-                        
-                        fid = fopen(newDest, 'w');
-                        fprintf(fid, '%s', content);
-                        fclose(fid);
+                        OTP.replaceInFile(str, replacement, newSrc, newDest);
                     else
                         copyfile(newSrc, newDest);
                     end
                 elseif ~any(strcmp(item.name, {'.', '..'}))
-                    OTP.processFiles(newSrc, newDest, str, replacement);
+                    OTP.processFiles(str, replacement, newSrc, newDest);
                 end
             end
+        end
+
+        function replaceInFile(str, replacement, src, dest)
+            if nargin < 4
+                dest = src;
+            end
+
+            content = regexprep(fileread(src), str, replacement);
+            fid = fopen(dest, 'w');
+            fprintf(fid, '%s', content);
+            fclose(fid);
         end
 
         function path = packagePath()
