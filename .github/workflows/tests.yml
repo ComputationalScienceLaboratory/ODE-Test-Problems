@@ -12,9 +12,17 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+
       - name: Install Octave
         run: |
           sudo apt-get update
           sudo apt-get install -y octave
+
       - name: Run OTP tests
         run: octave --eval "addpath(genpath('.')); runalltests"
+
+      - name: Install OTP
+        run: octave --eval "OTP.install"
+
+      - name: Load OTP
+        run: octave --eval "pkg load 'ode test problems'"
