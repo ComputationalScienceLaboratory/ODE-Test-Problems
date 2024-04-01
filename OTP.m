@@ -14,10 +14,11 @@ classdef OTP
         end
 
         function updateVersion(newVersion)
-            versionRegex = '\d+\.\d+\.\d+';
-            OTP.replaceInFile(['(<param.version>)', versionRegex, '(</param.version>)'], ['$1', newVersion, '$2'], ...
-                OTP.ProjectFile);
-            OTP.replaceInFile(['(Version: )', versionRegex], ['$1', newVersion], OTP.DescriptionFile);
+            OTP.replaceInFile('(<param.version>).+(</param.version>)', ['$1', newVersion, '$2'], OTP.ProjectFile);
+            OTP.replaceInFile( ...
+                {'(Version: ).+', '(Date: ).+'}, ...
+                {['$1', newVersion], ['$1', date()]}, ...
+                OTP.DescriptionFile);
         end
         
         function build()
@@ -87,7 +88,7 @@ classdef OTP
                 dest = src;
             end
 
-            content = regexprep(fileread(src), str, replacement);
+            content = regexprep(fileread(src), str, replacement, 'dotexceptnewline');
             fid = fopen(dest, 'w');
             fprintf(fid, '%s', content);
             fclose(fid);
