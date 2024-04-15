@@ -1,7 +1,7 @@
 classdef AscherLinearDAEProblem < otp.Problem
     % A linear differential-algebraic problem with a time-dependant mass matrix.
     %
-    % The Ascher linear DAE Problem :cite:p:`Asc89` is an index-1 differential-agebraic equation given by
+    % The Ascher linear DAE problem :cite:p:`Asc89` is an index-1 differential-agebraic equation given by
     %
     % $$
     % \begin{bmatrix}
