@@ -4,7 +4,7 @@ classdef Canonical < otp.lorenz63.Lorenz63Problem
 
     methods
         function obj = Canonical(varargin)
-            % Create the Canonical Lorenz '63 problem object.
+            % Create the canonical Lorenz '63 problem object.
             %
             % Parameters
             % ----------

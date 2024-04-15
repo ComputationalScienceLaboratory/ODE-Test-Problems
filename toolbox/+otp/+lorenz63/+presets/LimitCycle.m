@@ -4,7 +4,7 @@ classdef LimitCycle < otp.lorenz63.Lorenz63Problem
     
     methods
         function obj = LimitCycle
-            % Create the LimitCycle Lorenz '63 problem object.
+            % Create the limit cycle Lorenz '63 problem object.
             
             % We use Lorenz's initial conditions and timespan as Strogatz
             % does not specify those in his book.

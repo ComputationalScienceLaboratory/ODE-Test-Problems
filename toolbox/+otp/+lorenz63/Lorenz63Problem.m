@@ -10,7 +10,7 @@ classdef Lorenz63Problem < otp.Problem
     % $$
     %
     % exhibits chaotic behavior for certain values of the parameters. Here $x$ roughly corresponds to the rate of
-    % convection of a fluid, $y$ corresponds to temperature variation in one direction, and $z$ is temerature variation
+    % convection of a fluid, $y$ corresponds to temperature variation in one direction, and $z$ is temperature variation
     % in the other direction. For a full problem description see :cite:p:`Str18`.
     %
     % Notes
