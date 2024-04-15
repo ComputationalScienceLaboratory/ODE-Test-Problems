@@ -12,13 +12,13 @@ classdef Lorenz96Problem <  otp.Problem
     %
     % Notes
     % -----
-    % +---------------------+---------------------------------------------+
-    % | Type                | ODE                                         |
-    % +---------------------+---------------------------------------------+
-    % | Number of Variables | $N$ for any postive integer four or greater |
-    % +---------------------+---------------------------------------------+
-    % | Stiff               | no                                          |
-    % +---------------------+---------------------------------------------+
+    % +---------------------+----------------------------------------------+
+    % | Type                | ODE                                          |
+    % +---------------------+----------------------------------------------+
+    % | Number of Variables | $N$ for any positive integer four or greater |
+    % +---------------------+----------------------------------------------+
+    % | Stiff               | no                                           |
+    % +---------------------+----------------------------------------------+
     %
     % Example
     % -------
@@ -78,7 +78,7 @@ classdef Lorenz96Problem <  otp.Problem
             % localization in Data Assimilation. This is heavily tied to this
             % problem.
             
-            obj.DistanceFunction = @(t, y, i, j) otp.lorenz96.distanceFunction(t, y, i, j);
+            obj.DistanceFunction = @otp.lorenz96.distanceFunction;
         end
         
         function sol = internalSolve(obj, varargin)

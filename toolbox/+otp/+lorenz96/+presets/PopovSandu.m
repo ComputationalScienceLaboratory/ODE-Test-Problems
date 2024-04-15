@@ -11,7 +11,7 @@ classdef PopovSandu < otp.lorenz96.Lorenz96Problem
     
     methods
         function obj = PopovSandu(varargin)
-            % Create the PopovSandu Lorenz '96 problem object.
+            % Create the Popov–Sandu Lorenz '96 problem object.
             %
             % Parameters
             % ----------
