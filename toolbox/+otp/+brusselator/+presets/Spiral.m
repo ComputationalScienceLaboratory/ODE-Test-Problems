@@ -4,7 +4,7 @@ classdef Spiral < otp.brusselator.BrusselatorProblem
 
     methods
         function obj = Spiral()
-            % Create the Spiral Brusselator problem object.
+            % Create the spiral Brusselator problem object.
 
             y0 = [1; 1];
             tspan = [0, 30];

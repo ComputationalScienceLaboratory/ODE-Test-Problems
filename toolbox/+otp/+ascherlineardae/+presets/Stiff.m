@@ -1,10 +1,10 @@
 classdef Stiff < otp.ascherlineardae.AscherLinearDAEProblem
-    % The Stiff example from :cite:p:`Asc89`. A variant of the Ascher linear DAE problem which uses time span 
+    % The stiff example from :cite:p:`Asc89`. It is a variant of the Ascher linear DAE problem which uses time span 
     % $t ∈ [0, 1]$ and $β = 100$ with the initial condition $[y_0, z_0]^T = [1, 100]^T$.
 
     methods
         function obj = Stiff()
-            % Create the stiff Ascher Linear DAE problem object.
+            % Create the stiff Ascher linear DAE problem object.
 
             params = otp.ascherlineardae.AscherLinearDAEParameters('Beta', 100);
             y0 = [1; params.Beta];

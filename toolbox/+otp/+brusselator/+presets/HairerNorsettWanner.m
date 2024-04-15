@@ -4,7 +4,7 @@ classdef HairerNorsettWanner < otp.brusselator.BrusselatorProblem
     
     methods
         function obj = HairerNorsettWanner()
-            % Create the HairerNorsettWanner Brusselator problem object.
+            % Create the Hairer­–Norsett–Wanner Brusselator problem object.
             
             y0 = [1.5; 3];
             tspan = [0, 20];

@@ -11,7 +11,7 @@ classdef Canonical < otp.oregonator.OregonatorProblem
 
     methods
         function obj = Canonical(varargin)
-            % Create the Canonical Oregonator problem object.
+            % Create the canonical Oregonator problem object.
             %
             % Parameters
             % ----------

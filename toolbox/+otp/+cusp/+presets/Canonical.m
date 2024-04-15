@@ -12,7 +12,7 @@ classdef Canonical < otp.cusp.CUSPProblem
     
     methods
         function obj = Canonical(varargin)
-            % Create the Canonical CUSP problem object.
+            % Create the canonical CUSP problem object.
             %
             % Parameters
             % ----------

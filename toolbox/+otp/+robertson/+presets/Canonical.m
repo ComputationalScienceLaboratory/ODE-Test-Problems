@@ -9,7 +9,7 @@ classdef Canonical < otp.robertson.RobertsonProblem
 
     methods
         function obj = Canonical(varargin)
-            % Create the Canonical Robertson problem object.
+            % Create the canonical Robertson problem object.
             %
             % Parameters
             % ----------
