@@ -10,7 +10,7 @@ classdef CUSPProblem < otp.Problem
     % $$
     %
     %
-    % where $v = u / (u + 0.1)$ and $u = (y - 0.7)(y - 1.3)$. The spatial domain $x ∈ [0, 1]$ has period boundary
+    % where $v = u / (u + 0.1)$ and $u = (y - 0.7)(y - 1.3)$. The spatial domain $x ∈ [0, 1]$ has periodic boundary
     % conditions. Discretization with second order finite difference on a grid with $N$ cells gives
     %
     % $$
@@ -19,7 +19,7 @@ classdef CUSPProblem < otp.Problem
     % b'_i &= (1 - a_i^2) b_i - a_i - 0.4 y_i + 0.035 v_i + σ N^2  (b_{i-1} - 2 b_i + b_{i+1}),
     % $$
     %
-    % where $i = 1, …, N$. Values at cell indices $i=0, N+1$ are specificied by the periodic boundary conditions.
+    % where $i = 1, …, N$. Values at cell indices $i=0, N+1$ are specified by the periodic boundary conditions.
     %
     % Notes
     % -----
