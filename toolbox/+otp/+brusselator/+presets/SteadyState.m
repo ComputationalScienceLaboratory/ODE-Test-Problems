@@ -4,7 +4,7 @@ classdef SteadyState < otp.brusselator.BrusselatorProblem
 
     methods
         function obj = SteadyState(varargin)
-            % Create the SteadyState Brusselator problem object.
+            % Create the steady state Brusselator problem object.
             %
             % Parameters
             % ----------

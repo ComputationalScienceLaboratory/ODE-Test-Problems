@@ -4,7 +4,7 @@ classdef Canonical < otp.brusselator.BrusselatorProblem
 
     methods
         function obj = Canonical(varargin)
-            % Create the Canonical Brusselator problem object.
+            % Create the canonical Brusselator problem object.
             %
             % Parameters
             % ----------
