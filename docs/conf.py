@@ -32,6 +32,16 @@ autodoc_default_options = {
     'show-inheritance': True
 }
 
+mathjax3_config = {
+    'tex': {
+        'macros': {
+            'diag': ['\\operatorname{diag}']
+        }
+    }
+}
+
+myst_heading_anchors = 2
+
 bibtex_bibfiles = ['references.bib']
 
 html_theme = 'sphinx_rtd_theme'

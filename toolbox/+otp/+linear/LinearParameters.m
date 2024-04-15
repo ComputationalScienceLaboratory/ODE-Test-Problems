@@ -2,7 +2,7 @@ classdef LinearParameters < otp.Parameters
     % Parameters for the linear problem.
     
     properties
-        %LAMBDA is a cell array of same size inputs
+        % A cell array of matrices for each partition $Λ_i y$.
         Lambda %MATLAB ONLY: {mustBeNonempty, otp.utils.validation.mustBeNumericalCell} = {-1}
     end
 
