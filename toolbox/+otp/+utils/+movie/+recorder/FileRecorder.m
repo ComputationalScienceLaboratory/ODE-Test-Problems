@@ -43,8 +43,8 @@ classdef FileRecorder < otp.utils.movie.recorder.Recorder
             obj.VideoWriter.close();
         end
         
-        function h = play(obj)
-            h = implay(fullfile(obj.VideoWriter.Path, obj.VideoWriter.Filename), obj.VideoWriter.FrameRate);
+        function play(obj)
+            implay(fullfile(obj.VideoWriter.Path, obj.VideoWriter.Filename), obj.VideoWriter.FrameRate);
         end
     end
 end
