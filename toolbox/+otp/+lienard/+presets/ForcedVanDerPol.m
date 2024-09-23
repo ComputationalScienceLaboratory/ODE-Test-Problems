@@ -1,8 +1,8 @@
-classdef ForcedvanderPol < otp.lienard.LienardProblem
+classdef ForcedVanDerPol < otp.lienard.LienardProblem
     %FORCEDVANDERPOL The forced vanderpol oscillator
     %
     methods
-        function obj = ForcedvanderPol(mu, gamma, omega)
+        function obj = ForcedVanDerPol(mu, gamma, omega)
             if nargin < 1 || isempty(mu)
                 mu = 8.53;
             end

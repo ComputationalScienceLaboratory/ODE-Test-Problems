@@ -1,31 +1,15 @@
 classdef Surprise < otp.lorenz63.Lorenz63Problem
-    %SURPISE Strogatz's `surprise'
-    %    Source:
-    %      Strogatz, S. H. (2018). Nonlinear dynamics and chaos with student solutions manual: 
-    %          With applications to physics, biology, chemistry, and
-    %          engineering. CRC press. Page 351
-    %
+    % Lorenz '63 preset 'surprise' from :cite:p:`Str18` which uses time span $t ∈ [0, 60]$, σ = 10$, $ρ = 100$,
+    % $β = 8/3$, and intial conditions $y_0 = [2, 1, 1]^T$.
+
     methods
         function obj = Surprise
-            %SURPRISE Construct a surprise Lorenz '63 problem
-            %   OBJ = SURPRISE() defines the Lorenz '63
-            %   problem with corresponding parameters
-            %     sigma = 10, rho = 100, and beta = 8/3;
-            %
-            sigma = 10;
-            rho   = 100;
-            beta  = 8/3;
-
-            params = otp.lorenz63.Lorenz63Parameters;
-            params.Sigma = sigma;
-            params.Rho   = rho;
-            params.Beta  = beta;
+            % Create the surprise Lorenz '63 problem object.
             
-            % Hand-picked initial conditions with the canonical timespan
-            
+            % Hand-picked initial conditions with the canonical time span
             y0    = [2; 1; 1];
             tspan = [0 60];
-            
+            params = otp.lorenz63.Lorenz63Parameters('Sigma', 10, 'Rho', 100, 'Beta', 8/3);
             obj = obj@otp.lorenz63.Lorenz63Problem(tspan, y0, params);
         end
     end

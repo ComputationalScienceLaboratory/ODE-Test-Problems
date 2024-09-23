@@ -1,44 +1,23 @@
 classdef Canonical < otp.lorenz63.Lorenz63Problem
-    % This is the original problem presented in the literature.
-    % The initial condition is purposefully outside of the attractor, but converges to it quite quickly.
-    % 
-    % References:
-    %      Lorenz, E. N. (1963). Deterministic nonperiodic flow. Journal of atmospheric sciences, 20(2), 130-141.
-    %
-    % See also :class:`+otp.+lorenz63.Lorenz63Problem`
+    % Original Lorenz '63 preset presented in :cite:p:`Lor63` which uses time span $t ∈ [0, 60]$, $σ = 10$, $ρ = 28$, 
+    % $β = 8/3$, and intial conditions $y_0 = [0, 1, 0]^T$.
 
     methods
-        function obj = Canonical(sigma, rho, beta)
-            % Construct a Lorenz '63 problem
+        function obj = Canonical(varargin)
+            % Create the canonical Lorenz '63 problem object.
             %
-            %   problem = Canonical(sigma, rho, beta) defines the Lorenz '63
-            %   problem with corresponding parameters
+            % Parameters
+            % ----------
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
             %
-            %   problem = Canonical() sets the default values of the parameters
-            %   to Sigma = 10, Rho = 28, and Beta = 8/3. The arguments can
-            %   be left empty or ignored to use these defaults.
-    
-            if nargin < 1 || isempty(sigma)
-                sigma = 10;
-            end
-            
-            if nargin < 2 || isempty(rho)
-                rho = 28;
-            end
-            
-            if nargin < 3 || isempty(beta)
-                beta = 8/3;
-            end
-
-            params = otp.lorenz63.Lorenz63Parameters;
-            
-            params.Sigma = sigma;
-            params.Rho   = rho;
-            params.Beta  = beta;
+            %    - ``Sigma`` – Value of $σ$.
+            %    - ``Rho`` – Value of $ρ$.
+            %    - ``Beta`` – Value of $β$.
             
             y0    = [0; 1; 0];
             tspan = [0 60];
-            
+            params = otp.lorenz63.Lorenz63Parameters('Sigma', 10, 'Rho', 28, 'Beta', 8/3, varargin{:});
             obj = obj@otp.lorenz63.Lorenz63Problem(tspan, y0, params);            
         end
     end

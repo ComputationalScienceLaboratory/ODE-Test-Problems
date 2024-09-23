@@ -25,12 +25,22 @@ exclude_patterns = ['README.md']
 
 primary_domain = 'mat'
 matlab_src_dir = '../toolbox'
-matlab_keep_package_prefix = False
+matlab_auto_link = 'basic'
 
 autodoc_default_options = {
     'member-order': 'bysource',
     'show-inheritance': True
 }
+
+mathjax3_config = {
+    'tex': {
+        'macros': {
+            'diag': ['\\operatorname{diag}']
+        }
+    }
+}
+
+myst_heading_anchors = 2
 
 bibtex_bibfiles = ['references.bib']
 

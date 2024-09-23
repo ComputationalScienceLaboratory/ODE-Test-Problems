@@ -2,9 +2,8 @@ function validateallderivatives
 
 fprintf('\n   Validating all model and preset derivatives \n\n');
 
-fprintf([' Model                | Preset               |' ...
-    ' Jacobian | JVP   | JAVP \n']);
-fprintf([repmat('-', 1, 85) '\n']);
+fprintf(' Model                   | Preset               | Jacobian | JVP   | JAVP \n');
+fprintf([repmat('-', 1, 88) '\n']);
 
 presets = getpresets();
 
@@ -14,20 +13,16 @@ for preset = presets
     presetname = preset.name;
     presetclass = preset.presetclass;
 
-    fprintf(' %-20s | %-20s | ', ...
+    fprintf(' %-23s | %-20s | ', ...
         problemname, ...
         presetname);
 
-    try
-        model = eval(presetclass);
-    catch
-        continue;
-    end
+    problem = evalpreset(presetclass, problemname, presetname);
 
     % setup
-    tc = model.TimeSpan(1);
-    y0 = model.Y0;
-    f = model.RHS.F;
+    tc = problem.TimeSpan(1);
+    y0 = problem.Y0;
+    f = problem.RHS.F;
 
     % OCTAVE FIX: the finite difference approximation is low accurate for octave
     % thus set the tolerance very high
@@ -41,12 +36,8 @@ for preset = presets
     jtrue = otp.utils.derivatives.jacobian(f, tc, y0);
 
     % Try to see if the Jacobian works
-    if ~isempty(model.RHS.Jacobian)
-        try
-            japprox = model.RHS.JacobianFunction(tc, y0);
-        catch
-            japprox = inf;
-        end
+    if ~isempty(problem.RHS.Jacobian)
+        japprox = problem.RHS.JacobianFunction(tc, y0);
         japprox = full(japprox);
 
         normj = norm(jtrue);
@@ -64,12 +55,8 @@ for preset = presets
 
 
     % test jacobian vector products
-    if ~isempty(model.RHS.JacobianVectorProduct)
-        try
-            jvpapprox = model.RHS.JacobianVectorProduct(tc, y0, y0);
-        catch
-            jvpapprox = inf;
-        end
+    if ~isempty(problem.RHS.JacobianVectorProduct)
+        jvpapprox = problem.RHS.JacobianVectorProduct(tc, y0, y0);
 
         jvptrue = jtrue*y0;
 
@@ -87,13 +74,8 @@ for preset = presets
     end
 
     % test jacobian adjoint vector products
-    if ~isempty(model.RHS.JacobianAdjointVectorProduct)
-
-        try
-            javpapprox = model.RHS.JacobianAdjointVectorProduct(tc, y0, y0);
-        catch
-            javpapprox = inf;
-        end
+    if ~isempty(problem.RHS.JacobianAdjointVectorProduct)
+        javpapprox = problem.RHS.JacobianAdjointVectorProduct(tc, y0, y0);
 
         javptrue = jtrue'*y0;
 

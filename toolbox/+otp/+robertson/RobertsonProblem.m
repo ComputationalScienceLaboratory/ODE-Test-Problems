@@ -1,35 +1,68 @@
 classdef RobertsonProblem < otp.Problem
-    %ROBERTSONPROBLEM A simple, stiff chemical reaction
-    %   This problem models the concentration of chemical species A, B, and C 
-    %   with the reactions
+    % A simple, stiff chemical reaction.
+    % 
+    % The Robertson problem :cite:p:`Rob66` is a simple, stiff chemical reaction that models the concentrations of
+    % chemical species $\ce{A}$, $\ce{B}$, and $\ce{C}$ involved in the reactions
     %
-    %   A     -> B      at rate K1,
-    %   B + B -> C + B  at rate K2,
-    %   B + C -> A + C  at rate K3.
+    % $$
+    % \ce{
+    % A &->[$k_1$] B \\
+    % B + B &->[$k_2$] C + B \\
+    % B + C &->[$k_3$] A + C
+    % }
+    % $$
     %
-    %   These correspond to the ODEs
+    % These correspond to the ODE system, 
+    % 
+    % $$ 
+    % y_1' &= -k_1 y_1 + k_3  y_2 y_3, \\
+    % y_2' &= k_1 y_1 - k_2 y_2^2 - k_3 y_2 y_3, \\
+    % y_3' &= k_2 y_2^2.
+    % $$
     %
-    %   y1' = -K1 y1 + K3 y2 y3,
-    %   y2' = K1 y1 - K2 y2^2 - K3 y2 y3,
-    %   y3' = K2 y2^2.
+    % The reaction rates $k_1$, $k_2$, and $k_3$ often range from slow to very fast which makes the problem challenging.
+    % This has made it a popular test for implicit time-stepping schemes.
+    % 
+    % Notes
+    % -----
+    % +---------------------+-------------------------------------------------+
+    % | Type                | ODE                                             |
+    % +---------------------+-------------------------------------------------+
+    % | Number of Variables | 3                                               |
+    % +---------------------+-------------------------------------------------+
+    % | Stiff               | typically, depending on $k_1$, $k_2$, and $k_3$ |
+    % +---------------------+-------------------------------------------------+
     %
-    %   The reaction rates K1, K2, and K3 often range from slow to very fast
-    %   which makes the problem challenging. This has made it a popular test for
-    %   implicit integrators.
-    %
-    %   Sources
-    %
-    %   
-    %
-    %   See also otp.robertson.RobertsonParameters
-    
+    % Example
+    % -------
+    % >>> problem = otp.robertson.presets.Canonical;
+    % >>> problem.Parameters.K1 = 100;
+    % >>> problem.Parameters.K2 = 1000;
+    % >>> problem.Parameters.K3 = 1000;
+    % >>> sol = problem.solve();
+    % >>> problem.plot(sol)
+
+    properties (Access = private, Constant)
+        NumComps = 3
+        VarNames = 'ABC'
+    end
     methods
-        %ROBERTSONPROBLEM Construct a Robertson problem
         function obj = RobertsonProblem(timeSpan, y0, parameters)
+            % Create a Robertson problem object.
+            %
+            % Parameters
+            % ----------
+            % timeSpan : numeric(1, 2)
+            %    The start and final time.
+            % y0 : numeric(3, 1)
+            %    The initial conditions.
+            % parameters : RobertsonParameters
+            %    The parameters.
+            
             obj@otp.Problem('Robertson', 3, timeSpan, y0, parameters);
         end
     end
-    
+
     methods (Access=protected)
         function onSettingsChanged(obj)
             k1 = obj.Parameters.K1;

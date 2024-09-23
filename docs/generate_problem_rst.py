@@ -16,7 +16,7 @@ for problem in cwd.glob('../toolbox/+otp/*/*Problem.m'):
         stream.write(f'''
 {problem_name}
 ================================================================================
-.. automodule:: +otp.{problem.parent.name}
+.. module:: +otp.{problem.parent.name}
 .. autoclass:: {problem.stem}
     :members:
 
@@ -28,10 +28,5 @@ Parameters
 Presets
 --------------------------------------------------------------------------------
 .. automodule:: +otp.{problem.parent.name}.+presets
-''')
-
-        for preset in problem.parent.glob('+presets/*.m'):
-            stream.write(f'''
-.. autoclass:: {preset.stem}
     :members:
 ''')

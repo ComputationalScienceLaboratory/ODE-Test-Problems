@@ -1,23 +1,21 @@
 classdef Canonical < otp.ascherlineardae.AscherLinearDAEProblem
-    %CANONICAL The problem formulation of the linear DAE from the literature
-    %
-    % See
-    %    Ascher, Uri. "On symmetric schemes and differential-algebraic equations."
-    %    SIAM journal on scientific and statistical computing 10.5 (1989): 937-949.
-    
+    % The problem defined by Ascher in :cite:p:`Asc89` (sec. 2) which uses time span $t ∈ [0, 1]$ and intial condition
+    % $[y_0, z_0]^T = [1, β]^T$.
+
     methods
-        function obj = Canonical(beta)
-            tspan = [0.0; 1];
+        function obj = Canonical(varargin)
+            % Create the canonical Ascher linear DAE problem object.
+            %
+            % Parameters
+            % ----------
+            % varargin
+            %    A variable number of name-value pairs. The accepted names are
+            %
+            %    - ``Beta`` – Value of $β$.
             
-            if nargin < 1
-                beta = 0.5;
-            end
-            
-            params = otp.ascherlineardae.AscherLinearDAEParameters;
-            params.Beta = beta;
-            
-            y0 = [1; beta];
-            
+            params = otp.ascherlineardae.AscherLinearDAEParameters('Beta', 1, varargin{:});
+            y0 = [1; params.Beta];
+            tspan = [0.0; 1.0];
             obj = obj@otp.ascherlineardae.AscherLinearDAEProblem(tspan, y0, params);
         end
     end

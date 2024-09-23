@@ -8,22 +8,16 @@ classdef Canonical < otp.arenstorf.ArenstorfProblem
     %   See also otp.arenstorf.ArenstorfProblem
     
     methods
-        function obj = Canonical(mu)
+        function obj = Canonical(varargin)
             %CANONICAL Construct a canonical Arenstorf problem
             %   OBJ = CANONICAL(MU) Uses a Moon of mass MU. The time span and
             %   initial conditions use the same data type as MU. Single
             %   precision, vpa, and other types are supported.
             %
             %   OBJ = CANONICAL() Uses a MU corresponding to the Moon
-    
-            if nargin < 1
-                mu = 0.012277471;
-            end
             
-            params = otp.arenstorf.ArenstorfParameters;
-            params.Mu = mu;
-            
-            cls = class(mu);
+            params = otp.arenstorf.ArenstorfParameters('Mu', 0.012277471, varargin{:});
+            cls = class(params.Mu);
 
             % Decimals converted to rational to support multiple data types
             y0 = [cast(497, cls) / cast(500, cls); ...

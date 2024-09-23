@@ -4,32 +4,34 @@ classdef BrusselatorProblem < otp.Problem
     % The Brusselator chemical reaction :cite:p:`LN71` is given by
     %
     % $$
-    % A &\to X \\
-    % B + X &\to Y + D \\
-    % 2X + Y &\to 3X \\
-    % X &\to E
+    % \ce{
+    % A &-> X \\
+    % B + X &-> Y + D \\
+    % 2X + Y &-> 3X \\
+    % X &-> E
+    % }
     % $$
     %
-    % With the assumption that all reaction rates are one and the concentrations of $A$ and $B$ are constant parameters,
-    % this system can be modeled by the following two differential equations :cite:p:`HNW93` (pp. 115-116):
+    % With the assumption that all reaction rates are one and the concentrations of $\ce{A}$ and $\ce{B}$ are constant
+    % parameters, this system can be modeled by the following two differential equations :cite:p:`HNW93` (pp. 115-116):
     %
     % $$
-    % X' &= 1 - (b + 1) X + a X^2 Y \\
-    % Y' &= b X - a X^2 Y.
+    % X' &= A + X^2 Y - B X - X \\
+    % Y' &= B X - X^2 Y.
     % $$
     %
-    % Here, $X$ and $Y$ are concentrations of autocatylitic species of interest. Equations for species $D$ and $E$ are
-    % not necessary as they can be deduced from $X$ and $Y$.
+    % Here, $X$ and $Y$ are concentrations of autocatylitic species of interest. Equations for species $\ce{D}$ and
+    % $\ce{E}$ are not necessary as they can be deduced from $X$ and $Y$.
     %
     % Notes
     % -----
-    % +---------------------+-----+
-    % | Type                | ODE |
-    % +---------------------+-----+
-    % | Number of Variables | 2   |
-    % +---------------------+-----+
-    % | Stiff               | no  |
-    % +---------------------+-----+
+    % +---------------------+-----------------------------------------+
+    % | Type                | ODE                                     |
+    % +---------------------+-----------------------------------------+
+    % | Number of Variables | 2                                       |
+    % +---------------------+-----------------------------------------+
+    % | Stiff               | not typically, depending on $A$ and $B$ |
+    % +---------------------+-----------------------------------------+
     %
     % Example
     % -------
@@ -46,32 +48,28 @@ classdef BrusselatorProblem < otp.Problem
             % ----------
             % timeSpan : numeric(1, 2)
             %    The start and final time.
-            % y0 : numeric(:, 2)
+            % y0 : numeric(2, 1)
             %    The initial conditions.
             % parameters : BrusselatorParameters
             %    The parameters.
-            %
-            % Returns
-            % -------
-            % obj : BrusselatorProblem
-            %    The constructed problem.
+            
             obj@otp.Problem('Brusselator', 2, timeSpan, y0, parameters);
         end
     end
     
     properties (SetAccess = private)
-        % Right-hand side containing the linear terms $[-(b + 1) X; b X]$.
+        % Right-hand side containing the linear terms $[-(B + 1) X, B X]^T$.
         %
         % See Also
         % --------
-        % :attr:`RHSNonlinear`
+        % RHSNonlinear
         RHSLinear
         
-        % Right-hand side containing the nonlinear terms $[1 + a X^2 Y; -a X^2 Y]$.
+        % Right-hand side containing the nonlinear terms $[A + X^2 Y, -X^2 Y]^T$.
         %
         % See Also
         % --------
-        % :attr:`RHSLinear`
+        % RHSLinear
         RHSNonlinear
     end
     
