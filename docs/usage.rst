@@ -106,6 +106,9 @@ also supports animations for the computed solution.
 
 Changing the parameters
 ------------------------
+You can change the parameters of the problem by modifying the
+``Parameters`` property of the problem object. The solution should be recalculated after updating a parameter.
+For example, changing the parameter :math:`\rho` in the Lorenz system leads to a different solution:
 
 .. code:: matlab
 
@@ -123,14 +126,19 @@ Changing the solver
 -------------------
 
 OTP uses appropriate internal solvers to integrate each problem.
-However, if you are researching time-stepping methods you can plug-in
-your specific solver to any test problem by passing the right-hand-side
+However, you can plug-in your specific solvers to integrate any test problem by passing the right-hand-side
 function, time span, initial condition and other parameters to
-the solver. As an example, to use the *Implicit* time-stepping method
-``ode23s``:
+the solver. As an example, to use the *Implicit* ``ode23s`` time-stepping method for the Lorenz system, you can use the 
+following code:
 
 .. code:: matlab
 
    sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
                 odeset('Jacobian', problem.RHS.Jacobian));
+This is particularly useful when you want to compare the performance of different solvers on the same problem.
 
+Next Steps
+------------------------
+Explore different problems available in OTP by browsing the Problems Gallery in the sidebar. You can define your custom 
+problems by creating a new class that inherits from the ``otp.Problem`` class. 
+See the `Contributing Guide <../contributing>`_  for more details.
