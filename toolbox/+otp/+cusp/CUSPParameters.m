@@ -1,11 +1,12 @@
 classdef CUSPParameters < otp.Parameters
     % Parameters for the CUSP problem.
+
     properties
         % The stiffness parameter $ε$ for the "cusp catastrophe" model.
-        Epsilon %MATLAB ONLY: (1,1) {mustBeNumeric}
+        Epsilon %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
 
         % The diffusion coefficient $σ$ for all three variables.
-        Sigma %MATLAB ONLY: (1,1) {mustBeNumeric}
+        Sigma %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
     end
 
     methods

@@ -13,7 +13,7 @@ classdef GottwaldWanner < otp.oregonator.OregonatorProblem
 
     methods
         function obj = GottwaldWanner
-            % Create the GottwaldWanner Oregonator problem object.
+            % Create the Gottwald–Wanner Oregonator problem object.
 
             tspan = [0, 302.85805];
             y0 = [4; 1.331391; 2.852348];

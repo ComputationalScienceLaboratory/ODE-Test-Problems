@@ -7,7 +7,7 @@
 [![Version](https://img.shields.io/github/v/release/ComputationalScienceLaboratory/ODE-Test-Problems?label=Version)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/releases)
 [![License](https://img.shields.io/github/license/ComputationalScienceLaboratory/ODE-Test-Problems?label=License)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/blob/master/license.txt)
 [![Tests](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/tests.yml/badge.svg)](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/tests.yml)
-[![Build Documentation](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/docs.yml/badge.svg)](https://computationalsciencelaboratory.github.io/ODE-Test-Problems/)
+[![Documentation](https://github.com/ComputationalScienceLaboratory/ODE-Test-Problems/actions/workflows/documentation.yml/badge.svg)](https://computationalsciencelaboratory.github.io/ODE-Test-Problems/)
 
 ODE Test Problems (OTP) is an object-oriented MATLAB/Octave package offering a broad range of initial value problems in
 the form of ordinary and differential-algebraic equations that can be used to test numerical methods such as time

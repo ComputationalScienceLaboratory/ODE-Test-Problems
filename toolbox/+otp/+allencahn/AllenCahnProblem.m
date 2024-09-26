@@ -3,7 +3,7 @@ classdef AllenCahnProblem < otp.Problem
     
     methods
         function obj = AllenCahnProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('Allen-Cahn', [], timeSpan, y0, parameters);
+            obj@otp.Problem('Allen–Cahn', [], timeSpan, y0, parameters);
         end
     end
     

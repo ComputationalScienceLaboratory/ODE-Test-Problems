@@ -66,7 +66,7 @@ classdef (Abstract) Movie < handle
             
             fig = figure;
             if ~isempty(obj.Config.Size)
-                fig.Position = [0; 0: obj.Config.Size(:)];
+                fig.Position = [0; 0; obj.Config.Size(:)];
             end
             
             obj.init(fig, state);

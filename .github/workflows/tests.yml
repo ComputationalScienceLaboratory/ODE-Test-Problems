@@ -8,13 +8,24 @@ on:
 
 jobs:
   octave:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-22.04]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       - name: Install Octave
         run: |
           sudo apt-get update
           sudo apt-get install -y octave
+
       - name: Run OTP tests
         run: octave --eval "addpath(genpath('.')); runalltests"
+
+      - name: Install OTP
+        run: octave --eval "OTP.install"
+
+      - name: Load OTP
+        run: octave --eval "pkg load 'ode test problems'"

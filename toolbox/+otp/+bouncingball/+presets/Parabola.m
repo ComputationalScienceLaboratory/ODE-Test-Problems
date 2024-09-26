@@ -4,12 +4,12 @@ classdef Parabola < otp.bouncingball.BouncingBallProblem
     %
     methods
         function obj = Parabola
-            params.Gravity     = otp.utils.PhysicalConstants.EarthGravity;
-            params.Ground      = @(x) x^2;
-            params.GroundSlope = @(x) 2*x;
-            
             y0 = [0; 1; 1; 0];
-            tspan = [0, 10];            
+            tspan = [0, 10];
+            params = otp.bouncingball.BouncingBallParameters( ...
+                'Gravity', otp.utils.PhysicalConstants.EarthGravity, ...
+                'Ground', @(x) x^2, ...
+                'GroundSlope', @(x) 2*x);
             obj = obj@otp.bouncingball.BouncingBallProblem(tspan, y0, params);
         end
     end

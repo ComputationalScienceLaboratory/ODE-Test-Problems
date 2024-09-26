@@ -11,7 +11,7 @@ classdef EnrightHull < otp.oregonator.OregonatorProblem
 
     methods
         function obj = EnrightHull
-            % Create the EnrightHull Oregonator problem object.
+            % Create the Enright–Hull Oregonator problem object.
 
             tspan = [0, 300];
             y0 = [4; 1.1; 4];

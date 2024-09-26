@@ -9,7 +9,7 @@ classdef Canonical < otp.protherorobinson.ProtheroRobinsonProblem
 
     methods
         function obj = Canonical(varargin)
-            % Create the Canonical Prothero–Robinson problem object.
+            % Create the canonical Prothero–Robinson problem object.
             %
             % Parameters
             % ----------

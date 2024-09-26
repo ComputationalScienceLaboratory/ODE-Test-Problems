@@ -1,6 +1,6 @@
 Name: ODE Test Problems
-Version: 0.2.0
-Date: November 7, 2023
+Version: 0.3.0
+Date: March 26, 2024
 depends: octave (>= 6.4.0)
 Author: Steven Roberts, Andrey A. Popov, Arash Sarshar, Adrian Sandu
 Maintainer: Steven Roberts

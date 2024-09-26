@@ -16,12 +16,13 @@ classdef Parameters
             % varargin
             %    A variable number of name-value pairs. A name can be any property defined by a subclass, and the
             %    subsequent value initializes that property.
-            extras = struct(varargin{:});
-            fields = fieldnames(extras);
             
-            for i = 1:length(fields)
-                f = fields{i};
-                obj.(f) = extras.(f);
+            if mod(nargin, 2) == 1
+                error('OTP:invalidArgument', 'Arguments to Parameters should be name-value pairs');
+            end
+            
+            for i = 1:2:nargin
+                obj.(varargin{i}) = varargin{i + 1};
             end
         end
     end
