@@ -2,16 +2,16 @@ classdef LotkaVolterraParameters < otp.Parameters
     % Parameters for the Lotka–Volterra problem.
     
     properties
-        %PREYBIRTHRATE determines the rate at which the prey is born it is a source term
+        % A positive scaler that determines the rate at which the prey is born. 
         PreyBirthRate %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical, mustBePositive} = 1
 
-        %PREYDEATHRATE determines how fast the prey is killed by the predators
+        % A positive scaler that determines the rate at which the prey is consumed by the predators.
         PreyDeathRate %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical, mustBePositive} = 1
 
-        %PREDATORDEATHRATE is a sink term for the predators
+        % A positive scaler that determines the rate at which the predators die.
         PredatorDeathRate %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical, mustBePositive} = 1
         
-        %PREDATORBIRTHRATE determines how fast the predators are born based on the amount of prey that exists
+        % A positive scaler that determines the rate at which the predators are born.
         PredatorBirthRate %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical, mustBePositive} = 1
     end
 
