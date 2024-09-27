@@ -1,7 +1,7 @@
 classdef LotkaVolterraProblem < otp.Problem
     % A two-variable model for predator-prey interactions.
     %
-    % The Lotka-Volterra model :cite:p:`Lotka1925,Volterra1926` is a model describing the interaction of two populations.
+    % The Lotka-Volterra model :cite:p:`Lot25,Vol27` is a model describing the interaction of two populations.
     % The predator and the prey are evolving according to the following differential equation:
     %
     % $$

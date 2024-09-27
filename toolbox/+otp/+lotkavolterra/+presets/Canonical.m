@@ -1,6 +1,7 @@
 classdef Canonical  < otp.lotkavolterra.LotkaVolterraProblem
     % Canonical preset for the Lotka-Volterra problem. The initial conditions are $y_0 = [1, 2]^T$, and the parameters are
-    % $a = 1$, $b = 1$, $c = 1$, and $d = 1$. The time span is $t ∈ [0, 50]$.
+    % $\alpha = 1$, $\beta = 1$, $\delta = 1$, and $\gamma = 1$. This preset 
+    % has an equilibrium at $y = [1, 1]^T$.
 
     methods
         function obj = Canonical(varargin)
@@ -15,7 +16,7 @@ classdef Canonical  < otp.lotkavolterra.LotkaVolterraProblem
             %   - ``PreyDeathRate`` – Value of $\beta$.
             %   - ``PredatorDeathRate`` – Value of $\delta$.
             %   - ``PredatorBirthRate`` – Value of $\gamma$.
-            
+
             y0 = [1; 2];
             tspan = [0 50];
             params = otp.lotkavolterra.LotkaVolterraParameters( ...
