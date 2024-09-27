@@ -1,36 +1,43 @@
 classdef ZLAKineticsProblem < otp.Problem
-    % ZLA Kinetics model also known as The Chemical Akzo Nobel problem is a chemical differential-algebraic
-    % equation that describes the 
-    % reaction of two species, FLB and ZHU to form two other species, ZLA and ZLH. The reaction is given by:
+    % ZLA Kinetics model also known as The Chemical Akzo Nobel problem is a differential-algebraic
+    % equation that describes the reaction of fictitious species, FLB and ZHU to form two other 
+    % species, ZLA and ZLH. The complete reaction is given in :cite:p:`LS98`:
     %
-    % $$
-    % \ce{
-    % FLB + ZHU -> ZLA + ZLH
-    % }
-    % $$
-    %
-    % The rate of the reaction is given by the following system of ODEs:
+    % Modeling the concentrations of the species involved in the reaction as $y_{i=\{1,\ldots, 6 \}}$ 
+    % and various reaction rates as $r_{i=\{1,\ldots, 6 \}}$ leads to the following system of ODEs:
     %
     % $$
     % \begin{aligned}
-    % \frac{d[FLB]}{dt} &= -k \cdot [FLB] \cdot [ZHU] \\
-    % \frac{d[ZLA]}{dt} &= k \cdot [FLB] \cdot [ZHU] - \frac{klA \cdot [ZLA]}{K + [ZLA]} \\
-    % \frac{d[ZLH]}{dt} &= \frac{klA \cdot [ZLA]}{K + [ZLA]} \\
-    % \frac{d[ZHU]}{dt} &= -k \cdot [FLB] \cdot [ZHU] \\
+    % & y_1^{\prime}=-2 r_1 + r_2 - r_3 - r_4, \\
+    % & y_2^{\prime}=-\frac{1}{2} r_1 - r_4 - \frac{1}{2} r_5 + F_{\text{in}}, \\
+    % & y_3^{\prime}=r_1 - r_2 + r_3, \\
+    % & y_4^{\prime}=-r_2 + r_3 - 2 r_4, \\
+    % & y_5^{\prime}=r_2 - r_3 + r_5, \\
+    % & y_6^{\prime}=K_s \cdot y_1 \cdot y_2 \cdot y_6,\\
+    % & F_{\text {in }} = \text{klA} \cdot\left(\frac{\text{pCO}_2}{H}-y_2\right).
     % \end{aligned}
     % $$
-    %
-    % Here, $[FLB]$, $[ZLA]$, $[ZLH]$, and $[ZHU]$ are the concentrations of the species FLB, ZLA, ZLH, and ZHU, respectively.
-    % The parameters $k$, $K$, $klA$, $Ks$, $pCO2$, and $H$ are the rate constants of the reaction.
+    % and the reaction rates are given by:
+    % $$
+    % \begin{aligned}
+    % r_1 & =k_1 \cdot y_1^4 \cdot y_2^{\frac{1}{2}}, \\
+    % r_2 & =k_2 \cdot y_3 \cdot y_4, \\
+    % r_3 & =\frac{k_2}{K} \cdot y_1 \cdot y_5, \\
+    % r_4 & =k_3 \cdot y_1 \cdot y_4^2, \\
+    % r_5 & =k_4 \cdot y_6^2 \cdot y_2^{\frac{1}{2}}.
+    % \end{aligned}
+    % $$
+    % 
+    % The parameters $k_{i=\{1,\ldots, 4 \}}$, $K$, $\text{klA}$, $K_s$, $\text{pCO}_2$, and $H$ are the rate constants of the reaction.
     %
     % Notes
     % -----
     % +---------------------+-----------------------------------------+
     % | Type                | ODE                                     |
     % +---------------------+-----------------------------------------+
-    % | Number of Variables | 4                                       |
+    % | Number of Variables | 6                                       |
     % +---------------------+-----------------------------------------+
-    % | Stiff               | not typically, depending on $k$ and $K$ |
+    % | Stiff               | yes, depending on parameters            |
     % +---------------------+-----------------------------------------+
     %
     % Example
