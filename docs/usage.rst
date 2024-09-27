@@ -81,11 +81,10 @@ Optional parameters can be passed to the ``solve()`` method to control the behav
 Visualizing solutions
 ---------------------
 
-OTP has built-in plotting capabilities for visualizing the computed
+``OTP`` has built-in plotting capabilities for visualizing the computed
 solution. The ``plot()`` method can be used to plot the solution
 trajectory. The ``plotPhaseSpace()`` method creates a phase-space
-diagram by visualizing all spatial-components of the state vector. OTP
-also supports animations for the computed solution.
+diagram by visualizing all spatial-components of the state vector. 
 
 .. code:: matlab
 
@@ -95,14 +94,21 @@ also supports animations for the computed solution.
    % Plot the Phase-Space solution 
    problem.plotPhaseSpace(sol);
 
+.. image:: ../images/Lorenz-solution-plot.png
+      :width: 200
+.. image:: ../images/Lorenz-Phase-plot.png
+      :width: 200
+
+``OTP`` also supports animations for the computed solution:
+
+.. code:: matlab
+
    % Create a movie of the solution 
    problem.movie(sol);
 
 .. video:: ../_static/Lorenz-Original-Canonical.webm
       :loop: 
       :width: 200
-
-
 
 Changing the parameters
 ------------------------
@@ -137,7 +143,7 @@ following code:
                 odeset('Jacobian', problem.RHS.Jacobian));
 This is particularly useful when you want to compare the performance of different solvers on the same problem.
 
-Next Steps
+Next steps
 ------------------------
 Explore different problems available in OTP by browsing the Problems Gallery in the sidebar. You can define your custom 
 problems by creating a new class that inherits from the ``otp.Problem`` class. 
