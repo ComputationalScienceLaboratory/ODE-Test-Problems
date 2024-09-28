@@ -6,8 +6,8 @@ classdef LotkaVolterraProblem < otp.Problem
     %
     % $$
     % \begin{aligned}
-    % \frac{dy_1}{dt} &= \alpha y_1 - \beta y_1 y_2 \\
-    % \frac{dy_2}{dt} &= \delta y_1 y_2 - \gamma y_2
+    % \frac{dy_1}{dt} &= \alpha y_1 - \beta y_1 y_2, \\
+    % \frac{dy_2}{dt} &= \delta y_1 y_2 - \gamma y_2,
     % \end{aligned}
     % $$
     %
