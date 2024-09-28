@@ -1,11 +1,8 @@
-classdef Canonical < otp.zlakinetics.ZLAKineticsProblem
-    %CANONICAL The problem as described in the literature
-    %
-    % See:
-    %    Walter Johannes Henricus Stortelder. Parameter estimation in nonlinear dynamical
-    %    systems. PhD thesis, Centrum Wiskunde & Informatica, 
-    %    Amsterdam, The Netherlands, 1998.
-    %
+classdef Canonical < otp.zlakinetics.ZLAKineticsProblem 
+    % Canonical preset for the ZLA kinetics problem as descrobe in :cite:p:`Sto98` (pg. 118)
+    % where the initial conditions are $y_0 = [0.444, 0.00123, 0, 0.007, 0, 0]^T$ is also
+    % provided. The time span is $[0, 180]$.
+
     methods
         function obj = Canonical(varargin)
             tspan = [0, 180];

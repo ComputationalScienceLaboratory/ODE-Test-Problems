@@ -1,23 +1,25 @@
 classdef ZLAKineticsParameters < otp.Parameters
     % Parameters for the ZLA kinetics problem.
+    %
+
     
     properties
-        %k are the reaction rates of ancillary reactions
+        % The reaction rates of ancillary reactions.
         k %MATLAB ONLY: (1,4) {otp.utils.validation.mustBeNumerical} = [18.7, 0.58, 0.09, 0.42];
 
-        %K is the ZLA reaction rate
+        %K The ZLA reaction rate.
         K %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical} = 34.4;
 
-        %KLA is the mass transfer coefficient
+        % The mass transfer coefficient.
         KlA %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical} = 3.3;
 
-        %KS is the equilibrium constant
+        % The equilibrium constant.
         Ks %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical} = 115.83;
 
-        %PCO2 is the partial CO_2 pressure
+        % Partial $\text{CO}_2$ pressure.
         PCO2 %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical} = 0.9;
 
-        %H is the Henry constant
+        % The Henry constant.
         H %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical} = 737;
     end
 

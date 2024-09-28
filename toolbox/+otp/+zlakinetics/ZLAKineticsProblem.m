@@ -1,10 +1,10 @@
 classdef ZLAKineticsProblem < otp.Problem
-    % ZLA Kinetics model also known as The Chemical Akzo Nobel problem is a differential-algebraic
-    % equation that describes the reaction of fictitious species, FLB and ZHU to form two other 
-    % species, ZLA and ZLH. The complete reaction is given in :cite:p:`LS98`:
+    % ZLA Kinetics model also known as The Chemical Akzo Nobel problem is a differential
+    % equation that describes the interaction of fictitious species, FLB and ZHU to form two other 
+    % species, ZLA and ZLH. The complete reaction is given in :cite:p:`Sto98`.
     %
     % Modeling the concentrations of the species involved in the reaction as $y_{i=\{1,\ldots, 6 \}}$ 
-    % and various reaction rates as $r_{i=\{1,\ldots, 6 \}}$ leads to the following system of ODEs:
+    % and various reaction rates as $r_{i=\{1,\ldots, 5 \}}$ leads to the following system of ODEs:
     %
     % $$
     % \begin{aligned}
@@ -28,7 +28,7 @@ classdef ZLAKineticsProblem < otp.Problem
     % \end{aligned}
     % $$
     % 
-    % The parameters $k_{i=\{1,\ldots, 4 \}}$, $K$, $\text{klA}$, $K_s$, $\text{pCO}_2$, and $H$ are the rate constants of the reaction.
+    % The parameters $k = [k_i]_{i=\{1,\ldots, 4 \}}$, $K$, $\text{klA}$, $K_s$, $\text{pCO}_2$, and $H$ are the rates and constants of the reaction.
     %
     % Notes
     % -----
