@@ -30,7 +30,7 @@ classdef MemoryRecorder < otp.utils.movie.recorder.Recorder
         end
         
         function play(obj)
-            if exist('implay', 'builtin')
+            if exist('implay', 'file')
                 implay(obj.Mov, obj.FrameRate);
             else
                 movie(obj.Mov, 1, obj.FrameRate);
