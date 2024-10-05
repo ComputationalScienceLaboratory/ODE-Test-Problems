@@ -15,7 +15,7 @@ install:
 	pip3 install -r requirements.txt
 
 serve:
-	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) --watch "../toolbox" --watch "../*.md" \
+	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) --fail-on-warning --watch "../toolbox" \
 	--pre-build "make problems" --re-ignore "$(PROBLEMSDIR)/*"
 
 clean:
