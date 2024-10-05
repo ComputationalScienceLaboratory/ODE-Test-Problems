@@ -44,7 +44,7 @@ classdef OTP
                 matlab.addons.toolbox.installToolbox(OTP.packagePath());
             end
             
-            fprintf('ODE Test Problems sucessfully installed\n');
+            fprintf('ODE Test Problems successfully installed\n');
         end
         
         function uninstall()

@@ -25,7 +25,7 @@ classdef AscherLinearDAEProblem < otp.Problem
     % \end{bmatrix}.
     % $$
     %
-    % This DAE problem can be used to investigate the convergence of implcit time-stepping methods due to its stiffness
+    % This DAE problem can be used to investigate the convergence of implicit time-stepping methods due to its stiffness
     % and time-dependant mass matrix.
     %
     % Notes

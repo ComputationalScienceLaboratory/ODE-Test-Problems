@@ -32,6 +32,10 @@ jobs:
         working-directory: ./docs
         run: make install
 
+      - name: Lint
+        working-directory: ./docs
+        run: make lint
+
       - name: Build with Sphinx
         working-directory: ./docs
         run: make

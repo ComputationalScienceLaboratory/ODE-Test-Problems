@@ -9,4 +9,5 @@ sphinxcontrib-video==0.2.1
 setuptools==75.1.0 # Now required in python 3.12+
 myst-parser==2.0.0
 pyyaml==6.0.2
-
+pycodestyle==2.12.1
+codespell==2.3.0

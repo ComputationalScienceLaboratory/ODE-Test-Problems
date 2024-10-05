@@ -11,13 +11,13 @@ classdef TransistorAmplifierParameters < otp.Parameters
         %UB is the operating voltage
         Ub %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
 
-        %UF is an auxillary voltage
+        %UF is an auxiliary voltage
         UF %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
 
         %ALPHA controls the current coming through the gate
         Alpha %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
 
-        %BETA is an auxillary constant
+        %BETA is an auxiliary constant
         Beta %MATLAB ONLY: (1,1) {otp.utils.validation.mustBeNumerical}
     end
 

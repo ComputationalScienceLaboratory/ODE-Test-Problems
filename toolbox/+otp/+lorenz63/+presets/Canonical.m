@@ -1,6 +1,6 @@
 classdef Canonical < otp.lorenz63.Lorenz63Problem
     % Original Lorenz '63 preset presented in :cite:p:`Lor63` which uses time span $t ∈ [0, 60]$, $σ = 10$, $ρ = 28$, 
-    % $β = 8/3$, and intial conditions $y_0 = [0, 1, 0]^T$.
+    % $β = 8/3$, and initial conditions $y_0 = [0, 1, 0]^T$.
 
     methods
         function obj = Canonical(varargin)

@@ -1,6 +1,6 @@
 # Running Octave Notebooks locally
 
-You will need an environment with `octave`, `jupyterlab`, and `octave_kernel` packages. Follow these steps to install the required dependancies:
+You will need an environment with `octave`, `jupyterlab`, and `octave_kernel` packages. Follow these steps to install the required dependencies:
 
 ## Check out the repository 
 
