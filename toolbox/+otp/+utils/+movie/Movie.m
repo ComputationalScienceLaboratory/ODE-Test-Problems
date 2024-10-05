@@ -17,7 +17,7 @@ classdef (Abstract) Movie < handle
             p = inputParser;
             p.addParameter('Save', false);
             p.addParameter('FrameRate', otp.utils.movie.Movie.DefaultFramerate);
-            p.addParameter('TargetDuration', [], @(d) d > 0);
+            p.addParameter('Duration', [], @(d) d > 0);
             p.addParameter('Size', [], @(s) length(s) == 2 && all(s > 0));
             p.addParameter('Smooth', true, @islogical);
             p.parse(varargin{:});
@@ -46,9 +46,7 @@ classdef (Abstract) Movie < handle
             totalSteps = length(t);
             [state.numVars, state.totalSteps] = size(y);
             if length(t) ~= state.totalSteps
-                error('OTP:invalidSolution', ...
-                    'Expected y to have %d columns but has %d', ...
-                    length(t), state.totalSteps);
+                error('OTP:invalidSolution', 'Expected y to have %d columns but has %d', length(t), state.totalSteps);
             end
             
             state.t = t;
@@ -56,17 +54,19 @@ classdef (Abstract) Movie < handle
             state.step = 0;
             state.frame = 0;
             
-            if isempty(obj.Config.TargetDuration)
+            if isempty(obj.Config.Duration)
                 state.totalFrames = totalSteps;
             else
-                state.totalFrames = round(obj.Config.TargetDuration * obj.FrameRate);
+                state.totalFrames = round(obj.Config.Duration * obj.FrameRate);
             end
             
             [t0, tEnd] = bounds(t);
             
             fig = figure;
             if ~isempty(obj.Config.Size)
-                fig.Position = [0; 0; obj.Config.Size(:)];
+                pos = get(fig, 'position');
+                pos(3:4) = obj.Config.Size;
+                set(fig, 'position', pos);
             end
             
             obj.init(fig, state);
@@ -97,8 +97,8 @@ classdef (Abstract) Movie < handle
             obj.Recorder.stop();
         end
         
-        function h = play(obj)
-            h = obj.Recorder.play();
+        function play(obj)
+            obj.Recorder.play();
         end
     end
     
