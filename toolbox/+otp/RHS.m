@@ -400,6 +400,12 @@ classdef RHS
             % opts : struct
             %    An options structure containing the subset of properties compatible with built-in ODE solvers.
             %
+            % Example
+            % -------
+            % >>> problem = otp.oregonator.presets.Canonical;
+            % >>> opts = problem.RHS.odeset('AbsTol', 1e-12, 'RelTol', 1e-4);
+            % >>> sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, opts);
+            %
             % See Also
             % --------
             %
