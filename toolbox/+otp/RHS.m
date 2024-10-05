@@ -48,7 +48,7 @@ classdef RHS
         % t : numeric
         %    The time at which $f$ is evaluated.
         % y : numeric(:, 1) or numeric(:, :)
-        %    The state at which $f$ is evaluated. If :attr:`Vectorized` in ``'on'``, it can be a matrix where each
+        %    The state at which $f$ is evaluated. If :attr:`Vectorized` is ``'on'``, it can be a matrix where each
         %    column is a state.
         %
         % Returns

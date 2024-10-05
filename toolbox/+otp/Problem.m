@@ -187,20 +187,21 @@ classdef (Abstract) Problem < handle
             %
             % Warning
             % -------
-            % A plot might appear jagged if there are too few times included in the solution. In MATLAB,
+            % A plot can appear jagged if the solution time points are too coarse. In MATLAB,
             % `deval <https://www.mathworks.com/help/matlab/ref/deval.html>`_ can be used to evaluate the solution at a
             % user-specified set of points.
             %
             % Parameters
             % ----------
             % sol : struct or numeric(1, :) or numeric(:, 1)
-            %    A solution structure with properties ``x`` and ``y``. The length of one dimension of ``y`` must match
-            %    the number of times in ``x``. If ``y`` is square, each column should be a state and each row the
-            %    trajectory of a single variable. Alternatively, this argument can be a vector of times.
+            %    A solution structure with properties ``x`` and ``y``. The length of one dimension of the matrix ``y``
+            %    must match the length (number of time points) of the vector ``x``. If ``y`` is square, each column
+            %    should be a state and each row the trajectory of a single variable. Alternatively, this argument can be
+            %    a vector of time points.
             % y : numeric(:, :), optional
-            %    If the first argument is a vector of times, this should be the corresponding matrix of solutions. The
-            %    length of one dimension must match the number of times. If square, each row should be a state and each
-            %    column the trajectory of a single variable.
+            %    If the first argument is a vector of time points, this should be the corresponding matrix of solutions.
+            %    The length of one dimension must match the length (number of time points) of ``x``. If square, each row
+            %    should be a state and each column the trajectory of a single variable.
             % varargin
             %    A variable number of name-value pairs. Accepted names include
             %
@@ -261,19 +262,20 @@ classdef (Abstract) Problem < handle
             %
             % Warning
             % -------
-            % A plot might appear jagged if there are too few times included in the solution. In MATLAB, `deval`_ can be
-            % used to evaluate the solution at a user-specified set of points.
+            % A plot can appear jagged if the solution time points are too coarse. In MATLAB, `deval`_ can be used to
+            % evaluate the solution at a user-specified set of points.
             %
             % Parameters
             % ----------
             % sol : struct or numeric(1, :) or numeric(:, 1)
-            %    A solution structure with properties ``x`` and ``y``. The length of one dimension of ``y`` must match
-            %    the number of times in ``x``. If ``y`` is square, each column should be a state and each row the
-            %    trajectory of a single variable. Alternatively, this argument can be a vector of times.
+            %    A solution structure with properties ``x`` and ``y``. The length of one dimension of the matrix ``y``
+            %    must match the length (number of time points) of the vector ``x``. If ``y`` is square, each column
+            %    should be a state and each row the trajectory of a single variable. Alternatively, this argument can be
+            %    a vector of time points.
             % y : numeric(:, :), optional
-            %    If the first argument is a vector of times, this should be the corresponding matrix of solutions. The
-            %    length of one dimension must match the number of times. If square, each row should be a state and each
-            %    column the trajectory of a single variable.
+            %    If the first argument is a vector of time points, this should be the corresponding matrix of solutions.
+            %    The length of one dimension must match the length (number of time points) of ``x``. If square, each row
+            %    should be a state and each column the trajectory of a single variable.
             % varargin
             %    A variable number of name-value pairs. Accepted names include those supported by
             %    :func:`otp.Problem.plot` as well as the following:
@@ -314,25 +316,26 @@ classdef (Abstract) Problem < handle
             %
             % Warning
             % -------
-            % A movie might appear jerky if there are too few times included in the solution. In MATLAB, `deval`_ can be
-            % used to evaluate the solution at a user-specified set of points.
+            % A movie can appear jerky if the solution time points are too coarse. In MATLAB, `deval`_ can be used to
+            % evaluate the solution at a user-specified set of points.
             %
             % Parameters
             % ----------
             % sol : struct or numeric(1, :) or numeric(:, 1)
-            %    A solution structure with properties ``x`` and ``y``. The length of one dimension of ``y`` must match
-            %    the number of times in ``x``. If ``y`` is square, each column should be a state and each row the
-            %    trajectory of a single variable. Alternatively, this argument can be a vector of times.
+            %    A solution structure with properties ``x`` and ``y``. The length of one dimension of the matrix ``y``
+            %    must match the length (number of time points) of the vector ``x``. If ``y`` is square, each column
+            %    should be a state and each row the trajectory of a single variable. Alternatively, this argument can be
+            %    a vector of time points.
             % y : numeric(:, :), optional
-            %    If the first argument is a vector of times, this should be the corresponding matrix of solutions. The
-            %    length of one dimension must match the number of times. If square, each row should be a state and each
-            %    column the trajectory of a single variable.
+            %    If the first argument is a vector of time points, this should be the corresponding matrix of solutions.
+            %    The length of one dimension must match the length (number of time points) of ``x``. If square, each row
+            %    should be a state and each column the trajectory of a single variable.
             % varargin
             %    A variable number of name-value pairs. Accepted names include those supported by
             %    :func:`otp.Problem.plot` as well as the following:
             %
             %    - ``Save`` – If ``false`` (default) the movie will play but the frames will not be save for playback.
-            %      If ``true`` the frames in memory. If a string or a
+            %      If ``true`` the frames will be saved in memory for playback. If a string or a
             %      `VideoWriter <https://www.mathworks.com/help/matlab/ref/videowriter.html>`__, the movie will be
             %      written to a file.
             %    - ``FrameRate`` – The number of frames per second when playing the movie.
@@ -340,8 +343,8 @@ classdef (Abstract) Problem < handle
             %      accommodate.
             %    - ``Size`` – An array ``[width, height]`` for the figure size in pixels.
             %    - ``Smooth`` – If ``true`` (default), solution states are uniformly sampled for frames based on the
-            %      corresponding solution times. If ``false`` solution states are sampled uniformly by time step index.
-            %      This may lead to the inconsistent playback speeds.
+            %      corresponding solution times. If ``false`` solution states are sampled uniformly by time step index
+            %      which may lead to the inconsistent playback speeds.
             %
             % Returns
             % -------
@@ -628,7 +631,7 @@ classdef (Abstract) Problem < handle
         end
         
         function t = parseTime(~, t)
-            % Puts a vector of times into a consistent row vector form
+            % Puts a vector of time points into a consistent row vector form
 
             if ~isvector(t) || isempty(t) || ~otp.utils.validation.isNumerical(t)
                 error('OTP:invalidSolution', 'The times must be a nonempty vector of numbers');
