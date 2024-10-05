@@ -66,10 +66,10 @@ classdef (Abstract) Problem < handle
         % -------
         % >>> problem = otp.protherorobinson.presets.Canonical;
         % >>> problem.TimeSpan
-        % >>> problem.TimeSpan(2) = 100;
         % ans =
         % <BLANKLINE>
         %     0   15
+        % >>> problem.TimeSpan(2) = 100;
         TimeSpan %MATLAB ONLY: (1,2) {otp.utils.validation.mustBeNumerical}
         
         % A mutable column vector for the initial conditions $y(t_0) = y_0$.
@@ -78,11 +78,11 @@ classdef (Abstract) Problem < handle
         % -------
         % >>> problem = otp.lotkavolterra.presets.Canonical;
         % >>> problem.Y0
-        % >>> problem.Y0 = [3; 4];
         % ans =
         % <BLANKLINE>
         %     1
         %     2
+        % >>> problem.Y0 = [3; 4];
         Y0 %MATLAB ONLY: (:,1) {otp.utils.validation.mustBeNumerical}
         
         % A mutable :class:`otp.Parameters` representing the problem parameters $p$.
@@ -91,8 +91,8 @@ classdef (Abstract) Problem < handle
         % -------
         % >>> problem = otp.nbody.presets.Canonical;
         % >>> problem.Parameters.GravitationalConstant
-        % >>> problem.Parameters.Masses(1) = 2;
         % ans = 1
+        % >>> problem.Parameters.Masses(1) = 2;
         %
         % See Also
         % --------
@@ -105,9 +105,9 @@ classdef (Abstract) Problem < handle
         % -------
         % >>> problem = otp.cusp.presets.Canonical;
         % >>> problem.NumVars
+        % ans = 96
         % >>> problem.Y0 = ones(30, 1);
         % >>> problem.NumVars
-        % ans = 96
         % ans = 30
         NumVars
     end
