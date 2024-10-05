@@ -1,5 +1,5 @@
 Getting Started
-================================================================================
+===============
 
 This guide shows you how to create, solve and visualize different problems in
 ODE Test Problems (OTP).
