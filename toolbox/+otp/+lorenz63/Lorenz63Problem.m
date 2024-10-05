@@ -43,7 +43,7 @@ classdef Lorenz63Problem < otp.Problem
             %    The start and final time.
             % y0 : numeric(3, 1)
             %    The initial conditions.
-            % parameters : Lorenz63Parameters
+            % parameters : otp.lorenz63.Lorenz63Parameters
             %    The parameters.
 
             obj@otp.Problem('Lorenz Equations', 3, timeSpan, y0, parameters);

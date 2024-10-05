@@ -48,8 +48,8 @@ classdef RHS
         % t : numeric
         %    The time at which $f$ is evaluated.
         % y : numeric(:, 1) or numeric(:, :)
-        %    The state at which $f$ is evaluated. If :attr:`Vectorized` is ``'on'``, it can be a matrix where each
-        %    column is a state.
+        %    The state at which $f$ is evaluated. If :attr:`otp.RHS.Vectorized` is ``'on'``, it can be a matrix where
+        %    each column is a state.
         %
         % Returns
         % -------
@@ -255,7 +255,8 @@ classdef RHS
         %    $\sum_{j,k} \frac{\partial^2 f_i(t, y; p)}{\partial y_j \partial y_k} u_j v_k$.
         HessianVectorProduct
 
-        % The action of a vector on the partial derivative of :attr:`JacobianAdjointVectorProduct` with respect to $y$.
+        % The action of a vector on the partial derivative of :attr:`otp.RHS.JacobianAdjointVectorProduct` with respect
+        % to $y$.
         %
         % If set, it is a function handle with the following signature:
         %
@@ -277,16 +278,18 @@ classdef RHS
     end
     
     properties (Dependent)
-        % A dependent property which returns :attr:`Jacobian` if it is a matrix and ``[]`` if it is a function handle.
+        % A dependent property which returns :attr:`otp.RHS.Jacobian` if it is a matrix and ``[]`` if it is a function
+        % handle.
         JacobianMatrix
 
-        % A dependent property which wraps :attr:`Jacobian` in a function handle if necessary.
+        % A dependent property which wraps :attr:`otp.RHS.Jacobian` in a function handle if necessary.
         JacobianFunction
 
-        % A dependent property which returns :attr:`Mass` if it is a matrix and ``[]`` if it is a function handle.
+        % A dependent property which returns :attr:`otp.RHS.Mass` if it is a matrix and ``[]`` if it is a function
+        % handle.
         MassMatrix
 
-        % A dependent property which wraps :attr:`Mass` in a function handle if necessary.
+        % A dependent property which wraps :attr:`otp.RHS.Mass` in a function handle if necessary.
         MassFunction
     end
 
@@ -304,8 +307,8 @@ classdef RHS
             %
             % Warning
             % -------
-            % In Octave, the value for :attr:`Vectorized` is ignored because it is not used by built in solvers and
-            % causes an error for ``ode15s``.
+            % In Octave, the value for :attr:`otp.RHS.Vectorized` is ignored because it is not used by built in solvers
+            % and causes an error for ``ode15s``.
 
             obj.F = F;
             if mod(nargin, 2) == 0

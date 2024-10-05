@@ -56,7 +56,7 @@ classdef RobertsonProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(3, 1)
             %    The initial conditions.
-            % parameters : RobertsonParameters
+            % parameters : otp.robertson.RobertsonParameters
             %    The parameters.
             
             obj@otp.Problem('Robertson', 3, timeSpan, y0, parameters);

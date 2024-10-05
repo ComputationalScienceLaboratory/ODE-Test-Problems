@@ -86,7 +86,7 @@ classdef CUSPProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(:, 1)
             %    The initial conditions.
-            % parameters : CUSPParameters
+            % parameters : otp.cusp.CUSPParameters
             %    The parameters.
             
             obj@otp.Problem('CUSP', [], timeSpan, y0, parameters);

@@ -48,7 +48,7 @@ classdef LinearProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(:, 1)
             %    The initial conditions.
-            % parameters : LinearParameters
+            % parameters : otp.linear.LinearParameters
             %    The parameters.
             
             obj@otp.Problem('Linear', [], timeSpan, y0, parameters);

@@ -53,7 +53,7 @@ classdef OregonatorProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(3, 1)
             %    The initial conditions.
-            % parameters : OregonatorParameters
+            % parameters : otp.oregonator.OregonatorParameters
             %    The parameters.
             
             obj@otp.Problem('Oregonator', 3, timeSpan, y0, parameters);

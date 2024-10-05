@@ -44,7 +44,7 @@ classdef Lorenz96Problem <  otp.Problem
             %    The start and final time.
             % y0 : numeric(:, 1)
             %    The initial conditions.
-            % parameters : Lorenz96Parameters
+            % parameters : otp.lorenz96.Lorenz96Parameters
             %    The parameters.
 
             obj@otp.Problem('Lorenz 96', [], timeSpan, y0, parameters);

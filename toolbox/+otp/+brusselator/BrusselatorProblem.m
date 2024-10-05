@@ -50,7 +50,7 @@ classdef BrusselatorProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(2, 1)
             %    The initial conditions.
-            % parameters : BrusselatorParameters
+            % parameters : otp.brusselator.BrusselatorParameters
             %    The parameters.
             
             obj@otp.Problem('Brusselator', 2, timeSpan, y0, parameters);

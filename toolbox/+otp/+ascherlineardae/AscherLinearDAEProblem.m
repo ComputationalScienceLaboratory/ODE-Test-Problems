@@ -55,7 +55,7 @@ classdef AscherLinearDAEProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(2, 1)
             %    The initial condition.
-            % parameters : AscherLinearDAEParameters
+            % parameters : otp.ascherlineardae.AscherLinearDAEParameters
             %    The parameters.
             obj@otp.Problem('Ascher Linear DAE', 2, timeSpan, y0, parameters);
         end
