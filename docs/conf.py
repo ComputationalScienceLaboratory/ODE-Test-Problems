@@ -1,34 +1,6 @@
 from datetime import datetime
 from yaml import safe_load
 
-import os
-import shutil
-
-def copy_webm_files(source_dir, destination_dir):
-    # Get a list of all files in the source directory
-    files = os.listdir(source_dir)
-
-    if not os.path.exists(destination_directory):
-        os.makedirs(destination_directory)
-
-    # Iterate over each file
-    for file in files:
-        # Check if the file is a .webm file
-        if file.endswith(".webm"):
-            # Create the full path of the source file
-            source_file = os.path.join(source_dir, file)
-
-            # Create the full path of the destination file
-            destination_file = os.path.join(destination_dir, file)
-
-            # Copy the file to the destination directory
-            shutil.copy2(source_file, destination_file)
-
-
-source_directory = "../images/animations/"
-destination_directory = "../docs/build/_static"
-copy_webm_files(source_directory, destination_directory)
-
 with open('../DESCRIPTION') as stream:
     otp = safe_load(stream)
 
@@ -78,5 +50,3 @@ html_logo = '../images/logo.png'
 html_theme_options = {
     'logo_only': True
 }
-
-

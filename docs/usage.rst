@@ -1,12 +1,14 @@
 Getting Started
 ================================================================================
-This guide shows you how to create, solve and visualize different problems in ODE Test Problems (``OTP``).
+
+This guide shows you how to create, solve and visualize different problems in
+ODE Test Problems (OTP).
 
 Mathematical formulation
------------------------------
+------------------------
 
-All test problems in ``OTP`` are considered as a first-order
-differential-algebraic equation of the form
+All test problems in OTP are considered as a first-order differential-algebraic
+equation of the form
 
 .. math::
 
@@ -95,9 +97,10 @@ diagram by visualizing all spatial-components of the state vector.
    problem.plotPhaseSpace(sol);
 
 .. image:: ../images/Lorenz-solution-plot.png
-      :width: 200
-.. image:: ../images/Lorenz-Phase-plot.png
-      :width: 200
+   :width: 256
+
+.. image:: ../images/Lorenz-phase-plot.png
+   :width: 256
 
 ``OTP`` also supports animations for the computed solution:
 
@@ -106,9 +109,10 @@ diagram by visualizing all spatial-components of the state vector.
    % Create a movie of the solution 
    problem.movie(sol);
 
-.. video:: ../_static/Lorenz-Original-Canonical.webm
-      :loop: 
-      :width: 200
+.. video:: ../images/animations/Lorenz-original-canonical.webm
+   :autoplay:
+   :loop:
+   :width: 256
 
 Changing the parameters
 ------------------------
@@ -125,9 +129,12 @@ For example, changing the parameter :math:`\rho` in the Lorenz system leads to a
    sol = problem.solve('MaxStep' , 1e-4);
    problem.movie(sol);
 
-.. video:: ../_static/Lorenz-Alternate-Canonical.webm
-      :loop: 
-      :width: 200
+.. video:: ../images/animations/Lorenz-alternate-canonical.webm
+   :autoplay:
+   :loop:
+   :width: 256
+   :class: center
+
 Changing the solver
 -------------------
 
@@ -141,6 +148,7 @@ following code:
 
    sol = ode23s(problem.RHS.F, problem.TimeSpan, problem.Y0, ...
                 odeset('Jacobian', problem.RHS.Jacobian));
+
 This is particularly useful when you want to compare the performance of different solvers on the same problem.
 
 Next steps
