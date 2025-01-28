@@ -1,25 +1,17 @@
-function Jv = jacobianAdjointVectorProduct(~, y, v)
+function vj = jacobianAdjointVectorProduct(~, y, v, k1, k2, k3, k4, k5, k6, kPlus, kMinus, kStar, ~)
 
-y6 = conj(y(6));
-y8 = conj(y(8));
+kPlusPfrXPrime = conj(kPlus * y(6));
+kPlusE = conj(kPlus * y(8));
+kSum = conj(k2 + kMinus + kStar);
 
-v1 = v(1);
-v2 = v(2);
-v3 = v(3);
-v4 = v(4);
-v5 = v(5);
-v6 = v(6);
-v7 = v(7);
-v8 = v(8);
-
-Jv = [
-    1.71 * (v2 - v1);
-    0.43 * v1 - 8.75 * v2 + 8.32 * v4;
-    8.32 * v1 - 10.03 * v3 + 1.71 * v4;
-    0.43 * v3 - 1.12 * v4 + 0.69 * v6;
-    0.035 * v3 - 1.745 * v5 + 1.71 * v6;
-    0.43 * (v5 - v6) + 280 * y8 * (v7 - v6 - v8);
-    0.43 * v5 + 0.69 * v6 + 1.81 * (v8 - v7);
-    280 * y6 * (v7 - v6 - v8)];
+vj = [ ...
+    conj(k1) * (v(2, :) - v(1, :));
+    conj(k2) * v(1, :) - conj(k2 + k3) * v(2, :) + conj(k3) * v(4, :);
+    conj(k6) * v(1, :) - conj(k1 + k6) * v(3, :) + conj(k1) * v(4, :);
+    conj(k2) * v(3, :) - conj(k2 + k4) * v(4, :) + conj(k4) * v(6, :);
+    conj(k5) * v(3, :) - conj(k1 + k5) * v(5, :) + conj(k1) * v(6, :);
+    conj(k2) * v(5, :) - (conj(k2) + kPlusE) * v(6, :) + kPlusE * (v(7, :) - v(8, :));
+    conj(k2) * v(5, :) + conj(kMinus) * v(6, :) + kSum * (v(8, :) - v(7, :));
+    kPlusPfrXPrime * (v(7, :) - v(6, :) - v(8, :))];
 
 end
