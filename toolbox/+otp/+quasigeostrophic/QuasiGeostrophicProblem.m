@@ -16,6 +16,15 @@ classdef QuasiGeostrophicProblem < otp.Problem
         JacobianFlowVelocityMagnitudeVectorProduct
         JacobianFlowVelocityMagnitudeAdjointVectorProduct
     end
+
+    properties (Access = private)
+        Lxinternal
+        Lyinternal
+        L12internal
+        P1internal
+        P2internal
+        Pmtinternal
+    end
     
     methods (Static)
         
@@ -39,8 +48,37 @@ classdef QuasiGeostrophicProblem < otp.Problem
         end
       
     end
+
+    methods (Access = public)
+
+        function q = streamfunction2vorticity(obj, psi)
+            L12 = obj.L12internal;
+            Lx = obj.Lxinternal;
+            Ly = obj.Lyinternal;
+            pmt = obj.Pmtinternal;
+            [nx, ny] = size(L12);
+
+            psi = reshape(psi, nx, ny, []);
+            q = -(pmt(Lx, psi) + pmt(psi, Ly));
+            q = reshape(q, nx*ny, []);
+        end
+
+        function psi = vorticity2streamfunction(obj, q)
+            L12 = obj.L12internal;
+            P1 = obj.P1internal;
+            P2 = obj.P2internal;
+            pmt = obj.Pmtinternal;
+            [nx, ny] = size(L12);
+
+            q = reshape(q, nx, ny, []);
+            psi = pmt(pmt(P1, L12.*pmt(pmt(P1, q), P2)), P2);
+            psi = reshape(psi, nx*ny, []);
+        end
+
+    end
     
     methods (Access = protected)
+
         function onSettingsChanged(obj)
             
             nx = obj.Parameters.Nx;
@@ -96,7 +134,7 @@ classdef QuasiGeostrophicProblem < otp.Problem
             L12 = -(hx2*hy2./(2*(-hx2 - hy2 + hy2*cos(pi*cx).' + hx2*cos(pi*cy))));
             P1 = sqrt(2/(nx + 1))*sin(pi*(1:nx).'*(1:nx)/(nx + 1));
             P2 = sqrt(2/(ny + 1))*sin(pi*(1:ny).'*(1:ny)/(ny + 1));
-            
+
             % define the ydomain for the external force
             ys = linspace(ydomain(1), ydomain(end), ny + 2);
             ys = ys(2:end-1);
@@ -112,6 +150,16 @@ classdef QuasiGeostrophicProblem < otp.Problem
             else
                 pmt = @pagemtimes;
             end
+
+            % set internal variables
+            obj.Lxinternal  = Lx;
+            obj.Lyinternal  = Ly;
+            obj.L12internal = L12;
+            obj.P1internal  = P1;
+            obj.P2internal  = P2;
+            obj.Pmtinternal = pmt;
+
+            % set right hand side
             
             obj.RHS = otp.RHS(@(t, psi) ...
                 otp.quasigeostrophic.f(psi, Lx, Ly, P1, P2, L12, Dx, DxT, Dy, DyT, F, Re, Ro, pmt), ...
@@ -158,7 +206,9 @@ classdef QuasiGeostrophicProblem < otp.Problem
         end
         
         function sol = internalSolve(obj, varargin)
+
             sol = internalSolve@otp.Problem(obj, 'Solver', otp.utils.Solver.Nonstiff, varargin{:});
+
         end
         
     end
