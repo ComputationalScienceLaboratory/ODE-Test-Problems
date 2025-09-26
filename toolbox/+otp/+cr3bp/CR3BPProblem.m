@@ -13,7 +13,7 @@ classdef CR3BPProblem < otp.Problem
     %
     % Example
     % -------
-    % >>> problem = otp.cr3bp.presets.Canonical;
+    % >>> problem = otp.cr3bp.presets.NRHO;
     % >>> sol = model.solve('AbsTol', 1e-14, 'RelTol', 100*eps);
     % >>> problem.plotPhaseSpace(sol);
     %
