@@ -1,8 +1,8 @@
 classdef Canonical < otp.cr3bp.CR3BPProblem
+    % A trivial preset with a stable oscillating orbit around a lagrange point.
        methods
            function obj = Canonical(varargin)
             % Create the Canonical CR3BP problem object.
-            % This is a trivial steady state orbit oscillating around a lagrange point.
 
             mu = 0.5;
 

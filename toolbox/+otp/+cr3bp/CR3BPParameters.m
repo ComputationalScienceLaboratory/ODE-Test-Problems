@@ -5,7 +5,7 @@ classdef CR3BPParameters < otp.Parameters
         % Relative mass of the system.
         Mu %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
         
-        % A factor to avoid singularity
+        % A factor to avoid singularity when computing distances.
         SoftFactor %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
     end
 
