@@ -119,7 +119,7 @@ classdef CR3BPProblem < otp.Problem
             fig = internalPlotPhaseSpace@otp.Problem(obj, t, y, ...
                 'Vars', 1:3, varargin{:});
             hold on;
-            scatter3(fig.Children(1), [mu, 1 - mu], [0, 0], [0, 0]);
+            scatter3([mu, 1 - mu], [0, 0], [0, 0]);
         end
 
     end
