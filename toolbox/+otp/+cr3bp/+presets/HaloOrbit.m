@@ -60,7 +60,7 @@ function T = gethalotable(orbittype)
 % create internal table of halo orbit initial conditions
 % The first entry of each row is the orbital period, the second entry is
 % the $x$ initial condition, the third entry is the $z$ initial condition
-% and the fourth entry is the $y'$ intial condition.
+% and the fourth entry is the $y'$ initial condition.
 switch orbittype
     case 'L2'
         T = [ ...

@@ -14,9 +14,9 @@ classdef CR3BPProblem < otp.Problem
     % non-dimensionalized differential equation:
     %
     % $$
-    % x'' &= σ(y - x),\\
-    % y'' &= ρx - y - xz,\\
-    % z'' &= xy - βz,\\
+    % x'' &= 2y' + \frac{\partial U}{\partial x},\\
+    % y'' &= -2x' + \frac{\partial U}{\partial y},\\
+    % z'' &= \frac{\partial U}{\partial z},\\
     % U &= \frac{1}{2} (x^2 + y^2) + \frac{1 - \mu}{d} + \frac{mu}{r},\\
     % d &= \sqrt{(x + \mu)^2 + y^2 + z^2},\\
     % r &= \sqrt{(x - 1 + \mu)^2 + y^2 + z^2},
@@ -49,7 +49,7 @@ classdef CR3BPProblem < otp.Problem
     %
     % Example
     % -------
-    % >>> problem = otp.cr3bp.presets.NRHO;
+    % >>> problem = otp.cr3bp.presets.HaloOrbit('OrbitType', 'L2', 'Index', 10);
     % >>> sol = model.solve();
     % >>> problem.plotPhaseSpace(sol);
     %
