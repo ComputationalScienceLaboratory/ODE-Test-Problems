@@ -8,7 +8,7 @@ classdef CR3BPProblem < otp.Problem
     % total mass of the system is represented by the non-dimensional
     % constant $\mu$. The reference frame of the system is fixed to the
     % rotationg frame of the two objects, meaning that the objects have
-    % fixed constant postions of $(\mu,0,0)^T$ for the first object, and
+    % fixed constant positions of $(\mu,0,0)^T$ for the first object, and
     % $(1 - \mu,0,0)^T$ for the second object. The evolution of the third
     % object of negligent mass is given by the following second-order
     % non-dimensionalized differential equation:
