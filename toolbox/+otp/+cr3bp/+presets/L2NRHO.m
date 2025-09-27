@@ -1,4 +1,4 @@
-classdef NRHO < otp.cr3bp.CR3BPProblem
+classdef L2NRHO < otp.cr3bp.CR3BPProblem
     % This preset builds an $L_2$ halo orbit preset for the CR3BP based on
     % a table of reference initial conditions and periods. The table
     % contains $20$ entries, and thus there are $20$ different possible
@@ -6,7 +6,7 @@ classdef NRHO < otp.cr3bp.CR3BPProblem
     % as Table A.1 on page 218 of :cite:p:`Spr21`.
 
     methods
-        function obj = NRHO(varargin)
+        function obj = L2NRHO(varargin)
             % Create the NRHO CR3BP problem object.
             %
             % Parameters
