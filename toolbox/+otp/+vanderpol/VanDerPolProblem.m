@@ -1,9 +1,9 @@
-classdef VanderpolProblem < otp.Problem
+classdef VanDerPolProblem < otp.Problem
     %VANDERPOLPROBLEM
     %
     methods
-        function obj = VanderpolProblem(timeSpan, y0, parameters)
-            obj@otp.Problem('van der Pol', 2, timeSpan, y0, parameters);
+        function obj = VanDerPolProblem(timeSpan, y0, parameters)
+            obj@otp.Problem('Van der Pol', 2, timeSpan, y0, parameters);
         end
     end
     

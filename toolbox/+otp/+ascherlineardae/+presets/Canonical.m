@@ -1,10 +1,10 @@
 classdef Canonical < otp.ascherlineardae.AscherLinearDAEProblem
-    % The problem defined by Uri Ascher in :cite:p:`Asc89` (sec. 2) which uses time span $t ∈ [0, 1]$ and intial 
-    % condition $[y_0, z_0]^T = [1, β]^T$.
+    % The problem defined by Ascher in :cite:p:`Asc89` (sec. 2) which uses time span $t ∈ [0, 1]$ and initial condition
+    % $[y_0, z_0]^T = [1, β]^T$.
 
     methods
         function obj = Canonical(varargin)
-            % Create the Canonical Ascher Linear DAE problem object.
+            % Create the canonical Ascher linear DAE problem object.
             %
             % Parameters
             % ----------

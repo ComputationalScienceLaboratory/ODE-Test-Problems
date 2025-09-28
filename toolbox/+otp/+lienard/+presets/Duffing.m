@@ -2,35 +2,31 @@ classdef Duffing < otp.lienard.LienardProblem
     %DUFFING The duffing oscillator in a chaotic regime
     %
     methods
-        function obj = Duffing(alpha, beta, delta, gamma, omega)
-            if nargin < 1 || isempty(alpha)
-                alpha = 1;
-            end
-            if nargin < 2 || isempty(beta)
-                beta = 5;
-            end
-            if nargin < 3 || isempty(delta)
-                delta = 0.02;
-            end
-            if nargin < 4 || isempty(gamma)
-                gamma = 8;
-            end
-            if nargin < 5 || isempty(omega)
-                omega = 0.5;
-            end
-            
+        function obj = Duffing(varargin)
+            p = inputParser();
+            p.addParameter('Alpha', 1);
+            p.addParameter('Beta', 5);
+            p.addParameter('Delta', 0.02);
+            p.addParameter('Gamma', 8);
+            p.addParameter('Omega', 0.5);
+            p.parse(varargin{:});
+
+            results = p.Results;
+            alpha = results.Alpha;
+            beta = results.Beta;
+            delta = results.Delta;
+            gamma = results.Gamma;
+            omega = results.Omega;
             
             tspan = [0, 100];
-            y0 = [1.45;...
-                0];
-            
-            params = otp.lienard.LienardParameters;
-            params.F  = @(x) delta;
-            params.DF = @(x) 0;
-            params.G  = @(x) alpha*x + beta*(x.^3);
-            params.DG = @(x) alpha + 3*beta*(x.^2);
-            params.P  = @(t) gamma*cos(omega*t);
-            params.DP = @(t) -gamma*omega*sin(omega*t);
+            y0 = [1.45; 0];
+            params = otp.lienard.LienardParameters( ...
+                'F', @(x) delta, ...
+                'DF', @(x) 0, ...
+                'G', @(x) alpha*x + beta*(x.^3), ...
+                'DG', @(x) alpha + 3*beta*(x.^2), ...
+                'P', @(t) gamma*cos(omega*t), ...
+                'DP', @(t) -gamma*omega*sin(omega*t));
             obj = obj@otp.lienard.LienardProblem(tspan, y0, params);            
         end
     end

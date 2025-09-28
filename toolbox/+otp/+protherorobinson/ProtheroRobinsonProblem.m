@@ -35,7 +35,7 @@ classdef ProtheroRobinsonProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(:, 2)
             %    The initial conditions.
-            % parameters : ProtheroRobinsonParameters
+            % parameters : otp.protherorobinson.ProtheroRobinsonParameters
             %    The parameters.
             
             obj@otp.Problem('Prothero–Robinson', [], timeSpan, y0, parameters);

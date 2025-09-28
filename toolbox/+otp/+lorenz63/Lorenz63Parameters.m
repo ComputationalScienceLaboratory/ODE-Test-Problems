@@ -3,13 +3,13 @@ classdef Lorenz63Parameters < otp.Parameters
 
     properties
         % A representation of the Prandtl number.
-        Sigma %MATLAB ONLY: (1, 1) {mustBeReal, mustBeFinite}
+        Sigma %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
 
         % A representation of the Rayleigh number.
-        Rho %MATLAB ONLY: (1, 1) {mustBeReal, mustBeFinite}
+        Rho %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
         
         % A geometric factor.
-        Beta %MATLAB ONLY: (1, 1) {mustBeReal, mustBeFinite}
+        Beta %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
     end
 
     methods

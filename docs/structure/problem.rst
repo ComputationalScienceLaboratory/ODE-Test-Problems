@@ -1,6 +1,5 @@
 Problem
-================================================================================
+=======
 
-.. automodule:: +otp
-.. autoclass:: Problem
+.. autoclass:: +otp.Problem
     :members:

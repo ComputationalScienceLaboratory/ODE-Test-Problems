@@ -1,0 +1,3 @@
+[codespell]
+skip = */build,*.ipynb
+ignore-words-list = ans,compatiblity,ue,nd

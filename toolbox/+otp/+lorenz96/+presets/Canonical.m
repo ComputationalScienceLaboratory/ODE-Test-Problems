@@ -4,7 +4,7 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
 
     methods
         function obj = Canonical(varargin)
-            % Create the Canonical Lorenz '96 problem object.
+            % Create the canonical Lorenz '96 problem object.
             %
             % Parameters
             % ----------
@@ -15,6 +15,7 @@ classdef Canonical < otp.lorenz96.Lorenz96Problem
             %    - ``Forcing`` – The forcing as a scalar, vector of N constants, or as a function.
 
             p = inputParser;
+            p.KeepUnmatched = true;
             p.addParameter('N', 40);
             p.parse(varargin{:});
             n = p.Results.N;

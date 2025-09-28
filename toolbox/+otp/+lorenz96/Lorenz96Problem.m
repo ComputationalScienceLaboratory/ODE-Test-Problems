@@ -12,13 +12,13 @@ classdef Lorenz96Problem <  otp.Problem
     %
     % Notes
     % -----
-    % +---------------------+---------------------------------------------+
-    % | Type                | ODE                                         |
-    % +---------------------+---------------------------------------------+
-    % | Number of Variables | $N$ for any postive integer four or greater |
-    % +---------------------+---------------------------------------------+
-    % | Stiff               | no                                          |
-    % +---------------------+---------------------------------------------+
+    % +---------------------+----------------------------------------------+
+    % | Type                | ODE                                          |
+    % +---------------------+----------------------------------------------+
+    % | Number of Variables | $N$ for any positive integer four or greater |
+    % +---------------------+----------------------------------------------+
+    % | Stiff               | no                                           |
+    % +---------------------+----------------------------------------------+
     %
     % Example
     % -------
@@ -44,7 +44,7 @@ classdef Lorenz96Problem <  otp.Problem
             %    The start and final time.
             % y0 : numeric(:, 1)
             %    The initial conditions.
-            % parameters : Lorenz96Parameters
+            % parameters : otp.lorenz96.Lorenz96Parameters
             %    The parameters.
 
             obj@otp.Problem('Lorenz 96', [], timeSpan, y0, parameters);
@@ -78,7 +78,7 @@ classdef Lorenz96Problem <  otp.Problem
             % localization in Data Assimilation. This is heavily tied to this
             % problem.
             
-            obj.DistanceFunction = @(t, y, i, j) otp.lorenz96.distanceFunction(t, y, i, j);
+            obj.DistanceFunction = @otp.lorenz96.distanceFunction;
         end
         
         function sol = internalSolve(obj, varargin)

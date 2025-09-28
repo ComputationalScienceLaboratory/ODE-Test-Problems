@@ -1,6 +1,5 @@
 Parameters
-================================================================================
+==========
 
-.. automodule:: +otp
-.. autoclass:: Parameters
+.. autoclass:: +otp.Parameters
     :members:

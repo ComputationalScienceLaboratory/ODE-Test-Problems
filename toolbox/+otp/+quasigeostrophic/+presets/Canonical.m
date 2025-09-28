@@ -21,7 +21,10 @@ classdef Canonical < otp.quasigeostrophic.QuasiGeostrophicProblem
             %
             %    - ``ReynoldsNumber`` – Value of $Re$.
             %    - ``RossbyNumber`` – Value of $Ro$.
-            %    - ``Size`` – Two-tuple of the spatial discretization, $[nx, ny]$.
+            %    - ``Nx`` – Spatial discretization in $x$.
+            %    - ``Ny`` – Spatial discretization in $y$.
+            %    - ``ADLambda`` – Scaling factor for approximate deconvolution RHS 
+            %    - ``ADPasses`` – Number of AD passes
             %
 
             Re = 450;
@@ -47,19 +50,18 @@ classdef Canonical < otp.quasigeostrophic.QuasiGeostrophicProblem
             params.ADLambda = 1;
             params.ADPasses = 4;
             
-            %% Construct initial conditions
-
-            psi0 = zeros(nx, ny);
-
-            psi0 = psi0(:);
-            
             %% Do the rest
-            
             tspan = [0, 100];
-            
-            obj = obj@otp.quasigeostrophic.QuasiGeostrophicProblem(tspan, ...
-                psi0, params);
-            
+            params = otp.quasigeostrophic.QuasiGeostrophicParameters( ...
+                'Nx', 255, ...
+                'Ny', 511, ...
+                'ReynoldsNumber', 450, ...
+                'RossbyNumber', 0.0036, ...
+                'ADLambda', 1, ...
+                'ADPasses', 4, ...
+                varargin{:});
+            psi0 = zeros(params.Nx * params.Ny, 1);
+            obj = obj@otp.quasigeostrophic.QuasiGeostrophicProblem(tspan, psi0, params);
         end
     end
 end

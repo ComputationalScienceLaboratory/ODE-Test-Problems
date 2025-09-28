@@ -23,53 +23,35 @@ classdef PopovMouSanduIliescu < otp.quasigeostrophic.QuasiGeostrophicProblem
             %
             %    - ``ReynoldsNumber`` – Value of $Re$.
             %    - ``RossbyNumber`` – Value of $Ro$.
-            %    - ``Size`` – Two-tuple of the spatial discretization, $[nx, ny]$.
+            %    - ``Nx`` – Spatial discretization in $x$.
+            %    - ``Ny`` – Spatial discretization in $y$.
+            %    - ``ADLambda`` – Scaling factor for approximate deconvolution RHS 
+            %    - ``ADPasses`` – Number of AD passes
             
-            defaultsize = [63, 127];
-
-            Re = 450;
-            Ro = 0.0036;
-            
-            p = inputParser;
-            addParameter(p, 'ReynoldsNumber', Re);
-            addParameter(p, 'RossbyNumber', Ro);
-            addParameter(p, 'Size', defaultsize);
-
-            parse(p, varargin{:});
-            
-            s = p.Results;
-
-            nx = s.Size(1);
-            ny = s.Size(2);
-            
-            params = otp.quasigeostrophic.QuasiGeostrophicParameters;
-            params.Nx = nx;
-            params.Ny = ny;
-            params.ReynoldsNumber = s.ReynoldsNumber;
-            params.RossbyNumber   = s.RossbyNumber;
-            params.ADLambda = 1;
-            params.ADPasses = 4;
-            
-            %% Load initial conditions
+            params = otp.quasigeostrophic.QuasiGeostrophicParameters( ...
+                'Nx', 255, ...
+                'Ny', 511, ...
+                'ReynoldsNumber', 450, ...
+                'RossbyNumber', 0.0036, ...
+                'ADLambda', 1, ...
+                'ADPasses', 4, ...
+                varargin{:});
 
             % OCTAVE BUG: Octave gives a warning on loading the data, even
             % though MATLAB supports this type of private folder loading
-            
             spy0s = load('PMISQGICsp.mat');
             psi0 = reshape(double(spy0s.y0), 255, 511);
             
-            psi0 = otp.quasigeostrophic.QuasiGeostrophicProblem.resize(psi0, s.Size);
+            psi0 = otp.quasigeostrophic.QuasiGeostrophicProblem.resize(psi0, [params.Nx, params.Ny]);
             psi0 = reshape(psi0, [], 1);
             
             %% Do the rest
-            
             oneday = 24*80/176251.2;
             
             tspan = [100, 100 + oneday];
             
             obj = obj@otp.quasigeostrophic.QuasiGeostrophicProblem(tspan, ...
                 psi0, params);
-            
         end
     end
 end

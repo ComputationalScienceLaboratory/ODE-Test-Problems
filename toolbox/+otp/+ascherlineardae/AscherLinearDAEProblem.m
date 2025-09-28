@@ -1,7 +1,7 @@
 classdef AscherLinearDAEProblem < otp.Problem
     % A linear differential-algebraic problem with a time-dependant mass matrix.
     %
-    % The Ascher linear DAE Problem :cite:p:`Asc89` is an index-1 differential-agebraic equation given by
+    % The Ascher linear DAE problem :cite:p:`Asc89` is an index-1 differential-agebraic equation given by
     %
     % $$
     % \begin{bmatrix}
@@ -25,7 +25,7 @@ classdef AscherLinearDAEProblem < otp.Problem
     % \end{bmatrix}.
     % $$
     %
-    % This DAE problem can be used to investigate the convergence of implcit time-stepping methods due to its stiffness
+    % This DAE problem can be used to investigate the convergence of implicit time-stepping methods due to its stiffness
     % and time-dependant mass matrix.
     %
     % Notes
@@ -55,7 +55,7 @@ classdef AscherLinearDAEProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(2, 1)
             %    The initial condition.
-            % parameters : AscherLinearDAEParameters
+            % parameters : otp.ascherlineardae.AscherLinearDAEParameters
             %    The parameters.
             obj@otp.Problem('Ascher Linear DAE', 2, timeSpan, y0, parameters);
         end
