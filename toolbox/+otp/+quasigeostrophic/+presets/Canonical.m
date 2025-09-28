@@ -26,32 +26,7 @@ classdef Canonical < otp.quasigeostrophic.QuasiGeostrophicProblem
             %    - ``ADLambda`` – Scaling factor for approximate deconvolution RHS 
             %    - ``ADPasses`` – Number of AD passes
             %
-
-            Re = 450;
-            Ro = 0.0036;
             
-            p = inputParser;
-            addParameter(p, 'ReynoldsNumber', Re);
-            addParameter(p, 'RossbyNumber', Ro);
-            addParameter(p, 'Size', [255, 511]);
-
-            parse(p, varargin{:});
-            
-            s = p.Results;
-            
-            nx = s.Size(1);
-            ny = s.Size(2);
-            
-            params = otp.quasigeostrophic.QuasiGeostrophicParameters;
-            params.Nx = nx;
-            params.Ny = ny;
-            params.ReynoldsNumber = s.ReynoldsNumber;
-            params.RossbyNumber   = s.RossbyNumber;
-            params.ADLambda = 1;
-            params.ADPasses = 4;
-            
-            %% Do the rest
-            tspan = [0, 100];
             params = otp.quasigeostrophic.QuasiGeostrophicParameters( ...
                 'Nx', 255, ...
                 'Ny', 511, ...
@@ -60,6 +35,9 @@ classdef Canonical < otp.quasigeostrophic.QuasiGeostrophicProblem
                 'ADLambda', 1, ...
                 'ADPasses', 4, ...
                 varargin{:});
+            
+            %% Do the rest
+            tspan = [0, 100];
             psi0 = zeros(params.Nx * params.Ny, 1);
             obj = obj@otp.quasigeostrophic.QuasiGeostrophicProblem(tspan, psi0, params);
         end
