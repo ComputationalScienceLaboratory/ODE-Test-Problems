@@ -40,24 +40,27 @@ classdef QuasiGeostrophicProblem < otp.Problem
     % are the standard second order central finite difference operators in 
     % the $x$ and $y$ directions.
     % 
-    % The Jacobian is discretized using the Arakawa approximation
-    % CITEME 
+    % The Jacobian is discretized using the Arakawa approximation,
+    % 
     % $$
     % J(ψ,ω) = \frac{1}{3}[ψ_x ω_y - ψ_y ω_x + (ψ ω_y)_x - (ψ ω_x)_y + (ψ_x ω)_y - (ψ_y ω)_x],
     % $$
+    %
     % in order for the system to not become unstable.
     %
     % The Poisson equation is solved by the eigenvalue sylvester method for
     % computational efficiency.
     %
-    % A ADLES MORE HERE.
+    % An Approximate deconvolution large eddy simulation closure model from
+    % :cite:p:`SSWZI11` is also implemented to have the same level of
+    % accuracy with a coarser grid size.
     %
     % Notes
     % -----
     % +---------------------+-----------------------------------------------------------+
     % | Type                | ODE                                                       |
     % +---------------------+-----------------------------------------------------------+
-    % | Number of Variables | $nx \times ny$                                            |
+    % | Number of Variables | $Nx \times Ny$                                            |
     % +---------------------+-----------------------------------------------------------+
     % | Stiff               | not typically, depending on $Re$, $Ro$, $Nx$, and $Ny$    |
     % +---------------------+-----------------------------------------------------------+

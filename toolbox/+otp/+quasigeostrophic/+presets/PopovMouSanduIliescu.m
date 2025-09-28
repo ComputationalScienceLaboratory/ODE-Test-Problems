@@ -1,6 +1,6 @@
 classdef PopovMouSanduIliescu < otp.quasigeostrophic.QuasiGeostrophicProblem
     % A preset for the Quasi-geostrophic equations created for
-    % CITE ME HERE.
+    % :cite:p:`PMSI21`.
     %
     % The initial condition is given by an internal file and was created by
     % integrating the canonical preset until time $t=100$.
@@ -24,7 +24,6 @@ classdef PopovMouSanduIliescu < otp.quasigeostrophic.QuasiGeostrophicProblem
             %    - ``ReynoldsNumber`` – Value of $Re$.
             %    - ``RossbyNumber`` – Value of $Ro$.
             %    - ``Size`` – Two-tuple of the spatial discretization, $[nx, ny]$.
-            %
             
             defaultsize = [63, 127];
 

@@ -1,5 +1,5 @@
-classdef QuasiGeostrophicParameters
-    %QUASIGEOSTROPHICPARAMETERS
+classdef QuasiGeostrophicParameters < otp.Parameters
+    % Parameters for the Quasi-geostrophic problem.
     %
     properties
         %Nx is the number of grid points in the x direction
@@ -14,5 +14,19 @@ classdef QuasiGeostrophicParameters
         ADLambda %MATLAB ONLY: (1,1) {mustBeFinite, mustBePositive} = 1
         %ADPasses defines how many passes of the filter to do
         ADPasses %MATLAB ONLY: (1,1) {mustBeFinite, mustBePositive, mustBeInteger} = 4
+    end
+
+    methods
+        function obj = QuasiGeostrophicParameters(varargin)
+            % Create a Quasi-geostrophic parameters object.
+            %
+            % Parameters
+            % ----------
+            % varargin
+            %    A variable number of name-value pairs. A name can be any property of this class, and the subsequent
+            %    value initializes that property.
+
+            obj = obj@otp.Parameters(varargin{:});
+        end
     end
 end
