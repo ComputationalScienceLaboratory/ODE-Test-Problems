@@ -76,6 +76,8 @@ classdef CR3BPProblem < otp.Problem
 
     properties (SetAccess = private)
         JacobiConstant
+        JacobiConstantJacobian
+        RHSStab
     end
     
     methods (Access = protected)
@@ -84,9 +86,12 @@ classdef CR3BPProblem < otp.Problem
             soft = obj.Parameters.SoftFactor;
 
             obj.JacobiConstant = @(y) otp.cr3bp.jacobiconstant(y, mu, soft);
+            obj.JacobiConstantJacobian = @(y) otp.cr3bp.jacobiconstantjacobian(y, mu, soft);
+
             
             obj.RHS = otp.RHS(@(t, y) otp.cr3bp.f(t, y, mu, soft), ...
                 'Vectorized', 'on');
+
         end
         
         function label = internalIndex2label(~, index)
