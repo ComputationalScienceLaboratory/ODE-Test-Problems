@@ -4,11 +4,11 @@ nIndices = 20;
 orbits = struct;
 
 for oti = 1:numel(orbittypes)
-    ot = orbittypes{oti};
+    orbittype = orbittypes{oti};
     otable = zeros(20, 4);
     for ind = 1:nIndices
 
-        problem = otp.cr3bp.presets.HaloOrbit('OrbitType', ot, 'Index', ind);
+        problem = otp.cr3bp.presets.HaloOrbit('OrbitType', orbittype, 'Index', ind);
 
         y0 = problem.Y0;
         y0 = [y0(1); y0(3); y0(5)];
@@ -25,7 +25,7 @@ for oti = 1:numel(orbittypes)
         otable(ind, :) = [period, ynew.'];
 
     end
-    orbits.(ot) = otable;
+    orbits.(orbittype) = otable;
 end
 
 function c = cost(yc, y0)
