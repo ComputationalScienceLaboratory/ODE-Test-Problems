@@ -90,8 +90,9 @@ classdef CR3BPProblem < otp.Problem
 
             obj.RHS = otp.RHS(@(t, y) otp.cr3bp.f(t, y, mu, soft), ...
                 'Jacobian', @(t, y) otp.cr3bp.jacobian(t, y, mu, soft), ...
+                'JacobianVectorProduct', @(t, y, v) otp.cr3bp.jacobianVectorProduct(t, y, v, mu, soft), ...
                 'Vectorized', 'on');
-            
+
         end
         
         function label = internalIndex2label(~, index)
