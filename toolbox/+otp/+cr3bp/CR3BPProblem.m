@@ -88,10 +88,10 @@ classdef CR3BPProblem < otp.Problem
             obj.JacobiConstant = @(y) otp.cr3bp.jacobiconstant(y, mu, soft);
             obj.JacobiConstantJacobian = @(y) otp.cr3bp.jacobiconstantjacobian(y, mu, soft);
 
-            
             obj.RHS = otp.RHS(@(t, y) otp.cr3bp.f(t, y, mu, soft), ...
+                'Jacobian', @(t, y) otp.cr3bp.jacobian(t, y, mu, soft), ...
                 'Vectorized', 'on');
-
+            
         end
         
         function label = internalIndex2label(~, index)
