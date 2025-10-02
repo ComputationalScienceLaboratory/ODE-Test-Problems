@@ -1,29 +1,31 @@
 function J = jacobian(~, y, mu, soft)
 
 x = y(1:3, :);
+x = reshape(x, 3, 1, []);
+N = size(x, 3);
 
-d = sqrt((x(1, :) + mu).^2 + x(2, :).^2 + x(3, :).^2 + soft^2);
-r = sqrt((x(1, :) - 1 + mu).^2 + x(2, :).^2 + x(3, :).^2 + soft^2);
+d = sqrt((x(1, 1, :) + mu).^2 + x(2, 1, :).^2 + x(3, 1, :).^2 + soft^2);
+r = sqrt((x(1, 1, :) - 1 + mu).^2 + x(2, 1, :).^2 + x(3, 1, :).^2 + soft^2);
 
-dddx = (x(1, :) + mu)./d;
-dddy =  x(2, :)./d;
-dddz =  x(3, :)./d;
-drdx = (x(1, :) - 1 + mu)./r;
-drdy =  x(2, :)./r;
-drdz =  x(3, :)./r;
+dddx = (x(1, 1, :) + mu)./d;
+dddy =  x(2, 1, :)./d;
+dddz =  x(3, 1, :)./d;
+drdx = (x(1, 1, :) - 1 + mu)./r;
+drdy =  x(2, 1, :)./r;
+drdz =  x(3, 1, :)./r;
 
 dddxdx = (1 - dddx.^2)./d;
-dddxdy = -(dddx.*x(2, :))./(d.^2);
-dddxdz = -(dddx.*x(3, :))./(d.^2);
+dddxdy = -(dddx.*x(2, 1, :))./(d.^2);
+dddxdz = -(dddx.*x(3, 1, :))./(d.^2);
 dddydy =  (1 - dddy.^2)./d;
-dddydz =  -(dddy.*x(3, :))./(d.^2);
+dddydz =  -(dddy.*x(3, 1, :))./(d.^2);
 dddzdz =  (1 - dddz.^2)./d;
 
 drdxdx = (1 - drdx.^2)./r;
-drdxdy = -(drdx.*x(2, :))./(r.^2);
-drdxdz = -(drdx.*x(3, :))./(r.^2);
+drdxdy = -(drdx.*x(2, 1, :))./(r.^2);
+drdxdz = -(drdx.*x(3, 1, :))./(r.^2);
 drdydy = (1 - drdy.^2)./r;
-drdydz = -(drdy.*x(3, :))./(r.^2);
+drdydz = -(drdy.*x(3, 1, :))./(r.^2);
 drdzdz = (1 - drdz.^2)./r;
 
 dUdxdx = 1 + (2*(1 - mu)*dddx.^2)./(d.^3) ...
@@ -53,6 +55,7 @@ dUdzdz = (2*(1 - mu)*dddz.^2)./(d.^3) ...
 
 dxdv = [dUdxdx, dUdxdy, dUdxdz; dUdxdy, dUdydy, dUdydz; dUdxdz, dUdydz, dUdzdz];
 
-J = [zeros(3, 3), eye(3); dxdv, [0, 2, 0; -2, 0, 0; 0, 0, 0]];
+J = [zeros(3, 3, N), repmat(eye(3), 1, 1, N); ...
+    dxdv, repmat([0, 2, 0; -2, 0, 0; 0, 0, 0], 1, 1, N)];
 
 end
