@@ -12,9 +12,11 @@ classdef CircularEarthOrbit < otp.cr3bp.CR3BPProblem
             %    The radius of the orbit above Earth's surface in km.
 
             p = inputParser();
-            p.addParameter('OrbitalRadius', 6556, @isnumeric);
+            p.KeepUnmatched = true;
+            p.addParameter('OrbitalRadius', 340, @isnumeric);
             p.parse(varargin{:});
             results = p.Results;
+            varargin = [fieldnames(p.Unmatched), struct2cell(p.Unmatched)].';
 
             equatorialRadius = 6378;
             earthMoonDist = 385000;
