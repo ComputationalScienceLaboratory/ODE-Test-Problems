@@ -1,4 +1,4 @@
-classdef Canonical < otp.cr3bp.CR3BPProblem
+classdef Canonical < otp.circularrestricted3body.CR3BPProblem
     % A trivial preset with a stable oscillating orbit around a lagrange point.
     
        methods
@@ -9,10 +9,11 @@ classdef Canonical < otp.cr3bp.CR3BPProblem
 
             y0    = [0; 0; 0; 0; 0; 1];
             tspan = [0, 10];
-            params = otp.cr3bp.CR3BPParameters('Mu', mu, ...
+            params = otp.circularrestricted3body.CR3BPParameters(...
+                'Mu', mu, ...
                 'SoftFactor', 1e-3, ...
                 varargin{:});
-            obj = obj@otp.cr3bp.CR3BPProblem(tspan, y0, params);            
+            obj = obj@otp.circularrestricted3body.CR3BPProblem(tspan, y0, params);            
         end
     end
 end

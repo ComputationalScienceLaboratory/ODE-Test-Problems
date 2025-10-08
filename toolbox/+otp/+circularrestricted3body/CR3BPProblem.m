@@ -58,7 +58,7 @@ classdef CR3BPProblem < otp.Problem
     %
     % Example
     % -------
-    % >>> problem = otp.cr3bp.presets.HaloOrbit('OrbitType', 'L2', 'Index', 10);
+    % >>> problem = otp.circularrestricted3body.presets.HaloOrbit('OrbitType', 'L2', 'Index', 10);
     % >>> sol = model.solve();
     % >>> problem.plotPhaseSpace(sol);
     %
@@ -76,7 +76,7 @@ classdef CR3BPProblem < otp.Problem
             %    The start and final time.
             % y0 : numeric(n, 1)
             %    The initial conditions. Either n = 4 or n = 6.
-            % parameters : otp.cr3bp.CR3BPParameters
+            % parameters : otp.circularrestricted3body.CR3BPParameters
             %    The parameters.
 
             obj@otp.Problem('Circular Restricted 3 Body Problem', [], timeSpan, y0, parameters);
@@ -100,29 +100,29 @@ classdef CR3BPProblem < otp.Problem
             end
 
             if spatialdim == 3
-                obj.JacobiConstant = @(y) otp.cr3bp.jacobiConstant(y, mu, soft);
-                obj.JacobiConstantJacobian = @(y) otp.cr3bp.jacobiConstantJacobian(y, mu, soft);
+                obj.JacobiConstant = @(y) otp.circularrestricted3body.jacobiConstant(y, mu, soft);
+                obj.JacobiConstantJacobian = @(y) otp.circularrestricted3body.jacobiConstantJacobian(y, mu, soft);
 
-                obj.RadarMeasurement = @(y, radary) otp.cr3bp.radarMeasurement(t, y, mu, soft, radary);
+                obj.RadarMeasurement = @(y, radary) otp.circularrestricted3body.radarMeasurement(t, y, mu, soft, radary);
 
-                obj.RHS = otp.RHS(@(t, y) otp.cr3bp.f(t, y, mu, soft), ...
+                obj.RHS = otp.RHS(@(t, y) otp.circularrestricted3body.f(t, y, mu, soft), ...
                     'Jacobian', ...
-                    @(t, y) otp.cr3bp.jacobian(t, y, mu, soft), ...
+                    @(t, y) otp.circularrestricted3body.jacobian(t, y, mu, soft), ...
                     'JacobianVectorProduct', ...
-                    @(t, y, v) otp.cr3bp.jacobianVectorProduct(t, y, v, mu, soft), ...
+                    @(t, y, v) otp.circularrestricted3body.jacobianVectorProduct(t, y, v, mu, soft), ...
                     'Vectorized', ...
                     'on');
             else
-                obj.JacobiConstant = @(y) otp.cr3bp.jacobiConstantPlanar(y, mu, soft);
-                obj.JacobiConstantJacobian = @(y) otp.cr3bp.jacobiConstantJacobianPlanar(y, mu, soft);
+                obj.JacobiConstant = @(y) otp.circularrestricted3body.jacobiConstantPlanar(y, mu, soft);
+                obj.JacobiConstantJacobian = @(y) otp.circularrestricted3body.jacobiConstantJacobianPlanar(y, mu, soft);
 
-                obj.RadarMeasurement = @(y, radary) otp.cr3bp.radarMeasurementPlanar(t, y, mu, soft, radary);
+                obj.RadarMeasurement = @(y, radary) otp.circularrestricted3body.radarMeasurementPlanar(t, y, mu, soft, radary);
 
-                obj.RHS = otp.RHS(@(t, y) otp.cr3bp.fPlanar(t, y, mu, soft), ...
+                obj.RHS = otp.RHS(@(t, y) otp.circularrestricted3body.fPlanar(t, y, mu, soft), ...
                     'Jacobian', ...
-                    @(t, y) otp.cr3bp.jacobianPlanar(t, y, mu, soft), ...
+                    @(t, y) otp.circularrestricted3body.jacobianPlanar(t, y, mu, soft), ...
                     'JacobianVectorProduct', ...
-                    @(t, y, v) otp.cr3bp.jacobianVectorProductPlanar(t, y, v, mu, soft), ...
+                    @(t, y, v) otp.circularrestricted3body.jacobianVectorProductPlanar(t, y, v, mu, soft), ...
                     'Vectorized', ...
                     'on');
             end

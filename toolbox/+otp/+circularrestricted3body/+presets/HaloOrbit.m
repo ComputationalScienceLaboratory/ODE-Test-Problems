@@ -1,4 +1,4 @@
-classdef HaloOrbit < otp.cr3bp.CR3BPProblem
+classdef HaloOrbit < otp.circularrestricted3body.CR3BPProblem
     % This preset builds a halo orbit preset for the CR3BP based on
     % a table of reference initial conditions and periods. There are four
     % possible different orbits given by this preset, $L_2$, $P2HO_1$,
@@ -58,8 +58,10 @@ classdef HaloOrbit < otp.cr3bp.CR3BPProblem
 
             y0    = [ic(1); 0; ic(2); 0; ic(3); 0];
             tspan = [0, orbitalperiod];
-            params = otp.cr3bp.CR3BPParameters('Mu', mu, 'SoftFactor', 0);
-            obj = obj@otp.cr3bp.CR3BPProblem(tspan, y0, params);
+            params = otp.circularrestricted3body.CR3BPParameters(...
+                'Mu', mu, ...
+                'SoftFactor', 0);
+            obj = obj@otp.circularrestricted3body.CR3BPProblem(tspan, y0, params);
         end
     end
 end

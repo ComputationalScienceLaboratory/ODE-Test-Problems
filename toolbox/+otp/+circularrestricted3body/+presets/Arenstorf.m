@@ -1,4 +1,4 @@
-classdef Arenstorf < otp.cr3bp.CR3BPProblem
+classdef Arenstorf < otp.circularrestricted3body.CR3BPProblem
     % One period of a satellite moving in an Earth-Moon system on a planar
     % orbit. See pages 129--130 of :cite:p:`HNW93` for more details.
     
@@ -6,7 +6,10 @@ classdef Arenstorf < otp.cr3bp.CR3BPProblem
         function obj = Arenstorf(varargin)
             % Create the Arenstorf CR3BP problem object.
             
-            params = otp.cr3bp.CR3BPParameters('Mu', 0.012277471, 'SoftFactor', 0, varargin{:});
+            params = otp.circularrestricted3body.CR3BPParameters(...
+                'Mu', 0.012277471, ...
+                'SoftFactor', 0, ...
+                varargin{:});
             cls = class(params.Mu);
 
             % Decimals converted to rational to support multiple data types
@@ -17,7 +20,7 @@ classdef Arenstorf < otp.cr3bp.CR3BPProblem
             tspan = [cast(0, cls); ...
                 cast(4541277234950502, cls) / cast(266113073862361, cls)];
             
-            obj = obj@otp.cr3bp.CR3BPProblem(tspan, y0, params);
+            obj = obj@otp.circularrestricted3body.CR3BPProblem(tspan, y0, params);
         end
 
     end

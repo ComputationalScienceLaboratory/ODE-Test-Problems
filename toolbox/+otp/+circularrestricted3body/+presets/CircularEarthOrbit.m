@@ -1,4 +1,4 @@
-classdef CircularEarthOrbit < otp.cr3bp.CR3BPProblem
+classdef CircularEarthOrbit < otp.circularrestricted3body.CR3BPProblem
     % This preset builds a circular earth orbit in CR3BP based on
     % the equations derived in :cite:p:She20.
 
@@ -47,8 +47,11 @@ classdef CircularEarthOrbit < otp.cr3bp.CR3BPProblem
 
             y0    = [x0; 0; 0; 0; y0; 0];
             tspan = [0, period];
-            params = otp.cr3bp.CR3BPParameters('Mu', mu, 'SoftFactor', 1e-3, varargin{:});
-            obj = obj@otp.cr3bp.CR3BPProblem(tspan, y0, params);            
+            params = otp.circularrestricted3body.CR3BPParameters(...
+                'Mu', mu, ...
+                'SoftFactor', 1e-3, ...
+                varargin{:});
+            obj = obj@otp.circularrestricted3body.CR3BPProblem(tspan, y0, params);            
         end
     end
 end
