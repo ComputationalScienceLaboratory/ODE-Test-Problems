@@ -1,4 +1,4 @@
-function J = jacobiconstant(y, mu, soft)
+function J = jacobiConstant(y, mu, soft)
 
 x = y(1:3, :);
 v = y(4:6, :);

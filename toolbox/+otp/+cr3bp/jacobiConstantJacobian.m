@@ -1,4 +1,4 @@
-function dJdy = jacobiconstantjacobian(y, mu, soft)
+function dJdy = jacobiConstantJacobian(y, mu, soft)
 
 x = y(1:3, :);
 v = y(4:6, :);
