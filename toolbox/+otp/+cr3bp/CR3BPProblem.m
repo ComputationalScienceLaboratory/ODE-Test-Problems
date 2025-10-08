@@ -16,16 +16,25 @@ classdef CR3BPProblem < otp.Problem
     % $$
     % x'' &= 2y' + \frac{\partial U}{\partial x},\\
     % y'' &= -2x' + \frac{\partial U}{\partial y},\\
-    % z'' &= \frac{\partial U}{\partial z},\\
+    % z'' &= \frac{\partial U}{\partial z},
+    % $$
+    %
+    % where
+    %
+    % $$
     % U &= \frac{1}{2} (x^2 + y^2) + \frac{1 - \mu}{d} + \frac{mu}{r},\\
     % d &= \sqrt{(x + \mu)^2 + y^2 + z^2},\\
     % r &= \sqrt{(x - 1 + \mu)^2 + y^2 + z^2},
     % $$
     %
-    % where the system is converted to a differential equation in six
+    % and where the system is converted to a differential equation in six
     % variables in the standard fashion. The distances $d$ and $r$ can
     % cause numerical instability as they approach zero, thus a softening
     % factor of $s^2$ is typically added under both of the square-roots.
+    %
+    % When the object under consideration is on an orbit that is co-planar
+    % to the orbit of the two other objects, then the system of equations
+    % can reduce by two dimensions, removing the $z''$ and $z'$ terms.
     %
     % The system of equations is energy-preserving, meaning that the Jacobi
     % constant of the system,
@@ -42,7 +51,7 @@ classdef CR3BPProblem < otp.Problem
     % +---------------------+-----------------------------------------------+
     % | Type                | ODE                                           |
     % +---------------------+-----------------------------------------------+
-    % | Number of Variables | 6                                             |
+    % | Number of Variables | 4 for planar or 6 for non-planar              |
     % +---------------------+-----------------------------------------------+
     % | Stiff               | no                                            |
     % +---------------------+-----------------------------------------------+
@@ -65,12 +74,12 @@ classdef CR3BPProblem < otp.Problem
             % ----------
             % timeSpan : numeric(1, 2)
             %    The start and final time.
-            % y0 : numeric(6, 1)
-            %    The initial conditions.
+            % y0 : numeric(n, 1)
+            %    The initial conditions. Either n = 4 or n = 6.
             % parameters : otp.cr3bp.CR3BPParameters
             %    The parameters.
 
-            obj@otp.Problem('Circular Restricted 3 Body Problem', 6, timeSpan, y0, parameters);
+            obj@otp.Problem('Circular Restricted 3 Body Problem', [], timeSpan, y0, parameters);
         end
     end
 
@@ -82,35 +91,59 @@ classdef CR3BPProblem < otp.Problem
     
     methods (Access = protected)
         function onSettingsChanged(obj)
-            mu   = obj.Parameters.Mu;
-            soft = obj.Parameters.SoftFactor;
+            mu         = obj.Parameters.Mu;
+            soft       = obj.Parameters.SoftFactor;
 
             obj.JacobiConstant = @(y) otp.cr3bp.jacobiConstant(y, mu, soft);
             obj.JacobiConstantJacobian = @(y) otp.cr3bp.jacobiConstantJacobian(y, mu, soft);
 
             obj.RadarMeasurement = @(y, radary) otp.cr3bp.radarMeasurement(t, y, mu, soft, radary);
 
-            obj.RHS = otp.RHS(@(t, y) otp.cr3bp.f(t, y, mu, soft), ...
-                'Jacobian', @(t, y) otp.cr3bp.jacobian(t, y, mu, soft), ...
-                'JacobianVectorProduct', @(t, y, v) otp.cr3bp.jacobianVectorProduct(t, y, v, mu, soft), ...
-                'Vectorized', 'on');
+            spatialdim = numel(obj.Y0)/2;
+            if ~(spatialdim == 2 || spatialdim == 3)
+                error('TODO')
+            end
 
+            if spatialdim == 3
+                obj.RHS = otp.RHS(@(t, y) otp.cr3bp.f(t, y, mu, soft), ...
+                    'Jacobian', @(t, y) otp.cr3bp.jacobian(t, y, mu, soft), ...
+                    'JacobianVectorProduct', @(t, y, v) otp.cr3bp.jacobianVectorProduct(t, y, v, mu, soft), ...
+                    'Vectorized', 'on');
+            else
+                obj.RHS = otp.RHS(@(t, y) otp.cr3bp.fPlanar(t, y, mu, soft), ...
+                    'Jacobian', @(t, y) otp.cr3bp.jacobianPlanar(t, y, mu, soft), ...
+                    'JacobianVectorProduct', @(t, y, v) otp.cr3bp.jacobianVectorProductPlanar(t, y, v, mu, soft), ...
+                    'Vectorized', 'on');
+            end
         end
-        
-        function label = internalIndex2label(~, index)
-            switch index
-                case 1
-                    label = 'x';
-                case 2
-                    label = 'y';
-                case 3
-                    label = 'z';
-                case 4
-                    label = 'dx';
-                case 5
-                    label = 'dy';
-                case 6
-                    label = 'dz';
+
+        function label = internalIndex2label(obj, index)
+            if numel(obj.Y0) == 6
+                switch index
+                    case 1
+                        label = 'x';
+                    case 2
+                        label = 'y';
+                    case 3
+                        label = 'z';
+                    case 4
+                        label = 'dx';
+                    case 5
+                        label = 'dy';
+                    case 6
+                        label = 'dz';
+                end
+            elseif numel(obj.Y0) == 4
+                switch index
+                    case 1
+                        label = 'x';
+                    case 2
+                        label = 'y';
+                    case 3
+                        label = 'dx';
+                    case 4
+                        label = 'dy';
+                end
             end
         end
         
@@ -124,11 +157,20 @@ classdef CR3BPProblem < otp.Problem
 
         function fig = internalPlotPhaseSpace(obj, t, y, varargin)
             mu   = obj.Parameters.Mu;
-            fig = internalPlotPhaseSpace@otp.Problem(obj, t, y, ...
-                'Vars', 1:3, varargin{:});
-            hold on;
-            scatter3([-mu, 1 - mu], [0, 0], [0, 0]);
-            axis equal
+
+            if numel(obj.Y0) == 6
+                fig = internalPlotPhaseSpace@otp.Problem(obj, t, y, ...
+                    'Vars', 1:3, varargin{:});
+                hold on;
+                scatter3([-mu, 1 - mu], [0, 0], [0, 0]);
+                axis equal
+            elseif numel(obj.Y0) == 4
+                fig = internalPlotPhaseSpace@otp.Problem(obj, t, y, ...
+                    'Vars', 1:2, varargin{:});
+                hold on;
+                scatter([-mu, 1 - mu], [0, 0]);
+                axis equal
+            end
         end
 
     end
