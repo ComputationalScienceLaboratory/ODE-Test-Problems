@@ -77,7 +77,7 @@ classdef CR3BPProblem < otp.Problem
     properties (SetAccess = private)
         JacobiConstant
         JacobiConstantJacobian
-        RHSStab
+        RadarMeasurement
     end
     
     methods (Access = protected)
@@ -87,6 +87,8 @@ classdef CR3BPProblem < otp.Problem
 
             obj.JacobiConstant = @(y) otp.cr3bp.jacobiconstant(y, mu, soft);
             obj.JacobiConstantJacobian = @(y) otp.cr3bp.jacobiconstantjacobian(y, mu, soft);
+
+            obj.RadarMeasurement = @(y, radary) otp.cr3bp.radarMeasurement(t, y, mu, soft, radary);
 
             obj.RHS = otp.RHS(@(t, y) otp.cr3bp.f(t, y, mu, soft), ...
                 'Jacobian', @(t, y) otp.cr3bp.jacobian(t, y, mu, soft), ...

@@ -10,10 +10,12 @@ classdef CircularEarthOrbit < otp.cr3bp.CR3BPProblem
             % ----------
             % OrbitalRadius : numeric(1, 1)
             %    The radius of the orbit above Earth's surface in km.
+            %    The default radius is 340 km, which is approximately where
+            %    the ISS is/was located.
 
             p = inputParser();
             p.KeepUnmatched = true;
-            p.addParameter('OrbitalRadius', 340, @isnumeric);
+            p.addParameter('OrbitalRadius', 340, @(x) isnumeric(x) && isscalar(x));
             p.parse(varargin{:});
             results = p.Results;
             varargin = [fieldnames(p.Unmatched), struct2cell(p.Unmatched)].';
@@ -22,6 +24,7 @@ classdef CircularEarthOrbit < otp.cr3bp.CR3BPProblem
             earthMoonDist = 385000;
             orbitalradius = results.OrbitalRadius;
 
+            % set the relative distance from earth to the moon
             delta = (equatorialRadius + orbitalradius)/earthMoonDist;
             
             mE = otp.utils.PhysicalConstants.EarthMass;
