@@ -85,8 +85,8 @@ classdef CR3BPProblem < otp.Problem
             mu   = obj.Parameters.Mu;
             soft = obj.Parameters.SoftFactor;
 
-            obj.JacobiConstant = @(y) otp.cr3bp.jacobiconstant(y, mu, soft);
-            obj.JacobiConstantJacobian = @(y) otp.cr3bp.jacobiconstantjacobian(y, mu, soft);
+            obj.JacobiConstant = @(y) otp.cr3bp.jacobiConstant(y, mu, soft);
+            obj.JacobiConstantJacobian = @(y) otp.cr3bp.jacobiConstantJacobian(y, mu, soft);
 
             obj.RadarMeasurement = @(y, radary) otp.cr3bp.radarMeasurement(t, y, mu, soft, radary);
 
