@@ -8,8 +8,8 @@ classdef CR3BPProblem < otp.Problem
     % total mass of the system is represented by the non-dimensional
     % constant $\mu$. The reference frame of the system is fixed to the
     % rotationg frame of the two objects, meaning that the objects have
-    % fixed constant positions of $(\mu,0,0)^T$ for the first object, and
-    % $(1 - \mu,0,0)^T$ for the second object. The evolution of the third
+    % fixed constant positions of $[-\mu, 0, 0]^T$ for the first object, and
+    % $[1 - \mu, 0, 0]^T$ for the second object. The evolution of the third
     % object of negligent mass is given by the following second-order
     % non-dimensionalized differential equation:
     %
@@ -19,18 +19,32 @@ classdef CR3BPProblem < otp.Problem
     % z'' &= \frac{\partial U}{\partial z},
     % $$
     %
-    % where
+    % where the energy and distances are defined as,
     %
     % $$
-    % U &= \frac{1}{2} (x^2 + y^2) + \frac{1 - \mu}{d} + \frac{mu}{r},\\
+    % U &= \frac{1}{2} (x^2 + y^2) + \frac{1 - \mu}{d} + \frac{\mu}{r},\\
     % d &= \sqrt{(x + \mu)^2 + y^2 + z^2},\\
     % r &= \sqrt{(x - 1 + \mu)^2 + y^2 + z^2},
     % $$
     %
-    % and where the system is converted to a differential equation in six
-    % variables in the standard fashion. The distances $d$ and $r$ can
-    % cause numerical instability as they approach zero, thus a softening
-    % factor of $s^2$ is typically added under both of the square-roots.
+    % and where the system is converted to a first order differential 
+    % equation in six variables in the standard fashion as,
+    %
+    % $$
+    % x' = v_x,\\
+    % y' = v_y,\\
+    % z' = v_z,\\
+    % v_x' = x'',\\
+    % v_y' = y'',\\
+    % v_z' = z'',
+    % $$
+    %
+    % where the new variables $v_x$, $v_y$, and $v_z$ represent the
+    % velocity vector.
+    % 
+    % The distances $d$ and $r$ can cause numerical instability as they 
+    % approach zero, thus a softening factor of $s^2$ is typically added 
+    % under both of the square-roots of the distances $d$ and $r$.
     %
     % When the object under consideration is on an orbit that is co-planar
     % to the orbit of the two other objects, then the system of equations
@@ -40,11 +54,30 @@ classdef CR3BPProblem < otp.Problem
     % constant of the system,
     %
     % $$
-    % J = 2U - x'^2 - y'^2 - z'^2,
+    % J = 2U - v_x^2 - v_y^2 - v_z^2,
     % $$
     %
     % is preserved throughout the evolution of the equations, though this
-    % is typically not true numerically.
+    % is typically not true numerically. The Jacobi constant is provided as
+    % a function.
+    %
+    % For state estimation purposes a radar measurement is also provided,
+    %
+    % $$
+    % h(x, y, z, v_x, v_y, v_z) = \begin{bmatrix}
+    % \sqrt{(x - s_x)^2 + (y - s_y)^2 + (z - s_z)^2}\\
+    % \frac{(x - s_x) \cdot v_x + (y - s_y) \cdot v_y + (z - s_z) \cdot v_z}
+    % {\sqrt{(x - s_x)^2 + (y - s_y)^2 + (z - s_z)^2}}\\
+    % \tan^{-1} \frac{y}{x + \mu}\\
+    % \tan^{-1} \frac{z}{\sqrt{(x - s_x)^2 + (y - s_y)^2 + (z - s_z)^2}}
+    % \end{bmatrix}
+    % $$
+    %
+    % where $s_x$, $s_y$, and $s_z$ are the locations of the radar sensor,
+    % the first term is the range to the object from the sensor, the second
+    % term is the rate of change of the range (range-rate), and the third
+    % and fourth terms are the two angles the radar must be pointing. In
+    % the planar case, the fourth term is absent.
     %
     % Notes
     % -----

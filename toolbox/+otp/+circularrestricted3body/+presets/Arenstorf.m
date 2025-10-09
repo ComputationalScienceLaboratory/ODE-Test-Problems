@@ -1,6 +1,9 @@
 classdef Arenstorf < otp.circularrestricted3body.CR3BPProblem
     % One period of a satellite moving in an Earth-Moon system on a planar
-    % orbit. See pages 129--130 of :cite:p:`HNW93` for more details.
+    % orbit. The original orbit was derived in :cite:p:`Are63` for the
+    % planar circular restricted three body problem, and the setting from
+    % which this preset is derived is taken form pages 129--130 of
+    % :cite:p:`HNW93`.
     
     methods
         function obj = Arenstorf(varargin)
