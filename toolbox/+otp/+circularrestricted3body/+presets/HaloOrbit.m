@@ -1,11 +1,12 @@
 classdef HaloOrbit < otp.circularrestricted3body.CR3BPProblem
-    % This preset builds a halo orbit preset for the CR3BP based on
-    % a table of reference initial conditions and periods. There are four
-    % possible different orbits given by this preset, $L_2$, $P2HO_1$,
-    % $P2HO_2$, $P4HO_1$, and $P4HO_2$. The tables contain $20$ entries, and
-    % thus there are $100$ different possible orbits given by this preset.
-    % The tables of $L_2$ halo orbits are given as Table A.1--A.5 on pages
-    % 218--222 of :cite:p:`Spr21`.
+    % This preset builds a halo orbit around the Moon in the Earth-Moon 
+    % system preset for the CR3BP based on a table of reference initial 
+    % conditions and periods. There are four possible different orbits 
+    % given by this preset, $L_2$, $P2HO_1$, $P2HO_2$, $P4HO_1$, and 
+    % $P4HO_2$. The tables contain $20$ entries, and thus there are $100$ 
+    % different possible orbits given by this preset. The tables of $L_2$
+    % halo orbits are given as Table A.1--A.5 on pages 218--222 of 
+    % :cite:p:`Spr21`.
 
     methods
         function obj = HaloOrbit(varargin)

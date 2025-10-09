@@ -1,6 +1,6 @@
 classdef CircularEarthOrbit < otp.circularrestricted3body.CR3BPProblem
     % This preset builds a circular earth orbit in CR3BP based on
-    % the equations derived in :cite:p:She20.
+    % the equations derived in :cite:p:`She20`.
 
        methods
            function obj = CircularEarthOrbit(varargin)
