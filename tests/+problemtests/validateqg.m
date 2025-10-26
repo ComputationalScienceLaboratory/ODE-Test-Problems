@@ -2,7 +2,7 @@ function validateqg
 
 fprintf(' Testing Quasi-Geostrophic Equations\n');
 
-model = otp.quasigeostrophic.presets.PopovMouIliescuSandu('Nx', 16, 'Ny', 32);
+model = otp.quasigeostrophic.presets.PopovMouSanduIliescu('Nx', 16, 'Ny', 32);
 model.TimeSpan = [0, 0.109];
 
 [~] = otp.utils.Solver.Nonstiff(model.RHSADLES.F, model.TimeSpan, model.Y0);

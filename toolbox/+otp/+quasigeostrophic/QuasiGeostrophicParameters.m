@@ -1,6 +1,6 @@
 classdef QuasiGeostrophicParameters < otp.Parameters
-    % Parameters for the quasi-geostrophic problem.
-    
+    % Parameters for the Quasi-geostrophic problem.
+
     properties
         %Nx is the number of grid points in the x direction
         Nx %MATLAB ONLY: (1,1) {mustBeInteger, mustBePositive} = 63
