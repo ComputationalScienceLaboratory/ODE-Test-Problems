@@ -19,7 +19,7 @@ serve:
 	--ignore $(PROBLEMSDIR)
 
 lint:
-	pycodestyle .. && codespell ..
+	pycodestyle .. && codespell --skip="*.bib" ..
 
 clean:
 	rm -rf $(BUILDDIR) $(PROBLEMSDIR)
