@@ -5,11 +5,11 @@ classdef PhysicalConstants
         TwoD = 2;
         ThreeD = 3;
         
-        GravitationalConstant = 6.67408e-11; % m^3 / (kg s^2)
+        GravitationalConstant = 6.6743e-11; % m^3 / (kg s^2)
         
         SunMass = 1.98855e30; % kg
-        EarthMass = 5.9722e24; % kg
-        MoonMass = 7.34767309e22; % kg
+        EarthMass = 5.972e24; % kg
+        MoonMass = 7.342e22; % kg
         
         EarthSunDistance = 1.496e11; % m
         EarthMoonDistance = 3.844e8; % m

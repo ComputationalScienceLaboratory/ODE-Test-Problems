@@ -1,14 +1,17 @@
-classdef ArenstorfParameters < otp.Parameters
-    % Parameters for the Arenstorf problem.
-    
+classdef CR3BPParameters < otp.Parameters
+    % Parameters for the CR3BP problem.
+
     properties
-        % The mass of one body, while the other body has mass $\mu' = 1 - \mu$.
+        % Relative mass of the system.
         Mu %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
+        
+        % A factor to avoid singularity when computing distances.
+        SoftFactor %MATLAB ONLY: (1, 1) {otp.utils.validation.mustBeNumerical}
     end
 
     methods
-        function obj = ArenstorfParameters(varargin)
-            % Create an Arenstorf parameters object.
+        function obj = CR3BPParameters(varargin)
+            % Create a CR3BP parameters object.
             %
             % Parameters
             % ----------

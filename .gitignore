@@ -10,3 +10,4 @@ docs/build/
 docs/problems/
 
 .DS_Store
+tests/octave-workspace
