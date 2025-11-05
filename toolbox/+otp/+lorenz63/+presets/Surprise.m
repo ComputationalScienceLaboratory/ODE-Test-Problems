@@ -1,5 +1,5 @@
 classdef Surprise < otp.lorenz63.Lorenz63Problem
-    % Lorenz '63 preset 'surprise' from :cite:p:`Str18` which uses time span $t ∈ [0, 60]$, σ = 10$, $ρ = 100$,
+    % Lorenz '63 preset 'surprise' from :cite:p:`Str18` which uses time span $t ∈ [0, 60]$, $σ = 10$, $ρ = 100$,
     % $β = 8/3$, and initial conditions $y_0 = [2, 1, 1]^T$.
 
     methods
