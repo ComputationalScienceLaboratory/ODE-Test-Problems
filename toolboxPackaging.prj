@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.toolbox" plugin-version="1.0">
-  <configuration name="ODE Test Problems" target="target.toolbox" target-name="Package Toolbox">
+  <configuration file="/Users/sandu/GIT/GitHub/ODE-Test-Problems/toolboxPackaging.prj" location="/Users/sandu/GIT/GitHub/ODE-Test-Problems" name="toolboxPackaging" target="target.toolbox" target-name="Package Toolbox">
     <param.appname>ODE Test Problems</param.appname>
     <param.authnamewatermark>Steven Roberts, Andrey A. Popov, Arash Sarshar, Adrian Sandu</param.authnamewatermark>
     <param.email />
@@ -14,7 +14,7 @@
     <param.products.version />
     <param.platforms />
     <param.guid>0970ed36-a788-484f-beca-105eecd2562a</param.guid>
-    <param.exclude.filters></param.exclude.filters>
+    <param.exclude.filters />
     <param.exclude.pcodedmfiles>true</param.exclude.pcodedmfiles>
     <param.examples />
     <param.demosxml />
@@ -85,5 +85,59 @@
     <fileset.depfun.included />
     <fileset.depfun.excluded />
     <fileset.package />
+    <build-deliverables>
+      <file location="${PROJECT_ROOT}" name="ODE Test Problems.mltbx" optional="false">/Users/sandu/GIT/GitHub/ODE-Test-Problems/ODE Test Problems.mltbx</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/Applications/MATLAB_R2024b.app</root>
+      <toolboxes>
+        <toolbox name="matlabcoder" />
+        <toolbox name="embeddedcoder" />
+        <toolbox name="fixedpoint" />
+        <toolbox name="matlabhdlcoder" />
+        <toolbox name="neuralnetwork" />
+      </toolboxes>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+      <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <matlabhdlcoder>
+          <enabled>true</enabled>
+        </matlabhdlcoder>
+      </toolbox>
+      <toolbox>
+        <neuralnetwork>
+          <enabled>true</enabled>
+        </neuralnetwork>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>true</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>15.5</osver>
+      <os32>true</os32>
+      <os64>false</os64>
+      <arch>maci64</arch>
+      <matlab>true</matlab>
+    </platform>
   </configuration>
 </deployment-project>
