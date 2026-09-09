@@ -6,6 +6,6 @@
 
 function du = fLinear(~, u, L, alpha, beta, ~, uL)
 
-du = alpha*L*u + beta * (u - 3*uL.^2.*u);
+du = alpha*L*u + beta*(u - 3*(uL.^2).*u);
 
 end

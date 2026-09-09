@@ -4,6 +4,6 @@
 % 
 function du = fReaction(t, u, ~, ~, beta, forcing)
 
-du = beta * (u - u.^3) + forcing(t);
+du = beta*(u - u.^3) + forcing(t);
 
 end

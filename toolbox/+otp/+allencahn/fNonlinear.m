@@ -5,6 +5,6 @@
 
 function du = fNonlinear(t, u, ~, ~, beta, forcing, uL)
 
-du = beta * ( - u.^3 + 3*uL.^2.*u ) + forcing(t);
+du = beta*( - u.^3 + 3*(uL.^2).*u ) + forcing(t);
 
 end
