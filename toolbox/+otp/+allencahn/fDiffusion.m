@@ -1,9 +1,9 @@
 % Process splitting: 
 %   f = f_diffusion + f_reaction
 %   Jacobian = Jacobian_diffusion + Jacobian_reaction
-%
-function j = jacobian_diffusion(~, ~, L, alpha, ~, ~)
+% 
+function du = fDiffusion(~, u, L, alpha, ~, ~)
 
-j = alpha*L;
+du = alpha*L*u;
 
 end
