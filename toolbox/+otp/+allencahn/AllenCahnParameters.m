@@ -13,6 +13,9 @@ classdef AllenCahnParameters < otp.Parameters
         
         %Forcing is a forcing function or constant
         Forcing %MATLAB ONLY: {mustBeA(Forcing, {'numeric', 'function_handle'})}
+
+        %The linearization point for the linear-non-linear splitting
+        LinearizationPoint %MATLAB ONLY: {otp.utils.validation.mustBeNumerical}
     end
 
     methods

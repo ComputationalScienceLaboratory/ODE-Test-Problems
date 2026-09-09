@@ -24,5 +24,6 @@ end
 
 %% Problem specific tests
 problemtests.validateqg;
+problemtests.validateallencahn;
 
 end
